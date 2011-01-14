@@ -1,21 +1,16 @@
 package com.sandwich.koans;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Logger;
 
-import com.sandwich.koans.KoanComparators.KoanMethodComparater;
-import com.sandwich.koans.KoanComparators.KoanSuiteComparater;
+import com.sandwich.koans.suites.AllKoans;
 
 class KoanSuiteRunner {
 
@@ -33,6 +28,22 @@ class KoanSuiteRunner {
 		printResult(koans, result);
 	}
 	
+	private Map<Object, List<Method>> getKoans() throws InstantiationException, IllegalAccessException {
+		List<Class<?>> koanSuites = AllKoans.getKoans();
+		Map<Object, List<Method>> koans = new LinkedHashMap<Object, List<Method>>();
+		for(Class<?> koanSuite : koanSuites){
+			List<Method> koanMethods = new ArrayList<Method>();
+			for(Method koan : koanSuite.getMethods()){
+				if(koan.getAnnotation(Koan.class) != null){
+					koanMethods.add(koan);
+				}
+			}
+			Collections.sort(koanMethods, new KoanMethodComparater());
+			koans.put(koanSuite.newInstance(), koanMethods);
+		}
+		return koans;
+	}
+
 	void printResult(Map<Object, List<Method>> koans,
 			KoansResult result) {
 		System.out.println("***********************");
@@ -132,97 +143,4 @@ class KoanSuiteRunner {
 		new KoansResult()
 				: result;
 	}
-
-	Map<Object, List<Method>> getKoans()
-			throws ClassNotFoundException, IOException, InstantiationException,
-			IllegalAccessException {
-		List<Class<?>> koanClasses = findKoanClasses(KoanSuiteRunner.class
-				.getPackage().getName() + ".suites");
-		Map<Object, List<Method>> koans = new LinkedHashMap<Object, List<Method>>();
-		for (Class<?> clazz : koanClasses) {
-			Object suite = (Object) clazz.newInstance();
-			ArrayList<Method> methods = new ArrayList<Method>();
-			koans.put(suite, methods);
-			for (Method m : clazz.getMethods()) {
-				Koan annotation = m.getAnnotation(Koan.class);
-				if (annotation != null) {
-					methods.add(m);
-				}
-			}
-			Collections.sort(methods, new KoanMethodComparater());
-		}
-		return koans;
-	}
-
-	/**
-	 * Scans all classes accessible from the context class loader which belong
-	 * to the given package and subpackages.
-	 * 
-	 * @param packageName
-	 *            The base package
-	 * @return The classes
-	 * @throws ClassNotFoundException
-	 * @throws IOException
-	 */
-	List<Class<?>> findKoanClasses(
-			String packageName) throws ClassNotFoundException, IOException {
-		ClassLoader classLoader = Thread.currentThread()
-				.getContextClassLoader();
-		assert classLoader != null;
-		String path = packageName.replace('.', '/');
-		Enumeration<URL> resources = classLoader.getResources(path);
-		List<File> dirs = new ArrayList<File>();
-		while (resources.hasMoreElements()) {
-			URL resource = resources.nextElement();
-			dirs.add(new File(resource.getFile()));
-		}
-		List<Class<?>> classes = new ArrayList<Class<?>>();
-		for (File directory : dirs) {
-			classes.addAll(findKoanClasses(directory, packageName));
-		}
-		Collections.sort(classes, new KoanSuiteComparater());
-		return classes;
-	}
-
-	/**
-	 * Recursive method used to find all classes in a given directory and
-	 * subdirs.
-	 * 
-	 * @param directory
-	 *            The base directory
-	 * @param packageName
-	 *            The package name for classes found inside the base directory
-	 * @return The classes
-	 * @throws ClassNotFoundException
-	 */
-	List<Class<?>> findKoanClasses(
-			File directory, String packageName) throws ClassNotFoundException {
-		List<Class<?>> classes = new ArrayList<Class<?>>();
-		if (!directory.exists()) {
-			return classes;
-		}
-		File[] files = directory.listFiles();
-		for (File file : files) {
-			if (file.isDirectory()) {
-				assert !file.getName().contains(".");
-				classes.addAll(findKoanClasses(file,
-						packageName + "." + file.getName()));
-			} else if (file.getName().endsWith(".class")) {
-				Class<?> c = Class.forName(packageName
-						+ '.'
-						+ file.getName().substring(0,
-								file.getName().length() - 6));
-				if (c.getAnnotation(KoanOrder.class) != null) {
-					classes.add((Class<?>) c);
-				}else if(!c.isAnonymousClass() && !c.isAnnotation()){
-					Logger.getAnonymousLogger()
-							.info(c + " is in the suites pkg, however it lacks a "
-									+ KoanOrder.class.getSimpleName()
-									+ " annotation.\nThis was probably not intentional.");
-				}
-			}
-		}
-		return classes;
-	}
-
 }
