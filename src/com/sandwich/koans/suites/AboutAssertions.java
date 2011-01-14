@@ -14,7 +14,6 @@ import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 
 import com.sandwich.koans.Koan;
-import com.sandwich.koans.KoanOrder;
 
 
 /**
@@ -24,7 +23,6 @@ import com.sandwich.koans.KoanOrder;
  * @see the imports section above (it is generally considered bad
  * practice using static imports in production code). 					
  */
-@KoanOrder(order=0) 
 public class AboutAssertions {
 
 	@Koan(order=0)
