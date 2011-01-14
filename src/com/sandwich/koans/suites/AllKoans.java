@@ -8,7 +8,8 @@ public class AllKoans {
 	@SuppressWarnings("unchecked")
 	private static List<Class<?>> koans = Arrays.asList(
 			AboutAssertions.class,
-			AboutAnonymousMocking.class);
+			AboutObjects.class,
+			AboutMocks.class);
 	
 	public static List<Class<?>> getKoans(){
 		return koans;

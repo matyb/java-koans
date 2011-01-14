@@ -48,7 +48,10 @@ public class AboutAssertions {
 	
 	@Koan(order=4)
 	public void assertEqualsWithInt() {
-		assertEquals(1, __);
+		assertEquals(1, __); 	// <- generally, when using an assertXXX methods,
+								// expectation is on the left and it is best 
+								// practice to use a String for the first arg 
+								// indication what has failed
 	}
 	
 	@Koan(order=5)

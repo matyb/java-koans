@@ -47,23 +47,45 @@ class KoanSuiteRunner {
 	void printResult(Map<Object, List<Method>> koans,
 			KoansResult result) {
 		System.out.println("***********************");
-		System.out.println("* Java TDD Koans v.01 *");
+		System.out.println("*   Java Koans v.02   *");
 		System.out.println("***********************\n");
+		printPassingFailing(result);
 		printChart(koans, result);
 		if (result.isAllKoansSuccessful()) {
-			System.out
-					.println("Way to go! You've succeeded where "
-							+ "many have failed. Stand proud, get a tattoo or something.");
+			System.out.println("Way to go! You've succeeded where maybe a handful have failed.");
 		} else {
 			String message = result.getMessage();
-			System.out.println(message == null || message.length() == 0 ? ""
-					: '\n' + message + '\n');
-			System.out.println("Out of " + getAllValuesSize(koans)
-					+ " you have conquered " + result.getNumberPassing()
-					+ " koan" + (result.getNumberPassing() != 1 ? 's' : "")
+			System.out.println(message == null || message.length() == 0 ? 
+					"" : '\n' + message + '\n');
+			int totalKoans = result.getTotalNumberOfKoans();
+			int numberPassing = result.getNumberPassing();
+			System.out.println("You have conquered " + numberPassing
+					+ " out of " + totalKoans
+					+ " koan" + (totalKoans != 1 ? 's' : "")
 					+ "! Keep going, you will persevere!\n");
 			printSuggestion(result);
 		}
+	}
+
+	private void printPassingFailing(KoansResult result) {
+		StringBuilder sb = new StringBuilder();
+		appendLabeledClassesList("Passing Suites: ", result.getPassingSuites(), sb);
+		appendLabeledClassesList("Remaining Suites: ", result.getRemainingSuites(), sb);
+		System.out.println(sb.toString());
+	}
+
+	private void appendLabeledClassesList(String suiteStatus, List<Class<?>> suites, StringBuilder sb) {
+		if(suites == null || suites.isEmpty()){
+			return;
+		}
+		sb.append(suiteStatus);
+		for(Class<?> c : suites){
+			sb.append(c.getSimpleName());
+			if(suites.indexOf(c) != suites.size() - 1){
+				sb.append(", ");
+			}
+		}
+		sb.append('\n');
 	}
 
 	void printSuggestion(KoansResult result) {
@@ -74,12 +96,12 @@ class KoanSuiteRunner {
 
 	void printChart(Map<Object, List<Method>> koans,
 			KoansResult result) {
-		StringBuilder sb = new StringBuilder("Progress\n");
+		StringBuilder sb = new StringBuilder("Progress:\n");
 		sb.append('[');
-		int allValuesSize = getAllValuesSize(koans);
 		int numberPassing = result.getNumberPassing();
+		int totalKoans = result.getTotalNumberOfKoans();
 		double percentPassing = ((double) numberPassing)
-				/ ((double) allValuesSize);
+				/ ((double) totalKoans);
 		int fifty = 50;
 		int percentWeightedToFifty = (int) (percentPassing * fifty);
 		for (int i = 0; i < fifty; i++) {
@@ -92,8 +114,8 @@ class KoanSuiteRunner {
 		sb.append(']');
 		sb.append(' ');
 		// TODO make this less hacky! store total number in result perhaps?
-		numberPassing = numberPassing == -1 ? allValuesSize : numberPassing;
-		sb.append(numberPassing + "/" + allValuesSize);
+		numberPassing = numberPassing == -1 ? result.getNumberPassing() : numberPassing;
+		sb.append(numberPassing + "/" + totalKoans);
 		System.out.println(sb.toString());
 	}
 
@@ -109,29 +131,37 @@ class KoanSuiteRunner {
 			throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException {
 		int successfull = 0;
+		int totalKoanMethods = getAllValuesSize(koans);
+		List<Class<?>> passingSuites = new ArrayList<Class<?>>();
+		List<Class<?>> failingSuites = new ArrayList<Class<?>>();
 		KoansResult result = null;
 		for (Entry<Object, List<Method>> e : koans.entrySet()) {
 			final Object suite = e.getKey();
 			final List<Method> methods = e.getValue();
+			boolean testsPassed = true;
 			for (final Method koan : methods) {
 				try {
 					koan.invoke(suite, (Object[]) null);
 					successfull++;
 				} catch (Throwable t) {
+					testsPassed = false;
 					if (t instanceof InvocationTargetException) {
 						t = t.getCause();
 					}
 					if (t instanceof AssertionError) {
 						if (result == null) {
-							result = new KoansResult(successfull,
-									suite.getClass(), koan, t.getMessage());
+							result = new KoansResult(successfull, totalKoanMethods, suite.getClass(), koan, t.getMessage());
 						}
 					}
 					if (result == null) {
-						result = new KoansResult(successfull, suite.getClass(),
-								koan);
+						result = new KoansResult(successfull, totalKoanMethods, suite.getClass(), koan);
 					}
 				}
+			}
+			if(testsPassed){
+				passingSuites.add(suite.getClass());
+			}else{
+				failingSuites.add(suite.getClass());
 			}
 		}
 		if (result == null) {
@@ -139,8 +169,8 @@ class KoanSuiteRunner {
 		} else {
 			result.numberPassing = successfull;
 		}
-		return result == null ? // all koans passed!
-		new KoansResult()
-				: result;
+		result.passingCases = passingSuites;
+		result.remainingCases = failingSuites;
+		return result;
 	}
 }
