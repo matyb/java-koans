@@ -4,10 +4,10 @@ import com.sandwich.koans.Koan;
 import com.sandwich.koans.KoanSuite;
 import com.sandwich.koans.KoanOrder;
 
-@KoanOrder(order = 1)
+@KoanOrder(order=1)
 public class AboutAnonymousMocking  extends KoanSuite{
 
-	@Koan
+	@Koan(order=0)
 	public void simpleAnonymousMock(){
 		throw new AssertionError("todo");
 	}

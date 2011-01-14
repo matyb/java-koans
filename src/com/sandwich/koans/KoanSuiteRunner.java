@@ -7,7 +7,6 @@ import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Enumeration;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,17 +14,26 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
-public class KoanSuiteRunner {
+import com.sandwich.koans.KoanComparators.KoanMethodComparater;
+import com.sandwich.koans.KoanComparators.KoanSuiteComparater;
 
-	public static void main(String[] args) throws IllegalArgumentException,
+class KoanSuiteRunner {
+
+	public static void main(String... args) throws IllegalArgumentException,
 			IllegalAccessException, InvocationTargetException,
 			ClassNotFoundException, IOException, InstantiationException {
+		new KoanSuiteRunner().run();
+	}
+
+	void run() throws ClassNotFoundException, IOException,
+			InstantiationException, IllegalAccessException,
+			IllegalArgumentException, InvocationTargetException {
 		Map<Object, List<Method>> koans = getKoans();
 		KoansResult result = runKoans(koans);
 		printResult(koans, result);
 	}
-
-	private static void printResult(Map<Object, List<Method>> koans,
+	
+	void printResult(Map<Object, List<Method>> koans,
 			KoansResult result) {
 		System.out.println("***********************");
 		System.out.println("* Java TDD Koans v.01 *");
@@ -47,13 +55,13 @@ public class KoanSuiteRunner {
 		}
 	}
 
-	private static void printSuggestion(KoansResult result) {
+	void printSuggestion(KoansResult result) {
 		System.out.println("Ponder what's going wrong in the "
 				+ result.getFailingCase().getName() + " class's "
 				+ result.getFailingMethod().getName() + " method.");
 	}
 
-	private static void printChart(Map<Object, List<Method>> koans,
+	void printChart(Map<Object, List<Method>> koans,
 			KoansResult result) {
 		StringBuilder sb = new StringBuilder("Progress\n");
 		sb.append('[');
@@ -78,7 +86,7 @@ public class KoanSuiteRunner {
 		System.out.println(sb.toString());
 	}
 
-	private static int getAllValuesSize(Map<Object, List<Method>> koans) {
+	int getAllValuesSize(Map<Object, List<Method>> koans) {
 		int size = 0;
 		for (Entry<Object, List<Method>> entry : koans.entrySet()) {
 			size += entry.getValue().size();
@@ -86,7 +94,7 @@ public class KoanSuiteRunner {
 		return size;
 	}
 
-	private static KoansResult runKoans(Map<Object, List<Method>> koans)
+	KoansResult runKoans(Map<Object, List<Method>> koans)
 			throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException {
 		int successfull = 0;
@@ -125,7 +133,7 @@ public class KoanSuiteRunner {
 				: result;
 	}
 
-	private static Map<Object, List<Method>> getKoans()
+	Map<Object, List<Method>> getKoans()
 			throws ClassNotFoundException, IOException, InstantiationException,
 			IllegalAccessException {
 		List<Class<?>> koanClasses = findKoanClasses(KoanSuiteRunner.class
@@ -141,6 +149,7 @@ public class KoanSuiteRunner {
 					methods.add(m);
 				}
 			}
+			Collections.sort(methods, new KoanMethodComparater());
 		}
 		return koans;
 	}
@@ -155,7 +164,7 @@ public class KoanSuiteRunner {
 	 * @throws ClassNotFoundException
 	 * @throws IOException
 	 */
-	private static List<Class<?>> findKoanClasses(
+	List<Class<?>> findKoanClasses(
 			String packageName) throws ClassNotFoundException, IOException {
 		ClassLoader classLoader = Thread.currentThread()
 				.getContextClassLoader();
@@ -186,7 +195,7 @@ public class KoanSuiteRunner {
 	 * @return The classes
 	 * @throws ClassNotFoundException
 	 */
-	private static List<Class<?>> findKoanClasses(
+	List<Class<?>> findKoanClasses(
 			File directory, String packageName) throws ClassNotFoundException {
 		List<Class<?>> classes = new ArrayList<Class<?>>();
 		if (!directory.exists()) {
@@ -205,7 +214,7 @@ public class KoanSuiteRunner {
 								file.getName().length() - 6));
 				if (c.getAnnotation(KoanOrder.class) != null) {
 					classes.add((Class<?>) c);
-				}else{
+				}else if(!c.isAnonymousClass() && !c.isAnnotation()){
 					Logger.getAnonymousLogger()
 							.info(c + " is in the suites pkg, however it lacks a "
 									+ KoanOrder.class.getSimpleName()
@@ -214,32 +223,6 @@ public class KoanSuiteRunner {
 			}
 		}
 		return classes;
-	}
-
-	private static class KoanSuiteComparater implements Comparator<Class<?>> {
-		@Override
-		public int compare(Class<?> o0, Class<?> o1) {
-			KoanOrder order0 = o0.getAnnotation(KoanOrder.class);
-			KoanOrder order1 = o1.getAnnotation(KoanOrder.class);
-			int comparison = 0;
-			if (order0 == null && order1 != null) {
-				comparison = 1;
-			}
-			else if (order1 == null && order0 != null) {
-				comparison = -1;
-			}
-			else if(order0 != null && order1 != null){
-				comparison = Integer.valueOf(order0.order()).compareTo(order1.order());
-			}
-			if(comparison == 0){
-				Logger.getAnonymousLogger().info(
-						o0.getSimpleName() + " and " + o1.getSimpleName() +
-						" evaluate to the same " + KoanOrder.class.getSimpleName() + '.' +
-						"\nThis will break the order the koans are evaluated and presented " +
-						"to users.");
-			}
-			return comparison;
-		}
 	}
 
 }
