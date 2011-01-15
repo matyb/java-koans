@@ -8,5 +8,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Koan {
-	int order();
+	public static final String DEFAULT = "TODO: Add a description of what the koan is intended to teach the pupil";
+	String desc() default DEFAULT;
 }

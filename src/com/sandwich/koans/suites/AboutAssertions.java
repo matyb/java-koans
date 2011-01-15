@@ -25,28 +25,33 @@ import com.sandwich.koans.Koan;
  */
 public class AboutAssertions {
 
-	@Koan(order=0)
+	@Koan
 	public void assertBooleanTrue() {
 		assertTrue(__); // should be true really
 	}
 
-	@Koan(order=1)
+	@Koan
 	public void assertBooleanFalse() {
 		assertFalse(__); 
 	}
 	
-	@Koan(order=2)
+	@Koan
 	public void assertNullObject(){
 		assertNull(__);
 	}
 	
-	@Koan(order=3)
+	/**
+	 * TODO introduce instantiation, constructors
+	 */
+	@Koan
 	public void assertNotNullObject(){
-		Object __ = null;
-		assertNotNull(__);
+		assertNotNull(null);
 	}
 	
-	@Koan(order=4)
+	/** 
+	 * TODO explain arguments (mention they've been used up in prior koans
+	 */
+	@Koan
 	public void assertEqualsWithInt() {
 		assertEquals(1, __); 	// <- generally, when using an assertXXX methods,
 								// expectation is on the left and it is best 
@@ -54,21 +59,24 @@ public class AboutAssertions {
 								// indication what has failed
 	}
 	
-	@Koan(order=5)
+	/**
+	 * TODO finish explaining
+	 */
+	@Koan
 	public void assertSameInstance(){
 		Integer same = new Integer(1);
 		Integer __ 	 = new Integer(1);
 		assertSame(same, __);
 	}
 	
-	@Koan(order=6)
+	@Koan
 	public void assertNotSameInstance(){
 		Integer same = new Integer(1);
 		Integer __   = same;
 		assertNotSame(same, __); 
 	}
 	
-	@Koan(order=7)
+	@Koan
 	public void assertThatUsingMatcher(){
 		final Boolean __ = Boolean.FALSE;
 		final Boolean expected = Boolean.TRUE;

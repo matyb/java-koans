@@ -13,8 +13,9 @@ public class KoansResult {
 	Method failingMethod;
 	String message;
 	
-	public KoansResult() {
-		this(-1, -1, null, null);
+	public KoansResult(int numberPassing, int totalNumberOfKoanMethods){
+		this.numberPassing = numberPassing;
+		this.totalNumberOfKoanMethods = totalNumberOfKoanMethods;
 	}
 	
 	public KoansResult(int numberPassing, int totalNumberOfKoanMethods, Class<?> failingCase, Method failingMethod){

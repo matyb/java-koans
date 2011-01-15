@@ -5,7 +5,7 @@ import com.sandwich.koans.KoanSuite;
 
 public class AboutMocks  extends KoanSuite{
 
-	@Koan(order=0)
+	@Koan
 	public void simpleAnonymousMock(){
 		throw new AssertionError("todo");
 	}

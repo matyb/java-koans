@@ -5,11 +5,10 @@ import java.util.List;
 
 public class AllKoans {
 
-	@SuppressWarnings("unchecked")
-	private static List<Class<?>> koans = Arrays.asList(
+	private static List<Class<?>> koans = Arrays.asList(new Class<?>[]{
 			AboutAssertions.class,
 			AboutObjects.class,
-			AboutMocks.class);
+			AboutMocks.class});
 	
 	public static List<Class<?>> getKoans(){
 		return koans;

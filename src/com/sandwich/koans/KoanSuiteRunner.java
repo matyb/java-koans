@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,6 @@ class KoanSuiteRunner {
 					koanMethods.add(koan);
 				}
 			}
-			Collections.sort(koanMethods, new KoanMethodComparater());
 			koans.put(koanSuite.newInstance(), koanMethods);
 		}
 		return koans;
@@ -52,18 +50,18 @@ class KoanSuiteRunner {
 		printPassingFailing(result);
 		printChart(koans, result);
 		if (result.isAllKoansSuccessful()) {
-			System.out.println("Way to go! You've succeeded where maybe a handful have failed.");
+			System.out.println("\nWay to go! You've completed all of the koans! Feel like writing any?");
 		} else {
 			String message = result.getMessage();
 			System.out.println(message == null || message.length() == 0 ? 
-					"" : '\n' + message + '\n');
+					"" : '\n' + "What went wrong:\n" + message + '\n');
+			printSuggestion(result);
 			int totalKoans = result.getTotalNumberOfKoans();
 			int numberPassing = result.getNumberPassing();
 			System.out.println("You have conquered " + numberPassing
 					+ " out of " + totalKoans
 					+ " koan" + (totalKoans != 1 ? 's' : "")
 					+ "! Keep going, you will persevere!\n");
-			printSuggestion(result);
 		}
 	}
 
@@ -89,9 +87,14 @@ class KoanSuiteRunner {
 	}
 
 	void printSuggestion(KoansResult result) {
+		Method failedKoan = result.getFailingMethod();
+		Koan annotation = failedKoan.getAnnotation(Koan.class);
+		if(annotation != null){
+			System.out.println(annotation.desc()+'\n');
+		}
 		System.out.println("Ponder what's going wrong in the "
-				+ result.getFailingCase().getName() + " class's "
-				+ result.getFailingMethod().getName() + " method.");
+				+ result.getFailingCase().getSimpleName() + " class's "
+				+ result.getFailingMethod().getName() + " method.\n");
 	}
 
 	void printChart(Map<Object, List<Method>> koans,
@@ -165,7 +168,7 @@ class KoanSuiteRunner {
 			}
 		}
 		if (result == null) {
-			result = new KoansResult();
+			result = new KoansResult(successfull, totalKoanMethods);
 		} else {
 			result.numberPassing = successfull;
 		}
