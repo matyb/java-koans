@@ -24,6 +24,14 @@ public abstract class KoanSuite {
 		org.junit.Assert.assertTrue(first == second);
 	}
 	
+	public static void assertEquals(char first, char second) {
+		org.junit.Assert.assertTrue(first == second);
+	}
+	
+	public static void assertEquals(char first, Character second) {
+		org.junit.Assert.assertTrue(first == second);
+	}
+	
 	public static void assertEquals(Object first, Object second) {
 		org.junit.Assert.assertEquals(first, second);
 	}

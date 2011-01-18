@@ -37,4 +37,22 @@ public class AboutAutoboxing {
 		
 	}
 	
+	@Koan("All primatives can be autoboxed")
+	public void allPrimativesCanBeAutoboxed() {
+		List<Double> doubleList = new ArrayList<Double>();
+		doubleList.add(0, new Double(42));
+		assertEquals(__, doubleList.get(0));
+
+		List<Long> longList = new ArrayList<Long>();
+		longList.add(0, new Long(42));
+		assertEquals(__, longList.get(0));
+
+		List<Character> characterList = new ArrayList<Character>();
+		characterList.add(0, new Character('z'));
+		assertEquals(__, characterList.get(0));
+		
+		
+		
+	}
+	
 }
