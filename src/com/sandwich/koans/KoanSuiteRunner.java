@@ -90,7 +90,7 @@ class KoanSuiteRunner {
 		Method failedKoan = result.getFailingMethod();
 		Koan annotation = failedKoan.getAnnotation(Koan.class);
 		if(annotation != null){
-			System.out.println(annotation.desc()+'\n');
+			System.out.println(annotation.value()+'\n');
 		}
 		System.out.println("Ponder what's going wrong in the "
 				+ result.getFailingCase().getSimpleName() + " class's "

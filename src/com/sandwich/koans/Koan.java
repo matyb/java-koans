@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface Koan {
 	public static final String DEFAULT = "TODO: Add a description of what the koan is intended to teach the pupil";
-	String desc() default DEFAULT;
+	String value() default DEFAULT;
 }

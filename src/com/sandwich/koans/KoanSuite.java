@@ -1,7 +1,5 @@
 package com.sandwich.koans;
 
-import static org.junit.Assert.assertEquals;
-
 public abstract class KoanSuite {
 	
 	public static final String __ = "REPLACE ME";
@@ -11,10 +9,22 @@ public abstract class KoanSuite {
 	 * completing the koans.
 	 */
 	public static void assertTrue(Object obj){
-		assertEquals(true, obj);
+		org.junit.Assert.assertEquals(true, obj);
 	}
 	
 	public static void assertFalse(Object obj){
-		assertEquals(false, obj);
+		org.junit.Assert.assertEquals(false, obj);
+	}
+	
+	public static void assertEquals(int first, Integer second) {
+		org.junit.Assert.assertTrue(first == second);
+	}
+	
+	public static void assertEquals(int first, int second) {
+		org.junit.Assert.assertTrue(first == second);
+	}
+	
+	public static void assertEquals(Object first, Object second) {
+		org.junit.Assert.assertEquals(first, second);
 	}
 }
