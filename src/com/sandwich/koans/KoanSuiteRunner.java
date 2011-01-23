@@ -27,7 +27,7 @@ class KoanSuiteRunner {
 		printResult(koans, result);
 	}
 	
-	private Map<Object, List<Method>> getKoans() throws InstantiationException, IllegalAccessException {
+	Map<Object, List<Method>> getKoans() throws InstantiationException, IllegalAccessException {
 		List<Class<?>> koanSuites = AllKoans.getKoans();
 		Map<Object, List<Method>> koans = new LinkedHashMap<Object, List<Method>>();
 		for(Class<?> koanSuite : koanSuites){
