@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.sandwich.koans.suites.AllKoans;
-
 class KoanSuiteRunner {
 
 	public static void main(String... args) throws IllegalArgumentException,
