@@ -10,6 +10,14 @@ public class AboutMocks  extends KoanSuite{
 	 */
 	static class ClassUnderTest {
 		Collaborator c;
+		ClassUnderTest(){
+			this(new Collaborator(){
+				@Override
+				public boolean doBusinessStuff() {
+					return true; // <- hint 
+				}
+			});
+		}
 		ClassUnderTest(Collaborator c){
 			this.c = c;
 		}
@@ -24,12 +32,7 @@ public class AboutMocks  extends KoanSuite{
 	
 	@Koan("how can this pass without changing to assertTrue?")
 	public void simpleAnonymousMock(){
-		assertFalse(new ClassUnderTest(new Collaborator(){
-			@Override
-			public boolean doBusinessStuff() {
-				return true; // <- hint 
-			}
-		}).doSomething());
+		assertFalse(new ClassUnderTest().doSomething());
 		// TODO: ponder why this assertion was failing
 		// originally
 	}

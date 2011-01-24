@@ -1,8 +1,6 @@
 package com.sandwich.koans.suites;
 
 import static com.sandwich.koans.KoanSuite.__;
-import static com.sandwich.koans.KoanSuite.assertFalse;
-import static com.sandwich.koans.KoanSuite.assertTrue;
 import static com.sandwich.koans.KoanSuite.assertEquals;
 
 import java.util.ArrayList;
