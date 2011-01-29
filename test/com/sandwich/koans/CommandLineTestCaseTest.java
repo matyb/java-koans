@@ -52,7 +52,7 @@ public class CommandLineTestCaseTest {
 	}
 	
 	@Test
-	public void testThatConsoleIsAttachedToSystemWithTrimStringArg() throws Exception {
+	public void testThatAssertSystemOutLineEquals_withTrimStringArg() throws Exception {
 		testCase.setUp();
 		System.out.println("hello \n world!");
 		testCase.assertSystemOutLineEquals(0, "hello", true);
