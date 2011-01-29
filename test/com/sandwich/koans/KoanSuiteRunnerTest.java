@@ -1,6 +1,6 @@
 package com.sandwich.koans;
 
-import static com.sandwich.koans.KoanConstants.APP_NAME;
+import static com.sandwich.koans.KoanConstants.*;
 import static com.sandwich.koans.KoanConstants.COMPLETE_CHAR;
 import static com.sandwich.koans.KoanConstants.EOL;
 import static com.sandwich.koans.KoanConstants.FAILING_SUITES;
@@ -11,8 +11,8 @@ import static com.sandwich.koans.KoanConstants.PROGRESS;
 import static com.sandwich.koans.KoanConstants.PROGRESS_BAR_START;
 import static com.sandwich.koans.KoanConstants.PROGRESS_BAR_WIDTH;
 import static com.sandwich.koans.KoanConstants.VERSION;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -47,16 +47,15 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 	
 	@Test
 	public void testGetKoans() throws Exception {
-		Object object = new OnePassingKoan();
-		stubAllKoans(Arrays.asList(new Class<?>[]{object.getClass()}));
+		stubAllKoans(Arrays.asList(new Class<?>[]{OnePassingKoan.class}));
 		Map<Object, List<Method>> koans = new KoanSuiteRunner().getKoans();
 		assertEquals(1, koans.size());
 		Entry<Object, List<Method>> entry = koans.entrySet().iterator().next();
-		assertEquals(object.getClass(), entry.getKey().getClass());
-		assertEquals(object.getClass().getDeclaredMethod("koan"), entry.getValue().get(0));
+		assertEquals(OnePassingKoan.class, entry.getKey().getClass());
+		assertEquals(OnePassingKoan.class.getDeclaredMethod("koan"), entry.getValue().get(0));
 	}
 	
-	@Test
+	@Test	/** Ensures that koans are ready for packaging & distribution */
 	public void testKoanSuiteRunner_firstKoanFail() throws Exception {
 		final KoansResult[] result = new KoansResult[]{null};
 		new KoanSuiteRunner(){
@@ -78,6 +77,53 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 		String message = "Not all koans need solving! Each should ship in a failing state.";
 		assertEquals(message, AllKoans.getKoans().get(0), 	result[0].failingCase);
 		assertEquals(message, 0, 							result[0].getNumberPassing());
+	}
+	
+	@Test
+	public void testKoanDescriptionAppearsOnFailure() throws Exception {
+		stubAllKoans(Arrays.asList(new Class<?>[] { 
+				OneFailingKoanDifferentName.class }));
+		KoanSuiteRunner.main();
+		assertSystemOutContains("fake_description");
+	}
+	
+	@Test
+	public void testKoanHintIsHelpful() throws Exception {
+		stubAllKoans(Arrays.asList(new Class<?>[] { 
+				OneFailingKoanDifferentName.class }));
+		KoanSuiteRunner.main();
+		assertSystemOutContains(new StringBuilder(
+				INVESTIGATE_IN_THE).append(
+				" ").append(
+				OneFailingKoanDifferentName.class.getSimpleName()).append(
+				" class's ").append(
+				OneFailingKoanDifferentName.class.getDeclaredMethods()[0].getName()).append(
+				" method.").append(
+				EOL).toString());
+	}
+	
+	@Test
+	public void testEncouragement() throws Exception {
+		stubAllKoans(Arrays.asList(new Class<?>[] { 
+				OneFailingKoan.class }));
+		KoanSuiteRunner.main();
+		assertSystemOutContains(new StringBuilder(
+				CONQUERED).append(
+				" 0 ").append(
+				OUT_OF).append(
+				" 1 ").append(
+				KOAN).append(
+				"! ").append(
+				ENCOURAGEMENT).append(
+				EOL).toString());
+	}
+	
+	@Test
+	public void testOneHundredPercentSuccessReward() throws Exception {
+		stubAllKoans(Arrays.asList(new Class<?>[] { 
+				OnePassingKoan.class }));
+		KoanSuiteRunner.main();
+		assertSystemOutContains(ALL_SUCCEEDED);
 	}
 	
 	@Test
@@ -141,9 +187,10 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 				OneFailingKoan.class,
 				OneFailingKoanDifferentName.class }));
 		KoanSuiteRunner.main();
-		StringBuilder sb = new StringBuilder(PROGRESS)
-									 .append(EOL)
-									 .append(PROGRESS_BAR_START);
+		StringBuilder sb = new StringBuilder(
+				PROGRESS).append(
+				EOL).append(
+				PROGRESS_BAR_START);
 		for(int i = 0; i < PROGRESS_BAR_WIDTH; i++){ // 100% failed
 			sb.append(INCOMPLETE_CHAR);
 		}
@@ -157,9 +204,10 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 				OnePassingKoan.class,
 				OneFailingKoan.class }));
 		KoanSuiteRunner.main();
-		StringBuilder sb = new StringBuilder(PROGRESS)
-									 .append(EOL)
-									 .append(PROGRESS_BAR_START);
+		StringBuilder sb = new StringBuilder(
+				PROGRESS).append(
+				EOL).append(
+				PROGRESS_BAR_START);
 		for(int i = 0; i < PROGRESS_BAR_WIDTH / 2; i++){ // 100% failed
 			sb.append(COMPLETE_CHAR);
 		}
@@ -168,6 +216,17 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 		}
 		sb.append("] 1/2").append(EOL);
 		assertSystemOutContains(sb.toString());
+	}
+	
+	@Test
+	public void testKoanSuiteRunnerPresentation_whatWentWrongExplanation() throws Exception {
+		stubAllKoans(Arrays.asList(new Class<?>[] { 
+				OneFailingKoan.class }));
+		KoanSuiteRunner.main();
+		assertSystemOutContains(new StringBuilder(
+				WHATS_WRONG).append(
+				EOL).append(
+				"expected:<true> but was:<false>").toString());
 	}
 	
 	static class OnePassingKoan {
@@ -186,9 +245,15 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 	static class OneFailingKoan {
 		@Koan
 		public void koan() {
-			fail("i fail.");
+			assertEquals(true, false);
 		}
 	}
 	
-	static class OneFailingKoanDifferentName extends OneFailingKoan{}
+	static class OneFailingKoanDifferentName extends OneFailingKoan{
+		@Koan(value = "fake_description")
+		@Override
+		public void koan() {
+			assertEquals(true, false);
+		}
+	}
 }
