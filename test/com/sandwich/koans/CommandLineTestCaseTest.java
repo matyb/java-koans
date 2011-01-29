@@ -54,7 +54,7 @@ public class CommandLineTestCaseTest {
 	@Test
 	public void testThatAssertSystemOutLineEquals_withTrimStringArg() throws Exception {
 		testCase.setUp();
-		System.out.println("hello \n world!");
+		System.out.println(" hello \n world! ");
 		testCase.assertSystemOutLineEquals(0, "hello", true);
 		testCase.assertSystemOutLineEquals(1, "world!", true);
 	}
@@ -134,7 +134,7 @@ public class CommandLineTestCaseTest {
 			testCase.assertSystemOutContains(String.valueOf("a"));
 			fail();
 		}catch(AssertionFailedException ex){
-			assertEquals("expected: <a> but found: <01>", ex.getMessage());
+			assertEquals("<a> wasn't found in: <01>", ex.getMessage());
 		}
 	}
 }

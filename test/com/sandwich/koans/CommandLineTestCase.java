@@ -59,9 +59,15 @@ public abstract class CommandLineTestCase {
 		String consoleOutput = bytes.toString();
 		boolean containsTheSubstring = consoleOutput.contains(expectation);
 		if(assertContains && !containsTheSubstring || !assertContains && containsTheSubstring){
-			throw new AssertionFailedException(expectation +
-					(assertContains ? "wasn't" : "was") +
-					" found in: " + consoleOutput);
+			throw new AssertionFailedException(new StringBuilder(
+					"<").append(
+					expectation).append(
+					"> ").append(
+					(assertContains ? "wasn't" : "was")).append(
+					" found in: " ).append(
+					"<").append(
+					consoleOutput).append(
+					">").toString());
 		}
 	}
 
