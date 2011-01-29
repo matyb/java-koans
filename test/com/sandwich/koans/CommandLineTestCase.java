@@ -48,11 +48,23 @@ public abstract class CommandLineTestCase {
 	}
 	
 	protected void assertSystemOutContains(String expectation){
-		if(!bytes.toString().contains(expectation)){
-			throw new AssertionFailedException(expectation, bytes.toString());
-		}
+		assertSystemOutContains(true, expectation);
 	}
 	
+	protected void assertSystemOutDoesntContain(String expectation){
+		assertSystemOutContains(false, expectation);
+	}
+	
+	private void assertSystemOutContains(boolean assertContains, String expectation) {
+		String consoleOutput = bytes.toString();
+		boolean containsTheSubstring = consoleOutput.contains(expectation);
+		if(assertContains && !containsTheSubstring || !assertContains && containsTheSubstring){
+			throw new AssertionFailedException(expectation +
+					(assertContains ? "wasn't" : "was") +
+					" found in: " + consoleOutput);
+		}
+	}
+
 	protected void assertSystemOutLineEquals(final int lineNumber, final String lineText){
 		assertSystemOutLineEquals(lineNumber, lineText, false);
 	}

@@ -116,6 +116,7 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 				"! ").append(
 				ENCOURAGEMENT).append(
 				EOL).toString());
+		assertSystemOutDoesntContain(ALL_SUCCEEDED);
 	}
 	
 	@Test
@@ -124,6 +125,8 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 				OnePassingKoan.class }));
 		KoanSuiteRunner.main();
 		assertSystemOutContains(ALL_SUCCEEDED);
+		assertSystemOutDoesntContain(CONQUERED);
+		assertSystemOutDoesntContain(ENCOURAGEMENT);
 	}
 	
 	@Test
