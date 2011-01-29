@@ -40,7 +40,7 @@ public class AboutArrays {
 		int[] array0 = new int[]{0};
 		int[] array1 = new int[]{0};
 		assertEquals(false, Arrays.equals(array0, array1)); // whew - what most people assume 
-		 													// about equals in regard to arrays!
+		 													// about equals in regard to arrays! (logical equality)
 	}
 
 	@Koan
@@ -50,4 +50,6 @@ public class AboutArrays {
 		// whew - what most people assume about hashCode in regard to arrays!
 		assertEquals(false, Integer.valueOf(Arrays.hashCode(array0)).equals(Arrays.hashCode(array1)));
 	}
+	
+	
 }

@@ -1,6 +1,6 @@
 package com.sandwich.koans.suites;
 
-import static com.sandwich.koans.KoanSuite.__;
+import static com.sandwich.koans.KoanConstants.__;
 import static org.junit.Assert.assertEquals;
 
 import com.sandwich.koans.Koan;

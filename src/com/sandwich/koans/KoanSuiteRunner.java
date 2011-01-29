@@ -1,5 +1,7 @@
 package com.sandwich.koans;
 
+import static com.sandwich.koans.KoanConstants.*;
+
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -42,80 +44,77 @@ class KoanSuiteRunner {
 
 	void printResult(Map<Object, List<Method>> koans,
 			KoansResult result) {
-		System.out.println("***********************");
-		System.out.println("*   Java Koans v.02   *");
-		System.out.println("***********************\n");
+		System.out.println(HEADER_LINE);
+		System.out.println("*   "+APP_NAME+" "+VERSION+"   *");
+		System.out.println(HEADER_LINE);
 		printPassingFailing(result);
 		printChart(koans, result);
 		if (result.isAllKoansSuccessful()) {
-			System.out.println("\nWay to go! You've completed all of the koans! Feel like writing any?");
+			System.out.println(EOL+ALL_SUCCEEDED);
 		} else {
 			String message = result.getMessage();
 			System.out.println(message == null || message.length() == 0 ? 
-					"" : '\n' + "What went wrong:\n" + message + '\n');
+					"" : EOL + WHATS_WRONG + EOL + message + EOL);
 			printSuggestion(result);
 			int totalKoans = result.getTotalNumberOfKoans();
 			int numberPassing = result.getNumberPassing();
-			System.out.println("You have conquered " + numberPassing
-					+ " out of " + totalKoans
-					+ " koan" + (totalKoans != 1 ? 's' : "")
-					+ "! Keep going, you will persevere!\n");
+			System.out.println(CONQUERED + ' ' + numberPassing
+					+ " " + OUT_OF + " " + totalKoans
+					+ " " + KOAN + (totalKoans != 1 ? 's' : "")
+					+ "! " + ENCOURAGEMENT + EOL);
 		}
 	}
 
 	private void printPassingFailing(KoansResult result) {
 		StringBuilder sb = new StringBuilder();
-		appendLabeledClassesList("Passing Suites: ", result.getPassingSuites(), sb);
-		appendLabeledClassesList("Remaining Suites: ", result.getRemainingSuites(), sb);
+		appendLabeledClassesList(PASSING_SUITES, result.getPassingSuites(), sb);
+		appendLabeledClassesList(FAILING_SUITES, result.getRemainingSuites(), sb);
 		System.out.println(sb.toString());
 	}
 
-	private void appendLabeledClassesList(String suiteStatus, List<Class<?>> suites, StringBuilder sb) {
+	private void appendLabeledClassesList(String suiteType, List<Class<?>> suites, StringBuilder sb) {
 		if(suites == null || suites.isEmpty()){
 			return;
 		}
-		sb.append(suiteStatus);
+		sb.append(suiteType+' ');
 		for(Class<?> c : suites){
 			sb.append(c.getSimpleName());
 			if(suites.indexOf(c) != suites.size() - 1){
 				sb.append(", ");
 			}
 		}
-		sb.append('\n');
+		sb.append(EOL);
 	}
 
 	void printSuggestion(KoansResult result) {
 		Method failedKoan = result.getFailingMethod();
 		Koan annotation = failedKoan.getAnnotation(Koan.class);
 		if(annotation != null){
-			System.out.println(annotation.value()+'\n');
+			System.out.println(annotation.value()+EOL);
 		}
-		System.out.println("Ponder what's going wrong in the "
+		System.out.println(INVESTIGATE_IN_THE + " "
 				+ result.getFailingCase().getSimpleName() + " class's "
-				+ result.getFailingMethod().getName() + " method.\n");
+				+ result.getFailingMethod().getName() + " method."+EOL);
 	}
 
 	void printChart(Map<Object, List<Method>> koans,
 			KoansResult result) {
-		StringBuilder sb = new StringBuilder("Progress:\n");
+		StringBuilder sb = new StringBuilder(PROGRESS+EOL);
 		sb.append('[');
 		int numberPassing = result.getNumberPassing();
 		int totalKoans = result.getTotalNumberOfKoans();
 		double percentPassing = ((double) numberPassing)
 				/ ((double) totalKoans);
-		int fifty = 50;
-		int percentWeightedToFifty = (int) (percentPassing * fifty);
-		for (int i = 0; i < fifty; i++) {
+		int percentWeightedToFifty = (int) (percentPassing * PROGRESS_BAR_WIDTH);
+		for (int i = 0; i < PROGRESS_BAR_WIDTH; i++) {
 			if (i < percentWeightedToFifty) {
-				sb.append('X');
+				sb.append(KoanConstants.COMPLETE_CHAR);
 			} else {
-				sb.append('-');
+				sb.append(KoanConstants.INCOMPLETE_CHAR);
 			}
 		}
 		sb.append(']');
 		sb.append(' ');
-		// TODO make this less hacky! store total number in result perhaps?
-		numberPassing = numberPassing == -1 ? result.getNumberPassing() : numberPassing;
 		sb.append(numberPassing + "/" + totalKoans);
 		System.out.println(sb.toString());
 	}

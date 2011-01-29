@@ -2,8 +2,6 @@ package com.sandwich.koans;
 
 public abstract class KoanSuite {
 	
-	public static final String __ = "REPLACE ME";
-	
 	/*
 	 * Forwarding methods, makes KoanResult.message readable for people
 	 * completing the koans.
