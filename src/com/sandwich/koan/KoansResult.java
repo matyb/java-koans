@@ -1,4 +1,4 @@
-package com.sandwich.koans;
+package com.sandwich.koan;
 
 import java.lang.reflect.Method;
 import java.util.List;
@@ -12,24 +12,19 @@ public class KoansResult {
 	List<Class<?>> remainingCases;
 	Method failingMethod;
 	String message;
-	
-	public KoansResult(int numberPassing, int totalNumberOfKoanMethods){
-		this.numberPassing = numberPassing;
-		this.totalNumberOfKoanMethods = totalNumberOfKoanMethods;
-	}
-	
-	public KoansResult(int numberPassing, int totalNumberOfKoanMethods, Class<?> failingCase, Method failingMethod){
+	String lineNumber;
+
+	public KoansResult(int numberPassing, int totalNumberOfKoanMethods,
+			Class<?> failingCase, Method failingMethod,
+			String message, String lineNumber, List<Class<?>> passingCases, List<Class<?>> remainingCases) {
 		this.numberPassing = numberPassing;
 		this.failingCase = failingCase;
 		this.failingMethod = failingMethod;
 		this.totalNumberOfKoanMethods = totalNumberOfKoanMethods;
-	}
-
-	public KoansResult(int numberPassing, int totalNumberOfKoanMethods,
-			Class<?> failingCase, Method failingMethod,
-			String message) {
-		this(numberPassing, totalNumberOfKoanMethods, failingCase, failingMethod);
+		this.lineNumber = lineNumber;
 		this.message = message;
+		this.passingCases = passingCases;
+		this.remainingCases = remainingCases;
 	}
 
 	public int getNumberPassing() {
@@ -60,6 +55,10 @@ public class KoansResult {
 		return remainingCases;
 	}
 
+	public String getLineNumber(){
+		return lineNumber;
+	}
+	
 	public boolean isAllKoansSuccessful() {
 		return failingCase == null && failingMethod == null;
 	}
@@ -68,10 +67,10 @@ public class KoansResult {
 	public String toString() {
 		return "KoansResult [numberPassing=" + numberPassing
 				+ ", totalNumberOfKoanMethods=" + totalNumberOfKoanMethods
-				+ ", failingCase=" + failingCase + ", failingMethod="
-				+ failingMethod + ", message=" + message + "]";
-	}
-
-	
+				+ ", failingCase=" + failingCase + ", passingCases="
+				+ passingCases + ", remainingCases=" + remainingCases
+				+ ", failingMethod=" + failingMethod + ", message=" + message
+				+ ", lineNumber=" + lineNumber + "]";
+	}	
 	
 }

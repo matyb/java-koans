@@ -1,11 +1,22 @@
-package com.sandwich.koans;
+package com.sandwich.koan;
 
-public class KoanConstants {
+import com.sandwich.koan.suite.AboutArrays;
 
+public abstract class KoanConstants {
+
+	private KoanConstants(){}
+	
 	public static final String  __					= "REPLACE ME";
 	
 	public static final String  EOL					= System.getProperty("line.separator");
 	public static final String  EOLS				= "[\n\r"+EOL+"]";
+	/* TODO: get around hardcoding AboutArrays - if it's possible... */
+	public static final String  SUITE_PKG			= AboutArrays.class.getPackage().getName();
+	public static final String  EXPECTATION_LEFT_ARG= "has expectation as wrong argument!";
+	public static final String  EXPECTED_LEFT 		= "expected:<";
+	public static final String  EXPECTED_RIGHT 		= ">";
+	public static final String  LINE_NO_START		= ".java:";
+	public static final String  LINE_NO_END 		= ")";
 	
 	public static final String  DEFAULT_KOAN_DESC	= "TODO: Add a description of what the koan is intended to teach the pupil";
 	public static final String 	HEADER_LINE 		= "***********************";

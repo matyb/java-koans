@@ -1,4 +1,4 @@
-package com.sandwich.koans;
+package com.sandwich.koan;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
