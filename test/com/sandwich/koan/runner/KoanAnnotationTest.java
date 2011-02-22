@@ -13,14 +13,12 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.sandwich.koan.Koan;
-import com.sandwich.koan.runner.KoanSuiteRunner;
 
-public class KoanAnnotationTest {
+public class KoanAnnotationTest extends CommandLineTestCase {
 
 	@Test
 	public void testThatKoanAnnotationIndicatesMethodToRun() throws Exception {
 		final boolean[] invoked = {false};
-		Map<Object, List<Method>> koans = new HashMap<Object, List<Method>>();
 		Object object = new Object() {
 			@SuppressWarnings("unused")
 			@Koan
@@ -32,8 +30,8 @@ public class KoanAnnotationTest {
 				fail();
 			}
 		};
-		koans.put(object, Arrays.asList(object.getClass().getDeclaredMethod("koan")));
-		new KoanSuiteRunner().runKoans(koans); 
+		super.stubAllKoans(Arrays.asList(object));
+		new KoanSuiteRunner().run(); 
 		assertTrue(invoked[0]);
 	}
 	

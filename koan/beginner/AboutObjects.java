@@ -1,4 +1,4 @@
-package com.sandwich.koan.suite;
+package beginner;
 
 import static com.sandwich.koan.KoanConstants.__;
 import static org.junit.Assert.assertEquals;
@@ -31,7 +31,7 @@ public class AboutObjects {
 	
 	@Koan("Integer, and many other classes implement equals logically, in other words, they\n" +
 			"compare properties of each other and not just identity.")
-	public void subclassesOfObjectEqualsMethodIsLooserThanDoubleEqualsOperator(){
+	public void subclassesEqualsMethodIsLooserThanDoubleEquals(){
 		Integer integer0 = new Integer(0);
 		Integer integer1 = new Integer(0);
 		assertEquals(integer0.equals(integer1), __);

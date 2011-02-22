@@ -1,4 +1,4 @@
-package com.sandwich.koan.suite;
+package advanced;
 
 import com.sandwich.koan.Koan;
 

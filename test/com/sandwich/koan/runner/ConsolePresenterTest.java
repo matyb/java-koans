@@ -30,8 +30,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 
 	@Test
 	public void hintPresentation() throws Throwable {
-		stubAllKoans(Arrays.asList(new Class<?>[] { 
-				OneFailingKoanDifferentName.class }));
+		stubAllKoans(Arrays.asList(new OneFailingKoanDifferentName()));
 		KoanSuiteRunner.main();
 		assertSystemOutContains(new StringBuilder(
 				INVESTIGATE_IN_THE).append(

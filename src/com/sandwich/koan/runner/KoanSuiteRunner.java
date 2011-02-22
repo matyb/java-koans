@@ -1,28 +1,26 @@
 package com.sandwich.koan.runner;
 
+import static com.sandwich.koan.KoanConstants.EOLS;
+import static com.sandwich.koan.KoanConstants.EXPECTATION_LEFT_ARG;
+import static com.sandwich.koan.KoanConstants.EXPECTED_LEFT;
+import static com.sandwich.koan.KoanConstants.EXPECTED_RIGHT;
+import static com.sandwich.koan.KoanConstants.__;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
-import static com.sandwich.koan.KoanConstants.__;
-import static com.sandwich.koan.KoanConstants.EXPECTATION_LEFT_ARG;
-import static com.sandwich.koan.KoanConstants.EXPECTED_LEFT;
-import static com.sandwich.koan.KoanConstants.EXPECTED_RIGHT;
-import static com.sandwich.koan.KoanConstants.LINE_NO_START;
-import static com.sandwich.koan.KoanConstants.LINE_NO_END;
-import static com.sandwich.koan.KoanConstants.SUITE_PKG;
-import static com.sandwich.koan.KoanConstants.EOLS;
-
-import com.sandwich.koan.Koan;
+import com.sandwich.koan.KoanConstants;
+import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.KoansResult;
+import com.sandwich.koan.runner.PathToEnlightenment.Path;
 import com.sandwich.koan.runner.ui.ConsolePresenter;
 import com.sandwich.koan.runner.ui.SuitePresenter;
 
@@ -37,8 +35,7 @@ class KoanSuiteRunner {
 	void run() throws ClassNotFoundException, IOException,
 			InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
-		Map<Object, List<Method>> koans = getKoans();
-		KoansResult result = runKoans(koans);
+		KoansResult result = runKoans();
 		getPresenter().displayResult(result);
 	}
 	
@@ -47,21 +44,6 @@ class KoanSuiteRunner {
 			presenter = new ConsolePresenter();
 		}
 		return presenter;
-	}
-	
-	Map<Object, List<Method>> getKoans() throws InstantiationException, IllegalAccessException, ClassNotFoundException {
-		List<Class<?>> koanSuites = PathToEnlightment.getPathToEnlightment();
-		Map<Object, List<Method>> koans = new LinkedHashMap<Object, List<Method>>();
-		for(Class<?> koanSuite : koanSuites){
-			List<Method> koanMethods = new ArrayList<Method>();
-			for(Method koan : koanSuite.getMethods()){
-				if(koan.getAnnotation(Koan.class) != null){
-					koanMethods.add(koan);
-				}
-			}
-			koans.put(koanSuite.newInstance(), koanMethods);
-		}
-		return koans;
 	}
 
 	int getAllValuesSize(Map<Object, List<Method>> koans) {
@@ -72,48 +54,58 @@ class KoanSuiteRunner {
 		return size;
 	}
 
-	KoansResult runKoans(Map<Object, List<Method>> koans)
+	KoansResult runKoans()
 			throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException {
+		Path path = getPathToEnlightenment();
 		int successfull = 0;
-		int totalKoanMethods = getAllValuesSize(koans);
 		List<Class<?>> passingSuites = new ArrayList<Class<?>>();
 		List<Class<?>> failingSuites = new ArrayList<Class<?>>();
 		Throwable failure = null;
 		Class<?> firstFailingSuite = null;
 		Method firstFailingMethod = null;
-		for (Entry<Object, List<Method>> e : koans.entrySet()) {
-			final Object suite = e.getKey();
-			final List<Method> methods = e.getValue();
-			boolean testsPassed = true;
-			for (final Method koan : methods) {
-				try {
-					koan.invoke(suite, (Object[]) null);
-					successfull++;
-				} catch (Throwable t) {
-					testsPassed = false;
-					while(t.getCause() != null){
-						t = t.getCause();
-					}
-					if (failure == null) {
-						failure = t;
-						firstFailingSuite = suite.getClass();
-						firstFailingMethod = koan;
+		for(Entry<String, Map<Object, List<KoanMethod>>> packages : path){
+			for (Entry<Object, List<KoanMethod>> e : packages.getValue().entrySet()) {
+				final Object suite = e.getKey();
+				final List<KoanMethod> methods = e.getValue();
+				boolean testsPassed = true;
+				for (final KoanMethod koan : methods) {
+					try {
+						koan.getMethod().invoke(suite, (Object[]) null);
+						successfull++;
+					} catch (Throwable t) {
+						testsPassed = false;
+						while(t.getCause() != null){
+							t = t.getCause();
+						}
+						if (failure == null) {
+							failure = t;
+							firstFailingSuite = suite.getClass();
+							firstFailingMethod = koan.getMethod();
+						}
 					}
 				}
-			}
-			if(testsPassed){
-				passingSuites.add(suite.getClass());
-			}else{
-				failingSuites.add(suite.getClass());
+				if(testsPassed){
+					passingSuites.add(suite.getClass());
+				}else{
+					failingSuites.add(suite.getClass());
+				}
 			}
 		}
 		String message = failure instanceof AssertionError ? failure.getMessage() : null;
 		if(message != null && message.contains(EXPECTED_LEFT+__+EXPECTED_RIGHT)){
 			logExpectationOnWrongSideWarning(firstFailingSuite, firstFailingMethod);
 		}
-		return new KoansResult(successfull, totalKoanMethods, firstFailingSuite, firstFailingMethod, 
-				message, getLineNumber(failure), passingSuites, failingSuites);
+		return new KoansResult(successfull, path.getTotalNumberOfKoans(), firstFailingSuite, firstFailingMethod, 
+				message, getLineNumber(failure, firstFailingSuite), passingSuites, failingSuites);
+	}
+
+	/**
+	 * permit forwarding by overriding classes
+	 * @return
+	 */
+	protected Path getPathToEnlightenment() {
+		return PathToEnlightenment.getPathToEnlightment();
 	}
 
 	private void logExpectationOnWrongSideWarning(Class<?> firstFailingSuite,
@@ -127,7 +119,7 @@ class KoanSuiteRunner {
 						EXPECTATION_LEFT_ARG).toString());
 	}
 
-	private String getLineNumber(Throwable t) {
+	private String getLineNumber(Throwable t, Class<?> failingCase) {
 		StringWriter stringWriter = new StringWriter();
 		if(t == null){
 			return null;
@@ -136,10 +128,10 @@ class KoanSuiteRunner {
 		String[] lines = stringWriter.toString().split(EOLS);
 		for(int i = lines.length - 1; i >= 0; --i){
 			String line = lines[i];
-			if(line.contains(SUITE_PKG)){
+			if(line.contains(failingCase.getName())){
 				return line.substring(
-						line.indexOf(LINE_NO_START)+LINE_NO_START.length(),
-						line.lastIndexOf(LINE_NO_END));
+						line.indexOf(KoanConstants.LINE_NO_START)+KoanConstants.LINE_NO_START.length(),
+						line.lastIndexOf(KoanConstants.LINE_NO_END));
 			}
 		}
 		return null;

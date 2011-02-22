@@ -1,15 +1,6 @@
 package com.sandwich.koan.runner;
 
-import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-
-import com.sandwich.koan.Koan;
-import com.sandwich.koan.KoanConstants;
+import com.sandwich.koan.runner.PathToEnlightenment.Path;
 
 public class SuiteRunnerFactory {
 
@@ -31,47 +22,19 @@ public class SuiteRunnerFactory {
 			this.koanName 	= args.length > 1 ? args[1] : null;
 		}
 
-		@Override public Map<Object, List<Method>> getKoans() 
-				throws InstantiationException, IllegalAccessException, ClassNotFoundException{
+		@Override public Path getPathToEnlightenment(){
 			// for single suite
-			stagePathToEnlightenment();
+			PathToEnlightenment.stagePathToEnlightenment(koanSuite);
 			
-			// use parent implementation to nab the koans (preemtively screened
+			// use parent implementation to nab the koans (preemptively screened
 			// for suites matching koanSuite via staging)
-			Map<Object, List<Method>> koans = super.getKoans();
+			Path koans = super.getPathToEnlightenment();
 			
 			// if necessary, remove methods not specified by koanName
 			if(koanName != null){
-				stripAllByTheNamedKoan(koans);
+				PathToEnlightenment.removeAllKoanMethodsExcept(koans, koanName);
 			}
 			return koans;
-		}
-
-		private void stripAllByTheNamedKoan(Map<Object, List<Method>> koans) {
-			if(koans.size() != 1){
-				Logger.getAnonymousLogger().warning("not just one koansuite remains, " +
-						"check koan suite name argument - not likely that filtering by method will work.");
-			}
-			Collection<List<Method>> values = koans.values();
-			for(List<Method> methods : values){
-				Iterator<Method> koansListsIter = methods.iterator();
-				while(koansListsIter.hasNext()){
-					if(!koanName.equalsIgnoreCase(koansListsIter.next().getName())){
-						koansListsIter.remove();
-					}
-				}
-			}
-		}
-
-		private void stagePathToEnlightenment() throws ClassNotFoundException {
-			Class<?> koanClass;
-			if(koanSuite.contains(Koan.class.getPackage().getName())){
-				koanClass = Class.forName(koanSuite);
-			}else{
-				koanClass = Class.forName(
-						new StringBuilder(KoanConstants.SUITE_PKG).append('.').append(koanSuite).toString());
-			}
-			PathToEnlightment.koans = Arrays.asList(new Class<?>[]{ koanClass });
 		}
 	}
 }

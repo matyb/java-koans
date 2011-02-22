@@ -1,4 +1,4 @@
-package com.sandwich.koan.suite;
+package beginner;
 
 import static org.junit.Assert.assertEquals;
 import static com.sandwich.koan.KoanConstants.__;

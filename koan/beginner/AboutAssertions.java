@@ -1,4 +1,4 @@
-package com.sandwich.koan.suite;
+package beginner;
 
 import static com.sandwich.koan.KoanConstants.__;
 import static org.junit.Assert.assertEquals;
@@ -24,7 +24,7 @@ import com.sandwich.koan.Koan;
 public class AboutAssertions {
 
 	@Koan("The __ are an attempt to communicate the need to fill in an answer.\n" +
-			"Judging by context, what should __ be replaced with?")
+	    	"Judging by context, what should __ be replaced with?")
 	public void assertBooleanTrue() {
 		assertTrue(__); // should be true really
 	}

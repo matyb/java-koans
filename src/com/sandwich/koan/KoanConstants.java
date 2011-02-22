@@ -1,6 +1,8 @@
 package com.sandwich.koan;
 
-import com.sandwich.koan.suite.AboutArrays;
+
+import java.math.BigInteger;
+
 
 public abstract class KoanConstants {
 
@@ -10,8 +12,7 @@ public abstract class KoanConstants {
 	
 	public static final String  EOL					= System.getProperty("line.separator");
 	public static final String  EOLS				= "[\n\r"+EOL+"]";
-	/* TODO: get around hardcoding AboutArrays - if it's possible... */
-	public static final String  SUITE_PKG			= AboutArrays.class.getPackage().getName();
+	public static final String  PERIOD 				= ".";
 	public static final String  EXPECTATION_LEFT_ARG= "has expectation as wrong argument!";
 	public static final String  EXPECTED_LEFT 		= "expected:<";
 	public static final String  EXPECTED_RIGHT 		= ">";
@@ -38,4 +39,9 @@ public abstract class KoanConstants {
 	public static final int		PROGRESS_BAR_WIDTH	= 50;
 	public static final String 	PROGRESS_BAR_START	= "[";
 	public static final String 	PROGRESS_BAR_END	= "]";
+
+	public static final BigInteger DIRECT_HIT_SCORE 	= BigInteger.valueOf(Integer.MAX_VALUE);
+	public static final BigInteger LOOSE_EQUALS_SCORE 	= DIRECT_HIT_SCORE.divide(BigInteger.valueOf(2));
+	public static final BigInteger UNFOUND_SCORE 		= BigInteger.ZERO;
+	
 }

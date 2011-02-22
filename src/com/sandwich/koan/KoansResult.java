@@ -1,6 +1,7 @@
 package com.sandwich.koan;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.List;
 
 public class KoansResult {
@@ -14,6 +15,7 @@ public class KoansResult {
 	String message;
 	String lineNumber;
 
+	@SuppressWarnings("unchecked") // may not be mutated - 0 elements in emptyList()
 	public KoansResult(int numberPassing, int totalNumberOfKoanMethods,
 			Class<?> failingCase, Method failingMethod,
 			String message, String lineNumber, List<Class<?>> passingCases, List<Class<?>> remainingCases) {
@@ -23,8 +25,10 @@ public class KoansResult {
 		this.totalNumberOfKoanMethods = totalNumberOfKoanMethods;
 		this.lineNumber = lineNumber;
 		this.message = message;
-		this.passingCases = passingCases;
-		this.remainingCases = remainingCases;
+		this.passingCases = Collections
+				.unmodifiableList(passingCases == null ? Collections.EMPTY_LIST : passingCases);
+		this.remainingCases = Collections
+				.unmodifiableList(remainingCases == null ? Collections.EMPTY_LIST : remainingCases);
 	}
 
 	public int getNumberPassing() {
