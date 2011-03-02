@@ -53,7 +53,7 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 		assertSystemOutDoesntContain(OneFailingKoan.class.getDeclaredMethods()[0].getName());
 	}
 	
-	static class TwoFailingKoans extends OneFailingKoan {
+	public static class TwoFailingKoans extends OneFailingKoan {
 		@Koan
 		public void koanTwo(){assertEquals(true, false);}
 	}
@@ -179,7 +179,7 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 		KoanSuiteRunner.main();
 	}
 	
-	static class WrongExpectationOrderKoan {
+	public static class WrongExpectationOrderKoan {
 		@Koan 
 		public void expectationOnLeft(){
 			assertEquals(__, false);
