@@ -1,7 +1,6 @@
 package com.sandwich.koan;
 
 
-import java.math.BigInteger;
 
 
 public abstract class KoanConstants {
@@ -9,6 +8,7 @@ public abstract class KoanConstants {
 	private KoanConstants(){}
 	
 	public static final String  __					= "REPLACE ME";
+	public static final String  PATH_XML_LOCATION 	= "src/PathToEnlightment.xml";
 	
 	public static final String  EOL					= System.getProperty("line.separator");
 	public static final String  EOLS				= "[\n\r"+EOL+"]";
@@ -20,8 +20,7 @@ public abstract class KoanConstants {
 	public static final String  LINE_NO_END 		= ")";
 	
 	public static final String  DEFAULT_KOAN_DESC	= "TODO: Add a description of what the koan is intended to teach the pupil";
-	public static final String 	HEADER_LINE 		= "***********************";
-	public static final String 	VERSION 			= "v.02";
+	public static final String  LEVEL 				= "Level: ";
 	public static final String 	APP_NAME 			= "Java Koans";
 	public static final String 	ALL_SUCCEEDED		= "Way to go! You've completed all of the koans! Feel like writing any?";
 	public static final String 	WHATS_WRONG 		= "What went wrong:";
@@ -39,9 +38,5 @@ public abstract class KoanConstants {
 	public static final int		PROGRESS_BAR_WIDTH	= 50;
 	public static final String 	PROGRESS_BAR_START	= "[";
 	public static final String 	PROGRESS_BAR_END	= "]";
-
-	public static final BigInteger DIRECT_HIT_SCORE 	= BigInteger.valueOf(Integer.MAX_VALUE);
-	public static final BigInteger LOOSE_EQUALS_SCORE 	= DIRECT_HIT_SCORE.divide(BigInteger.valueOf(2));
-	public static final BigInteger UNFOUND_SCORE 		= BigInteger.ZERO;
 	
 }

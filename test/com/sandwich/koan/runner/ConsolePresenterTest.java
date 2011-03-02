@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.runner.KoanSuiteRunner;
 import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.suite.OneFailingKoanDifferentName;

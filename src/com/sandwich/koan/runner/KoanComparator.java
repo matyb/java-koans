@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.runner.PathToEnlightenment.FileFormatException;
+import com.sandwich.koan.path.PathToEnlightenment.FileFormatException;
 
 public class KoanComparator implements Comparator<KoanMethod> {
 	List<String> orderedKeywords;

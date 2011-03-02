@@ -1,6 +1,7 @@
 package com.sandwich.koan.runner;
 
-import com.sandwich.koan.runner.PathToEnlightenment.Path;
+import com.sandwich.koan.path.PathToEnlightenment;
+import com.sandwich.koan.path.PathToEnlightenment.Path;
 
 public class SuiteRunnerFactory {
 

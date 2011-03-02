@@ -13,6 +13,7 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.sandwich.koan.Koan;
+import com.sandwich.koan.path.CommandLineTestCase;
 
 public class KoanAnnotationTest extends CommandLineTestCase {
 

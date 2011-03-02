@@ -19,12 +19,13 @@ import java.util.logging.Logger;
 
 import com.sandwich.koan.KoanConstants;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.KoansResult;
-import com.sandwich.koan.runner.PathToEnlightenment.Path;
-import com.sandwich.koan.runner.ui.ConsolePresenter;
-import com.sandwich.koan.runner.ui.SuitePresenter;
+import com.sandwich.koan.KoanResult;
+import com.sandwich.koan.path.PathToEnlightenment;
+import com.sandwich.koan.path.PathToEnlightenment.Path;
+import com.sandwich.koan.ui.ConsolePresenter;
+import com.sandwich.koan.ui.SuitePresenter;
 
-class KoanSuiteRunner {
+public class KoanSuiteRunner {
 
 	SuitePresenter presenter = null;
 	
@@ -35,7 +36,7 @@ class KoanSuiteRunner {
 	void run() throws ClassNotFoundException, IOException,
 			InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
-		KoansResult result = runKoans();
+		KoanResult result = runKoans();
 		getPresenter().displayResult(result);
 	}
 	
@@ -54,7 +55,7 @@ class KoanSuiteRunner {
 		return size;
 	}
 
-	KoansResult runKoans()
+	KoanResult runKoans()
 			throws IllegalArgumentException, IllegalAccessException,
 			InvocationTargetException {
 		Path path = getPathToEnlightenment();
@@ -64,6 +65,7 @@ class KoanSuiteRunner {
 		Throwable failure = null;
 		Class<?> firstFailingSuite = null;
 		Method firstFailingMethod = null;
+		String level = null;
 		for(Entry<String, Map<Object, List<KoanMethod>>> packages : path){
 			for (Entry<Object, List<KoanMethod>> e : packages.getValue().entrySet()) {
 				final Object suite = e.getKey();
@@ -82,6 +84,7 @@ class KoanSuiteRunner {
 							failure = t;
 							firstFailingSuite = suite.getClass();
 							firstFailingMethod = koan.getMethod();
+							level = packages.getKey();
 						}
 					}
 				}
@@ -96,15 +99,16 @@ class KoanSuiteRunner {
 		if(message != null && message.contains(EXPECTED_LEFT+__+EXPECTED_RIGHT)){
 			logExpectationOnWrongSideWarning(firstFailingSuite, firstFailingMethod);
 		}
-		return new KoansResult(successfull, path.getTotalNumberOfKoans(), firstFailingSuite, firstFailingMethod, 
-				message, getLineNumber(failure, firstFailingSuite), passingSuites, failingSuites);
+		return new KoanResult(level, successfull, path.getTotalNumberOfKoans(),
+				firstFailingSuite, firstFailingMethod, message, getLineNumber(
+						failure, firstFailingSuite), passingSuites, failingSuites);
 	}
 
 	/**
 	 * permit forwarding by overriding classes
 	 * @return
 	 */
-	protected Path getPathToEnlightenment() {
+	public Path getPathToEnlightenment() {
 		return PathToEnlightenment.getPathToEnlightment();
 	}
 

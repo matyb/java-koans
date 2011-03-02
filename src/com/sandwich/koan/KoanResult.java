@@ -4,8 +4,9 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 
-public class KoansResult {
+public class KoanResult {
 
+	String level;
 	int numberPassing = -1;
 	int totalNumberOfKoanMethods = -1;
 	Class<?> failingCase;
@@ -16,9 +17,10 @@ public class KoansResult {
 	String lineNumber;
 
 	@SuppressWarnings("unchecked") // may not be mutated - 0 elements in emptyList()
-	public KoansResult(int numberPassing, int totalNumberOfKoanMethods,
-			Class<?> failingCase, Method failingMethod,
-			String message, String lineNumber, List<Class<?>> passingCases, List<Class<?>> remainingCases) {
+	public KoanResult(String level, int numberPassing, int totalNumberOfKoanMethods,
+			Class<?> failingCase, Method failingMethod, String message, String lineNumber, 
+			List<Class<?>> passingCases, List<Class<?>> remainingCases) {
+		this.level = level;
 		this.numberPassing = numberPassing;
 		this.failingCase = failingCase;
 		this.failingMethod = failingMethod;
@@ -67,14 +69,19 @@ public class KoansResult {
 		return failingCase == null && failingMethod == null;
 	}
 
+	public String getLevel() {
+		return level;
+	}
+
 	@Override
 	public String toString() {
-		return "KoansResult [numberPassing=" + numberPassing
-				+ ", totalNumberOfKoanMethods=" + totalNumberOfKoanMethods
-				+ ", failingCase=" + failingCase + ", passingCases="
-				+ passingCases + ", remainingCases=" + remainingCases
-				+ ", failingMethod=" + failingMethod + ", message=" + message
-				+ ", lineNumber=" + lineNumber + "]";
-	}	
+		return "KoanResult [level=" + level + ", numberPassing="
+				+ numberPassing + ", totalNumberOfKoanMethods="
+				+ totalNumberOfKoanMethods + ", failingCase=" + failingCase
+				+ ", passingCases=" + passingCases + ", remainingCases="
+				+ remainingCases + ", failingMethod=" + failingMethod
+				+ ", message=" + message + ", lineNumber=" + lineNumber + "]";
+	}
+	
 	
 }

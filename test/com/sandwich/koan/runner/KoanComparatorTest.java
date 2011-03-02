@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.runner.PathToEnlightenment.FileFormatException;
+import com.sandwich.koan.path.PathToEnlightenment.FileFormatException;
 
 
 public class KoanComparatorTest {

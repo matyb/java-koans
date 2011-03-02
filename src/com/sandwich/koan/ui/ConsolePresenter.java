@@ -1,4 +1,4 @@
-package com.sandwich.koan.runner.ui;
+package com.sandwich.koan.ui;
 
 import static com.sandwich.koan.KoanConstants.ALL_SUCCEEDED;
 import static com.sandwich.koan.KoanConstants.CONQUERED;
@@ -20,13 +20,15 @@ import java.util.List;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanConstants;
-import com.sandwich.koan.KoansResult;
+import com.sandwich.koan.KoanResult;
 
 public class ConsolePresenter extends AbstractSuitePresenter {
 
-	protected void displayHeader(){}
+	protected void displayHeader(KoanResult result){
+		System.out.println(KoanConstants.LEVEL+result.getLevel());
+	}
 	
-	protected void displayPassingFailing(KoansResult result) {
+	protected void displayPassingFailing(KoanResult result) {
 		StringBuilder sb = new StringBuilder();
 		appendLabeledClassesList(PASSING_SUITES, result.getPassingSuites(), sb);
 		appendLabeledClassesList(FAILING_SUITES, result.getRemainingSuites(), sb);
@@ -47,7 +49,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		sb.append(EOL);
 	}
 	
-	protected void displayChart(KoansResult result) {
+	protected void displayChart(KoanResult result) {
 		StringBuilder sb = new StringBuilder(PROGRESS+EOL);
 		sb.append(PROGRESS_BAR_START);
 		int numberPassing = result.getNumberPassing();
@@ -69,12 +71,12 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	}
 	
 	@Override
-	protected void displayAllSuccess(KoansResult result) {
+	protected void displayAllSuccess(KoanResult result) {
 		System.out.println(new StringBuilder(EOL).append(ALL_SUCCEEDED).toString());
 	}
 	
 	@Override
-	protected void displayOneOrMoreFailure(KoansResult result) {
+	protected void displayOneOrMoreFailure(KoanResult result) {
 		String message = result.getMessage();
 		System.out.println(message == null || message.length() == 0 ? ""
 				: new StringBuilder(EOL).append(
@@ -98,7 +100,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 											"! ").append(ENCOURAGEMENT).toString());
 	}
 	
-	protected void printSuggestion(KoansResult result) {
+	protected void printSuggestion(KoanResult result) {
 		Method failedKoan = result.getFailingMethod();
 		Koan annotation = failedKoan.getAnnotation(Koan.class);
 		if(annotation != null){

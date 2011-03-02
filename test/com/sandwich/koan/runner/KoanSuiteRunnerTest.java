@@ -19,13 +19,15 @@ import org.junit.Test;
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanConstants;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.KoansResult;
-import com.sandwich.koan.runner.ui.SuitePresenter;
+import com.sandwich.koan.KoanResult;
+import com.sandwich.koan.path.CommandLineTestCase;
+import com.sandwich.koan.path.PathToEnlightenment;
 import com.sandwich.koan.suite.BlowUpOnLineEleven;
 import com.sandwich.koan.suite.BlowUpOnLineTen;
 import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.suite.OneFailingKoanDifferentName;
 import com.sandwich.koan.suite.OnePassingKoan;
+import com.sandwich.koan.ui.SuitePresenter;
 
 
 public class KoanSuiteRunnerTest extends CommandLineTestCase {
@@ -61,13 +63,13 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 		// TODO: written before EasyMock was imported, clean up
 		final List<Integer> orderInvoked = new ArrayList<Integer>();
 		new KoanSuiteRunner(){
-			@Override KoansResult runKoans(){
+			@Override KoanResult runKoans(){
 				orderInvoked.add(1);
 				return null;
 			}
 			@Override SuitePresenter getPresenter(){
 				return new SuitePresenter() {
-					@Override public void displayResult(KoansResult result) {
+					@Override public void displayResult(KoanResult result) {
 						orderInvoked.add(2);
 					}
 				};
@@ -89,9 +91,9 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 	
 	@Test	/** Ensures that koans are ready for packaging & distribution */
 	public void testKoanSuiteRunner_firstKoanFail() throws Exception {
-		final KoansResult[] result = new KoansResult[]{null};
+		final KoanResult[] result = new KoanResult[]{null};
 		new KoanSuiteRunner(){
-			@Override public KoansResult runKoans(){
+			@Override public KoanResult runKoans(){
 				try {
 					result[0] = super.runKoans();
 				} catch (Exception e) {
@@ -106,11 +108,11 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 	
 	@Test	/** Ensures that koans are ready for packaging & distribution */
 	public void testKoanSuiteRunner_allKoansFail() throws Exception {
-		final KoansResult[] result = new KoansResult[]{null};
+		final KoanResult[] result = new KoanResult[]{null};
 		new KoanSuiteRunner(){
 			@Override SuitePresenter getPresenter(){
 				return new SuitePresenter() {
-					@Override public void displayResult(KoansResult r) {
+					@Override public void displayResult(KoanResult r) {
 						result[0] = r;
 					}
 				};
