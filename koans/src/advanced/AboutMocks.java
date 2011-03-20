@@ -4,15 +4,6 @@ import com.sandwich.koan.Koan;
 
 public class AboutMocks {
 	
-	@Koan()
-	public void simpleAnonymousMock(){
-		// HINT: pass different Collaborator implementation to constructor
-		// new ClassUnderTest(new Collaborator(){...
-		new ClassUnderTest().doSomething();
-	}
-	
-	//TODO: perhaps show off some mocking frameworks?
-	
 	/*
 	 * Following two classes are used to demonstrate mocking
 	 */
@@ -39,5 +30,16 @@ public class AboutMocks {
 	static interface Collaborator {
 		public void doBusinessStuff();
 	}
+	
+	@Koan()
+	public void simpleAnonymousMock(){
+		// HINT: pass different Collaborator implementation to constructor
+		// new ClassUnderTest(new Colloborator(){...
+		new ClassUnderTest().doSomething();
+		// TODO: ponder why this assertion was failing
+		// originally... look in default constructor
+	}
+	
+	//TODO: perhaps show off some mocking frameworks?
 	
 }

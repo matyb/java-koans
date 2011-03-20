@@ -21,27 +21,27 @@ import com.sandwich.koan.Koan;
  */
 public class AboutAssertions {
 
-	@Koan
+	@Koan() 
 	public void assertBooleanTrue() {
 		assertTrue(__); // should be true really
 	}
 
-	@Koan
+	@Koan()
 	public void assertBooleanFalse() {
 		assertFalse(__); 
 	}
 	
-	@Koan
+	@Koan()
 	public void assertNullObject(){
 		assertNull(__);
 	}
 	
-	@Koan
+	@Koan()
 	public void assertNotNullObject(){
 		assertNotNull(null); // anything other than null should pass here...
 	}
 	
-	@Koan
+	@Koan()
 	public void assertEqualsWithDescriptiveMessage() {
 		// Generally, when using an assertXXX methods, expectation is on the 
 		// left and it is best practice to use a String for the first arg 
@@ -51,13 +51,13 @@ public class AboutAssertions {
 				1, __); 	
 	}
 	
-	@Koan
+	@Koan()
 	public void assertSameInstance(){
 		Integer same = new Integer(1);
 		assertSame(same, __);
 	}
 	
-	@Koan
+	@Koan()
 	public void assertNotSameInstance(){
 		Integer same 			= new Integer(1);
 		Integer sameReference   = same;

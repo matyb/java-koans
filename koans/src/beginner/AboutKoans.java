@@ -10,11 +10,11 @@ public class AboutKoans {
 	}
 	
 	@Koan
-	public void definitionOfCompleteKoan(){
-		boolean koanIsIncomplete = true;
-		if(koanIsIncomplete){
-			throw new RuntimeException("if koanIsIncomplete was false - this koan would be complete");
+	public void definitionOfKoanCompletion(){
+		boolean koanIsComplete = false;
+		if(!koanIsComplete){
+			throw new RuntimeException("what if koanIsComplete was true?");
 		}
 	}
-
+	
 }
