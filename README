@@ -7,43 +7,14 @@ Why not?
 We've all seen plenty of bad Java code, and written it ourselves. Hopefully these koans can
 help people eager to learn Java; to write clean, maintainable code.
 
-Current packaging is intended to be imported into an eclipse workspace, though the code
-artifacts can stand on their own, or work in other IDEs. 
+Running Instructions:
+1. Download and unarchive the contents of the most recent java-koans in development from:
+   https://github.com/matyb/java-koans/archives/master
+2. Open a terminal and cd to the directory you unarchived that file to's koans/src directory
+3. run run.bat or run.sh (whichever is applicable for your OS)
+4. follow the instructions on screen, and rerun the run file in the last step
 
-A no frills text based interface, with the intention of retaining a low barrier
-of entry, and few dependencies. Depends on JUnit and EasyMock(EasyMock is only necessary 
-for tests).
-
-/* 
- *	RUNNING - INSTRUCTIONS
- */
-1. 	Download and setup Java (5+ required) SDK/JDK - JRE is not enough!
-2. 	Compile classes in src/* (optionally, compile tests as well)
-3. 	Start KoanSuiteRunner w/ no arguments to run all koans, in order from least difficult
-	to most difficult.
-	3a.	KoanSuiteRunner may be invoked with a fully qualified koansuite class (
-		located in koan folder) name to run just one Suite.
-	3b.	For running just a specific @Koan, run with two arguments, fully qualified
-		koan suite name, the name of the koan method, separated by a space.
-4.	Observe the console output from running the koans, fix, and rerun. Rinse and repeat.
-
-/*
- *	DEVELOPING - KOANS
- */
-1.	Setup project in your IDE.
-2.	Follow example from another KoanSuite class (located in koan folder)
-3.	Place new koan suite (if applicable) in PathToEnlightment.xml - order
-	IS important - koans will not run if you miss a method, or suite!
-4.	Remember to place the __ on the right side so expectation string in console output
-	makes sense to users.
-5.	In the @Koan annotation, adjust the description accordingly.
-6.	Run all tests to ensure that
-	6a.	All Koans are failing (pupil learns by fixing)
-	6b.	Expectations are passed properly (look in console output from test run)
-	6c. Test that all suites and koans are in xml file. Virtually all tests will fail if you
-		miss even one.
-7.	Once the tests that check the integrity of the koans pass; commit the koans to a 
-	branch/fork of the java-koans project on github.
-
-This project has test that depend on: JUnit and EasyMock which are licensed separately and subject
-to the terms and conditions applicable for each library.
+Developing a Koan:
+1. Follow any of the existing koans as an example to create a new class w/ koan methods (indicated by the @Koan annotation)
+2. Define the order and metadata associated with each koan in the PathToEnlightment.xml
+3. If necessary - use dynamic content in your lesson, examples are located in XmlVariableInjector class (and Test)
