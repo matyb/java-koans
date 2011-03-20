@@ -1,0 +1,47 @@
+The purpose of this project is to emulate the awesomeness of the Ruby Koans, and apply it 
+to the Java language.
+
+Why Java? 
+Why not? 
+
+We've all seen plenty of bad Java code, and written it ourselves. Hopefully these koans can
+help people eager to learn Java; to write clean, maintainable code.
+
+Current packaging is intended to be imported into an eclipse workspace, though the code
+artifacts can stand on their own, or work in other IDEs. 
+
+A no frills text based interface, with the intention of retaining a low barrier
+of entry, and few dependencies. Depends on JUnit and EasyMock(EasyMock is only necessary 
+for tests).
+
+/* 
+ *	RUNNING - INSTRUCTIONS
+ */
+1. 	Download and setup Java (5+ required) SDK/JDK - JRE is not enough!
+2. 	Compile classes in src/* (optionally, compile tests as well)
+3. 	Start KoanSuiteRunner w/ no arguments to run all koans, in order from least difficult
+	to most difficult.
+	3a.	KoanSuiteRunner may be invoked with a fully qualified koansuite class (
+		located in koan folder) name to run just one Suite.
+	3b.	For running just a specific @Koan, run with two arguments, fully qualified
+		koan suite name, the name of the koan method, separated by a space.
+4.	Observe the console output from running the koans, fix, and rerun. Rinse and repeat.
+
+/*
+ *	DEVELOPING - KOANS
+ */
+1.	Setup project in your IDE.
+2.	Follow example from another KoanSuite class (located in com.sandwich.koan.suite.*)
+3.	Place new koan suite (if applicable) in PathToEnlightment.xml - order
+	IS important - koans will not run if you miss a method, or suite!
+4.	Remember to place the __ on the right side so expectation string in console output
+	makes sense to users.
+5.	In the @Koan annotation, adjust the description accordingly.
+6.	Run all tests to ensure that
+	6a.	All Koans are failing (pupil learns by fixing)
+	6b.	Expectations are passed properly (look in console output from test run)
+7.	Once the tests that check the integrity of the koans pass; commit the koans to a 
+	branch/fork of the java-koans project on github.
+
+This project has test that depend on: JUnit and EasyMock which are licensed separately and subject
+to the terms and conditions applicable for each library.

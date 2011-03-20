@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<Packages>
+	<Package pkg="beginner" name="Beginner">
+	<!--   
+	TODO: AboutKoans... 
+	-->
+	  <Suite class="AboutKoans">
+	  	<Koan name="findAboutKoansFile" 
+	  		lesson="You need to change directory into the path of ${file_path} and open the file ${file_name}.java. There should be a method starting with @Koan called ${method_name}, look within it for your first lesson."/>
+	  	<Koan name="definitionOfCompleteKoan"
+	  		lesson="A koan is considered complete when it no longer throws an exception. Often there is more than one way to solve a koan, but only one correct way. This is typically hinted at within the koan itself, or the comments appearing here."/>
+	  </Suite>
+	  <Suite class="AboutAssertions">
+	  	<Koan name="assertBooleanTrue" 
+	  		lesson="The __ are an attempt to communicate the need to fill in an answer. Judging by context, what should __ be replaced with?"/>
+	  	<Koan name="assertBooleanFalse" 
+	  		lesson="Like the prior koan. Ponder if you will, the power of simple assertions when verifying an object's behavior."/>
+		<!-- TODO introduce instantiation, constructors -->
+		<Koan name="assertNullObject" 
+	  		lesson="A keyword in java to represent an unitialized reference is 'null'. There are times when something should be null, and this assertion can prove that."/>
+		<Koan name="assertNotNullObject" 
+	  		lesson="Sometimes you merely wish to assert an object is not null. This assertion should be used sparingly, often a more specific assertion is appropriate."/>
+		<!-- TODO explain arguments (mention they've been used in prior koans, or maybe wedge that lesson earlier?) -->
+		<Koan name="assertEqualsWithDescriptiveMessage"
+	  		lesson="Like the prior assertions, only this one invokes equals method on the 2nd to last argument, in this case, 1. This will blow up if the last two arguments are not .equal(...)"/>
+		<!-- TODO finish explaining -->
+		<Koan name="assertSameInstance"
+	  		lesson="An object may equal another object, but it will never be the same as another object. Two references to the same object is not the same as two references to two equal objects."/>
+		<Koan name="assertNotSameInstance"
+	  		lesson="Notice the same instance has been reassigned. Both same and sameReference refer to the same Integer instance. If sameReference were a new Object() of any type [hint!] this would pass."/>
+		<!-- TODO assertThatUsingMatcher" -->
+	  </Suite>  	 
+	<!--   
+	TODO: AboutDataTypes... 
+	-->
+	  <Suite class="AboutObjects">
+		<Koan name="objectEqualsNull" 
+			lesson="An Object instance should NEVER equal null keyword. This applies to all subclasses (everything exception primitives subclass Object)."/>
+		<Koan name="objectEqualsSelf" 
+			lesson="An Object instance should equal itself. This too applies to all subclasses of Object."/>
+		<Koan name="objectIdentityEqualityIsTrueWhenReferringToSameObject" 
+			lesson="An object should equal itself, even if referenced from another variable name."/>
+		<Koan name="subclassesEqualsMethodIsLooserThanDoubleEquals" 
+			lesson="Integer, and many other classes implement equals logically, in other words, they compare properties of each other and not just identity."/>
+		<Koan name="doubleEqualsOperatorEvalutesToTrueOnlyWithSameInstance" 
+			lesson="Double equals operator (==) does not invoke equal, it will evaluate to true if both references refer to the same object or primitive."/>
+		<Koan name="doubleEqualsOperatorEvalutesToFalseWithDifferentInstances" 
+			lesson="The inverse of the prior koan, though two objects may be logically equal, they are not referencing the same object."/>
+		<Koan name="objectToString" 
+			lesson="How to identify an object at in string form. Should be overridden in any objects with internal state. Default to string is classname of the instance followed by its hashCode in base 16 (hexadecimal)."/>
+		<Koan name="toStringConcatenates" 
+			lesson="Java 's string concatenation syntax utilizes addition operator to splice a string with virtually anything."/>
+		<Koan name="toStringIsTestedForNullWhenInvokedImplicitly" 
+			lesson="String concatenation implicitly invokes toString on Objects, unless they are null. Notice no NullPointerException is thrown."/>
+	  </Suite>
+	  <Suite class="AboutArrays">
+	  	<Koan name="arraysDoNotConsiderElementsWhenEvaluatingEquality"
+			lesson="Arrays utilize reference equality, they do not consider elements when determining equality."/>
+		<Koan name="cloneEqualityIs_NotRespected"
+			lesson="The general contract of clone is that: Object a == new Object(); a != a.clone(); a.equals(a.clone()). Array instances DO NOT honor this contract, despite implementing Cloneable."/>
+		<Koan name="anArraysHashCodeMethodDoesNotConsiderElements"
+			lesson="Likewise with hashcode, an array instance's hashCode is that of the array, it does not incorporate elements."/>
+		<Koan name="arraysHelperClassEqualsMethodConsidersElementsWhenDeterminingEquality"
+			lesson="The Arrays.equals(...) method DOES evaluate elements when determining equality. This is called 'Logical Equality'."/>
+		<Koan name="arraysHelperClassHashCodeMethodConsidersElementsWhenDeterminingHashCode"
+			lesson="Likewise with hashCode, the Arrays.hashCode(...) method DOES consider elements when determining hashCode."/>
+		<Koan name="arraysAreMutable"
+			lesson="Arrays are always mutable, even when declared final. The final declaration prevents reassignment, but does nothing for elements."/>
+		<Koan name="arraysAreIndexedAtZero"
+			lesson="Arrays contain elements which are indexed by a number starting with zero."/>
+		<Koan name="arrayIndexOutOfBounds"
+			lesson="Array instances blow up when referencing an index that doesn't exist."/>
+		<Koan name="arrayLengthCanBeChecked"
+			lesson="It is often necessary to check the length of an array to ensure an index is valid. This is easy with the array's length property."/>
+	  </Suite>
+	</Package>
+	<Package pkg="intermediate" name="Intermediate">
+	  <Suite class="AboutAutoboxing">
+		<Koan name="addPrimativesToCollection"
+			lesson="Before Java 5, we had to convert primatives to add to collections"/>
+		<Koan name="addPrimativesToCollectionWithAutoBoxing"
+			lesson="With AutoBoxing, we can _cheat_"/>
+		<Koan name="migrateYourExistingCodeToAutoBoxingWithoutFear"
+			lesson="With AutoBoxing, we can intermix as well"/>
+		<Koan name="allPrimativesCanBeAutoboxed"
+			lesson="All primatives can be autoboxed"/>
+	  </Suite>
+	</Package>
+	<Package pkg="advanced" name="Advanced">
+	  <Suite class="AboutMocks">
+		<Koan name="simpleAnonymousMock" 
+			lesson="How can this pass without touching the ClassUnderTest?"/>
+	  </Suite>
+	</Package>
+</Packages>
