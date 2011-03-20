@@ -10,11 +10,11 @@ help people eager to learn Java; to write clean, maintainable code.
 Running Instructions:
 1. Download and unarchive the contents of the most recent java-koans in development from:
    https://github.com/matyb/java-koans/archives/master
-2. Open a terminal and cd to the directory you unarchived that file to's koans/src directory
+2. Open a terminal and cd to the 'koans/src' directory from within the archive
 3. run run.bat or run.sh (whichever is applicable for your OS)
 4. follow the instructions on screen, and rerun the run file in the last step
 
 Developing a Koan:
 1. Follow any of the existing koans as an example to create a new class w/ koan methods (indicated by the @Koan annotation)
 2. Define the order and metadata associated with each koan in the PathToEnlightment.xml
-3. If necessary - use dynamic content in your lesson, examples are located in XmlVariableInjector class (and Test)
+3. If necessary - use dynamic content in your lesson, examples are located in XmlVariableInjector class (and Test) and the AboutKoans.java file
