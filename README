@@ -1,8 +1,6 @@
-The purpose of this project is to emulate the awesomeness of the Ruby Koans, and apply it 
-to the Java language.
+The purpose of this project is to emulate the awesomeness of the Ruby Koans, and apply it to the Java language.
 
-Why Java? 
-Why not? 
+Why Java? Why not? 
 
 We've all seen plenty of bad Java code, and written it ourselves. Hopefully these koans can
 help people eager to learn Java; to write clean, maintainable code.
