@@ -93,7 +93,6 @@ public abstract class PathToEnlightenment {
 		}
 		Map<String, Map<Object, List<KoanMethod>>> koans = new HashMap<String, Map<Object,List<KoanMethod>>>();
 		Map<Object, List<KoanMethod>> suiteAndMethods = new HashMap<Object, List<KoanMethod>>();
-		@SuppressWarnings("unchecked")
 		List<KoanMethod> methods = XmlToPathTransformer.getKoanMethods(koanSuite.getClass(), 
 				createBogusLessonMap(koanSuite.getClass()));
 		suiteAndMethods.put(koanSuite, methods);

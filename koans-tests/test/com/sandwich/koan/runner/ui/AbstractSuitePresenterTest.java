@@ -3,7 +3,6 @@ package com.sandwich.koan.runner.ui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import org.easymock.EasyMock;
 import org.junit.Test;
 
 import com.sandwich.koan.KoanResult;

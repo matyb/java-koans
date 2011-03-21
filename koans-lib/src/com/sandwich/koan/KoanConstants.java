@@ -9,8 +9,8 @@ public abstract class KoanConstants {
 	
 	public static final String  __					= "REPLACE ME";
 	public static final String  PATH_XML_NAME 		= "PathToEnlightment.xml";
-//	public static final String  PATH_XML			= "src/";  // TODO: Adapt so osx and windows dont need to
-	public static final String  PATH_XML			= "";
+	public static final String  PATH_XML			= "src/";  // TODO: Adapt so osx and windows dont need to
+//	public static final String  PATH_XML			= "";
 	public static final String  PATH_XML_LOCATION 	= PATH_XML+PATH_XML_NAME; 
 	
 	public static final String  EOL					= System.getProperty("line.separator");

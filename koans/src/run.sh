@@ -1,5 +1,7 @@
 #compile class files
 clear
+rm -r ../bin
+mkdir ../bin
 javac -d ../bin -classpath ../lib/koans.jar beginner/*.java
 javac -d ../bin -classpath ../lib/koans.jar intermediate/*.java
 javac -d ../bin -classpath ../lib/koans.jar advanced/*.java

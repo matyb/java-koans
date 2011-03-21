@@ -2,7 +2,7 @@
 cls
 
 REM compile class files
-
+mkdir ..\bin
 javac -d ..\bin -classpath ..\lib\koans.jar beginner\*.java
 if ERRORLEVEL 3 goto no_javac
 javac -d ..\bin -classpath ..\lib\koans.jar intermediate\*.java
