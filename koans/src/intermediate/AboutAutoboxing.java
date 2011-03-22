@@ -1,7 +1,7 @@
 package intermediate;
 
-import static com.sandwich.koan.Assert.assertEquals;
 import static com.sandwich.koan.KoanConstants.__;
+import static com.sandwich.util.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;

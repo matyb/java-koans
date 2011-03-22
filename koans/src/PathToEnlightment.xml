@@ -5,10 +5,12 @@
 	TODO: AboutKoans... 
 	-->
 	  <Suite class="AboutKoans">
-	  	<Koan name="findAboutKoansFile" 
-	  		lesson="You need to change directory into the path of ${file_path} and open the file ${file_name}.java. There should be a method starting with @Koan called ${method_name}, look within it for your first lesson."/>
+	  	<Koan name="findAboutKoansFile"
+	  		lesson="You need to change directory into the path of ${file_path} and open the file ${file_name}.java. There should be a method starting with @Koan called ${method_name}, look within it for your first lesson."
+	  		displayIncompleteKoanException="false" />
 	  	<Koan name="definitionOfKoanCompletion"
-	  		lesson="A koan is considered complete when it no longer throws an exception. Often there is more than one way to solve a koan, but only one correct way. This is often hinted at within the koan itself, or the comments appearing here."/>
+	  		lesson="A koan is considered complete when it no longer throws an exception. Often there is more than one way to solve a koan, but only one correct way. This is often hinted at within the koan itself, or the comments appearing here."
+	  		displayIncompleteKoanException="false" />
 	  </Suite>
 	  <Suite class="AboutAssertions">
 	  	<Koan name="assertBooleanTrue" 

@@ -1,6 +1,7 @@
 package com.sandwich.koan.path;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -40,7 +41,7 @@ public class XmlVariableInjectorTest {
 		assertTrue(result.contains(projectName));
 		// just inspect anything beyond the root of the project
 		result = result.substring(result.indexOf(projectName)+projectName.length(), result.length());
-		assertTrue(result.indexOf(projectName) < result.indexOf("src"));
+		assertFalse(result.contains(projectName)); // trimmed projectName out, also evidence it preceded src, like it does in the path string
 		assertTrue(result.indexOf("src") < result.indexOf("com"));
 		assertTrue(result.indexOf("com") < result.indexOf("sandwich"));
 		assertTrue(result.indexOf("sandwich") < result.indexOf("koan"));

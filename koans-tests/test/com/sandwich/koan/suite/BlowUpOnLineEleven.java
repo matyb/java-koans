@@ -1,14 +1,14 @@
 package com.sandwich.koan.suite;
 
-import junit.framework.AssertionFailedError;
-
 import com.sandwich.koan.Koan;
+import com.sandwich.koan.KoanIncompleteException;
 
 public class BlowUpOnLineEleven {
-
-	@Koan(/*"i blow up on line eleven"*/)
+	// gotta put it on line 11 thus the two spaces here
+	// 
+	@Koan
 	public void blowUpOnLineEleven() {
-		throw new AssertionFailedError(null);
+		throw new KoanIncompleteException(null);
 	}
 	
 }

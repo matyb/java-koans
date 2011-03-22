@@ -1,4 +1,6 @@
-package com.sandwich.koan;
+package com.sandwich.util;
+
+import com.sandwich.koan.KoanIncompleteException;
 
 public class Assert {
 
@@ -48,7 +50,7 @@ public class Assert {
 	
 	public static void assertSame(Object o0, Object o1){
 		if(o0 != o1){
-			fail(o0, o1);
+			fail("Are the same instance... ",o0,o1);
 		}
 	}
 	
@@ -58,11 +60,15 @@ public class Assert {
 		}
 	}
 	
-	private static void fail(Object o0, Object o1) throws AssertionError {
+	public static void fail(Object o0, Object o1) throws KoanIncompleteException {
 		fail("", o0, o1);
 	}
 	
-	private static void fail(String msg, Object o0, Object o1){
-		throw new AssertionError(msg+(msg.length() == 0 ? "" : " ")+EXPECTED+o0+BUT_WAS+o1+END);
+	public static void fail(String msg, Object o0, Object o1){
+		fail(msg+(msg.length() == 0 ? "" : " ")+EXPECTED+o0+BUT_WAS+o1+END);
+	}
+	
+	public static void fail(String msg){
+		throw new KoanIncompleteException(msg);
 	}
 }

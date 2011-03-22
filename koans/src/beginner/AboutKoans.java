@@ -1,19 +1,21 @@
 package beginner;
 
+import static com.sandwich.util.Assert.fail;
+
 import com.sandwich.koan.Koan;
 
 public class AboutKoans {
 
 	@Koan
 	public void findAboutKoansFile(){
-		throw new RuntimeException("delete this line");
+		fail("delete this line");
 	}
 	
 	@Koan
 	public void definitionOfKoanCompletion(){
 		boolean koanIsComplete = false;
 		if(!koanIsComplete){
-			throw new RuntimeException("what if koanIsComplete was true?");
+			fail("what if koanIsComplete was true?");
 		}
 	}
 	

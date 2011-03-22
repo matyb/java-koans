@@ -173,7 +173,7 @@ public class KoanSuiteRunnerTest extends CommandLineTestCase {
 	public static class WrongExpectationOrderKoan {
 		@Koan 
 		public void expectationOnLeft(){
-			assertEquals(__, false);
+			com.sandwich.util.Assert.assertEquals(__, false);
 		}
 	}
 }

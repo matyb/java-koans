@@ -12,10 +12,10 @@ import java.util.Map.Entry;
 import org.junit.After;
 import org.junit.Before;
 
+import com.sandwich.koan.KoanIncompleteException;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.TestUtils;
 import com.sandwich.koan.TestUtils.ArgRunner;
-import com.sandwich.koan.path.PathToEnlightenment;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
 
 public abstract class CommandLineTestCase {
@@ -72,7 +72,7 @@ public abstract class CommandLineTestCase {
 	public void assertSystemOutEquals(String expectation){
 		expectation = expectation == null ? "" : expectation;
 		if(!expectation.equals(bytes.toString())){
-			throw new AssertionFailedException(expectation, bytes.toString());
+			throw new KoanIncompleteException("expected: <"+expectation+"> but found: <"+bytes.toString()+">");
 		}
 	}
 	
@@ -88,7 +88,7 @@ public abstract class CommandLineTestCase {
 		String consoleOutput = bytes.toString();
 		boolean containsTheSubstring = consoleOutput.contains(expectation);
 		if(assertContains && !containsTheSubstring || !assertContains && containsTheSubstring){
-			throw new AssertionFailedException(new StringBuilder(
+			throw new KoanIncompleteException(new StringBuilder(
 					"<").append(
 					expectation).append(
 					"> ").append(
@@ -121,17 +121,7 @@ public abstract class CommandLineTestCase {
 			}
 		});
 		if(!found[0]){
-			throw new AssertionFailedException(lineText+" was expected, but not found in: "+bytes.toString());
-		}
-	}
-
-	static class AssertionFailedException extends AssertionError {
-		private static final long serialVersionUID = -752171658596389715L;
-		AssertionFailedException(Object o0, Object o1){
-			super("expected: <"+o0+"> but found: <"+o1+">");
-		}
-		AssertionFailedException(Object o0){
-			super(o0);
+			throw new KoanIncompleteException(lineText+" was expected, but not found in: "+bytes.toString());
 		}
 	}
 	

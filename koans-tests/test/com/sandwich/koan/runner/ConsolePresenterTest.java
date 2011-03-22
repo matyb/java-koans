@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import com.sandwich.koan.KoanConstants;
 import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.suite.OneFailingKoanDifferentName;
@@ -42,20 +43,22 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 		assertSystemOutContains("Line 11 may offer a clue as to how you may progress, now make haste!");
 	}
 	
-	@Test
+	@Test // uncomment enableEncouragement @ the top of ConsolePresenter class
 	public void encouragement() throws Throwable {
-		stubAllKoans(Arrays.asList(new Class<?>[] { 
-				OneFailingKoan.class }));
-		KoanSuiteRunner.main();
-		assertSystemOutContains(new StringBuilder(
-				CONQUERED).append(
-				" 0 ").append(
-				OUT_OF).append(
-				" 1 ").append(
-				KOAN).append(
-				"! ").append(
-				ENCOURAGEMENT).toString());
-		assertSystemOutDoesntContain(ALL_SUCCEEDED);
+		if(KoanConstants.ENABLE_ENCOURAGEMENT){
+			stubAllKoans(Arrays.asList(new Class<?>[] { 
+					OneFailingKoan.class }));
+			KoanSuiteRunner.main();
+			assertSystemOutContains(new StringBuilder(
+					CONQUERED).append(
+					" 0 ").append(
+					OUT_OF).append(
+					" 1 ").append(
+					KOAN).append(
+					"! ").append(
+					ENCOURAGEMENT).toString());
+			assertSystemOutDoesntContain(ALL_SUCCEEDED);
+		}
 	}
 	
 	@Test
@@ -136,10 +139,10 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 		StringBuilder sb = new StringBuilder(
 				PROGRESS).append(" ").append(
 				PROGRESS_BAR_START);
-		for(int i = 0; i < PROGRESS_BAR_WIDTH / 2; i++){ // 100% failed
+		for(int i = 0; i < PROGRESS_BAR_WIDTH / 2; i++){ // 50% succeeded
 			sb.append(COMPLETE_CHAR);
 		}
-		for(int i = 0; i < PROGRESS_BAR_WIDTH / 2; i++){ // 100% failed
+		for(int i = 0; i < PROGRESS_BAR_WIDTH / 2; i++){ // 50% failed
 			sb.append(INCOMPLETE_CHAR);
 		}
 		sb.append("] 1/2").append(EOL);

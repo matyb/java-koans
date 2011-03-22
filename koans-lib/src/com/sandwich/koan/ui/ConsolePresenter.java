@@ -22,7 +22,7 @@ import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.KoanResult;
 
 public class ConsolePresenter extends AbstractSuitePresenter {
-
+	
 	protected void displayHeader(KoanResult result){
 	}
 	
@@ -76,43 +76,65 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	protected void displayOneOrMoreFailure(KoanResult result) {
 		printSuggestion(result);
 		String message = result.getMessage();
-		System.out.print(message == null || message.length() == 0 ? ""
+		StringBuilder sb = new StringBuilder(
+			message == null || message.length() == 0 || !result.displayIncompleteException() ? ""
 				: new StringBuilder(WHATS_WRONG).append(
 									EOL).append(
-									message).toString());
-		int totalKoans = result.getTotalNumberOfKoans();
-		int numberPassing = result.getNumberPassing();
-		System.out.println(new StringBuilder(CONQUERED).append(
-											" ").append(
-											numberPassing).append(
-											" ").append(
-											OUT_OF).append(
-											" ").append(
-											totalKoans).append(
-											" ").append(
-											KOAN).append(
-											totalKoans != 1 ? 's' : "").append(
-											"! ").append(ENCOURAGEMENT).append(
-											EOL).toString());
+									message).append(
+									EOL).append(
+									EOL));
+		if(KoanConstants.ENABLE_ENCOURAGEMENT){ // added noise to console output, and no real value
+			int totalKoans = result.getTotalNumberOfKoans();
+			int numberPassing = result.getNumberPassing();
+			sb.append(				EOL).append(
+									CONQUERED).append(
+									" ").append(
+									numberPassing).append(
+									" ").append(
+									OUT_OF).append(
+									" ").append(
+									totalKoans).append(
+									" ").append(
+									KOAN).append(
+									totalKoans != 1 ? 's' : "").append(
+									"! ").append(ENCOURAGEMENT).append(
+									EOL);
+		}
+		System.out.print(sb.toString());
 	}
 	
 	protected void printSuggestion(KoanResult result) {
 		KoanMethod failedKoan = result.getFailingMethod();
-		System.out.println(failedKoan.getLesson()+EOL);
-		StringBuilder sb = new StringBuilder(
+		StringBuilder sb = 	buildLessonLine(failedKoan);
+		sb.append(EOL).append(EOL);
+		buildInvestigateLine(sb, result.getFailingCase().getSimpleName(),failedKoan.getMethod().getName());
+		sb.append(EOL).append(EOL);
+		buildLineClue(sb, result);
+		System.out.println(sb.toString());
+	}
+
+	private StringBuilder buildInvestigateLine(StringBuilder sb, String simpleName,
+			String methodName) {
+		return sb.append(
 				INVESTIGATE_IN_THE).append(
 				" ").append(
-				result.getFailingCase().getSimpleName()).append(
+				simpleName).append(
 				" class's ").append(
-				result.getFailingMethod().getMethod().getName()).append(
+				methodName).append(
 				" method.");
+	}
+
+	private StringBuilder buildLineClue(StringBuilder sb, KoanResult result) {
 		if(result.getLineNumber() != null && !result.getLineNumber().trim().isEmpty()){
-			sb.append(
-				EOL).append(EOL).append(
-				"Line ").append(
-				result.getLineNumber()).append(
-				" may offer a clue as to how you may progress, now make haste!");
+			sb.append(	"Line ").append(
+						result.getLineNumber()).append(
+						" may offer a clue as to how you may progress, now make haste!").append(
+						EOL);
 		}
-		System.out.println(sb.append(EOL).toString());
+		return sb;
+	}
+
+	private StringBuilder buildLessonLine(KoanMethod failedKoan) {
+		return new StringBuilder(failedKoan.getLesson());
 	}
 }

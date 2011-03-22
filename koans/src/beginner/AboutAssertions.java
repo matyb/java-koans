@@ -1,24 +1,17 @@
 package beginner;
 
-import static com.sandwich.koan.Assert.assertEquals;
-import static com.sandwich.koan.Assert.assertFalse;
-import static com.sandwich.koan.Assert.assertNotNull;
-import static com.sandwich.koan.Assert.assertNotSame;
-import static com.sandwich.koan.Assert.assertNull;
-import static com.sandwich.koan.Assert.assertSame;
-import static com.sandwich.koan.Assert.assertTrue;
+// FYI - usually bad practice to import statically, but can make code cleaner
 import static com.sandwich.koan.KoanConstants.__;
+import static com.sandwich.util.Assert.assertEquals;
+import static com.sandwich.util.Assert.assertFalse;
+import static com.sandwich.util.Assert.assertNotNull;
+import static com.sandwich.util.Assert.assertNotSame;
+import static com.sandwich.util.Assert.assertNull;
+import static com.sandwich.util.Assert.assertSame;
+import static com.sandwich.util.Assert.assertTrue;
 
 import com.sandwich.koan.Koan;
 
-
-/**
- * assertX(...) are static methods from the org.junit.Assert class. They
- * are not prefixed by the class Assert as it's imported statically.
- * 
- * @see the imports section above (it is generally considered bad
- * practice using static imports in production code). 					
- */
 public class AboutAssertions {
 
 	@Koan() 

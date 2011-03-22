@@ -3,11 +3,13 @@ package com.sandwich.koan;
 import java.util.Collections;
 import java.util.List;
 
+import com.sandwich.util.Builder;
+
 public class KoanResult {
 
 	private final KoanResultModel state;
 
-	private static class KoanResultModel {
+	static class KoanResultModel {
 		String level;
 		int numberPassing = -1;
 		int totalNumberOfKoanMethods = -1;
@@ -33,7 +35,7 @@ public class KoanResult {
 		this.state = state;
 	}
 
-	public static class KoanResultBuilder implements com.sandwich.util.Builder<KoanResult>{
+	public static class KoanResultBuilder implements Builder<KoanResult>{
 		
 		private final KoanResultModel state = new KoanResultModel();
 		
@@ -120,6 +122,10 @@ public class KoanResult {
 	@Override
 	public String toString() {
 		return state.toString();
+	}
+
+	public boolean displayIncompleteException() {
+		return getFailingMethod() == null || getFailingMethod().displayIncompleteException();
 	}
 	
 	

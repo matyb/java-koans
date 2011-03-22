@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 
 import com.sandwich.koan.KoanConstants;
 import com.sandwich.koan.KoanMethod;
+import com.sandwich.koan.path.XmlToPathTransformer.KoanElementAttributes;
 
 public abstract class PathToEnlightenment {
 
@@ -100,12 +101,12 @@ public abstract class PathToEnlightenment {
 		PathToEnlightenment.theWay = new Path(koans);
 	}
 	
-	private static Map<String, String> createBogusLessonMap(
+	private static Map<String, KoanElementAttributes> createBogusLessonMap(
 			Class<? extends Object> clazz) {
-		Map<String, String> bogusLessonByKoanMap = new HashMap<String, String>();
+		Map<String, KoanElementAttributes> bogusLessonByKoanMap = new HashMap<String, KoanElementAttributes>();
 		String fakeLesson = "for testing - no real lesson";
 		for(Method m : clazz.getMethods()){
-			bogusLessonByKoanMap.put(m.getName(), fakeLesson);
+			bogusLessonByKoanMap.put(m.getName(), new KoanElementAttributes(fakeLesson, m.getName(), "true"));
 		}
 		return bogusLessonByKoanMap;
 	}
