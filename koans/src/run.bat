@@ -10,7 +10,7 @@ javac -d ..\bin -classpath ..\lib\koans.jar advanced\*.java
 java -version
 if ERRORLEVEL 1 goto no_java
 cls
-java -classpath ..\bin;..\lib\koans.jar com.sandwich.koan.runner.KoanSuiteRunner
+java -classpath ..\bin;..\lib\koans.jar com.sandwich.koan.runner.AppLauncher
  
 goto end
 

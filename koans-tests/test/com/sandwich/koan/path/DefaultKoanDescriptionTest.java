@@ -6,9 +6,8 @@ import java.util.Map.Entry;
 import org.junit.Test;
 
 import com.sandwich.koan.Koan;
-import com.sandwich.koan.KoanConstants;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.runner.KoanSuiteRunner;
+import com.sandwich.koan.constant.KoanConstants;
 
 public class DefaultKoanDescriptionTest {
 
@@ -16,7 +15,7 @@ public class DefaultKoanDescriptionTest {
 	public void defaultKoanDescriptions() throws Exception {
 		StringBuilder exceptionStringBuilder = new StringBuilder(KoanConstants.EOL);
 		for (Entry<Object, List<KoanMethod>> suiteAndKoans : 
-			new KoanSuiteRunner().getPathToEnlightenment().koanMethodsBySuiteByPackage
+			PathToEnlightenment.getPathToEnlightment().koanMethodsBySuiteByPackage
 				.entrySet().iterator().next().getValue().entrySet()) {
 			for(KoanMethod koan : suiteAndKoans.getValue()){
 				Koan annotation = koan.getMethod().getAnnotation(Koan.class);

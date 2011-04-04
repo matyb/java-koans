@@ -1,9 +1,9 @@
-package com.sandwich.koan.path;
+package com.sandwich.koan.path.xmltransformation;
 
 import java.io.File;
 import java.lang.reflect.Method;
 
-import com.sandwich.koan.KoanConstants;
+import com.sandwich.koan.constant.KoanConstants;
 
 public class XmlVariableInjector {
 

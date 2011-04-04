@@ -1,26 +1,26 @@
 package com.sandwich.koan.runner;
 
-import static com.sandwich.koan.KoanConstants.ALL_SUCCEEDED;
-import static com.sandwich.koan.KoanConstants.COMPLETE_CHAR;
-import static com.sandwich.koan.KoanConstants.CONQUERED;
-import static com.sandwich.koan.KoanConstants.ENCOURAGEMENT;
-import static com.sandwich.koan.KoanConstants.EOL;
-import static com.sandwich.koan.KoanConstants.FAILING_SUITES;
-import static com.sandwich.koan.KoanConstants.INCOMPLETE_CHAR;
-import static com.sandwich.koan.KoanConstants.INVESTIGATE_IN_THE;
-import static com.sandwich.koan.KoanConstants.KOAN;
-import static com.sandwich.koan.KoanConstants.OUT_OF;
-import static com.sandwich.koan.KoanConstants.PASSING_SUITES;
-import static com.sandwich.koan.KoanConstants.PROGRESS;
-import static com.sandwich.koan.KoanConstants.PROGRESS_BAR_START;
-import static com.sandwich.koan.KoanConstants.PROGRESS_BAR_WIDTH;
-import static com.sandwich.koan.KoanConstants.WHATS_WRONG;
+import static com.sandwich.koan.constant.KoanConstants.ALL_SUCCEEDED;
+import static com.sandwich.koan.constant.KoanConstants.COMPLETE_CHAR;
+import static com.sandwich.koan.constant.KoanConstants.CONQUERED;
+import static com.sandwich.koan.constant.KoanConstants.ENCOURAGEMENT;
+import static com.sandwich.koan.constant.KoanConstants.EOL;
+import static com.sandwich.koan.constant.KoanConstants.FAILING_SUITES;
+import static com.sandwich.koan.constant.KoanConstants.INCOMPLETE_CHAR;
+import static com.sandwich.koan.constant.KoanConstants.INVESTIGATE_IN_THE;
+import static com.sandwich.koan.constant.KoanConstants.KOAN;
+import static com.sandwich.koan.constant.KoanConstants.OUT_OF;
+import static com.sandwich.koan.constant.KoanConstants.PASSING_SUITES;
+import static com.sandwich.koan.constant.KoanConstants.PROGRESS;
+import static com.sandwich.koan.constant.KoanConstants.PROGRESS_BAR_START;
+import static com.sandwich.koan.constant.KoanConstants.PROGRESS_BAR_WIDTH;
+import static com.sandwich.koan.constant.KoanConstants.WHATS_WRONG;
 
 import java.util.Arrays;
 
 import org.junit.Test;
 
-import com.sandwich.koan.KoanConstants;
+import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.suite.OneFailingKoanDifferentName;
@@ -32,7 +32,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	@Test
 	public void hintPresentation() throws Throwable {
 		stubAllKoans(Arrays.asList(new OneFailingKoanDifferentName()));
-		KoanSuiteRunner.main();
+		new KoanSuiteRunner().run();
 		assertSystemOutContains(new StringBuilder(
 				INVESTIGATE_IN_THE).append(
 				" ").append(
@@ -48,7 +48,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 		if(KoanConstants.ENABLE_ENCOURAGEMENT){
 			stubAllKoans(Arrays.asList(new Class<?>[] { 
 					OneFailingKoan.class }));
-			KoanSuiteRunner.main();
+			new KoanSuiteRunner().run();
 			assertSystemOutContains(new StringBuilder(
 					CONQUERED).append(
 					" 0 ").append(
@@ -65,7 +65,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	public void testOneHundredPercentSuccessReward() throws Throwable {
 		stubAllKoans(Arrays.asList(new Class<?>[] { 
 				OnePassingKoan.class }));
-		KoanSuiteRunner.main();
+		new KoanSuiteRunner().run();
 		assertSystemOutContains(ALL_SUCCEEDED);
 		assertSystemOutDoesntContain(CONQUERED);
 		assertSystemOutDoesntContain(ENCOURAGEMENT);
@@ -76,7 +76,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 		stubAllKoans(Arrays.asList(new Class<?>[] { 
 				OnePassingKoan.class,
 				OnePassingKoanDifferentName.class }));
-		KoanSuiteRunner.main();
+		new KoanSuiteRunner().run();
 		assertSystemOutContains(PASSING_SUITES+" OnePassingKoan, OnePassingKoanDifferentName");
 	}
 	
@@ -85,7 +85,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 		stubAllKoans(Arrays.asList(new Class<?>[] { 
 				OneFailingKoan.class,
 				OneFailingKoanDifferentName.class }));
-		KoanSuiteRunner.main();
+		new KoanSuiteRunner().run();
 		assertSystemOutContains(FAILING_SUITES+" OneFailingKoan, OneFailingKoanDifferentName");
 	}
 	
@@ -94,7 +94,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 		stubAllKoans(Arrays.asList(new Class<?>[] { 
 				OnePassingKoan.class,
 				OneFailingKoan.class }));
-		KoanSuiteRunner.main();
+		new KoanSuiteRunner().run();
 		assertSystemOutContains(PASSING_SUITES+" OnePassingKoan"+EOL+
 								FAILING_SUITES+" OneFailingKoan");
 	}
@@ -104,7 +104,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 		stubAllKoans(Arrays.asList(new Class<?>[] { 
 				OnePassingKoan.class,
 				OnePassingKoanDifferentName.class }));
-		KoanSuiteRunner.main();
+		new KoanSuiteRunner().run();
 		StringBuilder sb = new StringBuilder(PROGRESS).append(" ")
 									.append(PROGRESS_BAR_START);
 		for(int i = 0; i < PROGRESS_BAR_WIDTH; i++){ // 100% success
@@ -119,7 +119,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 		stubAllKoans(Arrays.asList(new Class<?>[] { 
 				OneFailingKoan.class,
 				OneFailingKoanDifferentName.class }));
-		KoanSuiteRunner.main();
+		new KoanSuiteRunner().run();
 		StringBuilder sb = new StringBuilder(
 				PROGRESS).append(" ").append(
 				PROGRESS_BAR_START);
@@ -135,7 +135,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 		stubAllKoans(Arrays.asList(new Class<?>[] { 
 				OnePassingKoan.class,
 				OneFailingKoan.class }));
-		KoanSuiteRunner.main();
+		new KoanSuiteRunner().run();
 		StringBuilder sb = new StringBuilder(
 				PROGRESS).append(" ").append(
 				PROGRESS_BAR_START);
@@ -153,7 +153,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	public void whatWentWrongExplanation() throws Throwable {
 		stubAllKoans(Arrays.asList(new Class<?>[] { 
 				OneFailingKoan.class }));
-		KoanSuiteRunner.main();
+		new KoanSuiteRunner().run();
 		assertSystemOutContains(new StringBuilder(
 				WHATS_WRONG).append(
 				EOL).append(

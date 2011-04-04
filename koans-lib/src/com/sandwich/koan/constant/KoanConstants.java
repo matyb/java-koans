@@ -1,4 +1,4 @@
-package com.sandwich.koan;
+package com.sandwich.koan.constant;
 
 
 

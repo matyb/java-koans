@@ -1,11 +1,11 @@
 package com.sandwich.koan.ui;
 
-import com.sandwich.koan.KoanResult;
+import com.sandwich.koan.KoanSuiteResult;
 
 public abstract class AbstractSuitePresenter implements SuitePresenter {
 
 	@Override
-	public void displayResult(KoanResult result) {
+	public void displayResult(KoanSuiteResult result) {
 		if (result.isAllKoansSuccessful()) {
 			displayAllSuccess(result);
 		} else {
@@ -16,9 +16,9 @@ public abstract class AbstractSuitePresenter implements SuitePresenter {
 		displayHeader(result);
 	}
 
-	abstract protected void displayHeader(KoanResult result);
-	abstract protected void displayPassingFailing(KoanResult result);
-	abstract protected void displayChart(KoanResult result);
-	abstract protected void displayOneOrMoreFailure(KoanResult result);
-	abstract protected void displayAllSuccess(KoanResult result);
+	abstract protected void displayHeader(KoanSuiteResult result);
+	abstract protected void displayPassingFailing(KoanSuiteResult result);
+	abstract protected void displayChart(KoanSuiteResult result);
+	abstract protected void displayOneOrMoreFailure(KoanSuiteResult result);
+	abstract protected void displayAllSuccess(KoanSuiteResult result);
 }

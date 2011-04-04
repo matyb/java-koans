@@ -1,6 +1,6 @@
-package com.sandwich.koan.path;
+package com.sandwich.koan.path.xmltransformation;
 
-import com.sandwich.koan.KoanConstants;
+import com.sandwich.koan.constant.KoanConstants;
 
 public class XmlVariableDictionary {
 

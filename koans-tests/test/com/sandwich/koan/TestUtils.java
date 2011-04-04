@@ -17,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Random;
 
-import com.sandwich.koan.KoanConstants;
+import com.sandwich.koan.constant.KoanConstants;
 
 public class TestUtils {
 

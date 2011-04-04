@@ -8,6 +8,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.sandwich.koan.path.xmltransformation.XmlVariableInjector;
 import com.sandwich.koan.suite.OneFailingKoan;
 
 public class XmlVariableInjectorTest {

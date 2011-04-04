@@ -1,6 +1,6 @@
 package beginner;
 
-import static com.sandwich.koan.constant.KoanConstants.__;
+import static com.sandwich.koan.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
 
 import com.sandwich.koan.Koan;

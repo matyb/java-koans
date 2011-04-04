@@ -4,7 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
-import com.sandwich.koan.KoanResult.KoanResultBuilder;
+import com.sandwich.koan.KoanSuiteResult.KoanResultBuilder;
 import com.sandwich.koan.suite.OneFailingKoan;
 
 public class KoansResultTest {
@@ -18,7 +18,7 @@ public class KoansResultTest {
 			.level("1")
 			.lineNumber("2")
 			.numberPassing(3);
-		KoanResult result = builder.build();
+		KoanSuiteResult result = builder.build();
 		String string = result.toString();
 		assertTrue(string.contains("1"));
 		assertTrue(string.contains("2"));

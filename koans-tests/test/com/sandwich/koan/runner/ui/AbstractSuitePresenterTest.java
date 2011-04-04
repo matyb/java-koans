@@ -5,8 +5,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.sandwich.koan.KoanResult;
-import com.sandwich.koan.KoanResult.KoanResultBuilder;
+import com.sandwich.koan.KoanSuiteResult;
+import com.sandwich.koan.KoanSuiteResult.KoanResultBuilder;
 import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.ui.AbstractSuitePresenter;
 
@@ -16,28 +16,28 @@ public class AbstractSuitePresenterTest {
 	public void testForwardingOneHundredPercentSuccess() throws Exception {
 		final int state[] = new int[]{0};
 		AbstractSuitePresenter presenter = new AbstractSuitePresenter() {
-			public void displayAllSuccess(KoanResult result) {
+			public void displayAllSuccess(KoanSuiteResult result) {
 				assertEquals(0, state[0]);
 				state[0] = 1;
 			}
-			public void displayChart(KoanResult result) {
+			public void displayChart(KoanSuiteResult result) {
 				assertEquals(1, state[0]);
 				state[0] = 2;
 			}
-			public void displayPassingFailing(KoanResult result) {
+			public void displayPassingFailing(KoanSuiteResult result) {
 				assertEquals(2, state[0]);
 				state[0] = 3;
 			}
-			public void displayHeader(KoanResult result) {
+			public void displayHeader(KoanSuiteResult result) {
 				assertEquals(3, state[0]);
 				state[0] = 4;
 			}
-			public void displayOneOrMoreFailure(KoanResult result) {
+			public void displayOneOrMoreFailure(KoanSuiteResult result) {
 				fail();
 			}
 		};
 
-		KoanResult kr = new KoanResultBuilder().build();
+		KoanSuiteResult kr = new KoanResultBuilder().build();
 		presenter.displayResult(kr);
 		assertEquals(4, state[0]);
 	}
@@ -46,28 +46,28 @@ public class AbstractSuitePresenterTest {
 	public void testForwardingOneOrMoreFails() throws Exception {
 		final int state[] = new int[]{0};
 		AbstractSuitePresenter presenter = new AbstractSuitePresenter() {
-			public void displayOneOrMoreFailure(KoanResult result) {
+			public void displayOneOrMoreFailure(KoanSuiteResult result) {
 				assertEquals(0, state[0]);
 				state[0] = 1;
 			}
-			public void displayChart(KoanResult result) {
+			public void displayChart(KoanSuiteResult result) {
 				assertEquals(1, state[0]);
 				state[0] = 2;
 			}
-			public void displayPassingFailing(KoanResult result) {
+			public void displayPassingFailing(KoanSuiteResult result) {
 				assertEquals(2, state[0]);
 				state[0] = 3;
 			}
-			public void displayHeader(KoanResult result) {
+			public void displayHeader(KoanSuiteResult result) {
 				assertEquals(3, state[0]);
 				state[0] = 4;
 			}
-			public void displayAllSuccess(KoanResult result) {
+			public void displayAllSuccess(KoanSuiteResult result) {
 				fail();
 			}
 		};
 
-		KoanResult kr = new KoanResultBuilder().failingCase(OneFailingKoan.class).build();
+		KoanSuiteResult kr = new KoanResultBuilder().failingCase(OneFailingKoan.class).build();
 		presenter.displayResult(kr);
 		assertEquals(4, state[0]);
 	}

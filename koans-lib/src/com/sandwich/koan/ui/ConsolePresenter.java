@@ -1,32 +1,32 @@
 package com.sandwich.koan.ui;
 
-import static com.sandwich.koan.KoanConstants.ALL_SUCCEEDED;
-import static com.sandwich.koan.KoanConstants.CONQUERED;
-import static com.sandwich.koan.KoanConstants.ENCOURAGEMENT;
-import static com.sandwich.koan.KoanConstants.EOL;
-import static com.sandwich.koan.KoanConstants.FAILING_SUITES;
-import static com.sandwich.koan.KoanConstants.INVESTIGATE_IN_THE;
-import static com.sandwich.koan.KoanConstants.KOAN;
-import static com.sandwich.koan.KoanConstants.OUT_OF;
-import static com.sandwich.koan.KoanConstants.PASSING_SUITES;
-import static com.sandwich.koan.KoanConstants.PROGRESS;
-import static com.sandwich.koan.KoanConstants.PROGRESS_BAR_END;
-import static com.sandwich.koan.KoanConstants.PROGRESS_BAR_START;
-import static com.sandwich.koan.KoanConstants.PROGRESS_BAR_WIDTH;
-import static com.sandwich.koan.KoanConstants.WHATS_WRONG;
+import static com.sandwich.koan.constant.KoanConstants.ALL_SUCCEEDED;
+import static com.sandwich.koan.constant.KoanConstants.CONQUERED;
+import static com.sandwich.koan.constant.KoanConstants.ENCOURAGEMENT;
+import static com.sandwich.koan.constant.KoanConstants.EOL;
+import static com.sandwich.koan.constant.KoanConstants.FAILING_SUITES;
+import static com.sandwich.koan.constant.KoanConstants.INVESTIGATE_IN_THE;
+import static com.sandwich.koan.constant.KoanConstants.KOAN;
+import static com.sandwich.koan.constant.KoanConstants.OUT_OF;
+import static com.sandwich.koan.constant.KoanConstants.PASSING_SUITES;
+import static com.sandwich.koan.constant.KoanConstants.PROGRESS;
+import static com.sandwich.koan.constant.KoanConstants.PROGRESS_BAR_END;
+import static com.sandwich.koan.constant.KoanConstants.PROGRESS_BAR_START;
+import static com.sandwich.koan.constant.KoanConstants.PROGRESS_BAR_WIDTH;
+import static com.sandwich.koan.constant.KoanConstants.WHATS_WRONG;
 
 import java.util.List;
 
-import com.sandwich.koan.KoanConstants;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.KoanResult;
+import com.sandwich.koan.KoanSuiteResult;
+import com.sandwich.koan.constant.KoanConstants;
 
 public class ConsolePresenter extends AbstractSuitePresenter {
 	
-	protected void displayHeader(KoanResult result){
+	protected void displayHeader(KoanSuiteResult result){
 	}
 	
-	protected void displayPassingFailing(KoanResult result) {
+	protected void displayPassingFailing(KoanSuiteResult result) {
 		StringBuilder sb = new StringBuilder();
 		appendLabeledClassesList(PASSING_SUITES, result.getPassingSuites(), sb);
 		appendLabeledClassesList(FAILING_SUITES, result.getRemainingSuites(), sb);
@@ -47,7 +47,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		sb.append(EOL);
 	}
 	
-	protected void displayChart(KoanResult result) {
+	protected void displayChart(KoanSuiteResult result) {
 		StringBuilder sb = new StringBuilder(KoanConstants.LEVEL).append(result.getLevel()).append(EOL);
 		int numberPassing = result.getNumberPassing();
 		int totalKoans = result.getTotalNumberOfKoans();
@@ -68,12 +68,12 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	}
 	
 	@Override
-	protected void displayAllSuccess(KoanResult result) {
+	protected void displayAllSuccess(KoanSuiteResult result) {
 		System.out.println(new StringBuilder(EOL).append(ALL_SUCCEEDED).toString());
 	}
 	
 	@Override
-	protected void displayOneOrMoreFailure(KoanResult result) {
+	protected void displayOneOrMoreFailure(KoanSuiteResult result) {
 		printSuggestion(result);
 		String message = result.getMessage();
 		StringBuilder sb = new StringBuilder(
@@ -103,7 +103,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		System.out.print(sb.toString());
 	}
 	
-	protected void printSuggestion(KoanResult result) {
+	protected void printSuggestion(KoanSuiteResult result) {
 		KoanMethod failedKoan = result.getFailingMethod();
 		StringBuilder sb = 	buildLessonLine(failedKoan);
 		sb.append(EOL).append(EOL);
@@ -124,7 +124,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 				" method.");
 	}
 
-	private StringBuilder buildLineClue(StringBuilder sb, KoanResult result) {
+	private StringBuilder buildLineClue(StringBuilder sb, KoanSuiteResult result) {
 		if(result.getLineNumber() != null && !result.getLineNumber().trim().isEmpty()){
 			sb.append(	"Line ").append(
 						result.getLineNumber()).append(

@@ -2,7 +2,7 @@ package com.sandwich.koan;
 
 import java.lang.reflect.Method;
 
-import com.sandwich.koan.path.XmlVariableInjector;
+import com.sandwich.koan.path.xmltransformation.XmlVariableInjector;
 
 public class KoanMethod {
 	

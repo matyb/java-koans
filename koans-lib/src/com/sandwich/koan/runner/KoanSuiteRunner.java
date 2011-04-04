@@ -1,163 +1,51 @@
 package com.sandwich.koan.runner;
 
-import static com.sandwich.koan.KoanConstants.EOLS;
-import static com.sandwich.koan.KoanConstants.EXPECTATION_LEFT_ARG;
-import static com.sandwich.koan.KoanConstants.EXPECTED_LEFT;
-import static com.sandwich.koan.KoanConstants.EXPECTED_RIGHT;
-import static com.sandwich.koan.KoanConstants.__;
-
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.logging.Logger;
 
-import com.sandwich.koan.KoanConstants;
-import com.sandwich.koan.KoanIncompleteException;
-import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.KoanResult;
-import com.sandwich.koan.KoanResult.KoanResultBuilder;
-import com.sandwich.koan.path.PathToEnlightenment;
-import com.sandwich.koan.path.PathToEnlightenment.Path;
-import com.sandwich.koan.ui.ConsolePresenter;
-import com.sandwich.koan.ui.SuitePresenter;
+import com.sandwich.koan.cmdline.CommandLineArgument;
+import com.sandwich.koan.constant.ArgumentType;
 
 public class KoanSuiteRunner {
 
-	SuitePresenter presenter = null;
+	private final Map<ArgumentType, CommandLineArgument> commandLineArguments;
 	
-	public static void main(final String... args) throws Throwable {
-		SuiteRunnerFactory.getSuiteRunner(args).run();
+	@SuppressWarnings("unchecked")
+	KoanSuiteRunner(){
+		this(Collections.EMPTY_MAP);
+	}
+	
+	public KoanSuiteRunner(
+			Map<ArgumentType, CommandLineArgument> commandLineArguments) {
+		this.commandLineArguments = Collections.unmodifiableMap(commandLineArguments);
 	}
 
-	void run() throws ClassNotFoundException, IOException,
+	public void run() throws ClassNotFoundException, IOException,
 			InstantiationException, IllegalAccessException,
 			IllegalArgumentException, InvocationTargetException {
-		KoanResult result = runKoans();
-		getPresenter().displayResult(result);
+		Map<ArgumentType, CommandLineArgument> commandLineArguments = 
+			new HashMap<ArgumentType, CommandLineArgument>(this.commandLineArguments); //clone entries
+		ifNecessaryPlantDefaultArgumentToRunKoans(commandLineArguments);
+		List<CommandLineArgument> sortedArguments = new ArrayList<CommandLineArgument>(
+				commandLineArguments.values());
+		Collections.sort(sortedArguments);
+		for(CommandLineArgument argument : sortedArguments){
+			argument.run();
+		}
+	}
+
+	void ifNecessaryPlantDefaultArgumentToRunKoans(Map<ArgumentType, CommandLineArgument> commandLineArguments) {
+		if(commandLineArguments.isEmpty() ||
+				(!commandLineArguments.containsKey(ArgumentType.RUN_KOANS)
+					&&	commandLineArguments.containsKey(ArgumentType.CLASS_ARG))){
+			commandLineArguments.put(ArgumentType.RUN_KOANS, new CommandLineArgument(
+					ArgumentType.RUN_KOANS, null));
+		}
 	}
 	
-	SuitePresenter getPresenter(){
-		if(presenter == null){
-			presenter = new ConsolePresenter();
-		}
-		return presenter;
-	}
-
-	int getAllValuesSize(Map<Object, List<Method>> koans) {
-		int size = 0;
-		for (Entry<Object, List<Method>> entry : koans.entrySet()) {
-			size += entry.getValue().size();
-		}
-		return size;
-	}
-
-	KoanResult runKoans()
-			throws IllegalArgumentException, IllegalAccessException,
-			InvocationTargetException {
-		Path path = getPathToEnlightenment();
-		int successfull = 0;
-		List<Class<?>> passingSuites = new ArrayList<Class<?>>();
-		List<Class<?>> failingSuites = new ArrayList<Class<?>>();
-		Throwable failure = null;
-		Class<?> firstFailingSuite = null;
-		KoanMethod firstFailingMethod = null;
-		String level = null;
-		for(Entry<String, Map<Object, List<KoanMethod>>> packages : path){
-			for (Entry<Object, List<KoanMethod>> e : packages.getValue().entrySet()) {
-				final Object suite = e.getKey();
-				final List<KoanMethod> methods = e.getValue();
-				boolean testsPassed = true;
-				for (final KoanMethod koan : methods) {
-					try {
-						koan.getMethod().invoke(suite, (Object[]) null);
-						successfull++;
-					} catch (Throwable t) {
-						testsPassed = false;
-						while(t.getCause() != null){
-							t = t.getCause();
-						}
-						if (failure == null) {
-							failure = t;
-							firstFailingSuite = suite.getClass();
-							firstFailingMethod = koan;
-							level = packages.getKey();
-						}
-					}
-				}
-				if(testsPassed){
-					passingSuites.add(suite.getClass());
-				}else{
-					failingSuites.add(suite.getClass());
-				}
-			}
-		}
-		// only display message if it is from a KoanIncompleteException
-		String message = failure != null && KoanIncompleteException.class.isAssignableFrom(failure.getClass()) ? 
-				failure.getMessage() : null;
-		if(message != null && message.contains(EXPECTED_LEFT+__+EXPECTED_RIGHT)){
-			logExpectationOnWrongSideWarning(firstFailingSuite, firstFailingMethod.getMethod());
-		}
-		return new KoanResultBuilder()
-			.level(level)
-			.numberPassing(successfull)
-			.totalNumberOfKoanMethods(path.getTotalNumberOfKoans())
-			.failingCase(firstFailingSuite)
-			.failingMethod(firstFailingMethod)
-			.message(message)
-			.lineNumber(getOriginalLineNumber(failure, firstFailingSuite))
-			.passingCases(passingSuites)
-			.remainingCases(failingSuites)
-			.build();
-	}
-
-	/**
-	 * Return the line number found closest to the point of failure, with a reference to the 
-	 * failing suite's classname.
-	 * 
-	 * @param t
-	 * @param failingSuite
-	 * @return
-	 */
-	static String getOriginalLineNumber(Throwable t, Class<?> failingSuite){
-		StringWriter stringWriter = new StringWriter();
-		if(t == null){
-			return null;
-		}
-		t.printStackTrace(new PrintWriter(stringWriter));
-		String[] lines = stringWriter.toString().split(EOLS);
-		for(int i = lines.length - 1; i >= 0; --i){
-			String line = lines[i];
-			if(line.contains(failingSuite.getName())){
-				return line.substring(
-						line.indexOf(KoanConstants.LINE_NO_START)+KoanConstants.LINE_NO_START.length(),
-						line.lastIndexOf(KoanConstants.LINE_NO_END));
-			}
-		}
-		return null;
-	}
-	
-	/**
-	 * permit forwarding by overriding classes
-	 * @return
-	 */
-	public Path getPathToEnlightenment() {
-		return PathToEnlightenment.getPathToEnlightment();
-	}
-
-	private void logExpectationOnWrongSideWarning(Class<?> firstFailingSuite,
-			Method firstFailingMethod) {
-		Logger.getLogger(KoanSuiteRunner.class.getSimpleName()).severe(
-				new StringBuilder(
-						firstFailingSuite.getSimpleName()).append(
-						".").append(
-						firstFailingMethod.getName()).append(
-						" ").append(
-						EXPECTATION_LEFT_ARG).toString());
-	}
 }

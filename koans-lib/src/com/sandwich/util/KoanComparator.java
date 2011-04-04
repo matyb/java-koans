@@ -1,4 +1,4 @@
-package com.sandwich.koan.runner;
+package com.sandwich.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.sandwich.util.Builder;
 
-public class KoanResult {
+public class KoanSuiteResult {
 
 	private final KoanResultModel state;
 
@@ -31,11 +31,11 @@ public class KoanResult {
 		}
 	}
 	
-	KoanResult(KoanResultModel state) {
+	KoanSuiteResult(KoanResultModel state) {
 		this.state = state;
 	}
 
-	public static class KoanResultBuilder implements Builder<KoanResult>{
+	public static class KoanResultBuilder implements Builder<KoanSuiteResult>{
 		
 		private final KoanResultModel state = new KoanResultModel();
 		
@@ -74,8 +74,8 @@ public class KoanResult {
 		}
 		
 		@Override
-		public KoanResult build() {
-			return new KoanResult(state);
+		public KoanSuiteResult build() {
+			return new KoanSuiteResult(state);
 		}
 	}
 	

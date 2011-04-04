@@ -1,4 +1,4 @@
-package com.sandwich.koan.path;
+package com.sandwich.koan.path.xmltransformation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -25,7 +25,7 @@ import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.path.PathToEnlightenment.FileFormatException;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
-import com.sandwich.koan.runner.KoanComparator;
+import com.sandwich.util.KoanComparator;
 
 public class XmlToPathTransformer {
 
@@ -121,7 +121,7 @@ public class XmlToPathTransformer {
 		}
 	}
 
-	static List<KoanMethod> getKoanMethods(Class<?> koanSuiteClass, Map<String, KoanElementAttributes> attributesByKoanName) {
+	public static List<KoanMethod> getKoanMethods(Class<?> koanSuiteClass, Map<String, KoanElementAttributes> attributesByKoanName) {
 		List<KoanMethod> koanMethods = new ArrayList<KoanMethod>();
 		for(final Method koan : koanSuiteClass.getMethods()){
 			final Koan annotation = koan.getAnnotation(Koan.class);
@@ -136,7 +136,7 @@ public class XmlToPathTransformer {
 		return koanMethods;
 	}
 	
-	static class KoanElementAttributes{
+	public static class KoanElementAttributes{
 		String lesson, name, displayIncompleteKoanException;
 		public KoanElementAttributes(String lesson, String name, String displayIncompleteKoanException){
 			this.lesson = lesson;

@@ -1,4 +1,4 @@
-package com.sandwich.koan.runner;
+package com.sandwich.util;
 
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
@@ -13,6 +13,7 @@ import org.junit.Test;
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.path.PathToEnlightenment.FileFormatException;
+import com.sandwich.util.KoanComparator;
 
 
 public class KoanComparatorTest {

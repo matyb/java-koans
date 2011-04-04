@@ -16,7 +16,9 @@ import com.sandwich.koan.KoanIncompleteException;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.TestUtils;
 import com.sandwich.koan.TestUtils.ArgRunner;
+import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
+import com.sandwich.koan.runner.RunKoans;
 
 public abstract class CommandLineTestCase {
 
@@ -27,6 +29,7 @@ public abstract class CommandLineTestCase {
 	public void setUp() {
 		bytes = new ByteArrayOutputStream();
 		console = System.out;
+		TestUtils.setValue("behavior", new RunKoans(), ArgumentType.RUN_KOANS);
 		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
 		System.setOut(new PrintStream(bytes));
 	}
@@ -124,5 +127,4 @@ public abstract class CommandLineTestCase {
 			throw new KoanIncompleteException(lineText+" was expected, but not found in: "+bytes.toString());
 		}
 	}
-	
 }

@@ -17,7 +17,7 @@ public class Assert {
 		}
 		// not if o0 == o1 return, because equals may violate contract (though
 		// that's obviously strongly discouraged), but cannot invoke equals on 
-		// null pointer
+		// null pointer w/o sacrificing functionality from anticipating failure
 		if(o1 == null && o0 == null){
 			return;
 		}

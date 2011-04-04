@@ -1,7 +1,7 @@
 package beginner;
 
 // FYI - usually bad practice to import statically, but can make code cleaner
-import static com.sandwich.koan.constant.KoanConstants.__;
+import static com.sandwich.koan.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
 import static com.sandwich.util.Assert.assertFalse;
 import static com.sandwich.util.Assert.assertNotNull;

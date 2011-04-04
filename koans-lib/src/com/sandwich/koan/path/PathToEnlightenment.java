@@ -1,7 +1,7 @@
 package com.sandwich.koan.path;
 
 import java.lang.reflect.Method;
-import java.util.Collection;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,9 +10,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Logger;
 
-import com.sandwich.koan.KoanConstants;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.path.XmlToPathTransformer.KoanElementAttributes;
+import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
+import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer.KoanElementAttributes;
 
 public abstract class PathToEnlightenment {
 
@@ -33,21 +34,31 @@ public abstract class PathToEnlightenment {
 		return theWay;
 	}
 	
-	public static void removeAllKoanMethodsExcept(Path koans, String koanName) {
+	public static void removeAllKoanMethodsExcept(String koanName) {
+		Path koans = getPathToEnlightment();
 		// if more than 1 pkg, or more than 1 suite - something is likely broken before this point
+		Map<Object, List<KoanMethod>> lessonsBySuiteMap = koans.iterator().next().getValue();
 		if(koans.size() != 1 || 
-				koans.iterator().next().getValue().size() !=1){
+				lessonsBySuiteMap.size() !=1){
 			Logger.getAnonymousLogger().warning("not just one koansuite remains, " +
 					"check koan suite name argument - not likely that filtering by method will work.");
 		}
-		Collection<List<KoanMethod>> values = koans.iterator().next().getValue().values();
-		for(List<KoanMethod> methods : values){
-			Iterator<KoanMethod> koansListsIter = methods.iterator();
-			while(koansListsIter.hasNext()){
-				if(!koanName.equalsIgnoreCase(koansListsIter.next().getMethod().getName())){
-					koansListsIter.remove();
+		koanName = koanName.trim();
+		for(Entry<Object, List<KoanMethod>> methodsBySuite : lessonsBySuiteMap.entrySet()){
+			KoanMethod keeper = null;
+			for(KoanMethod method : methodsBySuite.getValue()){
+				if(koanName.equals(method.getMethod().getName())){
+					keeper = method;
+					break;
 				}
+//				else if(koanName.equalsIgnoreCase(method.getMethod().getName())){
+//					// do nothing for now? - should warn, but may be intentional... TODO: revisit decision
+//				}
 			}
+			if(keeper == null){
+				throw new NoSuchMethodError(koanName);
+			}
+			methodsBySuite.setValue(Arrays.asList(keeper));
 		}
 	}
 

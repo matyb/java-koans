@@ -1,9 +1,9 @@
 package com.sandwich.koan.ui;
 
-import com.sandwich.koan.KoanResult;
+import com.sandwich.koan.KoanSuiteResult;
 
 public interface SuitePresenter {
 
-	public void displayResult(KoanResult result);
+	public void displayResult(KoanSuiteResult result);
 
 }
