@@ -38,10 +38,10 @@ public abstract class PathToEnlightenment {
 		Path koans = getPathToEnlightment();
 		// if more than 1 pkg, or more than 1 suite - something is likely broken before this point
 		Map<Object, List<KoanMethod>> lessonsBySuiteMap = koans.iterator().next().getValue();
+		boolean logWarning = false;
 		if(koans.size() != 1 || 
 				lessonsBySuiteMap.size() !=1){
-			Logger.getAnonymousLogger().warning("not just one koansuite remains, " +
-					"check koan suite name argument - not likely that filtering by method will work.");
+			logWarning = true;
 		}
 		koanName = koanName.trim();
 		for(Entry<Object, List<KoanMethod>> methodsBySuite : lessonsBySuiteMap.entrySet()){
@@ -56,9 +56,17 @@ public abstract class PathToEnlightenment {
 //				}
 			}
 			if(keeper == null){
-				throw new NoSuchMethodError(koanName);
+				// default is to assume method if not a class or recognized arg
+				// no sense throwing exception, might be user error
+				System.err.println(koanName+" was not a recognized parameter.");
+				System.exit(-3);
 			}
 			methodsBySuite.setValue(Arrays.asList(keeper));
+		}
+		// defer the warning until after potential user error is in console and app is exited
+		if(!logWarning){
+			Logger.getAnonymousLogger().warning("not just one koansuite remains, " +
+				"check koan suite name argument - not likely that filtering by method will work.");
 		}
 	}
 

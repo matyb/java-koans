@@ -7,17 +7,26 @@ import java.util.List;
 import java.util.Map;
 
 import com.sandwich.koan.cmdline.behavior.ArgumentBehavior;
+import com.sandwich.koan.cmdline.behavior.Backup;
 import com.sandwich.koan.cmdline.behavior.ClassArg;
-import com.sandwich.koan.cmdline.behavior.Commit;
-import com.sandwich.koan.cmdline.behavior.Deploy;
+import com.sandwich.koan.cmdline.behavior.Debug;
 import com.sandwich.koan.cmdline.behavior.Help;
 import com.sandwich.koan.cmdline.behavior.MethodArg;
+import com.sandwich.koan.cmdline.behavior.Reset;
 import com.sandwich.koan.cmdline.behavior.Test;
 import com.sandwich.koan.runner.RunKoans;
 
 public enum ArgumentType implements ArgumentBehavior {	
 	
-//	COMPILE("-c", new Compile(), "Compiles the application."), // requires tools jar - wait till needed to require 
+	HELP("Help. Displays stuff to, er, help you.",
+			new Help(), "-help", "help", "h", "?"),
+	RESET("Restore all the koans in the src/ folder to their original (or last backed up) state.",	
+			new Reset(), "-reset"),
+	BACKUP("Backup all the koans in the src/ for easy restoration later (useful for developing koans).",	
+			new Backup(), "-backup"),
+	// nothing using this currently - but probably a few things that could - say, a debug presenter?
+	DEBUG("Enable debug state in the app.",	
+			new Debug(), "-debug"),
 	TEST("Run tests. System returns number of failing testcases - not to exceed 255 to retain DOS compatibility for BAT files.", 
 			new Test(), "-test"),
 	// important class MUST come before method - due to how Enum implements comparable and order
@@ -25,14 +34,8 @@ public enum ArgumentType implements ArgumentBehavior {
 	CLASS_ARG("Switch is optional, app tries to find a class definition for any unrecognized string - which becomes a method argument if class is not found. If classcast succeeds - the class will become the only koansuite to run. Permits users/developers to focus on one suite at a time.", 
 			new ClassArg(), "-class"), 
 	METHOD_ARG("Switch is optional, results from failing to find a class definition by an unrecognized string if switch is omitted.", 
-			new MethodArg(), "-method"), 
-	DEPLOY("Runs tests, if all pass - packs a jar for the koans folder, otherwise present stack trace from first failed test.",
-			new Deploy(), "-deploy"),  
-	COMMIT("Runs tests, if all pass - pushes all changes in lib, koans, and tests to branch (sring value following switch). If tests fail, present stack trace from first failed test.",
-			new Commit(), "-commit"),  
-	HELP("Help. Displays stuff to, er, help you.",
-			new Help(), "-help", "help", "h", "?"),
-	RUN_KOANS("Defaul targent. No switch - this runs if no switch is defined, or if a valid class is found as an argument.", 
+			new MethodArg(), "-method"),
+	RUN_KOANS("Default target. No switch - this runs if no switch is defined, or if a valid class is found as an argument.", 
 			new RunKoans(), ""); 
 	
 	private final List<String> args;
@@ -54,6 +57,9 @@ public enum ArgumentType implements ArgumentBehavior {
 		Map<String, ArgumentType> types = new HashMap<String, ArgumentType>();
 		for(ArgumentType type : ArgumentType.values()){
 			for(String arg : type.args){
+				if(types.containsKey(arg)){
+					throw new IllegalArgumentException("command line arg: "+arg+" is duplicated.");
+				}
 				types.put(arg, type);
 			}
 		}

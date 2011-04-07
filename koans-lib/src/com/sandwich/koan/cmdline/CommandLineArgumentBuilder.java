@@ -17,8 +17,14 @@ public class CommandLineArgumentBuilder implements Builder<Map<ArgumentType, Com
 		if(args != null){
 			for(int index = 0; index < args.length;){
 				String stringArg = args[index];
+				if(stringArg == null || stringArg.trim().length() == 0){
+					index++;
+					continue;
+				}
 				// is incremented in test of ternary
-				String stringArgPlusOne = args.length <= ++index ? null : args[index]; 
+				String stringArgPlusOne = args.length <= ++index ? null : args[index];
+				stringArgPlusOne = stringArgPlusOne == null || stringArgPlusOne.trim().length() == 0
+					? null : stringArgPlusOne;
 				ArgumentType argumentType = ArgumentType.TYPES_BY_STRING.get(stringArg);
 				ArgumentType argumentTypePlusOne = ArgumentType.TYPES_BY_STRING.get(stringArgPlusOne);
 				if(argumentType != null){ // matches an anticipated argument string
@@ -46,8 +52,6 @@ public class CommandLineArgumentBuilder implements Builder<Map<ArgumentType, Com
 					guessAtMethodAndClass(commandLineArguments, stringArg);
 					// do not increment again, bump stringArgPlusOne into stringArg from prior increment
 					continue;
-				}else{
-					warnIgnored(stringArgPlusOne);
 				}
 			}
 		}
@@ -78,9 +82,5 @@ public class CommandLineArgumentBuilder implements Builder<Map<ArgumentType, Com
 						+ " does not match an expected argument, nor value.");
 			}
 		}
-	}
-	
-	private static void warnIgnored(String a1) {
-		System.out.println(a1+" was ignored");
 	}
 }

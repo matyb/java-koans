@@ -7,9 +7,11 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.constant.ArgumentType;
+import com.sandwich.koan.constant.KoanConstants;
 
 public class KoanSuiteRunner {
 
@@ -31,8 +33,7 @@ public class KoanSuiteRunner {
 		Map<ArgumentType, CommandLineArgument> commandLineArguments = 
 			new HashMap<ArgumentType, CommandLineArgument>(this.commandLineArguments); //clone entries
 		ifNecessaryPlantDefaultArgumentToRunKoans(commandLineArguments);
-		List<CommandLineArgument> sortedArguments = new ArrayList<CommandLineArgument>(
-				commandLineArguments.values());
+		List<CommandLineArgument> sortedArguments = new ArrayList<CommandLineArgument>(commandLineArguments.values());
 		Collections.sort(sortedArguments);
 		for(CommandLineArgument argument : sortedArguments){
 			argument.run();
@@ -43,6 +44,13 @@ public class KoanSuiteRunner {
 		if(commandLineArguments.isEmpty() ||
 				(!commandLineArguments.containsKey(ArgumentType.RUN_KOANS)
 					&&	commandLineArguments.containsKey(ArgumentType.CLASS_ARG))){
+			if(KoanConstants.DEBUG){
+				System.out.println("Planting default run target.");
+				for(Entry<ArgumentType, CommandLineArgument> argEntry : commandLineArguments.entrySet()){
+					System.out.println("Key: '"+argEntry.getKey()+"'");
+					System.out.println("Value: '"+argEntry.getValue()+"'");
+				}
+			}
 			commandLineArguments.put(ArgumentType.RUN_KOANS, new CommandLineArgument(
 					ArgumentType.RUN_KOANS, null));
 		}

@@ -12,13 +12,6 @@ import org.junit.Test;
 import com.sandwich.koan.path.CommandLineTestCase;
 
 public class ArgumentTypeTest extends CommandLineTestCase {
-
-	@Test
-	public void testArgumentTypes_behaviorNoExceptions() throws Exception {
-		for(ArgumentType type : ArgumentType.values()){
-			type.run("");
-		}
-	}
 	
 	@Test
 	public void testClassPrecedesMethod() throws Exception {

@@ -7,6 +7,8 @@ public abstract class KoanConstants {
 
 	private KoanConstants(){}
 
+	public static boolean 		DEBUG				= false;
+//	public static boolean 		DEBUG				= true;
 	public static final boolean ENABLE_ENCOURAGEMENT= false;
 	
 	public static final String  __					= "REPLACE ME";
@@ -17,6 +19,7 @@ public abstract class KoanConstants {
 	
 	public static final String  EOL					= System.getProperty("line.separator");
 	public static final String  EOLS				= "[\n\r"+EOL+"]";
+	public static final String  FILESYSTEM_SEPARATOR= System.getProperty("file.separator");
 	public static final String  PERIOD 				= ".";
 	public static final String  EXPECTATION_LEFT_ARG= "has expectation as wrong argument!";
 	public static final String  EXPECTED_LEFT 		= "expected:<";
