@@ -65,7 +65,6 @@ public enum ArgumentType implements ArgumentBehavior {
 		}
 		TYPES_BY_STRING = Collections.unmodifiableMap(types);
 	}
-	@Override
 	public void run(String value) {
 		behavior.run(value);
 	}

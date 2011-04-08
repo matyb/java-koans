@@ -7,7 +7,6 @@ import java.io.IOException;
 
 public abstract class KoanFileCopying implements ArgumentBehavior{
 
-	@Override
 	public void run(String value) {
 		File baseDirectoryFile = new File(ClassLoader.getSystemResource(".").getFile()).getParentFile();  
 		String baseDirectory = baseDirectoryFile.getAbsolutePath();

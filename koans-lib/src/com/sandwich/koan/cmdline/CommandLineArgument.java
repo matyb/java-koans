@@ -22,7 +22,6 @@ public class CommandLineArgument implements Runnable, Comparable<CommandLineArgu
 		argType.run(value);
 	}
 	
-	@Override
 	public int compareTo(CommandLineArgument o) {
 		if(o == null){
 			return -1;

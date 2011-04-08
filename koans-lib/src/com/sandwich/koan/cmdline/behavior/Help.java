@@ -10,7 +10,6 @@ import com.sandwich.koan.constant.KoanConstants;
 
 public class Help implements ArgumentBehavior {
 
-	@Override
 	public void run(String value) {
 		StringBuilder sb = new StringBuilder(
 				 "Java Koans - HELP!!!").append(KoanConstants.EOL);

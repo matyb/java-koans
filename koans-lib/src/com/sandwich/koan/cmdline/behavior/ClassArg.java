@@ -4,9 +4,8 @@ import com.sandwich.koan.path.PathToEnlightenment;
 
 public class ClassArg implements ArgumentBehavior {
 
-	@Override
 	public void run(String koanSuiteClassName) {
-		if(koanSuiteClassName != null && !koanSuiteClassName.trim().isEmpty()){
+		if(koanSuiteClassName != null && koanSuiteClassName.trim().length() != 0){
 			PathToEnlightenment.stagePathToEnlightenment(koanSuiteClassName);
 		}
 	}

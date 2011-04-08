@@ -157,23 +157,19 @@ public class TestUtilsTest {
 			ByteArrayOutputStream sysErr = new ByteArrayOutputStream();
 			System.setErr(new PrintStream(sysErr));
 			TestUtils.doSimultaneouslyAndRepetitively(new TwoObjectAssertion() {
-				@Override
 				public void assertOn(String msg, Object o0, Object o1) {
 					assertEquals(msg, o0, o1);
 				}
 			}, IllegalMonitorStateException.class,
 			new Runnable() {
-				@Override
 				public void run() {
 					waste(10);
 				}
 			}, new Runnable() {
-				@Override
 				public void run() {
 					waste(11);
 				}
 			}, new Runnable() {
-				@Override
 				public void run() {
 					waste(3);
 				}
@@ -191,26 +187,22 @@ public class TestUtilsTest {
 	@Test(expected=java.lang.AssertionError.class, timeout=500)
 	public void testEqualsConcurrency_concurrentAccessFails_assertIllegalMonitorStateException() throws Exception {
 		TestUtils.doSimultaneouslyAndRepetitively(new TwoObjectAssertion() {
-			@Override
 			public void assertOn(String msg, Object o0, Object o1) {
 				assertEquals(msg, o0, o1);
 			}
 		}, 
 		IllegalMonitorStateException.class,
 		new Runnable() {
-			@Override
 			public void run() {
 				waste(10);
 			}
 		}, 
 		new Runnable() {
-			@Override
 			public void run() {
 				waste(11);
 			}
 		}, 
 		new Runnable() {
-			@Override
 			public void run() {
 				waste(3);
 			}
@@ -220,22 +212,18 @@ public class TestUtilsTest {
 	@Test
 	public void testEqualsConcurrency() throws Exception {
 		TestUtils.doSimultaneouslyAndRepetitively(new TwoObjectAssertion() {
-			@Override
 			public void assertOn(String msg, Object o0, Object o1) {
 				assertEquals(msg, o0, o1);
 			}
 		}, new Runnable(){
-			@Override
 			public void run() {
 				wasteSynchronized(10);
 			}
 		}, new Runnable(){
-			@Override
 			public void run() {
 				wasteSynchronized(11);
 			}
 		}, new Runnable(){
-			@Override
 			public void run() {
 				wasteSynchronized(3);
 			}
@@ -245,27 +233,22 @@ public class TestUtilsTest {
 	@Test
 	public void testEqualsConcurrency_II() throws Exception {
 		TestUtils.doSimultaneouslyAndRepetitively(new TwoObjectAssertion() {
-			@Override
 			public void assertOn(String msg, Object o0, Object o1) {
 				assertEquals(msg, o0, o1);
 			}
 		}, new Runnable(){
-			@Override
 			public void run() {
 				wasteSynchronized(10);
 			}
 		}, new Runnable(){
-			@Override
 			public void run() {
 				wasteSynchronized(11);
 			}
 		}, new Runnable(){
-			@Override
 			public void run() {
 				wasteSynchronized(4);
 			}
 		}, new Runnable(){
-			@Override
 			public void run() {
 				wasteSynchronized(6);
 			}

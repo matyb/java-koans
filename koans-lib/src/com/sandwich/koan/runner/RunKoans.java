@@ -41,7 +41,6 @@ public class RunKoans implements ArgumentBehavior {
 		this.pathToEnlightenment = pathToEnlightenment;
 	}
 	
-	@Override
 	public void run(String value) {
 		try {
 			runAndDisplayKoans();

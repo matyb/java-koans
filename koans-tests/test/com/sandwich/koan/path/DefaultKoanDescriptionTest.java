@@ -26,7 +26,7 @@ public class DefaultKoanDescriptionTest {
 			}
 		}
 		String exceptionString = exceptionStringBuilder.toString();
-		if(!exceptionString.trim().isEmpty()){
+		if(exceptionString.trim().length() != 0){
 			throw new RuntimeException(new StringBuilder(KoanConstants.EOL).append(
 				"Following still have default Koan description:").append(exceptionString).toString());
 		}

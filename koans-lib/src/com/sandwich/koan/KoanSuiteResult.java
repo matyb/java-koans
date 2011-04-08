@@ -72,8 +72,6 @@ public class KoanSuiteResult {
 		public KoanResultBuilder lineNumber(String lineNumber){
 			state.lineNumber = lineNumber; return this;
 		}
-		
-		@Override
 		public KoanSuiteResult build() {
 			return new KoanSuiteResult(state);
 		}

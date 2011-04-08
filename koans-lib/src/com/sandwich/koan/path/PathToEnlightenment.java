@@ -153,7 +153,6 @@ public abstract class PathToEnlightenment {
 			}
 			return total;
 		}
-		@Override
 		public Iterator<Entry<String, Map<Object, List<KoanMethod>>>> iterator() {
 			return koanMethodsBySuiteByPackage.entrySet().iterator();
 		}

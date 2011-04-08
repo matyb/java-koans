@@ -23,7 +23,6 @@ public class KoanComparator implements Comparator<KoanMethod> {
 		this.orderedKeywords = new ArrayList<String>(koans);
 	}
 	
-	@Override
 	public int compare(KoanMethod arg0, KoanMethod arg1) {
 		String name0 = arg0.getMethod().getName();
 		String name1 = arg1.getMethod().getName();

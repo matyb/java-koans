@@ -3,16 +3,14 @@ package com.sandwich.koan.cmdline;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
-import java.util.AbstractMap.SimpleEntry;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import org.junit.Test;
 
-import com.sandwich.koan.cmdline.CommandLineArgument;
-import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.constant.ArgumentType;
+import com.sandwich.util.SimpleEntry;
 
 
 public class CommandLineArgumentBuilderTest {

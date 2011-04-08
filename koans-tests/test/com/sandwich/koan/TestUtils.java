@@ -170,7 +170,6 @@ public class TestUtils {
 			totalRuns += startRunsTemp;
 			startRuns--;
 			threads[i] = new Thread(new Runnable(){
-				@Override
 				public void run() {
 					Runnable runnable = rs[it];
 					for(int j = 0; j < startRunsTemp; j++){

@@ -77,7 +77,6 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	public void testKoanSuiteRunner_firstKoanFail() throws Exception {
 		final KoanSuiteResult[] result = new KoanSuiteResult[]{null};
 		final SuitePresenter presenter = new SuitePresenter(){
-			@Override
 			public void displayResult(KoanSuiteResult actualAppResult) {
 				// don't display, capture them so we can analyze and ensure first failure is reported
 				result[0] = actualAppResult;
@@ -92,7 +91,6 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	public void testKoanSuiteRunner_allKoansFail() throws Exception {
 		final KoanSuiteResult[] result = new KoanSuiteResult[]{null};
 		final SuitePresenter presenter = new SuitePresenter(){
-			@Override
 			public void displayResult(KoanSuiteResult actualAppResult) {
 				// don't display, capture them so we can analyze and ensure first failure is reported
 				result[0] = actualAppResult;

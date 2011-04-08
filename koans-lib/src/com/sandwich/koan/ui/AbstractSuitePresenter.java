@@ -4,7 +4,6 @@ import com.sandwich.koan.KoanSuiteResult;
 
 public abstract class AbstractSuitePresenter implements SuitePresenter {
 
-	@Override
 	public void displayResult(KoanSuiteResult result) {
 		if (result.isAllKoansSuccessful()) {
 			displayAllSuccess(result);
