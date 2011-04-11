@@ -12,8 +12,8 @@ public class Help implements ArgumentBehavior {
 
 	public void run(String value) {
 		StringBuilder sb = new StringBuilder(
-				 "Java Koans - HELP!!!").append(KoanConstants.EOL);
-		line(sb, "--------------------");
+				 "Java Koans - HELP").append(KoanConstants.EOL);
+		line(sb, "-----------------");
 		line(sb, "the following options are available:");
 		ArrayList<ArgumentType> argTypes = new ArrayList<ArgumentType>(Arrays.asList(getArgumentTypes()));
 		Collections.reverse(argTypes);

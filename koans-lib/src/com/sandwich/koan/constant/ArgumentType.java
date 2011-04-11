@@ -15,36 +15,35 @@ import com.sandwich.koan.cmdline.behavior.MethodArg;
 import com.sandwich.koan.cmdline.behavior.Reset;
 import com.sandwich.koan.cmdline.behavior.Test;
 import com.sandwich.koan.runner.RunKoans;
+import com.sandwich.util.Messages;
 
 public enum ArgumentType implements ArgumentBehavior {	
 	
-	HELP("Help. Displays stuff to, er, help you.",
-			new Help(), "-help", "help", "h", "?"),
-	RESET("Restore all the koans in the src/ folder to their original (or last backed up) state.",	
-			new Reset(), "-reset"),
-	BACKUP("Backup all the koans in the src/ for easy restoration later (useful for developing koans).",	
-			new Backup(), "-backup"),
-	// nothing using this currently - but probably a few things that could - say, a debug presenter?
-	DEBUG("Enable debug state in the app.",	
-			new Debug(), "-debug"),
-	TEST("Run tests. System returns number of failing testcases - not to exceed 255 to retain DOS compatibility for BAT files.", 
-			new Test(), "-test"),
+	HELP(		getString("help_description"), 			new Help(), 		getCommandLineArgs("help_args")), 
+	RESTORE(	getString("restore_description"), 		new Reset(), 		getCommandLineArgs("restore_args")), 
+	BACKUP(		getString("backup_description"), 		new Backup(), 		getCommandLineArgs("backup_args")),
+	DEBUG(		getString("debug_description"), 		new Debug(), 		getCommandLineArgs("debug_args")), 
+	TEST(		getString("test_description"), 			new Test(), 		getCommandLineArgs("test_args")), 
 	// important class MUST come before method - due to how Enum implements comparable and order
 	// dependent logic later @ see ArgumentTypeTest.testClassPrecedesMethod
-	CLASS_ARG("Switch is optional, app tries to find a class definition for any unrecognized string - which becomes a method argument if class is not found. If classcast succeeds - the class will become the only koansuite to run. Permits users/developers to focus on one suite at a time.", 
-			new ClassArg(), "-class"), 
-	METHOD_ARG("Switch is optional, results from failing to find a class definition by an unrecognized string if switch is omitted.", 
-			new MethodArg(), "-method"),
-	RUN_KOANS("Default target. No switch - this runs if no switch is defined, or if a valid class is found as an argument.", 
-			new RunKoans(), ""); 
+	CLASS_ARG(	getString("class_description"), 		new ClassArg(), 	getCommandLineArgs("class_args")),  
+	METHOD_ARG(	getString("method_description"), 		new MethodArg(),	getCommandLineArgs("method_args")), 
+	RUN_KOANS(	getString("default_run_description"), 	new RunKoans(), 	getCommandLineArgs("default_run_args"));  
 	
 	private final List<String> args;
 	private final ArgumentBehavior behavior;
 	private final String description;
+	
 	ArgumentType(String description, ArgumentBehavior behavior, String...args){
 		this.args = Arrays.asList(args);
 		this.behavior = behavior;
 		this.description = description;
+	}
+	static String[] getCommandLineArgs(String key) {
+		return Messages.getCSVs(ArgumentType.class, key);
+	}
+	private static String getString(String key) {
+		return Messages.getString(ArgumentType.class, key);
 	}
 	public List<String> args(){
 		return args;
@@ -52,13 +51,13 @@ public enum ArgumentType implements ArgumentBehavior {
 	public String description(){
 		return description;
 	}
-	public static final Map<String, ArgumentType> TYPES_BY_STRING;
+	private static final Map<String, ArgumentType> TYPES_BY_STRING;
 	static{
 		Map<String, ArgumentType> types = new HashMap<String, ArgumentType>();
 		for(ArgumentType type : ArgumentType.values()){
-			for(String arg : type.args){
+			for(String arg : type.args()){
 				if(types.containsKey(arg)){
-					throw new IllegalArgumentException("command line arg: "+arg+" is duplicated.");
+					throw new IllegalArgumentException(Messages.getString("ArgumentType.duplicated_arg_error_part1")+arg+Messages.getString("ArgumentType.duplicated_arg_error_part2")); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				types.put(arg, type);
 			}
@@ -67,6 +66,9 @@ public enum ArgumentType implements ArgumentBehavior {
 	}
 	public void run(String value) {
 		behavior.run(value);
+	}
+	public static ArgumentType findTypeByString(String stringArg) {
+		return TYPES_BY_STRING.get(stringArg);
 	}
 }
 

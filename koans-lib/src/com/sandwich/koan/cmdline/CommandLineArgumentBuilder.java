@@ -24,8 +24,8 @@ public class CommandLineArgumentBuilder implements Builder<Map<ArgumentType, Com
 				String stringArgPlusOne = args.length <= ++index ? null : args[index];
 				stringArgPlusOne = stringArgPlusOne == null || stringArgPlusOne.trim().length() == 0
 					? null : stringArgPlusOne;
-				ArgumentType argumentType = ArgumentType.TYPES_BY_STRING.get(stringArg);
-				ArgumentType argumentTypePlusOne = ArgumentType.TYPES_BY_STRING.get(stringArgPlusOne);
+				ArgumentType argumentType = ArgumentType.findTypeByString(stringArg);
+				ArgumentType argumentTypePlusOne = ArgumentType.findTypeByString(stringArgPlusOne);
 				if(argumentType != null){ // matches an anticipated argument string
 					// so does next value, must be an argument too, reevaluate w/ index incremented only once above
 					if(argumentTypePlusOne instanceof ArgumentType){ 
