@@ -14,9 +14,6 @@ public class XmlVariableInjector {
 	
 	
 	public XmlVariableInjector(String lesson, Method koanMethod){
-		if(lesson == null){
-			throw new IllegalArgumentException("lesson may not be null");
-		}
 		if(koanMethod == null){
 			throw new IllegalArgumentException("koanMethod may not be null");
 		}
@@ -28,7 +25,7 @@ public class XmlVariableInjector {
 	}
 	
 	public String injectLessonVariables() {
-		if(lesson.length() == 0 || 
+		if(lesson == null || lesson.length() == 0 || 
 				lesson.indexOf(KoanConstants.XML_PARAMETER_START) < 0){
 			return lesson;
 		}

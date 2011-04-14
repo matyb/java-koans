@@ -5,13 +5,15 @@ import static com.sandwich.util.Assert.assertEquals;
 
 import com.sandwich.koan.Koan;
 
+@SuppressWarnings("unused")
 public class AboutCasting {
-    @Koan
+    
+	@Koan
 	public void longPlusInt() {
 		int a = 6;
 		long b = 10;
 		Object c = a + b;
-		assertEquals(16, c);
+		assertEquals(c, __);
 		assertEquals(c instanceof Integer, __);
 		assertEquals(c instanceof Long, __);
 	}

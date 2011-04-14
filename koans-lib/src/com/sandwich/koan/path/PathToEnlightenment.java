@@ -123,7 +123,7 @@ public abstract class PathToEnlightenment {
 	private static Map<String, KoanElementAttributes> createBogusLessonMap(
 			Class<? extends Object> clazz) {
 		Map<String, KoanElementAttributes> bogusLessonByKoanMap = new HashMap<String, KoanElementAttributes>();
-		String fakeLesson = "for testing - no real lesson";
+		String fakeLesson = "bogus lesson - not read from xml";
 		for(Method m : clazz.getMethods()){
 			bogusLessonByKoanMap.put(m.getName(), new KoanElementAttributes(fakeLesson, m.getName(), "true"));
 		}

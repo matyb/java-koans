@@ -88,7 +88,8 @@ public class XmlToPathTransformer {
 			if("Koan".equalsIgnoreCase(node.getNodeName())){
 				NamedNodeMap attributes = node.getAttributes();
 				String name = attributes.getNamedItem("name").getNodeValue();
-				String rawLesson = attributes.getNamedItem("lesson").getNodeValue();
+				Node lesson = attributes.getNamedItem("lesson");
+				String rawLesson = lesson == null ? null : lesson.getNodeValue();
 				Node displayKoanIncompleteExceptionNode = attributes.getNamedItem("displayIncompleteKoanException");
 				String displayIncompleteKoanException = displayKoanIncompleteExceptionNode == null ?
 						null : displayKoanIncompleteExceptionNode.getNodeValue();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <Packages>
-	<Package pkg="beginner" name="Beginner">
+	<Package pkg="beginner" name="Novice">
 	<!--   
 	TODO: AboutKoans... 
 	-->
@@ -55,6 +55,17 @@
 		<Koan name="toStringIsTestedForNullWhenInvokedImplicitly" 
 			lesson="String concatenation implicitly invokes toString on Objects, unless they are null. Notice no NullPointerException is thrown."/>
 	  </Suite>
+	  <Suite class="AboutCasting">
+	  	<Koan name="longPlusInt" />
+	  	<Koan name="forceIntTypecast" />
+	  	<Koan name="implicitTypecast" />
+	  	<Koan name="downCastWithInerhitance" />
+	  	<Koan name="downCastAndPolymophism" />
+	  	<Koan name="upCastWithInheritance" />
+	  	<Koan name="upCastAndPolymophism" />
+	  	<Koan name="complicatedCast" />
+	  	<Koan name="complicatedCastWithInterface" />
+	  </Suite>
 	  <Suite class="AboutArrays">
 	  	<Koan name="arraysDoNotConsiderElementsWhenEvaluatingEquality"
 			lesson="Arrays utilize reference equality, they do not consider elements when determining equality."/>
@@ -74,6 +85,15 @@
 			lesson="Array instances blow up when referencing an index that doesn't exist."/>
 		<Koan name="arrayLengthCanBeChecked"
 			lesson="It is often necessary to check the length of an array to ensure an index is valid. This is easy with the array's length property."/>
+	  </Suite>
+	  <Suite class="AboutPrimitives">
+	  	<Koan name="byteSize" />
+	  	<Koan name="shortSize" />
+	  	<Koan name="integerSize" />
+	  	<Koan name="longSize" />
+	  	<Koan name="charSizeAndValue" />
+	  	<Koan name="floatSize" />
+	  	<Koan name="doubleSize" />
 	  </Suite>
 	</Package>
 	<Package pkg="intermediate" name="Intermediate">

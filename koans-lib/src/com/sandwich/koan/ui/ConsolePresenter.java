@@ -106,7 +106,6 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	protected void printSuggestion(KoanSuiteResult result) {
 		KoanMethod failedKoan = result.getFailingMethod();
 		StringBuilder sb = 	buildLessonLine(failedKoan);
-		sb.append(EOL).append(EOL);
 		buildInvestigateLine(sb, result.getFailingCase().getSimpleName(),failedKoan.getMethod().getName());
 		sb.append(EOL).append(EOL);
 		buildLineClue(sb, result);
@@ -135,6 +134,10 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	}
 
 	private StringBuilder buildLessonLine(KoanMethod failedKoan) {
-		return new StringBuilder(failedKoan.getLesson());
+		String lesson = failedKoan.getLesson();
+		if(lesson == null){
+			return new StringBuilder(); // no lesson
+		}
+		return new StringBuilder(lesson).append(EOL).append(EOL);
 	}
 }
