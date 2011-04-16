@@ -66,6 +66,31 @@
 	  	<Koan name="complicatedCast" />
 	  	<Koan name="complicatedCastWithInterface" />
 	  </Suite>
+	  <Suite class="AboutInheritance">
+	  	<Koan name="differenceBetweenOverloadingAndOverriding" />
+	  	<Koan name="overridenMethodsMayReturnSubtype" 
+	  		lesson="An overridden method may return a subtype of the return type for the method being overridden. Look at the javadoc for java.util.Collection or java.util.List - it will reveal how to eliminate this type cast."/>
+	  </Suite>
+	  <Suite class="AboutConstructors">
+	  	<Koan name="simpleConstructorOrder" />
+	  	<Koan name="complexConstructorOrder" />
+	  </Suite>
+	  <Suite class="AboutMethodPreference">
+	  	<Koan name="methodPreferenceInt" />
+	  	<Koan name="methodPreferenceInteger" />
+	  	<Koan name="methodPreferenceLong" />
+	  	<Koan name="methodPreferenceBoxedLong" />
+	  	<Koan name="methodPreferenceDouble" />
+	  	<Koan name="methodPreferenceMore" />
+	  </Suite>
+	  <Suite class="AboutOperators">
+	  	<Koan name="plusPlusVariablePlusPlus" />
+	  	<Koan name="shortCircuit" />
+	  	<Koan name="fullAnd" />
+	  	<Koan name="shortCircuitAnd" />
+	  	<Koan name="aboutXOR" />
+	  	<Koan name="dontMistakeEqualsForEqualsEquals" />
+	  </Suite>
 	  <Suite class="AboutArrays">
 	  	<Koan name="arraysDoNotConsiderElementsWhenEvaluatingEquality"
 			lesson="Arrays utilize reference equality, they do not consider elements when determining equality."/>

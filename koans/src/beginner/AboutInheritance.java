@@ -1,11 +1,13 @@
 package beginner;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
-import com.sandwich.koan.Koan;
 import static com.sandwich.koan.constant.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
+
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
+import com.sandwich.koan.Koan;
 
 public class AboutInheritance {
 
@@ -25,18 +27,18 @@ public class AboutInheritance {
 	}
 	
 	abstract class ParentTwo {
-		abstract public Collection doStuff();
+		abstract public Collection<?> doStuff();
 	}
 	
 	class ChildTwo extends ParentTwo {
-		public Collection doStuff() { return null; };
+		public Collection<?> doStuff() { return Collections.emptyList(); };
 	}
 	
 	@Koan
 	public void overridenMethodsMayReturnSubtype() {
 		// What do you need to change in order to get rid of the type cast?
 		// Why does this work?
-		ArrayList arraylist = (ArrayList)new ChildTwo().doStuff();
-		assertEquals(arraylist instanceof ArrayList, true);
+		List<?> list = (List<?>)new ChildTwo().doStuff();
+		assertEquals(list instanceof List, __);
 	}
 }
