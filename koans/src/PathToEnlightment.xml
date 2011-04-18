@@ -66,6 +66,13 @@
 	  	<Koan name="complicatedCast" />
 	  	<Koan name="complicatedCastWithInterface" />
 	  </Suite>
+	   <Suite class="AboutConditionals">
+	   	<Koan name="basicIfWithoutCurly" />
+	   	<Koan name="basicIfElseWithoutCurly" />
+	   	<Koan name="basicIfElseIfElseWithoutCurly" />
+	   	<Koan name="nestedIfsWithoutCurlysAreReallyMisleading" />
+	   	<Koan name="ifAsIntended" />
+	  </Suite>
 	  <Suite class="AboutInheritance">
 	  	<Koan name="differenceBetweenOverloadingAndOverriding" />
 	  	<Koan name="overridenMethodsMayReturnSubtype" 
@@ -75,6 +82,12 @@
 	  	<Koan name="simpleConstructorOrder" />
 	  	<Koan name="complexConstructorOrder" />
 	  </Suite>
+	  <Suite class="AboutEnums">
+	  	<Koan name="basicEnums" />
+	  	<Koan name="basicEnumsAccess" />
+	  	<Koan name="enumsWithAttributes" />
+	  	<Koan name="enumsWithMethods" />
+	  </Suite>	  
 	  <Suite class="AboutMethodPreference">
 	  	<Koan name="methodPreferenceInt" />
 	  	<Koan name="methodPreferenceInteger" />
