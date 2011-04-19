@@ -38,11 +38,6 @@ public abstract class PathToEnlightenment {
 		Path koans = getPathToEnlightment();
 		// if more than 1 pkg, or more than 1 suite - something is likely broken before this point
 		Map<Object, List<KoanMethod>> lessonsBySuiteMap = koans.iterator().next().getValue();
-		boolean logWarning = false;
-		if(koans.size() != 1 || 
-				lessonsBySuiteMap.size() !=1){
-			logWarning = true;
-		}
 		koanName = koanName.trim();
 		for(Entry<Object, List<KoanMethod>> methodsBySuite : lessonsBySuiteMap.entrySet()){
 			KoanMethod keeper = null;
@@ -51,9 +46,6 @@ public abstract class PathToEnlightenment {
 					keeper = method;
 					break;
 				}
-//				else if(koanName.equalsIgnoreCase(method.getMethod().getName())){
-//					// do nothing for now? - should warn, but may be intentional... TODO: revisit decision
-//				}
 			}
 			if(keeper == null){
 				// default is to assume method if not a class or recognized arg
@@ -64,7 +56,7 @@ public abstract class PathToEnlightenment {
 			methodsBySuite.setValue(Arrays.asList(keeper));
 		}
 		// defer the warning until after potential user error is in console and app is exited
-		if(!logWarning){
+		if(koans.size() != 1 || lessonsBySuiteMap.size() != 1){
 			Logger.getAnonymousLogger().warning("not just one koansuite remains, " +
 				"check koan suite name argument - not likely that filtering by method will work.");
 		}
@@ -114,20 +106,46 @@ public abstract class PathToEnlightenment {
 		Map<String, Map<Object, List<KoanMethod>>> koans = new HashMap<String, Map<Object,List<KoanMethod>>>();
 		Map<Object, List<KoanMethod>> suiteAndMethods = new HashMap<Object, List<KoanMethod>>();
 		List<KoanMethod> methods = XmlToPathTransformer.getKoanMethods(koanSuite.getClass(), 
-				createBogusLessonMap(koanSuite.getClass()));
+				createStubbedLessonMapForSuite(koanSuite.getClass()));
 		suiteAndMethods.put(koanSuite, methods);
 		koans.put(koanSuite.toString(), suiteAndMethods);
 		PathToEnlightenment.theWay = new Path(koans);
 	}
 	
-	private static Map<String, KoanElementAttributes> createBogusLessonMap(
+	private static Map<String, KoanElementAttributes> createStubbedLessonMapForSuite(
 			Class<? extends Object> clazz) {
-		Map<String, KoanElementAttributes> bogusLessonByKoanMap = new HashMap<String, KoanElementAttributes>();
-		String fakeLesson = "bogus lesson - not read from xml";
-		for(Method m : clazz.getMethods()){
-			bogusLessonByKoanMap.put(m.getName(), new KoanElementAttributes(fakeLesson, m.getName(), "true"));
+		Map<String, KoanElementAttributes> partialLessonByKoanMap = new HashMap<String, KoanElementAttributes>();
+		Map<String, String> lessonsByMethodName = Collections.emptyMap();
+		try{
+			Path path = PathToEnlightenment.createPath();
+			Map<String, Map<Object, List<KoanMethod>>> koanMethodsBySuiteByPackage = path.koanMethodsBySuiteByPackage;
+			Map<Object, List<KoanMethod>> methodsBySuite = Collections.emptyMap();
+			for(Entry<String, Map<Object, List<KoanMethod>>> e : koanMethodsBySuiteByPackage.entrySet()){
+				for(Entry<Object, List<KoanMethod>> e1 : e.getValue().entrySet()){
+					if(clazz.isInstance(e1.getKey())){
+						methodsBySuite = e.getValue();
+						break;
+					}
+				}
+			}
+			for(Entry<Object, List<KoanMethod>> e : methodsBySuite.entrySet()){
+				if(clazz.isInstance(e.getKey())){
+					lessonsByMethodName = new HashMap<String, String>();
+					for(KoanMethod method : e.getValue()){
+						lessonsByMethodName.put(method.getMethod().getName(), method.getLesson());
+					}
+					break;
+				}
+			}
+		}catch(Throwable x){
+			Logger.getAnonymousLogger().severe(x.getMessage());
 		}
-		return bogusLessonByKoanMap;
+		for(Method m : clazz.getMethods()){
+			String methodName = m.getName();
+			partialLessonByKoanMap.put(methodName, new KoanElementAttributes(
+				lessonsByMethodName.get(methodName), methodName, "true"));
+		}
+		return partialLessonByKoanMap;
 	}
 
 	private PathToEnlightenment(){} // non instantiable

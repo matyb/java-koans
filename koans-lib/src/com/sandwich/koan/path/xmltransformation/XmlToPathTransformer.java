@@ -46,7 +46,7 @@ public class XmlToPathTransformer {
 		DocumentBuilder db = dbf.newDocumentBuilder();
 		Document doc = db.parse(xmlFile);
 		doc.getDocumentElement().normalize();
-		NodeList nodeLst = doc.getElementsByTagName("Package");
+		NodeList nodeLst = doc.getElementsByTagName("package");
 		Map<String, Map<Object, List<KoanMethod>>> koans = new LinkedHashMap<String, Map<Object, List<KoanMethod>>>();
 		for(int i = 0; i < nodeLst.getLength(); i++){
 			Node node = nodeLst.item(i);
@@ -61,7 +61,7 @@ public class XmlToPathTransformer {
 		Map<Object, List<KoanMethod>> suitesAndKoans = new LinkedHashMap<Object, List<KoanMethod>>();
 		for(int i = 0; i < childNodes.getLength(); i++){
 			Node node = childNodes.item(i);
-			if("Suite".equalsIgnoreCase(node.getNodeName())){
+			if("suite".equalsIgnoreCase(node.getNodeName())){
 				Class<?> koanSuiteClass = Class.forName(pkg + '.' + node.getAttributes().getNamedItem("class").getNodeValue());
 				suitesAndKoans.put(
 						koanSuiteClass.newInstance(), Collections.unmodifiableList(
@@ -85,7 +85,7 @@ public class XmlToPathTransformer {
 		Map<String, KoanElementAttributes> rawKoanAttributesByMethodName = new LinkedHashMap<String, KoanElementAttributes>();
 		for(int i = 0; i < nodes.getLength(); i++){
 			Node node = nodes.item(i);
-			if("Koan".equalsIgnoreCase(node.getNodeName())){
+			if("koan".equalsIgnoreCase(node.getNodeName())){
 				NamedNodeMap attributes = node.getAttributes();
 				String name = attributes.getNamedItem("name").getNodeValue();
 				Node lesson = attributes.getNamedItem("lesson");

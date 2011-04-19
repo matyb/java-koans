@@ -39,10 +39,34 @@ public class KoanMethod {
 		return "{"+getMethod().getName()
 				+" : "+ (lesson.length() > 20 ? lesson.substring(0, 20) + "..." : lesson)+"}";
 	}
-	
-	@Override public boolean equals(Object o){
-		return o instanceof KoanMethod && 
-			method.equals(((KoanMethod)o).method) &&
-			lesson.equals(((KoanMethod)o).lesson);
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (displayIncompleteException ? 1231 : 1237);
+		result = prime * result + ((lesson == null) ? 0 : lesson.hashCode());
+		return result;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		KoanMethod other = (KoanMethod) obj;
+		if (displayIncompleteException != other.displayIncompleteException)
+			return false;
+		if (lesson == null) {
+			if (other.lesson != null)
+				return false;
+		} else if (!lesson.equals(other.lesson))
+			return false;
+		return true;
+	}
+	
+	
 }
