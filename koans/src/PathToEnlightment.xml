@@ -55,6 +55,17 @@
 		<Koan name="toStringIsTestedForNullWhenInvokedImplicitly" 
 			lesson="String concatenation implicitly invokes toString on Objects, unless they are null. Notice no NullPointerException is thrown."/>
 	  </Suite>
+	  <Suite class="AboutLoops">
+	   	<Koan name="basicForLoop" />
+	   	<Koan name="basicForLoopWithTwoVariables" />
+	   	<Koan name="extendedForLoop" />
+	   	<Koan name="whileLoop" />
+	   	<Koan name="doLoop" />
+	   	<Koan name="extendedForLoopBreak" />
+	   	<Koan name="extendedForLoopContinue" />
+	   	<Koan name="forLoopContinueLabel" />
+	   	<Koan name="forLoopBreakLabel" />
+	  </Suite>
 	  <Suite class="AboutCasting">
 	  	<Koan name="longPlusInt" />
 	  	<Koan name="forceIntTypecast" />
@@ -72,6 +83,11 @@
 	   	<Koan name="basicIfElseIfElseWithoutCurly" />
 	   	<Koan name="nestedIfsWithoutCurlysAreReallyMisleading" />
 	   	<Koan name="ifAsIntended" />
+	   	<Koan name="basicSwitchStatement" />
+	   	<Koan name="switchStatementFallThrough" />
+	   	<Koan name="switchStatementCrazyFallThrough" />
+	   	<Koan name="switchStatementConstants" />
+	   	<Koan name="switchStatementSwitchValues" />
 	  </Suite>
 	  <Suite class="AboutInheritance">
 	  	<Koan name="differenceBetweenOverloadingAndOverriding" />
@@ -144,6 +160,14 @@
 			lesson="With AutoBoxing, we can intermix as well"/>
 		<Koan name="allPrimativesCanBeAutoboxed"
 			lesson="All primatives can be autoboxed"/>
+	  </Suite>
+	  <Suite class="AboutSerialization">
+	    <Koan name="simpleSerialization" />
+	    <Koan name="customObjectSerialization" />
+	    <Koan name="customObjectSerializationWithTransientFields" />
+	    <Koan name="customSerializationWithUnserializableFields" />
+	    <Koan name="serializeWithInteritance" />
+	    <Koan name="serializeWithInheritanceWhenParentNotserializable" />
 	  </Suite>
 	</Package>
 	<Package pkg="advanced" name="Advanced">

@@ -72,4 +72,84 @@ public class AboutConditionals {
 		assertEquals(x,__);
 	} 
 	
+	@Koan 
+	public void basicSwitchStatement() {
+		int i = 1;
+		String result = "Basic ";
+		switch(i) {
+			case 1:
+				result += "One";
+				break;
+			case 2:
+				result += "Two";
+				break;
+			default:
+				result += "Nothing";
+		}
+		assertEquals(result, __);
+	}
+	
+	@Koan 
+	public void switchStatementFallThrough() {
+		int i = 1;
+		String result = "Basic ";
+		switch(i) {
+			case 1:
+				result += "One";
+			case 2:
+				result += "Two";
+			default:
+				result += "Nothing";
+		}
+		assertEquals(result, __);
+	}
+	
+	@Koan 
+	public void switchStatementCrazyFallThrough() {
+		int i = 5;
+		String result = "Basic ";
+		switch(i) {
+			case 1:
+				result += "One";
+			default:
+				result += "Nothing";
+			case 2:
+				result += "Two";
+		}
+		assertEquals(result, __);
+	}
+	
+	@Koan 
+	public void switchStatementConstants() {
+		int i = 5;
+		// What happens if you remove the 'final' modifier?
+		// What does this mean for case values?
+		final int caseOne = 1;
+		String result = "Basic ";
+		switch(i) {
+			case caseOne:
+				result += "One";
+				break;
+			default:
+				result += "Nothing";
+		}
+		assertEquals(result, __);
+	}
+	
+	@Koan 
+	public void switchStatementSwitchValues() {
+		// Try different (primitive) types for 'c'
+		// Which types do compile?
+		// Does boxing work?
+		byte c = 'a';
+		String result = "Basic ";
+		switch(c) {
+			case 'a':
+				result += "One";
+				break;
+			default:
+				result += "Nothing";
+		}
+		assertEquals(result, __);
+	}
 }
