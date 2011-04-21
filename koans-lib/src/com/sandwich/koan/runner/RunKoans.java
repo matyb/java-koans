@@ -75,6 +75,7 @@ public class RunKoans implements ArgumentBehavior {
 							firstFailingMethod = koan;
 							level = packages.getKey();
 						}
+						break; // might as well not run the rest
 					}
 				}
 				if (testsPassed) {
