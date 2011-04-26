@@ -157,6 +157,26 @@
 				lesson="With AutoBoxing, we can intermix as well" />
 			<koan name="allPrimativesCanBeAutoboxed" lesson="All primatives can be autoboxed" />
 		</suite>
+		<suite class="AboutFileIO">
+			<koan name="fileObjectDoesntCreateFile" />
+			<koan name="fileCreationAndDeletion" />
+			<koan name="basicFileWritingAndReading" />
+			<koan name="betterFileWritingAndReading" />
+			<koan name="directChainingForReadingAndWriting" />
+		</suite>
+		<suite class="AboutInnerClasses">
+			<koan name="creatingInnerClassInstance" />
+			<koan name="creatingInnerClassInstanceWithOtherSyntax" />
+			<koan name="accessingOuterClassMembers" />
+			<koan name="innerClassesInMethods" />
+			<koan name="innerClassesInMethodsThatEscape" />
+			<koan name="creatingAnonymousInnerClasses" />
+			<koan name="creatingAnonymousInnerClassesToImplementIntercae" />
+			<koan name="innerClassAndIneritance" />
+			<koan name="innerClassAndIneritanceOther" />
+			<koan name="staticInnerClass" />
+			<koan name="staticInnerClassFullyQualified" />
+		</suite>
 		<suite class="AboutSerialization">
 			<koan name="simpleSerialization" />
 			<koan name="customObjectSerialization" />
