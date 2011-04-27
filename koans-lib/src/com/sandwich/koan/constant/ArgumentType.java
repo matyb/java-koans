@@ -74,8 +74,16 @@ public enum ArgumentType implements ArgumentBehavior {
 			behavior.run(value);
 			behavior.getSuccessMessage();
 		}catch(Throwable t){
-			Logger.getAnonymousLogger().severe(t.getLocalizedMessage());
-			System.out.println(behavior.getErrorMessage());
+			if(behavior instanceof RunKoans){
+				if(t instanceof RuntimeException){
+					throw (RuntimeException)t;
+				}else{
+					throw new RuntimeException(t);
+				}
+			}else{
+				Logger.getAnonymousLogger().severe(t.getLocalizedMessage());
+				System.out.println(behavior.getErrorMessage());
+			}
 		}
 	}
 	public String getErrorMessage() {

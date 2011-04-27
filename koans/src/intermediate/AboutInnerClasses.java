@@ -76,8 +76,9 @@ public class AboutInnerClasses {
 		assertEquals(anonymous.theAnswer(), __);
 	}
 	
+	@SuppressWarnings("null")
 	@Koan
-	public void creatingAnonymousInnerClassesToImplementIntercae() {
+	public void creatingAnonymousInnerClassesToImplementInterface() {
 		Ignorable ignorable = null; // Complete the code so that the statement below is correct.
 		// Look at the koan above for inspiration
 		assertEquals(ignorable.ignoreAll(), "SomeInterestingString");

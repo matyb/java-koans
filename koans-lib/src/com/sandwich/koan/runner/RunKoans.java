@@ -95,7 +95,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 		String message = failure != null
 				&& KoanIncompleteException.class.isAssignableFrom(failure.getClass()) ? 
 						failure.getMessage() : formatNormalException(failure);
-		if (message != null && message.contains(EXPECTED_LEFT + __ + EXPECTED_RIGHT)) {
+		if (failure instanceof KoanIncompleteException && message.contains(EXPECTED_LEFT + __ + EXPECTED_RIGHT)) {
 			logExpectationOnWrongSideWarning(firstFailingSuite,
 					firstFailingMethod.getMethod());
 		}
@@ -109,7 +109,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 	}
 	
 	private String formatNormalException(Throwable failure) {
-		return failure == null ? "" : failure.getMessage();
+		return failure == null ? "" : fillStackTrace(failure).toString();
 	}
 
 	/**
@@ -121,21 +121,28 @@ public class RunKoans extends AbstractArgumentBehavior {
 	 * @return
 	 */
 	static String getOriginalLineNumber(Throwable t, Class<?> failingSuite){
-		StringWriter stringWriter = new StringWriter();
-		if(t == null){
-			return null;
-		}
-		t.printStackTrace(new PrintWriter(stringWriter));
+		StringWriter stringWriter = fillStackTrace(t);
 		String[] lines = stringWriter.toString().split(EOLS);
-		for(int i = lines.length - 1; i >= 0; --i){
-			String line = lines[i];
-			if(line.contains(failingSuite.getName())){
-				return line.substring(
-						line.indexOf(KoanConstants.LINE_NO_START)+KoanConstants.LINE_NO_START.length(),
-						line.lastIndexOf(KoanConstants.LINE_NO_END));
+		if(failingSuite != null){
+			for(int i = lines.length - 1; i >= 0; --i){
+				String line = lines[i];
+				if(line.contains(failingSuite.getName())){
+					return line.substring(
+							line.indexOf(KoanConstants.LINE_NO_START)+KoanConstants.LINE_NO_START.length(),
+							line.lastIndexOf(KoanConstants.LINE_NO_END));
+				}
 			}
 		}
 		return null;
+	}
+
+	private static StringWriter fillStackTrace(Throwable t) {
+		StringWriter stringWriter = new StringWriter();
+		if(t == null){
+			return stringWriter;
+		}
+		t.printStackTrace(new PrintWriter(stringWriter));
+		return stringWriter;
 	}
 
 	private Path getPathToEnlightement() {

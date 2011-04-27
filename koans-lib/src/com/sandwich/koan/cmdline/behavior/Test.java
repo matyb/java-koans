@@ -8,7 +8,6 @@ public class Test extends AbstractArgumentBehavior{
 
 	public void run(String value) throws IOException {
 		FileCompiler.compileRelative("koans-tests", "test", "bin");
-		
 	}
 	
 }
