@@ -34,10 +34,7 @@ public class KoanSuiteRunner {
 			IllegalArgumentException, InvocationTargetException {
 		Map<ArgumentType, CommandLineArgument> commandLineArguments = 
 			new HashMap<ArgumentType, CommandLineArgument>(this.commandLineArguments); //clone entries
-		if(isFirstTimeAppHasBeenRun()){
-			commandLineArguments.put(ArgumentType.BACKUP, new CommandLineArgument(ArgumentType.BACKUP, null));
-		}
-		ifNecessaryPlantDefaultArgumentToRunKoans(commandLineArguments);
+		applyAssumedStartupBehaviors(commandLineArguments);
 		List<CommandLineArgument> sortedArguments = new ArrayList<CommandLineArgument>(commandLineArguments.values());
 		Collections.sort(sortedArguments);
 		for(CommandLineArgument argument : sortedArguments){
@@ -51,8 +48,15 @@ public class KoanSuiteRunner {
 		return !dataDirectory.exists();
 	}
 
-	void ifNecessaryPlantDefaultArgumentToRunKoans(Map<ArgumentType, CommandLineArgument> commandLineArguments) {
-		if(commandLineArguments.isEmpty() ||
+	void applyAssumedStartupBehaviors(Map<ArgumentType, CommandLineArgument> commandLineArguments) {
+		if(isFirstTimeAppHasBeenRun()){
+			ArgumentType.BACKUP.run(null);
+			// really hackish - but this will clear console for first run, not necessary after
+			for(int i = 0; i < 80; i++){
+				System.out.println();
+			}
+		}
+		if(commandLineArguments.isEmpty() || 
 				(!commandLineArguments.containsKey(ArgumentType.RUN_KOANS)
 					&&	commandLineArguments.containsKey(ArgumentType.CLASS_ARG))){
 			if(KoanConstants.DEBUG){
@@ -63,7 +67,7 @@ public class KoanSuiteRunner {
 				}
 			}
 			commandLineArguments.put(ArgumentType.RUN_KOANS, new CommandLineArgument(
-					ArgumentType.RUN_KOANS, null));
+					ArgumentType.RUN_KOANS, null, true));
 		}
 	}
 	

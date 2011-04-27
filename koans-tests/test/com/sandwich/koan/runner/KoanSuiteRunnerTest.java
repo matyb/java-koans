@@ -21,7 +21,7 @@ public class KoanSuiteRunnerTest {
 	@Test
 	public void testNecessityOfAddingRunKoansCommandLineArgument_addsIfNoArgsPresent(){ //default target
 		Map<ArgumentType, CommandLineArgument> args = new HashMap<ArgumentType, CommandLineArgument>();
-		new KoanSuiteRunner().ifNecessaryPlantDefaultArgumentToRunKoans(args);
+		new KoanSuiteRunner().applyAssumedStartupBehaviors(args);
 		assertArgsContains(true, args, ArgumentType.RUN_KOANS);
 	}
 
@@ -29,7 +29,7 @@ public class KoanSuiteRunnerTest {
 	public void testNecessityOfAddingRunKoansCommandLineArgument_ifClassArgIsPresent(){ //default target
 		Map<ArgumentType, CommandLineArgument> args = new HashMap<ArgumentType, CommandLineArgument>();
 		args.put(ArgumentType.CLASS_ARG, new CommandLineArgument(ArgumentType.CLASS_ARG, Object.class.getName()));
-		new KoanSuiteRunner().ifNecessaryPlantDefaultArgumentToRunKoans(args);
+		new KoanSuiteRunner().applyAssumedStartupBehaviors(args);
 		assertArgsContains(true, args, ArgumentType.RUN_KOANS, ArgumentType.CLASS_ARG);
 	}
 	
@@ -41,7 +41,7 @@ public class KoanSuiteRunnerTest {
 		for(ArgumentType type : types){
 			Map<ArgumentType, CommandLineArgument> args = new HashMap<ArgumentType, CommandLineArgument>();
 			args.put(type, new CommandLineArgument(type, null));
-			new KoanSuiteRunner().ifNecessaryPlantDefaultArgumentToRunKoans(args);
+			new KoanSuiteRunner().applyAssumedStartupBehaviors(args);
 			assertArgsContains(false, args, ArgumentType.RUN_KOANS);
 			assertArgsContains(true, args, type);
 		}

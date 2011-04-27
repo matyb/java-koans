@@ -5,9 +5,15 @@ import com.sandwich.koan.constant.ArgumentType;
 public class CommandLineArgument implements Runnable, Comparable<CommandLineArgument> {
 	private ArgumentType argType;
 	private String value;
+	boolean isPlantedByApp = false;
 	public CommandLineArgument(ArgumentType argType, String value) {
+		this(argType, value, false);
+	}
+
+	public CommandLineArgument(ArgumentType argType, String value, boolean isPlantedByApp) {
 		this.argType = argType;
 		this.value = value;
+		this.isPlantedByApp = isPlantedByApp;
 	}
 
 	public String getValue() {
@@ -18,6 +24,14 @@ public class CommandLineArgument implements Runnable, Comparable<CommandLineArgu
 		return argType;
 	}
 
+	public void setPlantedByApp(boolean isPlantedByApp){
+		this.isPlantedByApp = isPlantedByApp;
+	}
+	
+	public boolean isPlantedByApp() {
+		return isPlantedByApp;
+	}
+	
 	public void run(){
 		argType.run(value);
 	}
@@ -65,4 +79,5 @@ public class CommandLineArgument implements Runnable, Comparable<CommandLineArgu
 			return false;
 		return true;
 	}
+	
 }

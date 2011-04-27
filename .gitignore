@@ -1,3 +1,5 @@
 *.class
 bin/*
 */bin/*
+koans/data
+koans/data*
