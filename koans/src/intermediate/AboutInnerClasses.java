@@ -88,7 +88,7 @@ public class AboutInnerClasses {
 	}
 	
 	@Koan
-	public void innerClassAndIneritance() {
+	public void innerClassAndInheritance() {
 		Inner someObject = new Inner();
 		// The statement below is obvious... 
 		// Try to change the 'Inner' below to "AboutInnerClasses' 
@@ -100,7 +100,7 @@ public class AboutInnerClasses {
 	class OtherInner extends AboutInnerClasses { }
 	
 	@Koan
-	public void innerClassAndIneritanceOther() {
+	public void innerClassAndInheritanceOther() {
 		OtherInner someObject = new OtherInner();
 		// What do you expect here?
 		// Complare this result with the last koan. What does that mean?

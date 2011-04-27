@@ -172,8 +172,8 @@
 			<koan name="innerClassesInMethodsThatEscape" />
 			<koan name="creatingAnonymousInnerClasses" />
 			<koan name="creatingAnonymousInnerClassesToImplementInterface" />
-			<koan name="innerClassAndIneritance" />
-			<koan name="innerClassAndIneritanceOther" />
+			<koan name="innerClassAndInheritance" />
+			<koan name="innerClassAndInheritanceOther" />
 			<koan name="staticInnerClass" />
 			<koan name="staticInnerClassFullyQualified" />
 		</suite>
