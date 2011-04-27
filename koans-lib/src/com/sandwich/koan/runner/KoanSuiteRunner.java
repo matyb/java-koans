@@ -1,5 +1,6 @@
 package com.sandwich.koan.runner;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Map.Entry;
 import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.util.FileUtils;
 
 public class KoanSuiteRunner {
 
@@ -32,12 +34,21 @@ public class KoanSuiteRunner {
 			IllegalArgumentException, InvocationTargetException {
 		Map<ArgumentType, CommandLineArgument> commandLineArguments = 
 			new HashMap<ArgumentType, CommandLineArgument>(this.commandLineArguments); //clone entries
+		if(isFirstTimeAppHasBeenRun()){
+			commandLineArguments.put(ArgumentType.BACKUP, new CommandLineArgument(ArgumentType.BACKUP, null));
+		}
 		ifNecessaryPlantDefaultArgumentToRunKoans(commandLineArguments);
 		List<CommandLineArgument> sortedArguments = new ArrayList<CommandLineArgument>(commandLineArguments.values());
 		Collections.sort(sortedArguments);
 		for(CommandLineArgument argument : sortedArguments){
 			argument.run();
 		}
+	}
+
+	private boolean isFirstTimeAppHasBeenRun() {
+		File dataDirectory = new File(FileUtils.makeAbsolute(
+				new StringBuilder("koans").append(KoanConstants.FILESYSTEM_SEPARATOR).append("data").toString()));
+		return !dataDirectory.exists();
 	}
 
 	void ifNecessaryPlantDefaultArgumentToRunKoans(Map<ArgumentType, CommandLineArgument> commandLineArguments) {

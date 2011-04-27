@@ -2,7 +2,7 @@ package com.sandwich.koan.cmdline.behavior;
 
 import com.sandwich.koan.constant.KoanConstants;
 
-public class Debug implements ArgumentBehavior{
+public class Debug extends AbstractArgumentBehavior{
 
 	public void run(String arg){
 		KoanConstants.DEBUG = KoanConstants.DEBUG || 

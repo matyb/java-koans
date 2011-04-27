@@ -1,10 +1,14 @@
 package com.sandwich.koan.constant;
 
+import static com.sandwich.koan.constant.KoanConstants.ARGUMENTS;
+import static com.sandwich.koan.constant.KoanConstants.DESCRIPTION;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.sandwich.koan.cmdline.behavior.ArgumentBehavior;
 import com.sandwich.koan.cmdline.behavior.Backup;
@@ -15,35 +19,34 @@ import com.sandwich.koan.cmdline.behavior.MethodArg;
 import com.sandwich.koan.cmdline.behavior.Reset;
 import com.sandwich.koan.cmdline.behavior.Test;
 import com.sandwich.koan.runner.RunKoans;
-import com.sandwich.util.Messages;
+import com.sandwich.util.Strings;
+
 
 public enum ArgumentType implements ArgumentBehavior {	
 	
-	HELP(		getString("help_description"), 			new Help(), 		getCommandLineArgs("help_args")), 
-	RESTORE(	getString("restore_description"), 		new Reset(), 		getCommandLineArgs("restore_args")), 
-	BACKUP(		getString("backup_description"), 		new Backup(), 		getCommandLineArgs("backup_args")),
-	DEBUG(		getString("debug_description"), 		new Debug(), 		getCommandLineArgs("debug_args")), 
-	TEST(		getString("test_description"), 			new Test(), 		getCommandLineArgs("test_args")), 
+	HELP(		Help.class), 
+	RESET(		Reset.class), 
+	BACKUP(		Backup.class),
+	DEBUG(		Debug.class), 
+	TEST(		Test.class), 
 	// important class MUST come before method - due to how Enum implements comparable and order
 	// dependent logic later @ see ArgumentTypeTest.testClassPrecedesMethod
-	CLASS_ARG(	getString("class_description"), 		new ClassArg(), 	getCommandLineArgs("class_args")),  
-	METHOD_ARG(	getString("method_description"), 		new MethodArg(),	getCommandLineArgs("method_args")), 
-	RUN_KOANS(	getString("default_run_description"), 	new RunKoans(), 	getCommandLineArgs("default_run_args"));  
+	CLASS_ARG(	ClassArg.class),  
+	METHOD_ARG(	MethodArg.class), 
+	RUN_KOANS(	RunKoans.class);  
 	
 	private final List<String> args;
 	private final ArgumentBehavior behavior;
 	private final String description;
 	
-	ArgumentType(String description, ArgumentBehavior behavior, String...args){
-		this.args = Arrays.asList(args);
-		this.behavior = behavior;
-		this.description = description;
-	}
-	static String[] getCommandLineArgs(String key) {
-		return Messages.getCSVs(ArgumentType.class, key);
-	}
-	private static String getString(String key) {
-		return Messages.getString(ArgumentType.class, key);
+	ArgumentType(Class<? extends ArgumentBehavior> c){
+		try{
+			this.behavior = c.newInstance();
+		}catch(Throwable t){
+			throw new RuntimeException(t);
+		}
+		this.args = Arrays.asList(Strings.getMessages(c, ARGUMENTS));
+		this.description = Strings.getMessage(c, DESCRIPTION);
 	}
 	public List<String> args(){
 		return args;
@@ -57,7 +60,9 @@ public enum ArgumentType implements ArgumentBehavior {
 		for(ArgumentType type : ArgumentType.values()){
 			for(String arg : type.args()){
 				if(types.containsKey(arg)){
-					throw new IllegalArgumentException(Messages.getString("ArgumentType.duplicated_arg_error_part1")+arg+Messages.getString("ArgumentType.duplicated_arg_error_part2")); //$NON-NLS-1$ //$NON-NLS-2$
+					throw new IllegalArgumentException(
+							Strings.getMessages(ArgumentType.class,"duplicated_arg_error_part1")+arg+
+							Strings.getMessages(ArgumentType.class,"duplicated_arg_error_part2")); //$NON-NLS-1$ //$NON-NLS-2$
 				}
 				types.put(arg, type);
 			}
@@ -65,7 +70,19 @@ public enum ArgumentType implements ArgumentBehavior {
 		TYPES_BY_STRING = Collections.unmodifiableMap(types);
 	}
 	public void run(String value) {
-		behavior.run(value);
+		try{
+			behavior.run(value);
+			behavior.getSuccessMessage();
+		}catch(Throwable t){
+			Logger.getAnonymousLogger().severe(t.getLocalizedMessage());
+			System.out.println(behavior.getErrorMessage());
+		}
+	}
+	public String getErrorMessage() {
+		return behavior.getErrorMessage();
+	}
+	public String getSuccessMessage() {
+		return behavior.getSuccessMessage();
 	}
 	public static ArgumentType findTypeByString(String stringArg) {
 		return TYPES_BY_STRING.get(stringArg);

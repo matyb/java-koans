@@ -1,9 +1,14 @@
 package com.sandwich.koan.cmdline.behavior;
 
-public class Test implements ArgumentBehavior{
+import java.io.IOException;
 
-	public void run(String value) {
-		System.out.println("Test");
+import com.sandwich.util.FileCompiler;
+
+public class Test extends AbstractArgumentBehavior{
+
+	public void run(String value) throws IOException {
+		FileCompiler.compileRelative("koans-tests", "test", "bin");
+		
 	}
 	
 }

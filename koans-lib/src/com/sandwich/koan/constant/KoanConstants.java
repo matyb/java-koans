@@ -3,6 +3,7 @@ package com.sandwich.koan.constant;
 
 
 
+
 public abstract class KoanConstants {
 
 	private KoanConstants(){}
@@ -16,6 +17,9 @@ public abstract class KoanConstants {
 //	public static final String  PATH_XML			= "src/";  // TODO: Adapt so dev and deployed can use same path
 	public static final String  PATH_XML			= "";
 	public static final String  PATH_XML_LOCATION 	= PATH_XML+PATH_XML_NAME; 
+	
+	public static final String  DESCRIPTION			= "description";
+	public static final String  ARGUMENTS			= "args";
 	
 	public static final String  EOL					= System.getProperty("line.separator");
 	public static final String  EOLS				= "[\n\r"+EOL+"]";

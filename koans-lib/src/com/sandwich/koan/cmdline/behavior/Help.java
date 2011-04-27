@@ -8,7 +8,7 @@ import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
 
 
-public class Help implements ArgumentBehavior {
+public class Help extends AbstractArgumentBehavior {
 
 	public void run(String value) {
 		StringBuilder sb = new StringBuilder(

@@ -18,8 +18,9 @@ import java.util.logging.Logger;
 
 import com.sandwich.koan.KoanIncompleteException;
 import com.sandwich.koan.KoanMethod;
+import com.sandwich.koan.KoanSuiteResult;
 import com.sandwich.koan.KoanSuiteResult.KoanResultBuilder;
-import com.sandwich.koan.cmdline.behavior.ArgumentBehavior;
+import com.sandwich.koan.cmdline.behavior.AbstractArgumentBehavior;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.PathToEnlightenment;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
@@ -27,7 +28,7 @@ import com.sandwich.koan.ui.ConsolePresenter;
 import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.util.Counter;
 
-public class RunKoans implements ArgumentBehavior {
+public class RunKoans extends AbstractArgumentBehavior {
 
 	private SuitePresenter presenter;
 	private Path pathToEnlightenment;
@@ -41,15 +42,11 @@ public class RunKoans implements ArgumentBehavior {
 		this.pathToEnlightenment = pathToEnlightenment;
 	}
 	
-	public void run(String value) {
-		try {
-			runAndDisplayKoans();
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+	public void run(String value) throws Exception {
+		getPresenter().displayResult(runKoans());
 	}
 
-	void runAndDisplayKoans() throws IllegalArgumentException,
+	KoanSuiteResult runKoans() throws IllegalArgumentException,
 			IllegalAccessException, InvocationTargetException {
 		Counter successfull = new Counter();
 		List<Class<?>> passingSuites = new ArrayList<Class<?>>();
@@ -57,30 +54,39 @@ public class RunKoans implements ArgumentBehavior {
 		Throwable failure = null;
 		Class<?> firstFailingSuite = null;
 		KoanMethod firstFailingMethod = null;
+		boolean testsPassed = true;
 		String level = null;
 		for (Entry<String, Map<Object, List<KoanMethod>>> packages : getPathToEnlightement()) {
 			for (Entry<Object, List<KoanMethod>> e : packages.getValue()
 					.entrySet()) {
 				final Object suite = e.getKey();
-				final List<KoanMethod> methods = e.getValue();
-				boolean testsPassed = true;
-				for (final KoanMethod koan : methods) {
-					Throwable result = KoanMethodRunner.run(suite, koan,
-							successfull);
-					if (result != null) {
-						testsPassed = false;
-						if (failure == null) {
-							failure = result;
+				if(testsPassed){
+					final List<KoanMethod> methods = e.getValue();
+					for (final KoanMethod koan : methods) {
+						failure = KoanMethodRunner.run(suite, koan,
+								successfull);
+						Throwable tempException = failure;
+						while(tempException != null){
+							if(tempException instanceof KoanIncompleteException){
+								failure = (KoanIncompleteException)tempException;
+								break;
+							}
+							tempException = tempException.getCause();
+						}
+						if (failure != null) {
+							testsPassed = false;
 							firstFailingSuite = suite.getClass();
 							firstFailingMethod = koan;
 							level = packages.getKey();
+							break; // might as well not run the rest
 						}
-						break; // might as well not run the rest
 					}
-				}
-				if (testsPassed) {
-					passingSuites.add(suite.getClass());
-				} else {
+					if (testsPassed) {
+						passingSuites.add(suite.getClass());
+					} else {
+						failingSuites.add(suite.getClass());
+					}
+				}else{
 					failingSuites.add(suite.getClass());
 				}
 			}
@@ -88,22 +94,24 @@ public class RunKoans implements ArgumentBehavior {
 		// only display message if it is from a KoanIncompleteException
 		String message = failure != null
 				&& KoanIncompleteException.class.isAssignableFrom(failure.getClass()) ? 
-						failure.getMessage() : null;
+						failure.getMessage() : formatNormalException(failure);
 		if (message != null && message.contains(EXPECTED_LEFT + __ + EXPECTED_RIGHT)) {
 			logExpectationOnWrongSideWarning(firstFailingSuite,
 					firstFailingMethod.getMethod());
 		}
-		getPresenter().displayResult(new KoanResultBuilder()
-				.level(level)
-				.numberPassing(successfull.getCount())
-				.totalNumberOfKoanMethods(getPathToEnlightement().getTotalNumberOfKoans())
-				.failingCase(firstFailingSuite)
-				.failingMethod(firstFailingMethod).message(message)
-				.lineNumber(getOriginalLineNumber(failure, firstFailingSuite))
-				.passingCases(passingSuites).remainingCases(failingSuites)
-				.build());
+		return new KoanResultBuilder()	.level(level)
+										.numberPassing(successfull.getCount())
+										.totalNumberOfKoanMethods(getPathToEnlightement().getTotalNumberOfKoans())
+										.failingCase(firstFailingSuite)
+										.failingMethod(firstFailingMethod).message(message)
+										.lineNumber(getOriginalLineNumber(failure, firstFailingSuite))
+										.passingCases(passingSuites).remainingCases(failingSuites).build();
 	}
 	
+	private String formatNormalException(Throwable failure) {
+		return failure == null ? "" : failure.getMessage();
+	}
+
 	/**
 	 * Return the line number found closest to the point of failure, with a reference to the 
 	 * failing suite's classname.
