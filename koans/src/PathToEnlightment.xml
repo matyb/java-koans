@@ -95,7 +95,16 @@
 				lesson="With AutoBoxing, we can intermix as well" />
 			<koan name="allPrimativesCanBeAutoboxed" lesson="All primatives can be autoboxed" />
 		</suite>
-		<suite class="AboutSerialization"></suite>
+		<suite class="AboutFileIO"></suite>
+		<suite class="AboutInnerClasses"> </suite>
+		<suite class="AboutSerialization">
+			<koan name="simpleSerialization" />
+			<koan name="customObjectSerialization" />
+			<koan name="customObjectSerializationWithTransientFields" />
+			<koan name="customSerializationWithUnserializableFields" />
+			<koan name="serializeWithInteritance" />
+			<koan name="serializeWithInheritanceWhenParentNotserializable" />
+		</suite>
 	</package>
 	<package pkg="advanced" name="Advanced">
 		<suite class="AboutMocks">
