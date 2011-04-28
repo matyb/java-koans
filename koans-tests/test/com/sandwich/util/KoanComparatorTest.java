@@ -1,7 +1,6 @@
 package com.sandwich.util;
 
 import static org.junit.Assert.assertSame;
-import static org.junit.Assert.fail;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -12,8 +11,6 @@ import org.junit.Test;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.path.PathToEnlightenment.FileFormatException;
-import com.sandwich.util.KoanComparator;
 
 
 public class KoanComparatorTest {
@@ -26,8 +23,7 @@ public class KoanComparatorTest {
 		KoanComparator comparator = new KoanComparator("meh");
 		try{
 			comparator.compare(new KoanMethod("2",m), new KoanMethod("1",m));
-			fail();
-		}catch(FileFormatException ffe){}
+		}catch(RuntimeException fileNotFound){}
 	}
 	
 	@Test

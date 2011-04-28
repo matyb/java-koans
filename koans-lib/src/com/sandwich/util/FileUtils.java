@@ -1,17 +1,23 @@
 package com.sandwich.util;
 
 import static com.sandwich.koan.constant.KoanConstants.FILESYSTEM_SEPARATOR;
+import static com.sandwich.koan.constant.KoanConstants.PERIOD;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FileUtils {
 	
 	public static String BASE_DIR = new File(ClassLoader.getSystemResource(".").getFile()).getParentFile().getParent();
+	private static final Map<Class<?>,String> FILE_CONTENTS_BY_CLASS_CACHE = new HashMap<Class<?>,String>();
 	
 	public static String makeAbsolute(String fileName) {
 		return new StringBuilder(BASE_DIR).append(FILESYSTEM_SEPARATOR).append(fileName).toString();
@@ -71,6 +77,40 @@ public class FileUtils {
 			}
 
 		}
+	}
+
+	public static String readFileAsString(File file) {
+	    byte[] buffer = new byte[(int) file.length()];
+	    BufferedInputStream f = null;
+	    try {
+	        f = new BufferedInputStream(new FileInputStream(file));
+	        f.read(buffer);
+	    } catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+	        if (f != null) try { f.close(); } catch (IOException ignored) { }
+	    }
+	    return new String(buffer);
+	}
+	
+	public static String getContentsOfOriginalJavaFile(Class<?> declaringClass) {
+		String contents = FILE_CONTENTS_BY_CLASS_CACHE.get(declaringClass);
+		if(contents == null){
+			File sourceFile = new File(makeAbsolute(declaringClass));
+			if(!sourceFile.exists()){
+				throw new RuntimeException(new FileNotFoundException(sourceFile.getAbsolutePath()+" does not exist"));
+			}
+			contents = readFileAsString(sourceFile);
+			FILE_CONTENTS_BY_CLASS_CACHE.put(declaringClass, contents);
+		}
+		return contents;
+	}
+
+	private static String makeAbsolute(Class<?> declaringClass) {
+		return makeAbsolute(new StringBuilder("koans").append(FILESYSTEM_SEPARATOR)
+				.append("src").append(FILESYSTEM_SEPARATOR)
+				.append(declaringClass.getPackage().getName().replace(PERIOD, FILESYSTEM_SEPARATOR)).append(FILESYSTEM_SEPARATOR)
+				.append(declaringClass.getSimpleName()).append(".java").toString());
 	}
 	
 }

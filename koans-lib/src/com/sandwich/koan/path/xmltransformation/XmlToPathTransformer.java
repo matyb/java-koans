@@ -23,7 +23,6 @@ import org.xml.sax.SAXException;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.path.PathToEnlightenment.FileFormatException;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
 import com.sandwich.util.KoanComparator;
 
@@ -76,7 +75,6 @@ public class XmlToPathTransformer {
 		List<KoanMethod> koanMethods = getKoanMethods(koanSuiteClass, rawKoanLessonByMethodName);
 		KoanComparator koanComparator = new KoanComparator(rawKoanLessonByMethodName.keySet());
 		Collections.sort(koanMethods, koanComparator);
-		assertXmlAndCodeAreInSynch(nodes, koanMethods, koanComparator);
 		return koanMethods;
 	}
 
@@ -110,17 +108,6 @@ public class XmlToPathTransformer {
 			super("Duplicate koans in the same suite: "+className+" with the name "+name);
 		}
 	}
-	
-	static void assertXmlAndCodeAreInSynch(NodeList csvOrder,
-			List<KoanMethod> koanMethods, KoanComparator koanComparator) {
-		if(koanMethods.size() != 1){
-			koanComparator.assertXmlAndCodeAreInSynch();
-		} else if (!koanMethods.get(0).getMethod().getName().equals(
-				csvOrder.item(1).getAttributes().getNamedItem("name").getNodeValue())) {
-			throw new FileFormatException(koanMethods.get(0).getMethod().getName()+
-					" was not found in the PathToEnlightment.xml");
-		}
-	}
 
 	public static List<KoanMethod> getKoanMethods(Class<?> koanSuiteClass, Map<String, KoanElementAttributes> attributesByKoanName) {
 		List<KoanMethod> koanMethods = new ArrayList<KoanMethod>();
@@ -128,6 +115,7 @@ public class XmlToPathTransformer {
 			final Koan annotation = koan.getAnnotation(Koan.class);
 			if(annotation != null){
 				KoanElementAttributes koanMethodAttributes = attributesByKoanName.get(koan.getName());
+				koanMethodAttributes = koanMethodAttributes == null ? KoanElementAttributes.NON_EXISTENT : koanMethodAttributes;
 				String incompleteKoanException = koanMethodAttributes.displayIncompleteKoanException;
 				boolean displayIncompleteKoanException = incompleteKoanException == null ||
 					"true".equalsIgnoreCase(incompleteKoanException.trim());
@@ -138,6 +126,8 @@ public class XmlToPathTransformer {
 	}
 	
 	public static class KoanElementAttributes{
+		public static final KoanElementAttributes NON_EXISTENT = new KoanElementAttributes(
+				"", "", "true");
 		String lesson, name, displayIncompleteKoanException;
 		public KoanElementAttributes(String lesson, String name, String displayIncompleteKoanException){
 			this.lesson = lesson;
