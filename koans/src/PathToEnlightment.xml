@@ -100,6 +100,13 @@
 			<koan name="enumsWithAttributes" />
 			<koan name="enumsWithMethods" />
 		</suite>
+		<suite class="AboutExceptions">
+			<koan name="catchCheckedExceptions" />
+			<koan name="useFinally" />
+			<koan name="finallyWithoutCatch" />
+			<koan name="catchUncheckedExceptions" />
+			<koan name="catchOrder" />
+		</suite>
 		<suite class="AboutMethodPreference">
 			<koan name="methodPreferenceInt" />
 			<koan name="methodPreferenceInteger" />
@@ -156,6 +163,22 @@
 			<koan name="migrateYourExistingCodeToAutoBoxingWithoutFear"
 				lesson="With AutoBoxing, we can intermix as well" />
 			<koan name="allPrimativesCanBeAutoboxed" lesson="All primatives can be autoboxed" />
+		</suite>
+		<suite class="AboutComparison">
+			<koan name="compareObjects" />
+			<koan name="makeObjectsComparable" />
+			<koan name="makeObjectsComparableWithoutComparable" />
+		</suite>
+		<suite class="AboutEquality">
+			<koan name="sameObject" />
+			<koan name="equalObject" />
+			<koan name="noObjectShouldbeEqualToNull" />
+			<koan name="equalForOwnObjects" />
+			<koan name="unequalForOwnObjects" />
+			<koan name="unequalForOwnObjectsWithDifferentType" />
+			<koan name="equalNullForOwnObjects" />
+			<koan name="ownHashCode" />
+			<koan name="ownHashCodeImplementationPartTwo" />
 		</suite>
 		<suite class="AboutFileIO">
 			<koan name="fileObjectDoesntCreateFile" />
