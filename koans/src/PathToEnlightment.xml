@@ -115,6 +115,9 @@
 			<koan name="shortCircuitAnd" />
 			<koan name="aboutXOR" />
 			<koan name="dontMistakeEqualsForEqualsEquals" />
+			<koan name="aboutBitShiftingRightShift" />
+			<koan name="aboutBitShiftingLeftShift" />
+			<koan name="aboutBitShiftingRightUnsigned" />
 		</suite>
 		<suite class="AboutArrays">
 			<koan name="arraysDoNotConsiderElementsWhenEvaluatingEquality"
