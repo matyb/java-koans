@@ -169,6 +169,16 @@
 			<koan name="makeObjectsComparable" />
 			<koan name="makeObjectsComparableWithoutComparable" />
 		</suite>
+		<suite class="AboutDates">
+			<koan name="dateToString" />
+			<koan name="changingDateValue" />
+			<koan name="usingCalendarToChangeDates" />
+			<koan name="usingRollToChangeDatesDoesntWrapOtherFields" />
+			<koan name="usingDateFormatToFormatDate" />
+			<koan name="usingDateFormatToFormatDateShort" />
+			<koan name="usingDateFormatToFormatDateFull" />
+			<koan name="usingDateFormatToParseDates" />
+		</suite>
 		<suite class="AboutEquality">
 			<koan name="sameObject" />
 			<koan name="equalObject" />
@@ -199,6 +209,17 @@
 			<koan name="innerClassAndInheritanceOther" />
 			<koan name="staticInnerClass" />
 			<koan name="staticInnerClassFullyQualified" />
+		</suite>
+		<suite class="AboutLocale">
+			<koan name="localizedOutputOfDates" />
+			<koan name="getCountryInformation" />
+			<koan name="formatCurrency" />
+		</suite>
+		<suite class="AboutRegularExpressions">
+			<koan name="basicMatching" />
+			<koan name="extendedMatching" />
+			<koan name="escapingMetaCharacters" />
+			<koan name="splittingStrings" />
 		</suite>
 		<suite class="AboutSerialization">
 			<koan name="simpleSerialization" />
