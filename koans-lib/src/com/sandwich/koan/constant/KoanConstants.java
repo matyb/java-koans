@@ -1,5 +1,7 @@
 package com.sandwich.koan.constant;
 
+import com.sandwich.util.io.IOConstants;
+
 
 
 
@@ -7,10 +9,19 @@ package com.sandwich.koan.constant;
 public abstract class KoanConstants {
 
 	private KoanConstants(){}
-
+	
 	public static boolean 		DEBUG				= false;
 //	public static boolean 		DEBUG				= true;
 	public static final boolean ENABLE_ENCOURAGEMENT= false;
+	
+	public static String 		PROJ_MAIN_FOLDER	= "koans";
+	public static String 		PROJ_TESTS_FOLDER	= "koans-tests";
+	
+	public static String  		SOURCE_FOLDER		= "src";
+	public static String  		BIN_FOLDER			= "bin";
+	public static String  		DATA_FOLDER			= "data";
+	public static String  		TESTS_FOLDER		= "test";
+	public static String 		LIB_FOLDER 			= "lib";
 	
 	public static final String  __					= "REPLACE ME";
 	public static final String  PATH_XML_NAME 		= "PathToEnlightment.xml";
@@ -22,9 +33,10 @@ public abstract class KoanConstants {
 	public static final String  ARGUMENTS			= "args";
 	
 	public static final String  EOL					= System.getProperty("line.separator");
-	public static final String  EOLS				= "[\n\r"+EOL+"]";
 	public static final String  FILESYSTEM_SEPARATOR= System.getProperty("file.separator");
-	public static final String  PERIOD 				= ".";
+	public static final String  EOLS				= "[\n\r"+EOL+"]";
+	
+	public static final String  PERIOD 				= IOConstants.PERIOD;
 	public static final String  EXPECTATION_LEFT_ARG= "has expectation as wrong argument!";
 	public static final String  EXPECTED_LEFT 		= "expected:<";
 	public static final String  EXPECTED_RIGHT 		= ">";

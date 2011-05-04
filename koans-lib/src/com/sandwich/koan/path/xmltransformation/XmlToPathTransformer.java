@@ -67,7 +67,7 @@ public class XmlToPathTransformer {
 						createKoanMethods(koanSuiteClass, node.getChildNodes())));
 			}
 		}
-		return Collections.unmodifiableMap(suitesAndKoans);
+		return suitesAndKoans;
 	}
 	
 	static List<KoanMethod> createKoanMethods(Class<?> koanSuiteClass, NodeList nodes) {

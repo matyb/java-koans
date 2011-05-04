@@ -2,13 +2,13 @@ package com.sandwich.util;
 
 public class Counter {
 
-	private int count;
+	private long count;
 	
 	public Counter(){
 		this(0);
 	}
 	
-	public Counter(int count){
+	public Counter(long count){
 		this.count = count;
 	}
 	
@@ -16,7 +16,7 @@ public class Counter {
 		count++;
 	};
 	
-	public int getCount(){
+	public long getCount(){
 		return count;
 	}
 	

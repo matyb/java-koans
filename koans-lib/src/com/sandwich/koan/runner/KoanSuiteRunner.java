@@ -1,5 +1,9 @@
 package com.sandwich.koan.runner;
 
+import static com.sandwich.koan.constant.KoanConstants.DATA_FOLDER;
+import static com.sandwich.koan.constant.KoanConstants.FILESYSTEM_SEPARATOR;
+import static com.sandwich.koan.constant.KoanConstants.PROJ_MAIN_FOLDER;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -13,7 +17,7 @@ import java.util.Map.Entry;
 import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
-import com.sandwich.util.FileUtils;
+import com.sandwich.util.io.FileUtils;
 
 public class KoanSuiteRunner {
 
@@ -43,8 +47,8 @@ public class KoanSuiteRunner {
 	}
 
 	private boolean isFirstTimeAppHasBeenRun() {
-		File dataDirectory = new File(FileUtils.makeAbsolute(
-				new StringBuilder("koans").append(KoanConstants.FILESYSTEM_SEPARATOR).append("data").toString()));
+		File dataDirectory = new File(FileUtils.makeAbsoluteRelativeTo(
+				new StringBuilder(PROJ_MAIN_FOLDER).append(FILESYSTEM_SEPARATOR).append(DATA_FOLDER).toString()));
 		return !dataDirectory.exists();
 	}
 

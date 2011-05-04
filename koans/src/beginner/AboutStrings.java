@@ -15,8 +15,8 @@ public class AboutStrings {
 	
 	@Koan
 	public void newString(){
-		// very rarely if ever should Strings be created explicitly in 
-		// practice - generally it is redundant
+		// very rarely if ever should Strings be created via new String() in 
+		// practice - generally it is redundant, and done repetitively can be slow
 		String string = new String();
 		String empty = "";
 		assertEquals(string.equals(empty), __);

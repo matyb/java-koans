@@ -1,10 +1,12 @@
 package com.sandwich.koan.path;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -160,7 +162,7 @@ public abstract class PathToEnlightenment {
 	public static class Path implements Iterable<Entry<String, Map<Object, List<KoanMethod>>>>{
 		final Map<String, Map<Object, List<KoanMethod>>> koanMethodsBySuiteByPackage;
 		public Path(Map<String, Map<Object, List<KoanMethod>>> koanMethodsBySuiteByPackage){
-			this.koanMethodsBySuiteByPackage = Collections.unmodifiableMap(koanMethodsBySuiteByPackage);
+			this.koanMethodsBySuiteByPackage = koanMethodsBySuiteByPackage;
 		}
 		public int getTotalNumberOfKoans() {
 			int total = 0;
@@ -235,5 +237,41 @@ public abstract class PathToEnlightenment {
 		@Override public String toString(){
 			return koanMethodsBySuiteByPackage.toString();
 		}
+	}
+
+	public static void replace(Class<?> cls) {
+		for(Entry<String,Map<Object, List<KoanMethod>>> e : getPathToEnlightment().koanMethodsBySuiteByPackage.entrySet()){
+			Map<Object, List<KoanMethod>> methodsBySuite = e.getValue();
+			Map<Object, List<KoanMethod>> replacementValue = new LinkedHashMap<Object, List<KoanMethod>>();
+			for(Entry<Object, List<KoanMethod>> e1 : methodsBySuite.entrySet()){
+				Object suite = e1.getKey();
+				if(suite.getClass().getName().equals(cls.getName())){
+					try {
+						replacementValue.put(cls.newInstance(), copyMethods(cls, e1.getValue()));
+					} catch (Exception e2) {
+						e2.printStackTrace();
+					} 
+				}else{
+					replacementValue.put(suite, e1.getValue());
+				}
+			}
+			e.setValue(replacementValue);
+		}
+	}
+
+	private static List<KoanMethod> copyMethods(Class<?> cls, List<KoanMethod> methodsBySuite) {
+		List<KoanMethod> newMethods = new ArrayList<KoanMethod>();
+		try {
+			Map<String, Method> methodByName = new HashMap<String, Method>();
+			for(Method method : cls.getDeclaredMethods()){
+				methodByName.put(method.getName(), method);
+			}
+			for(KoanMethod method : methodsBySuite){
+				newMethods.add(method.clone(methodByName.get(method.getMethod().getName())));
+			}
+		} catch (Exception e2) {
+			throw new RuntimeException(e2);
+		}
+		return newMethods;
 	}
 }

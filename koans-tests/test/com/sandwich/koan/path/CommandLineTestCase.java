@@ -91,15 +91,14 @@ public abstract class CommandLineTestCase {
 		String consoleOutput = bytes.toString();
 		boolean containsTheSubstring = consoleOutput.contains(expectation);
 		if(assertContains && !containsTheSubstring || !assertContains && containsTheSubstring){
-			throw new KoanIncompleteException(new StringBuilder(
-					"<").append(
-					expectation).append(
-					"> ").append(
-					(assertContains ? "wasn't" : "was")).append(
-					" found in: " ).append(
-					"<").append(
-					consoleOutput).append(
-					">").toString());
+			throw new KoanIncompleteException(new StringBuilder("<").append(
+																expectation).append(
+																"> ").append(
+																(assertContains ? "wasn't" : "was")).append(
+																" found in: " ).append(
+																"<").append(
+																consoleOutput).append(
+																">").toString());
 		}
 	}
 
