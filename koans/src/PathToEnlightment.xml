@@ -51,81 +51,17 @@
 			<koan name="toStringIsTestedForNullWhenInvokedImplicitly"
 				lesson="String concatenation implicitly invokes toString on Objects, unless they are null. Notice no NullPointerException is thrown." />
 		</suite>
-		<suite class="AboutLoops">
-			<koan name="basicForLoop" />
-			<koan name="basicForLoopWithTwoVariables" />
-			<koan name="extendedForLoop" />
-			<koan name="whileLoop" />
-			<koan name="doLoop" />
-			<koan name="extendedForLoopBreak" />
-			<koan name="extendedForLoopContinue" />
-			<koan name="forLoopContinueLabel" />
-			<koan name="forLoopBreakLabel" />
-		</suite>
-		<suite class="AboutCasting">
-			<koan name="longPlusInt" />
-			<koan name="forceIntTypecast" />
-			<koan name="implicitTypecast" />
-			<koan name="downCastWithInerhitance" />
-			<koan name="downCastAndPolymophism" />
-			<koan name="upCastWithInheritance" />
-			<koan name="upCastAndPolymophism" />
-			<koan name="complicatedCast" />
-			<koan name="complicatedCastWithInterface" />
-		</suite>
-		<suite class="AboutConditionals">
-			<koan name="basicIfWithoutCurly" />
-			<koan name="basicIfElseWithoutCurly" />
-			<koan name="basicIfElseIfElseWithoutCurly" />
-			<koan name="nestedIfsWithoutCurlysAreReallyMisleading" />
-			<koan name="ifAsIntended" />
-			<koan name="basicSwitchStatement" />
-			<koan name="switchStatementFallThrough" />
-			<koan name="switchStatementCrazyFallThrough" />
-			<koan name="switchStatementConstants" />
-			<koan name="switchStatementSwitchValues" />
-		</suite>
-		<suite class="AboutInheritance">
-			<koan name="differenceBetweenOverloadingAndOverriding" />
-			<koan name="overridenMethodsMayReturnSubtype"
+		<suite class="AboutLoops"/>
+		<suite class="AboutCasting"/>
+		<suite class="AboutConditionals"/>
+		<suite class="AboutInheritance"><koan name="overridenMethodsMayReturnSubtype"
 				lesson="An overridden method may return a subtype of the return type for the method being overridden. Look at the javadoc for java.util.Collection or java.util.List - it will reveal how to eliminate this type cast." />
 		</suite>
-		<suite class="AboutConstructors">
-			<koan name="simpleConstructorOrder" />
-			<koan name="complexConstructorOrder" />
-		</suite>
-		<suite class="AboutEnums">
-			<koan name="basicEnums" />
-			<koan name="basicEnumsAccess" />
-			<koan name="enumsWithAttributes" />
-			<koan name="enumsWithMethods" />
-		</suite>
-		<suite class="AboutExceptions">
-			<koan name="catchCheckedExceptions" />
-			<koan name="useFinally" />
-			<koan name="finallyWithoutCatch" />
-			<koan name="catchUncheckedExceptions" />
-			<koan name="catchOrder" />
-		</suite>
-		<suite class="AboutMethodPreference">
-			<koan name="methodPreferenceInt" />
-			<koan name="methodPreferenceInteger" />
-			<koan name="methodPreferenceLong" />
-			<koan name="methodPreferenceBoxedLong" />
-			<koan name="methodPreferenceDouble" />
-			<koan name="methodPreferenceMore" />
-		</suite>
-		<suite class="AboutOperators">
-			<koan name="plusPlusVariablePlusPlus" />
-			<koan name="shortCircuit" />
-			<koan name="fullAnd" />
-			<koan name="shortCircuitAnd" />
-			<koan name="aboutXOR" />
-			<koan name="dontMistakeEqualsForEqualsEquals" />
-			<koan name="aboutBitShiftingRightShift" />
-			<koan name="aboutBitShiftingLeftShift" />
-			<koan name="aboutBitShiftingRightUnsigned" />
-		</suite>
+		<suite class="AboutConstructors"></suite>
+		<suite class="AboutEnums"/>
+		<suite class="AboutExceptions"/>
+		<suite class="AboutMethodPreference"/>
+		<suite class="AboutOperators"/>
 		<suite class="AboutArrays">
 			<koan name="arraysDoNotConsiderElementsWhenEvaluatingEquality"
 				lesson="Arrays utilize reference equality, they do not consider elements when determining equality." />
@@ -148,15 +84,7 @@
 			<koan name="arrayLengthCanBeChecked"
 				lesson="It is often necessary to check the length of an array to ensure an index is valid. This is easy with the array's length property." />
 		</suite>
-		<suite class="AboutPrimitives">
-			<koan name="byteSize" />
-			<koan name="shortSize" />
-			<koan name="integerSize" />
-			<koan name="longSize" />
-			<koan name="charSizeAndValue" />
-			<koan name="floatSize" />
-			<koan name="doubleSize" />
-		</suite>
+		<suite class="AboutPrimitives"/>
 	</package>
 	<package pkg="intermediate" name="Intermediate">
 		<suite class="AboutAutoboxing">
@@ -167,50 +95,11 @@
 				lesson="With AutoBoxing, we can intermix as well" />
 			<koan name="allPrimativesCanBeAutoboxed" lesson="All primatives can be autoboxed" />
 		</suite>
-		<suite class="AboutComparison">
-			<koan name="compareObjects" />
-			<koan name="makeObjectsComparable" />
-			<koan name="makeObjectsComparableWithoutComparable" />
-		</suite>
-		<suite class="AboutEquality">
-			<koan name="sameObject" />
-			<koan name="equalObject" />
-			<koan name="noObjectShouldbeEqualToNull" />
-			<koan name="equalForOwnObjects" />
-			<koan name="unequalForOwnObjects" />
-			<koan name="unequalForOwnObjectsWithDifferentType" />
-			<koan name="equalNullForOwnObjects" />
-			<koan name="ownHashCode" />
-			<koan name="ownHashCodeImplementationPartTwo" />
-		</suite>
-		<suite class="AboutFileIO">
-			<koan name="fileObjectDoesntCreateFile" />
-			<koan name="fileCreationAndDeletion" />
-			<koan name="basicFileWritingAndReading" />
-			<koan name="betterFileWritingAndReading" />
-			<koan name="directChainingForReadingAndWriting" />
-		</suite>
-		<suite class="AboutInnerClasses">
-			<koan name="creatingInnerClassInstance" />
-			<koan name="creatingInnerClassInstanceWithOtherSyntax" />
-			<koan name="accessingOuterClassMembers" />
-			<koan name="innerClassesInMethods" />
-			<koan name="innerClassesInMethodsThatEscape" />
-			<koan name="creatingAnonymousInnerClasses" />
-			<koan name="creatingAnonymousInnerClassesToImplementInterface" />
-			<koan name="innerClassAndInheritance" />
-			<koan name="innerClassAndInheritanceOther" />
-			<koan name="staticInnerClass" />
-			<koan name="staticInnerClassFullyQualified" />
-		</suite>
-		<suite class="AboutSerialization">
-			<koan name="simpleSerialization" />
-			<koan name="customObjectSerialization" />
-			<koan name="customObjectSerializationWithTransientFields" />
-			<koan name="customSerializationWithUnserializableFields" />
-			<koan name="serializeWithInteritance" />
-			<koan name="serializeWithInheritanceWhenParentNotserializable" />
-		</suite>
+		<suite class="AboutComparison"/>
+		<suite class="AboutEquality"/>
+		<suite class="AboutFileIO"/>
+		<suite class="AboutInnerClasses"/>
+		<suite class="AboutSerialization"/>
 	</package>
 	<package pkg="advanced" name="Advanced">
 		<suite class="AboutMocks">

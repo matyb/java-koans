@@ -27,7 +27,9 @@ public class AboutEquality {
 	}
 	
 	static class Car {
+		@SuppressWarnings("unused")
 		private String name = "";
+		@SuppressWarnings("unused")
 		private int horsepower = 0;
 		public Car(String s, int p) {
 			name = s; horsepower = p;
