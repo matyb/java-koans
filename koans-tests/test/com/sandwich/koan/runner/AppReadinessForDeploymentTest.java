@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -40,21 +39,23 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	
 	@Test
 	public void testMainMethodWithClassNameArg_qualifiedWithPkgName() throws Throwable {
-		new KoanSuiteRunner(new CommandLineArgumentBuilder(OnePassingKoan.class.getName())).run();
+		stubAllKoans(Arrays.asList(new OnePassingKoan()));
+		new KoanSuiteRunner().run();
 		assertSystemOutContains(KoanConstants.PASSING_SUITES+" "+OnePassingKoan.class.getSimpleName());
 	}
 
 	@Test
 	public void testMainMethodWithClassNameArg_classSimpleName() throws Throwable {
-		new KoanSuiteRunner(new CommandLineArgumentBuilder(OnePassingKoan.class.getPackage().getName()
-				+ KoanConstants.PERIOD + OnePassingKoan.class.getSimpleName())).run();
+		stubAllKoans(Arrays.asList(new OnePassingKoan()));
+		new KoanSuiteRunner().run();
 		assertSystemOutContains(KoanConstants.PASSING_SUITES+" "+OnePassingKoan.class.getSimpleName());
 	}
 	
 	@Test
 	public void testMainMethodWithClassNameArg_classNameAndMethod() throws Throwable {
 		String failingKoanMethodName = TwoFailingKoans.class.getDeclaredMethod("koanTwo").getName();
-		new KoanSuiteRunner(new CommandLineArgumentBuilder(TwoFailingKoans.class.getName(), failingKoanMethodName)).run();
+		stubAllKoans(Arrays.asList(new TwoFailingKoans()));
+		new KoanSuiteRunner().run();
 		assertSystemOutContains(failingKoanMethodName);
 		assertSystemOutDoesntContain(OneFailingKoan.class.getDeclaredMethods()[0].getName());
 	}
@@ -64,9 +65,9 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		public void koanTwo(){assertEquals(true, false);}
 	}
 	
-	@Test @SuppressWarnings("unchecked")
+	@Test
 	public void testGetKoans() throws Exception {
-		stubAllKoans(Arrays.asList(OnePassingKoan.class));
+		stubAllKoans(Arrays.asList(new OnePassingKoan()));
 		Map<Object, List<KoanMethod>> koans = PathToEnlightenment.getPathToEnlightment()
 			.iterator().next().getValue();
 		assertEquals(1, koans.size());
@@ -105,26 +106,26 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		assertNotNull(result[0].getFailingCase());
 	}
 	
-	@Test @SuppressWarnings("unchecked")
+	@Test 
 	public void testLineExceptionIsThrownAtIsHintedAt() throws Exception {
-		stubAllKoans(Arrays.asList(BlowUpOnLineTen.class));
+		stubAllKoans(Arrays.asList(new BlowUpOnLineTen()));
 		new KoanSuiteRunner(new CommandLineArgumentBuilder()).run();
 		assertSystemOutContains("Line 10");
 		assertSystemOutDoesntContain("Line 11");
 	}
 	
-	@Test @SuppressWarnings("unchecked")
+	@Test 
 	public void testLineExceptionIsThrownAtIsHintedAtEvenIfThrownFromSuperClass() throws Exception {
-		stubAllKoans(Arrays.asList(BlowUpOnLineEleven.class));
+		stubAllKoans(Arrays.asList(new BlowUpOnLineEleven()));
 		new KoanSuiteRunner(new CommandLineArgumentBuilder()).run();
 		assertSystemOutContains("Line 11");
 		assertSystemOutDoesntContain("Line 10");
 	}
 	
-	@Test @SuppressWarnings("unchecked")
+	@Test
 	public void testWarningFromPlacingExpecationOnWrongSide() throws Throwable {
 		final String[] message = new String[1];
-		stubAllKoans(Arrays.asList(WrongExpectationOrderKoan.class));
+		stubAllKoans(Arrays.asList(new WrongExpectationOrderKoan()));
 		Logger.getLogger(KoanSuiteRunner.class.getSimpleName()).addHandler(new Handler(){
 			@Override public void close() throws SecurityException {}
 			@Override public void flush() {}
@@ -140,9 +141,9 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 				, message[0]);
 	}
 	
-	@Test @SuppressWarnings("unchecked")
+	@Test
 	public void testNoWarningFromPlacingExpecationOnRightSide() throws Throwable {
-		stubAllKoans(Arrays.asList(OnePassingKoan.class));
+		stubAllKoans(Arrays.asList(new OnePassingKoan()));
 		Logger.getLogger(KoanSuiteRunner.class.getSimpleName()).addHandler(new Handler(){
 			@Override public void close() throws SecurityException {}
 			@Override public void flush() {}
@@ -150,7 +151,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 				fail("No logging necessary when koan passes, otherwise - logging is new, adjust accordingly.");
 			}
 		});
-		new KoanSuiteRunner(Collections.EMPTY_MAP).run();
+		new KoanSuiteRunner().run();
 	}
 	
 	public static class WrongExpectationOrderKoan {

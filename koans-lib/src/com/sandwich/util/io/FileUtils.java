@@ -14,6 +14,8 @@ import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.sandwich.koan.constant.KoanConstants;
+
 public class FileUtils {
 	
 	public static String BASE_DIR = new File(ClassLoader.getSystemResource(".").getFile()).getParentFile().getParent();
@@ -106,10 +108,10 @@ public class FileUtils {
 		return contents;
 	}
 
-	public static String getJavaFileNameFromClass(Class<?> declaringClass) {
+	public static String getJavaFileNameFromClass(Class<?> declaringClass, String inferredPackageNamePlusPeriod) {
 		StringBuffer className = new StringBuffer(declaringClass.getName());
 		if(!declaringClass.isAnonymousClass()){
-			return className.substring(declaringClass.getPackage().getName().length()+1, className.length());
+			return className.substring(inferredPackageNamePlusPeriod.length(), className.length());
 		}
 		int dollarIndex = className.indexOf("$");
 		className.replace(dollarIndex, className.length(), "");
@@ -118,10 +120,26 @@ public class FileUtils {
 	}
 	
 	private static String makeAbsolute(String projectMainFolder, String sourceFolder, Class<?> declaringClass) {
+		String className = declaringClass.getName();
+		String removedText = declaringClass.isAnonymousClass() ? 
+				className.substring(className.lastIndexOf(KoanConstants.PERIOD) + 1) : declaringClass.getSimpleName();
+		String inferredPackageNamePlusPeriod = className.replace(removedText, "");
 		return makeAbsoluteRelativeTo(new StringBuilder(projectMainFolder).append(FILESYSTEM_SEPARATOR)
 				.append(sourceFolder).append(FILESYSTEM_SEPARATOR)
-				.append(declaringClass.getPackage().getName().replace(PERIOD, FILESYSTEM_SEPARATOR)).append(FILESYSTEM_SEPARATOR)
-				.append(getJavaFileNameFromClass(declaringClass)).append(".java").toString());
+				.append(inferredPackageNamePlusPeriod.replace(PERIOD, FILESYSTEM_SEPARATOR)).append(FILESYSTEM_SEPARATOR)
+				.append(getJavaFileNameFromClass(declaringClass,inferredPackageNamePlusPeriod)).append(".java").toString());
+	}
+
+	public static File sourceToClass(File file) {
+		return new File(file.getAbsolutePath()
+				.replace(KoanConstants.SOURCE_FOLDER, KoanConstants.BIN_FOLDER)
+				.replace(FileCompiler.JAVA_SUFFIX, FileCompiler.CLASS_SUFFIX));
+	}
+	
+	public static File classToSource(File file) {
+		return new File(file.getAbsolutePath()
+				.replace(KoanConstants.BIN_FOLDER, KoanConstants.SOURCE_FOLDER)
+				.replace(FileCompiler.CLASS_SUFFIX, FileCompiler.JAVA_SUFFIX));
 	}
 	
 }

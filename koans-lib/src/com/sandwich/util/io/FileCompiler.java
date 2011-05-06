@@ -33,9 +33,13 @@ public class FileCompiler {
 					Process p = Runtime.getRuntime().exec(command);
 					try{
 						if(p.waitFor() != 0){
+							System.out.println();
+							System.out.println("*****************************************************************");
 							System.out.println(command);
 							System.out.println(src.getAbsolutePath()+" does not compile. exit status was: "+p.exitValue());
-							Thread.sleep(4000);
+							System.out.println("*****************************************************************");
+							System.out.println();
+							Thread.sleep(7000);
 						}
 					} catch (Exception x) {
 						x.printStackTrace();
@@ -68,7 +72,7 @@ public class FileCompiler {
 		URI url = new File(absolutePath.replace(
 				sourceFolder, binFolder).replace(
 						FileCompiler.JAVA_SUFFIX, FileCompiler.CLASS_SUFFIX)).toURI();
-		DynamicClassLoader cl = new DynamicClassLoader(FileCompiler.class.getClassLoader());
+		DynamicClassLoader cl = new DynamicClassLoader();
 		sourceFolder = sourceFolder.endsWith(IOConstants.FILESYSTEM_SEPARATOR) ? sourceFolder : 
 			(sourceFolder+IOConstants.FILESYSTEM_SEPARATOR);
 		String javaClassName = absolutePath.substring(absolutePath.indexOf(

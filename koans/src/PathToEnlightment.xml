@@ -33,7 +33,7 @@
 		<!-- TODO: AboutDataTypes... -->
 		<suite class="AboutObjects">
 			<koan name="objectEqualsNull"
-				lesson="An Object instance should NEVER equal null keyword. This applies to all subclasses (everything exception primitives subclass Object)." />
+				lesson="An Object instance should NEVER equal null keyword. This applies to all subclasses (everything except primitives subclass Object)." />
 			<koan name="objectEqualsSelf"
 				lesson="An Object instance should equal itself. This too applies to all subclasses of Object." />
 			<koan name="objectIdentityEqualityIsTrueWhenReferringToSameObject"
@@ -45,7 +45,7 @@
 			<koan name="doubleEqualsOperatorEvalutesToFalseWithDifferentInstances"
 				lesson="The inverse of the prior koan, though two objects may be logically equal, they are not referencing the same object." />
 			<koan name="objectToString"
-				lesson="How to identify an object at in string form. Should be overridden in any objects with internal state. Default to string is classname of the instance followed by its hashCode in base 16 (hexadecimal)." />
+				lesson="It's easy to identify an object's state at a glance - with a good toString() implementation. Should be overridden in any objects with internal state. Default to string is classname of the instance followed by its hashCode in base 16 (hexadecimal)." />
 			<koan name="toStringConcatenates"
 				lesson="Java 's string concatenation syntax utilizes addition operator to splice a string with virtually anything." />
 			<koan name="toStringIsTestedForNullWhenInvokedImplicitly"

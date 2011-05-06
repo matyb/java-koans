@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.util.io.DynamicClassLoader;
 import com.sandwich.util.io.FileUtils;
 
 public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, CommandLineArgument> {
@@ -69,13 +70,14 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 			if(potentialClassOrMethod != null){
 				if(!hasClass){
 					commandLineArguments.put(ArgumentType.CLASS_ARG, 
-						new CommandLineArgument(ArgumentType.CLASS_ARG, Class.forName(potentialClassOrMethod).getName()));
+						new CommandLineArgument(ArgumentType.CLASS_ARG, 
+								new DynamicClassLoader().loadClass(potentialClassOrMethod).getName()));
 				}else if(!hasMethod){
 					commandLineArguments.put(ArgumentType.METHOD_ARG, 
 							new CommandLineArgument(ArgumentType.METHOD_ARG, potentialClassOrMethod));
 				}
 			}
-		}catch(ClassNotFoundException cnfe2){
+		}catch(Exception cnfe2){
 			if(!hasMethod){
 				commandLineArguments.put(ArgumentType.METHOD_ARG, 
 					new CommandLineArgument(ArgumentType.METHOD_ARG, potentialClassOrMethod));
