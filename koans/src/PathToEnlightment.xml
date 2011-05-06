@@ -164,6 +164,15 @@
 				lesson="With AutoBoxing, we can intermix as well" />
 			<koan name="allPrimativesCanBeAutoboxed" lesson="All primatives can be autoboxed" />
 		</suite>
+		<suite class="AboutCollections">
+			<koan name="usingAnArrayList" />
+			<koan name="usingAQueue" />
+			<koan name="usingABasicSet" />
+			<koan name="usingABasicMap" />
+			<koan name="usingBackedArrayList" />
+			<koan name="usingBackedSubMap" />
+			<koan name="differenceBetweenOrderedAndSorted" />
+		</suite>
 		<suite class="AboutComparison">
 			<koan name="compareObjects" />
 			<koan name="makeObjectsComparable" />
