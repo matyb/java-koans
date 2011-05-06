@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -19,6 +20,7 @@ import org.junit.Test;
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.KoanSuiteResult;
+import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.path.PathToEnlightenment;
@@ -38,21 +40,21 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	
 	@Test
 	public void testMainMethodWithClassNameArg_qualifiedWithPkgName() throws Throwable {
-		new AppLauncher(OnePassingKoan.class.getName()).run();
+		new KoanSuiteRunner(new CommandLineArgumentBuilder(OnePassingKoan.class.getName())).run();
 		assertSystemOutContains(KoanConstants.PASSING_SUITES+" "+OnePassingKoan.class.getSimpleName());
 	}
 
 	@Test
 	public void testMainMethodWithClassNameArg_classSimpleName() throws Throwable {
-		new AppLauncher(OnePassingKoan.class.getPackage().getName()
-				+ KoanConstants.PERIOD + OnePassingKoan.class.getSimpleName()).run();
+		new KoanSuiteRunner(new CommandLineArgumentBuilder(OnePassingKoan.class.getPackage().getName()
+				+ KoanConstants.PERIOD + OnePassingKoan.class.getSimpleName())).run();
 		assertSystemOutContains(KoanConstants.PASSING_SUITES+" "+OnePassingKoan.class.getSimpleName());
 	}
 	
 	@Test
 	public void testMainMethodWithClassNameArg_classNameAndMethod() throws Throwable {
 		String failingKoanMethodName = TwoFailingKoans.class.getDeclaredMethod("koanTwo").getName();
-		new AppLauncher(TwoFailingKoans.class.getName(), failingKoanMethodName).run();
+		new KoanSuiteRunner(new CommandLineArgumentBuilder(TwoFailingKoans.class.getName(), failingKoanMethodName)).run();
 		assertSystemOutContains(failingKoanMethodName);
 		assertSystemOutDoesntContain(OneFailingKoan.class.getDeclaredMethods()[0].getName());
 	}
@@ -106,7 +108,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	@Test @SuppressWarnings("unchecked")
 	public void testLineExceptionIsThrownAtIsHintedAt() throws Exception {
 		stubAllKoans(Arrays.asList(BlowUpOnLineTen.class));
-		new KoanSuiteRunner().run();
+		new KoanSuiteRunner(new CommandLineArgumentBuilder()).run();
 		assertSystemOutContains("Line 10");
 		assertSystemOutDoesntContain("Line 11");
 	}
@@ -114,7 +116,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	@Test @SuppressWarnings("unchecked")
 	public void testLineExceptionIsThrownAtIsHintedAtEvenIfThrownFromSuperClass() throws Exception {
 		stubAllKoans(Arrays.asList(BlowUpOnLineEleven.class));
-		new KoanSuiteRunner().run();
+		new KoanSuiteRunner(new CommandLineArgumentBuilder()).run();
 		assertSystemOutContains("Line 11");
 		assertSystemOutDoesntContain("Line 10");
 	}
@@ -130,7 +132,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 				message[0] = arg0.getMessage();
 			}
 		});
-		new AppLauncher(new String[]{}).run();
+		new KoanSuiteRunner(new CommandLineArgumentBuilder()).run();
 		assertEquals(new StringBuilder(
 				WrongExpectationOrderKoan.class.getSimpleName()).append(
 				".expectationOnLeft ").append(
@@ -148,7 +150,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 				fail("No logging necessary when koan passes, otherwise - logging is new, adjust accordingly.");
 			}
 		});
-		new AppLauncher(new String[]{}).run();
+		new KoanSuiteRunner(Collections.EMPTY_MAP).run();
 	}
 	
 	public static class WrongExpectationOrderKoan {

@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.suite.OneFailingKoan;
@@ -32,7 +33,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	@Test
 	public void hintPresentation() throws Throwable {
 		stubAllKoans(Arrays.asList(new OneFailingKoanDifferentName()));
-		new KoanSuiteRunner().run();
+		new KoanSuiteRunner(new CommandLineArgumentBuilder()).run();
 		assertSystemOutContains(new StringBuilder(
 				INVESTIGATE_IN_THE).append(
 				" ").append(

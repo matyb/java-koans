@@ -51,15 +51,15 @@
 			<koan name="toStringIsTestedForNullWhenInvokedImplicitly"
 				lesson="String concatenation implicitly invokes toString on Objects, unless they are null. Notice no NullPointerException is thrown." />
 		</suite>
-		<suite class="AboutLoops"/>
-		<suite class="AboutCasting"/>
-		<suite class="AboutConditionals"/>
-		<suite class="AboutInheritance"><koan name="overridenMethodsMayReturnSubtype"
+		<suite class="AboutLoops"></suite>
+		<suite class="AboutCasting" />
+		<suite class="AboutConditionals" />
+		<suite class="AboutInheritance">
+			<koan name="overridenMethodsMayReturnSubtype"
 				lesson="An overridden method may return a subtype of the return type for the method being overridden. Look at the javadoc for java.util.Collection or java.util.List - it will reveal how to eliminate this type cast." />
 		</suite>
-		<suite class="AboutConstructors"></suite>
+		<suite class="AboutConstructors"/>
 		<suite class="AboutEnums"/>
-		<suite class="AboutExceptions"/>
 		<suite class="AboutMethodPreference"/>
 		<suite class="AboutOperators"/>
 		<suite class="AboutArrays">
@@ -95,11 +95,16 @@
 				lesson="With AutoBoxing, we can intermix as well" />
 			<koan name="allPrimativesCanBeAutoboxed" lesson="All primatives can be autoboxed" />
 		</suite>
-		<suite class="AboutComparison"/>
-		<suite class="AboutEquality"/>
-		<suite class="AboutFileIO"/>
-		<suite class="AboutInnerClasses"/>
-		<suite class="AboutSerialization"/>
+		<suite class="AboutFileIO"></suite>
+		<suite class="AboutInnerClasses"> </suite>
+		<suite class="AboutSerialization">
+			<koan name="simpleSerialization" />
+			<koan name="customObjectSerialization" />
+			<koan name="customObjectSerializationWithTransientFields" />
+			<koan name="customSerializationWithUnserializableFields" />
+			<koan name="serializeWithInteritance" />
+			<koan name="serializeWithInheritanceWhenParentNotserializable" />
+		</suite>
 	</package>
 	<package pkg="advanced" name="Advanced">
 		<suite class="AboutMocks">
