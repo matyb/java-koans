@@ -39,9 +39,7 @@ public class AboutAssertions {
 		// Generally, when using an assertXXX methods, expectation is on the 
 		// left and it is best practice to use a String for the first arg 
 		// indication what has failed
-		assertEquals("A message as the first arg in assertEquals " +
-				"invocations, will appear when the assertion fails.\r", 
-				1, __); 	
+		assertEquals("1 should equal 1", 1, __); 	
 	}
 	
 	@Koan()

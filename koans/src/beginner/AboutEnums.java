@@ -27,7 +27,7 @@ public class AboutEnums {
 	}
 	
 	enum SkatSuits {
-		Clubs(12), Spades(11), Hearts(10), Diamonds(9);
+		Clubs(12), Spades(11), Hearts(10), Dimonds(9);
 		SkatSuits(int v) { value = v; }
 		private int value;
 	}
