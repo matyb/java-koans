@@ -26,6 +26,7 @@ public class AboutEquality {
 		assertEquals(new Object().equals(null), __);
 	}
 	
+	@SuppressWarnings("unused")
 	static class Car {
 		@SuppressWarnings("unused")
 		private String name = "";
