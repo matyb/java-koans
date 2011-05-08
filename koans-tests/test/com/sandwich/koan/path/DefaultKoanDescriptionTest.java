@@ -3,14 +3,26 @@ package com.sandwich.koan.path;
 import java.util.List;
 import java.util.Map.Entry;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.constant.KoanConstants;
 
-public class DefaultKoanDescriptionTest {
+public class DefaultKoanDescriptionTest extends CommandLineTestCase {
+	
+	@Before
+	public void setUp(){
+		super.setUp();
+	}
 
+	@After
+	public void tearDown(){
+		super.tearDown();
+	}
+	
 	@Test
 	public void defaultKoanDescriptions() throws Exception {
 		StringBuilder exceptionStringBuilder = new StringBuilder(KoanConstants.EOL);

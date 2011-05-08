@@ -12,19 +12,31 @@ import java.util.logging.Logger;
 
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.constant.KoanConstants;
-import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
-import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer.KoanElementAttributes;
+import com.sandwich.koan.path.xmltransformation.XmlToPathTransformerImpl;
+import com.sandwich.koan.path.xmltransformation.XmlToPathTransformerImpl.KoanElementAttributes;
 
 public abstract class PathToEnlightenment {
 
 	static Path theWay;
+	static XmlToPathTransformerImpl xmlToPathTransformer;
 
 	static Path createPath(){
-		try{
-			return new XmlToPathTransformer(KoanConstants.PATH_XML_LOCATION).transform();
-		}catch(Throwable t){
-			throw new RuntimeException(t);
+		try {
+			return getXmlToPathTransformer().transform();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
+	}
+	
+	private static XmlToPathTransformerImpl getXmlToPathTransformer(){
+		if(xmlToPathTransformer == null){
+			try{
+				xmlToPathTransformer = new XmlToPathTransformerImpl(KoanConstants.PATH_XML_LOCATION);
+			}catch(Throwable t){
+				throw new RuntimeException(t);
+			}
+		}
+		return xmlToPathTransformer;
 	}
 	
 	public static Path getPathToEnlightment(){
@@ -105,7 +117,7 @@ public abstract class PathToEnlightenment {
 		}
 		Map<String, Map<Object, List<KoanMethod>>> koans = new HashMap<String, Map<Object,List<KoanMethod>>>();
 		Map<Object, List<KoanMethod>> suiteAndMethods = new HashMap<Object, List<KoanMethod>>();
-		List<KoanMethod> methods = XmlToPathTransformer.getKoanMethods(koanSuite.getClass(), 
+		List<KoanMethod> methods = XmlToPathTransformerImpl.getKoanMethods(koanSuite.getClass(), 
 				createStubbedLessonMapForSuite(koanSuite.getClass()));
 		suiteAndMethods.put(koanSuite, methods);
 		koans.put(koanSuite.toString(), suiteAndMethods);

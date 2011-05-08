@@ -20,7 +20,7 @@ public class XmlVariableInjector {
 		this.lesson = lesson;
 		methodName = koanMethod.getName();
 		suiteName = koanMethod.getDeclaringClass().getSimpleName();
-		suitePath = new File(KoanConstants.PATH_XML+koanMethod.getDeclaringClass().getName().replace('.', '/')).getAbsolutePath()
+		suitePath = new File(koanMethod.getDeclaringClass().getName().replace('.', '/')).getAbsolutePath()
 			.replace(koanMethod.getDeclaringClass().getSimpleName(), "");
 	}
 	

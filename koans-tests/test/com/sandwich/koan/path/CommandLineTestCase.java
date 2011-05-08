@@ -18,26 +18,33 @@ import com.sandwich.koan.TestUtils;
 import com.sandwich.koan.TestUtils.ArgRunner;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
+import com.sandwich.koan.path.xmltransformation.FakeXmlToPathTransformer;
 import com.sandwich.koan.runner.RunKoans;
 
 public abstract class CommandLineTestCase {
 
 	private PrintStream console;
 	private ByteArrayOutputStream bytes;
-
+	
 	@Before
 	public void setUp() {
 		bytes = new ByteArrayOutputStream();
 		console = System.out;
 		TestUtils.setValue("behavior", new RunKoans(), ArgumentType.RUN_KOANS);
+		PathToEnlightenment.xmlToPathTransformer = new FakeXmlToPathTransformer();
 		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
 		System.setOut(new PrintStream(bytes));
 	}
 
 	@After
 	public void tearDown() {
-		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
+		setRealPath();
 		System.setOut(console);
+	}
+	
+	protected void setRealPath(){
+		PathToEnlightenment.xmlToPathTransformer = null;
+		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
 	}
 	
 	protected Path stubAllKoans(String packageName, List<?> path){

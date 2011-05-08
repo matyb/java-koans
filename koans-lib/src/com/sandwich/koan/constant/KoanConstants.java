@@ -1,5 +1,7 @@
 package com.sandwich.koan.constant;
 
+import java.io.File;
+
 
 
 
@@ -14,16 +16,15 @@ public abstract class KoanConstants {
 	
 	public static final String  __					= "REPLACE ME";
 	public static final String  PATH_XML_NAME 		= "PathToEnlightment.xml";
-//	public static final String  PATH_XML			= "src/";  // TODO: Adapt so dev and deployed can use same path
-	public static final String  PATH_XML			= "";
-	public static final String  PATH_XML_LOCATION 	= PATH_XML+PATH_XML_NAME; 
+	public static final String  FILESYSTEM_SEPARATOR= System.getProperty("file.separator");
+	public static final String  PATH_XML_LOCATION	= new File("").getAbsolutePath().replace("koans-tests", "koans").replace(FILESYSTEM_SEPARATOR+"src", "")
+	  												+ FILESYSTEM_SEPARATOR + "src" + FILESYSTEM_SEPARATOR + PATH_XML_NAME;
 	
 	public static final String  DESCRIPTION			= "description";
 	public static final String  ARGUMENTS			= "args";
 	
 	public static final String  EOL					= System.getProperty("line.separator");
 	public static final String  EOLS				= "[\n\r"+EOL+"]";
-	public static final String  FILESYSTEM_SEPARATOR= System.getProperty("file.separator");
 	public static final String  PERIOD 				= ".";
 	public static final String  EXPECTATION_LEFT_ARG= "has expectation as wrong argument!";
 	public static final String  EXPECTED_LEFT 		= "expected:<";

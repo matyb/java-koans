@@ -75,6 +75,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	
 	@Test	/** Ensures that koans are ready for packaging & distribution */
 	public void testKoanSuiteRunner_firstKoanFail() throws Exception {
+		setRealPath();
 		final KoanSuiteResult[] result = new KoanSuiteResult[]{null};
 		final SuitePresenter presenter = new SuitePresenter(){
 			public void displayResult(KoanSuiteResult actualAppResult) {
@@ -89,6 +90,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	
 	@Test	/** Ensures that koans are ready for packaging & distribution */
 	public void testKoanSuiteRunner_allKoansFail() throws Exception {
+		setRealPath();
 		final KoanSuiteResult[] result = new KoanSuiteResult[]{null};
 		final SuitePresenter presenter = new SuitePresenter(){
 			public void displayResult(KoanSuiteResult actualAppResult) {
