@@ -30,7 +30,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		StringBuilder sb = new StringBuilder();
 		appendLabeledClassesList(PASSING_SUITES, result.getPassingSuites(), sb);
 		appendLabeledClassesList(FAILING_SUITES, result.getRemainingSuites(), sb);
-		sb.append(EOL).append("Edit & save a koan to reload or press Ctrl+C to exit");
+		sb.append(EOL).append("Edit & save a koan to reload or enter '"+ KoanConstants.EXIT_CHARACTER +"' to exit");
 		System.out.println(sb.toString());
 	}
 	

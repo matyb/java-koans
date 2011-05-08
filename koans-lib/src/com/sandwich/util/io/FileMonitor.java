@@ -26,7 +26,6 @@ public class FileMonitor {
 	
 	public void close(){
 		listeners.clear();
-		FileMonitorFactory.removeInstance(fileSystemPath.getAbsolutePath());
 	}
 
 	public void addFileSavedListener(FileListener listener){

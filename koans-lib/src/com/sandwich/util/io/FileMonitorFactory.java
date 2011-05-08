@@ -2,21 +2,22 @@ package com.sandwich.util.io;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Vector;
+
+import com.sandwich.koan.constant.KoanConstants;
 
 public class FileMonitorFactory {
 
 	private static Map<String, FileMonitor> monitors = new LinkedHashMap<String, FileMonitor>();
 	public static final int SLEEP_TIME_IN_MS = 500;
+	private static boolean keepCheckingDirectory = true;
 	
-	private static List<FileListener> listeners = new Vector<FileListener>();
-	static{ 
+	// poll for file modifications
+	static{
 		new Thread(new Runnable(){
 			public void run() {
-				do{
+				while(keepCheckingDirectory){
 					try {
 						Thread.sleep(SLEEP_TIME_IN_MS);
 					} catch (InterruptedException e) {
@@ -28,7 +29,30 @@ public class FileMonitorFactory {
 							monitor.notifyListeners();
 						}
 					}
-				}while(true);
+				}
+			}
+		}).start();
+	}
+	
+	// poll for keyboard input to stop the polling
+	static{
+		new Thread(new Runnable(){
+			public void run() {
+				while(keepCheckingDirectory){
+					char c = ' ';
+					try {
+						c = (char)System.in.read();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					if(Character.toUpperCase(c) == Character.valueOf(KoanConstants.EXIT_CHARACTER)){
+						keepCheckingDirectory = false;
+						for(FileMonitor monitor : monitors.values()){
+							monitor.close();
+						}
+						monitors.clear();
+					}
+				}
 			}
 		}).start();
 	}
@@ -41,12 +65,9 @@ public class FileMonitorFactory {
 		}
 		return monitor;
 	}
-	
-	public void close(){
-		listeners.clear();
-	}
 
 	public static void removeInstance(FileMonitor monitor){
+		monitor.close();
 		monitors.remove(monitor.getFilesystemPath());
 	}
 	

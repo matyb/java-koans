@@ -10,6 +10,7 @@ public abstract class KoanConstants {
 
 	private KoanConstants(){}
 	
+	public static final char	EXIT_CHARACTER		= 'Q';
 	public static boolean 		DEBUG				= false;
 //	public static boolean 		DEBUG				= true;
 	public static final boolean ENABLE_ENCOURAGEMENT= false;
