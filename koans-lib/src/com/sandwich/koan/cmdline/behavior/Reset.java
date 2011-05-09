@@ -2,7 +2,7 @@ package com.sandwich.koan.cmdline.behavior;
 
 import java.io.IOException;
 
-import com.sandwich.util.FileUtils;
+import com.sandwich.util.io.FileUtils;
 
 public class Reset extends KoanFileCopying{
 

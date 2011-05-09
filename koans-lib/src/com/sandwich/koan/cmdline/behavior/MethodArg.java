@@ -6,7 +6,7 @@ public class MethodArg extends AbstractArgumentBehavior {
 
 	public void run(String koanName) {
 		if(koanName != null && koanName.trim().length() != 0){
-			PathToEnlightenment.removeAllKoanMethodsExcept(koanName);
+			PathToEnlightenment.filterByKoan(koanName);
 		}
 	}
 	

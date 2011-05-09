@@ -100,7 +100,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 					firstFailingMethod.getMethod());
 		}
 		return new KoanResultBuilder()	.level(level)
-										.numberPassing(successfull.getCount())
+										.numberPassing((int)successfull.getCount())
 										.totalNumberOfKoanMethods(getPathToEnlightement().getTotalNumberOfKoans())
 										.failingCase(firstFailingSuite)
 										.failingMethod(firstFailingMethod).message(message)

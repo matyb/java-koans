@@ -1,6 +1,7 @@
 package com.sandwich.util;
 
 import com.sandwich.koan.KoanIncompleteException;
+import com.sandwich.koan.constant.KoanConstants;
 
 public class Assert {
 
@@ -65,7 +66,7 @@ public class Assert {
 	}
 	
 	public static void fail(String msg, Object o0, Object o1){
-		fail(msg+(msg.length() == 0 ? "" : " ")+EXPECTED+o0+BUT_WAS+o1+END);
+		fail(msg+(msg.length() == 0 ? "" : KoanConstants.EOL)+EXPECTED+o0+BUT_WAS+o1+END);
 	}
 	
 	public static void fail(String msg){

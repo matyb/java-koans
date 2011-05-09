@@ -35,6 +35,10 @@ public class KoanMethod {
 		return displayIncompleteException;
 	}
 	
+	public KoanMethod clone(Method method){
+		return new KoanMethod(lesson, method, displayIncompleteException);
+	}
+	
 	@Override public String toString(){
 		return "{"+getMethod().getName()
 				+" : "+ (lesson.length() > 20 ? lesson.substring(0, 20) + "..." : lesson)+"}";

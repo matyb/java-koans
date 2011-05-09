@@ -6,6 +6,7 @@ import static com.sandwich.util.Assert.assertEquals;
 import com.sandwich.koan.Koan;
 
 public class AboutPrimitives {
+	
 	@Koan()
 	public void byteSize() {
 		assertEquals(Byte.SIZE, __);

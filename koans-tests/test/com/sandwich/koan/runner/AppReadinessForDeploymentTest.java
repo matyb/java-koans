@@ -124,38 +124,55 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	@Test @SuppressWarnings("unchecked")
 	public void testWarningFromPlacingExpecationOnWrongSide() throws Throwable {
 		final String[] message = new String[1];
-		stubAllKoans(Arrays.asList(WrongExpectationOrderKoan.class));
-		Logger.getLogger(KoanSuiteRunner.class.getSimpleName()).addHandler(new Handler(){
-			@Override public void close() throws SecurityException {}
-			@Override public void flush() {}
-			@Override public void publish(LogRecord arg0) {
-				message[0] = arg0.getMessage();
-			}
-		});
-		new AppLauncher(new String[]{}).run();
-		assertEquals(new StringBuilder(
-				WrongExpectationOrderKoan.class.getSimpleName()).append(
-				".expectationOnLeft ").append(
-				EXPECTATION_LEFT_ARG).toString()
-				, message[0]);
+		stubAllKoans(Arrays.asList(new WrongExpectationOrderKoan()));
+		Logger.getLogger(KoanSuiteRunner.class.getSimpleName()).addHandler(
+				new Handler() {
+					@Override
+					public void close() throws SecurityException {
+					}
+
+					@Override
+					public void flush() {
+					}
+
+					@Override
+					public void publish(LogRecord arg0) {
+						message[0] = arg0.getMessage();
+					}
+				});
+		new KoanSuiteRunner(new CommandLineArgumentBuilder()).run();
+		assertEquals(
+				new StringBuilder(
+						WrongExpectationOrderKoan.class.getSimpleName())
+						.append(".expectationOnLeft ")
+						.append(EXPECTATION_LEFT_ARG).toString(), message[0]);
 	}
-	
-	@Test @SuppressWarnings("unchecked")
-	public void testNoWarningFromPlacingExpecationOnRightSide() throws Throwable {
-		stubAllKoans(Arrays.asList(OnePassingKoan.class));
-		Logger.getLogger(KoanSuiteRunner.class.getSimpleName()).addHandler(new Handler(){
-			@Override public void close() throws SecurityException {}
-			@Override public void flush() {}
-			@Override public void publish(LogRecord arg0) {
-				fail("No logging necessary when koan passes, otherwise - logging is new, adjust accordingly.");
-			}
-		});
-		new AppLauncher(new String[]{}).run();
+
+	@Test
+	public void testNoWarningFromPlacingExpecationOnRightSide()
+			throws Throwable {
+		stubAllKoans(Arrays.asList(new OnePassingKoan()));
+		Logger.getLogger(KoanSuiteRunner.class.getSimpleName()).addHandler(
+				new Handler() {
+					@Override
+					public void close() throws SecurityException {
+					}
+
+					@Override
+					public void flush() {
+					}
+
+					@Override
+					public void publish(LogRecord arg0) {
+						fail("No logging necessary when koan passes, otherwise - logging is new, adjust accordingly.");
+					}
+				});
+		new KoanSuiteRunner().run();
 	}
-	
+
 	public static class WrongExpectationOrderKoan {
-		@Koan 
-		public void expectationOnLeft(){
+		@Koan
+		public void expectationOnLeft() {
 			com.sandwich.util.Assert.assertEquals(__, false);
 		}
 	}

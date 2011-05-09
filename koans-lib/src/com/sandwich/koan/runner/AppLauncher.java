@@ -1,18 +1,20 @@
 package com.sandwich.koan.runner;
 
+import java.util.Map;
+
+import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
+import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.util.io.FileMonitorFactory;
+import com.sandwich.util.io.FileUtils;
+import com.sandwich.util.io.KoanFileCompileAndRunListener;
 
-public class AppLauncher implements Runnable {
+public class AppLauncher {
 
-	private final String[] args;
-	
-	public AppLauncher(String...args){
-		this.args = args;
-	}
-	
 	public static void main(final String... args) throws Throwable {
-		new AppLauncher(args).run();
+		Map<ArgumentType, CommandLineArgument> argsMap = new CommandLineArgumentBuilder(args);
+		new KoanSuiteRunner(argsMap).run();
 		if(KoanConstants.DEBUG){
 			StringBuilder argsBuilder = new StringBuilder();
 			int argNumber = 0;
@@ -21,16 +23,9 @@ public class AppLauncher implements Runnable {
 			}
 			System.out.println(argsBuilder.toString());
 		}
-	}
-
-	public void run() {
-		try{
-			new KoanSuiteRunner(
-				new CommandLineArgumentBuilder(args).build()	
-			).run();
-		}catch(Throwable t){
-			throw new RuntimeException(t);
+		if(argsMap.containsKey(ArgumentType.RUN_KOANS)){
+			FileMonitorFactory.getInstance(FileUtils.makeAbsoluteRelativeTo(KoanConstants.PROJ_MAIN_FOLDER))
+				.addFileSavedListener(new KoanFileCompileAndRunListener(argsMap));
 		}
 	}
-	
 }

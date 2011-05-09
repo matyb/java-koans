@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.suite.OneFailingKoan;
@@ -32,7 +33,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	@Test
 	public void hintPresentation() throws Throwable {
 		stubAllKoans(Arrays.asList(new OneFailingKoanDifferentName()));
-		new KoanSuiteRunner().run();
+		new KoanSuiteRunner(new CommandLineArgumentBuilder()).run();
 		assertSystemOutContains(new StringBuilder(
 				INVESTIGATE_IN_THE).append(
 				" ").append(
@@ -73,27 +74,21 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	
 	@Test
 	public void passingSuites() throws Throwable {
-		stubAllKoans(Arrays.asList(new Class<?>[] { 
-				OnePassingKoan.class,
-				OnePassingKoanDifferentName.class }));
+		stubAllKoans(Arrays.asList(new OnePassingKoan(), new OnePassingKoanDifferentName()));
 		new KoanSuiteRunner().run();
 		assertSystemOutContains(PASSING_SUITES+" OnePassingKoan, OnePassingKoanDifferentName");
 	}
 	
 	@Test
 	public void failingSuites() throws Throwable {
-		stubAllKoans(Arrays.asList(new Class<?>[] { 
-				OneFailingKoan.class,
-				OneFailingKoanDifferentName.class }));
+		stubAllKoans(Arrays.asList(new OneFailingKoan(), new OneFailingKoanDifferentName()));
 		new KoanSuiteRunner().run();
 		assertSystemOutContains(FAILING_SUITES+" OneFailingKoan, OneFailingKoanDifferentName");
 	}
 	
 	@Test
 	public void failingAndPassingSuites() throws Throwable {
-		stubAllKoans(Arrays.asList(new Class<?>[] { 
-				OnePassingKoan.class,
-				OneFailingKoan.class }));
+		stubAllKoans(Arrays.asList(new OnePassingKoan(), new OneFailingKoan()));
 		new KoanSuiteRunner().run();
 		assertSystemOutContains(PASSING_SUITES+" OnePassingKoan"+EOL+
 								FAILING_SUITES+" OneFailingKoan");
@@ -101,9 +96,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	
 	@Test
 	public void progressAllPassing() throws Throwable {
-		stubAllKoans(Arrays.asList(new Class<?>[] { 
-				OnePassingKoan.class,
-				OnePassingKoanDifferentName.class }));
+		stubAllKoans(Arrays.asList(new OnePassingKoan(), new OnePassingKoanDifferentName()));
 		new KoanSuiteRunner().run();
 		StringBuilder sb = new StringBuilder(PROGRESS).append(" ")
 									.append(PROGRESS_BAR_START);
@@ -116,9 +109,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	
 	@Test
 	public void progressAllFailing() throws Throwable {
-		stubAllKoans(Arrays.asList(new Class<?>[] { 
-				OneFailingKoan.class,
-				OneFailingKoanDifferentName.class }));
+		stubAllKoans(Arrays.asList(new OneFailingKoan(), new OneFailingKoanDifferentName()));
 		new KoanSuiteRunner().run();
 		StringBuilder sb = new StringBuilder(
 				PROGRESS).append(" ").append(
@@ -132,9 +123,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	
 	@Test
 	public void progressFiftyFifty() throws Throwable {
-		stubAllKoans(Arrays.asList(new Class<?>[] { 
-				OnePassingKoan.class,
-				OneFailingKoan.class }));
+		stubAllKoans(Arrays.asList(new OnePassingKoan(), new OneFailingKoan()));
 		new KoanSuiteRunner().run();
 		StringBuilder sb = new StringBuilder(
 				PROGRESS).append(" ").append(
@@ -151,8 +140,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	
 	@Test
 	public void whatWentWrongExplanation() throws Throwable {
-		stubAllKoans(Arrays.asList(new Class<?>[] { 
-				OneFailingKoan.class }));
+		stubAllKoans(Arrays.asList(new OneFailingKoan()));
 		new KoanSuiteRunner().run();
 		assertSystemOutContains(new StringBuilder(
 				WHATS_WRONG).append(
