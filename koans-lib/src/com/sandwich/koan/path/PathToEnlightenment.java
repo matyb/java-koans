@@ -1,8 +1,8 @@
 package com.sandwich.koan.path;
 
+import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -13,22 +13,34 @@ import java.util.Map.Entry;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
+import com.sandwich.koan.path.xmltransformation.XmlToPathTransformerImpl;
 
 public abstract class PathToEnlightenment {
 
 	static Path theWay;
 	static String suiteName;
 	static String koanMethod;
+	static XmlToPathTransformer xmlToPathTransformer;
 
 	private PathToEnlightenment(){} // non instantiable
 	
 	static Path createPath(){
 		try{
-			return new XmlToPathTransformer(KoanConstants.PATH_XML_LOCATION, suiteName, koanMethod)
-				.transform();
+			return getXmlToPathTransformer().transform();
 		}catch(Throwable t){
 			throw new RuntimeException(t);
 		}
+	}
+	
+	private static XmlToPathTransformer getXmlToPathTransformer(){
+		if(xmlToPathTransformer == null){
+			try {
+				xmlToPathTransformer = new XmlToPathTransformerImpl(KoanConstants.PATH_XML_LOCATION, suiteName, koanMethod);
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		return xmlToPathTransformer;
 	}
 	
 	public static void filterBySuite(String suite){

@@ -3,6 +3,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -17,8 +18,8 @@ import com.sandwich.koan.TestUtils;
 import com.sandwich.koan.TestUtils.ArgRunner;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
-import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
-import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer.KoanElementAttributes;
+import com.sandwich.koan.path.xmltransformation.FakeXmlToPathTransformer;
+import com.sandwich.koan.path.xmltransformation.XmlToPathTransformerImpl.KoanElementAttributes;
 import com.sandwich.koan.runner.RunKoans;
 
 public abstract class CommandLineTestCase {
@@ -31,14 +32,20 @@ public abstract class CommandLineTestCase {
 		bytes = new ByteArrayOutputStream();
 		console = System.out;
 		TestUtils.setValue("behavior", new RunKoans(), ArgumentType.RUN_KOANS);
+		PathToEnlightenment.xmlToPathTransformer = new FakeXmlToPathTransformer();
 		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
 		System.setOut(new PrintStream(bytes));
 	}
 
 	@After
 	public void tearDown() {
-		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
+		setRealPath();
 		System.setOut(console);
+	}
+	
+	protected void setRealPath(){
+		PathToEnlightenment.xmlToPathTransformer = null;
+		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
 	}
 	
 	protected Path stubAllKoans(String packageName, List<?> path){
@@ -46,8 +53,8 @@ public abstract class CommandLineTestCase {
 		Map<Object, List<KoanMethod>> tempSuitesAndMethods = new LinkedHashMap<Object, List<KoanMethod>>();
 		for(Object suite : path){
 			Map<String, KoanElementAttributes> emptyMap = Collections.emptyMap();
-			tempSuitesAndMethods.put(suite, 
-					new XmlToPathTransformer().getKoanMethods(suite.getClass(), emptyMap));
+			tempSuitesAndMethods.put(suite,
+				new FakeXmlToPathTransformer().getKoanMethods(suite.getClass(), emptyMap));
 		}
 		Map<String, Map<Object, List<KoanMethod>>> stubbedPath = new HashMap<String, Map<Object,List<KoanMethod>>>();
 		stubbedPath.put(packageName, tempSuitesAndMethods);

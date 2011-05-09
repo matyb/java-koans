@@ -20,23 +20,29 @@ import org.w3c.dom.NodeList;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.path.PathToEnlightenment.FileFormatException;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
 import com.sandwich.util.KoanComparator;
+import com.sandwich.util.io.DynamicClassLoader;
 
 public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 
 	private final File xmlFile;
-	
-	XmlToPathTransformerImpl() {
+	private final String suiteName;
+	private final String methodName;
+
+	public XmlToPathTransformerImpl(){
 		xmlFile = null;
+		suiteName = null;
+		methodName = null;
 	}
-	
-	public XmlToPathTransformerImpl(String xmlFileLocation) throws FileNotFoundException {
+
+	public XmlToPathTransformerImpl(String xmlFileLocation, String suiteName, String methodName) throws FileNotFoundException {
 		this.xmlFile = new File(xmlFileLocation);
+		this.suiteName = suiteName;
+		this.methodName = methodName;
 		if(!xmlFile.exists()){
-			throw new FileNotFoundException(xmlFile.getAbsolutePath()
-					+ " was not found. it may have been deleted, renamed.");
+		throw new FileNotFoundException(xmlFile.getAbsolutePath()
+				+ " was not found. it may have been deleted, renamed.");
 		}
 	}
 	
@@ -60,95 +66,102 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 		}
 	}
 	
-	static Map<Object, List<KoanMethod>> createSuitesAndKoans(String pkg, NodeList childNodes) throws DOMException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+	Map<Object, List<KoanMethod>> createSuitesAndKoans(String pkg,
+			NodeList childNodes) throws DOMException, ClassNotFoundException,
+			InstantiationException, IllegalAccessException {
 		Map<Object, List<KoanMethod>> suitesAndKoans = new LinkedHashMap<Object, List<KoanMethod>>();
-		for(int i = 0; i < childNodes.getLength(); i++){
+		for (int i = 0; i < childNodes.getLength(); i++) {
 			Node node = childNodes.item(i);
-			if("suite".equalsIgnoreCase(node.getNodeName())){
-				Class<?> koanSuiteClass = Class.forName(pkg + '.' + node.getAttributes().getNamedItem("class").getNodeValue());
-				suitesAndKoans.put(
-						koanSuiteClass.newInstance(), Collections.unmodifiableList(
-						createKoanMethods(koanSuiteClass, node.getChildNodes())));
+			if ("suite".equalsIgnoreCase(node.getNodeName())) {
+				String className = pkg
+						+ '.'
+						+ node.getAttributes().getNamedItem("class")
+								.getNodeValue();
+				if (suiteName == null || suiteName.equalsIgnoreCase(className)) {
+					DynamicClassLoader dynamicClassLoader = new DynamicClassLoader();
+					Class<?> koanSuiteClass = dynamicClassLoader
+							.loadClass(className);
+					suitesAndKoans.put(koanSuiteClass.newInstance(),
+							Collections.unmodifiableList(createKoanMethods(
+									koanSuiteClass, node.getChildNodes())));
+				}
 			}
 		}
-		return Collections.unmodifiableMap(suitesAndKoans);
+		return suitesAndKoans;
 	}
-	
-	static List<KoanMethod> createKoanMethods(Class<?> koanSuiteClass, NodeList nodes) {
-		Map<String, KoanElementAttributes> rawKoanLessonByMethodName = extractKoansAndRawLessons(koanSuiteClass.getName(), nodes);
-		List<KoanMethod> koanMethods = getKoanMethods(koanSuiteClass, rawKoanLessonByMethodName);
-		KoanComparator koanComparator = new KoanComparator(rawKoanLessonByMethodName.keySet());
+
+	List<KoanMethod> createKoanMethods(Class<?> koanSuiteClass, NodeList nodes) {
+		Map<String, KoanElementAttributes> rawKoanLessonByMethodName = extractKoansAndRawLessons(
+				koanSuiteClass.getName(), nodes);
+		List<KoanMethod> koanMethods = getKoanMethods(koanSuiteClass,
+				rawKoanLessonByMethodName);
+		KoanComparator koanComparator = new KoanComparator(
+				rawKoanLessonByMethodName.keySet());
 		Collections.sort(koanMethods, koanComparator);
-		assertXmlAndCodeAreInSynch(nodes, koanMethods, koanComparator);
 		return koanMethods;
 	}
 
-	static Map<String, KoanElementAttributes> extractKoansAndRawLessons(
+	Map<String, KoanElementAttributes> extractKoansAndRawLessons(
 			String className, NodeList nodes) {
 		Map<String, KoanElementAttributes> rawKoanAttributesByMethodName = new LinkedHashMap<String, KoanElementAttributes>();
-		for(int i = 0; i < nodes.getLength(); i++){
+		for (int i = 0; i < nodes.getLength(); i++) {
 			Node node = nodes.item(i);
-			if("koan".equalsIgnoreCase(node.getNodeName())){
+			if ("koan".equalsIgnoreCase(node.getNodeName())) {
 				NamedNodeMap attributes = node.getAttributes();
 				String name = attributes.getNamedItem("name").getNodeValue();
 				Node lesson = attributes.getNamedItem("lesson");
-				String rawLesson = lesson == null ? null : lesson.getNodeValue();
-				Node displayKoanIncompleteExceptionNode = attributes.getNamedItem("displayIncompleteKoanException");
-				String displayIncompleteKoanException = displayKoanIncompleteExceptionNode == null ?
-						null : displayKoanIncompleteExceptionNode.getNodeValue();
-				if(rawKoanAttributesByMethodName.containsKey(name)){
+				String rawLesson = lesson == null ? null : lesson
+						.getNodeValue();
+				Node displayKoanIncompleteExceptionNode = attributes
+						.getNamedItem("displayIncompleteKoanException");
+				String displayIncompleteKoanException = displayKoanIncompleteExceptionNode == null ? null
+						: displayKoanIncompleteExceptionNode.getNodeValue();
+				if (rawKoanAttributesByMethodName.containsKey(name)) {
 					throw new DuplicateKoanException(className, name);
 				}
-				rawKoanAttributesByMethodName.put(name, new KoanElementAttributes(
-						rawLesson, name, displayIncompleteKoanException));
+				rawKoanAttributesByMethodName.put(name,
+						new KoanElementAttributes(rawLesson, name,
+								displayIncompleteKoanException));
 			}
 		}
 		return rawKoanAttributesByMethodName;
 	}
 
-	static class DuplicateKoanException extends RuntimeException {
-		private static final long serialVersionUID = 3846796580641690961L;
-
-		public DuplicateKoanException(String className, String name){
-			super("Duplicate koans in the same suite: "+className+" with the name "+name);
-		}
-	}
-	
-	static void assertXmlAndCodeAreInSynch(NodeList csvOrder,
-			List<KoanMethod> koanMethods, KoanComparator koanComparator) {
-		if(koanMethods.size() != 1){
-			koanComparator.assertXmlAndCodeAreInSynch();
-		} else if (!koanMethods.get(0).getMethod().getName().equals(
-				csvOrder.item(1).getAttributes().getNamedItem("name").getNodeValue())) {
-			throw new FileFormatException(koanMethods.get(0).getMethod().getName()+
-					" was not found in the PathToEnlightment.xml");
-		}
-	}
-
-	public static List<KoanMethod> getKoanMethods(Class<?> koanSuiteClass, Map<String, KoanElementAttributes> attributesByKoanName) {
-		List<KoanMethod> koanMethods = new ArrayList<KoanMethod>();
-		for(final Method koan : koanSuiteClass.getMethods()){
-			final Koan annotation = koan.getAnnotation(Koan.class);
-			if(annotation != null){
-				KoanElementAttributes koanMethodAttributes = attributesByKoanName.get(koan.getName());
-				koanMethodAttributes = koanMethodAttributes == null ? KoanElementAttributes.NON_EXISTENT : koanMethodAttributes;
-				String incompleteKoanException = koanMethodAttributes.displayIncompleteKoanException;
-				boolean displayIncompleteKoanException = incompleteKoanException == null ||
-					"true".equalsIgnoreCase(incompleteKoanException.trim());
-				koanMethods.add(new KoanMethod(koanMethodAttributes.lesson, koan, displayIncompleteKoanException));
+		static class DuplicateKoanException extends RuntimeException {
+			private static final long serialVersionUID = 3846796580641690961L;
+			public DuplicateKoanException(String className, String name){
+				super("Duplicate koans in the same suite: "+className+" with the name "+name);
 			}
 		}
-		return koanMethods;
-	}
-	
-	public static class KoanElementAttributes{
-		String lesson, name, displayIncompleteKoanException;
-		private static final KoanElementAttributes NON_EXISTENT = new KoanElementAttributes("", "", "true");
-		public KoanElementAttributes(String lesson, String name, String displayIncompleteKoanException){
-			this.lesson = lesson;
-			this.name = name;
-			this.displayIncompleteKoanException = displayIncompleteKoanException;
+
+		public List<KoanMethod> getKoanMethods(Class<?> koanSuiteClass, Map<String, KoanElementAttributes> attributesByKoanName) {
+			List<KoanMethod> koanMethods = new ArrayList<KoanMethod>();
+			for(final Method koan : koanSuiteClass.getMethods()){
+				final Koan annotation = koan.getAnnotation(Koan.class);
+				if(annotation != null){
+					if(methodName == null || methodName.equalsIgnoreCase(koan.getName())){
+						KoanElementAttributes koanMethodAttributes = attributesByKoanName.get(koan.getName());
+						koanMethodAttributes = koanMethodAttributes == null ? KoanElementAttributes.NON_EXISTENT : koanMethodAttributes;
+						String incompleteKoanException = koanMethodAttributes.displayIncompleteKoanException;
+						boolean displayIncompleteKoanException = 
+							incompleteKoanException == null || "true".equalsIgnoreCase(incompleteKoanException.trim());
+						koanMethods.add(new KoanMethod(koanMethodAttributes.lesson, koan, displayIncompleteKoanException));
+					}
+				}
+			}
+			return koanMethods;
 		}
-	}
+
+		public static class KoanElementAttributes{
+			public static final KoanElementAttributes NON_EXISTENT = new KoanElementAttributes("", "", "true");
+			String lesson, name, displayIncompleteKoanException;
+			
+			public KoanElementAttributes(String lesson, String name, String displayIncompleteKoanException){
+				this.lesson = lesson;
+				this.name = name;
+				this.displayIncompleteKoanException = displayIncompleteKoanException;
+			}
+		}
+
 }
 
