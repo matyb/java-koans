@@ -33,7 +33,7 @@
 		<!-- TODO: AboutDataTypes... -->
 		<suite class="AboutObjects">
 			<koan name="objectEqualsNull"
-				lesson="An Object instance should NEVER equal null keyword. This applies to all subclasses (everything exception primitives subclass Object)." />
+				lesson="An Object instance should NEVER equal null keyword. This applies to all subclasses (everything except primitives subclass Object)." />
 			<koan name="objectEqualsSelf"
 				lesson="An Object instance should equal itself. This too applies to all subclasses of Object." />
 			<koan name="objectIdentityEqualityIsTrueWhenReferringToSameObject"
@@ -45,87 +45,24 @@
 			<koan name="doubleEqualsOperatorEvalutesToFalseWithDifferentInstances"
 				lesson="The inverse of the prior koan, though two objects may be logically equal, they are not referencing the same object." />
 			<koan name="objectToString"
-				lesson="How to identify an object at in string form. Should be overridden in any objects with internal state. Default to string is classname of the instance followed by its hashCode in base 16 (hexadecimal)." />
+				lesson="It's easy to identify an object's state at a glance - with a good toString() implementation. Should be overridden in any objects with internal state. Default to string is classname of the instance followed by its hashCode in base 16 (hexadecimal)." />
 			<koan name="toStringConcatenates"
 				lesson="Java 's string concatenation syntax utilizes addition operator to splice a string with virtually anything." />
 			<koan name="toStringIsTestedForNullWhenInvokedImplicitly"
 				lesson="String concatenation implicitly invokes toString on Objects, unless they are null. Notice no NullPointerException is thrown." />
 		</suite>
-		<suite class="AboutLoops">
-			<koan name="basicForLoop" />
-			<koan name="basicForLoopWithTwoVariables" />
-			<koan name="extendedForLoop" />
-			<koan name="whileLoop" />
-			<koan name="doLoop" />
-			<koan name="extendedForLoopBreak" />
-			<koan name="extendedForLoopContinue" />
-			<koan name="forLoopContinueLabel" />
-			<koan name="forLoopBreakLabel" />
-		</suite>
-		<suite class="AboutCasting">
-			<koan name="longPlusInt" />
-			<koan name="forceIntTypecast" />
-			<koan name="implicitTypecast" />
-			<koan name="downCastWithInerhitance" />
-			<koan name="downCastAndPolymophism" />
-			<koan name="upCastWithInheritance" />
-			<koan name="upCastAndPolymophism" />
-			<koan name="complicatedCast" />
-			<koan name="complicatedCastWithInterface" />
-		</suite>
-		<suite class="AboutConditionals">
-			<koan name="basicIfWithoutCurly" />
-			<koan name="basicIfElseWithoutCurly" />
-			<koan name="basicIfElseIfElseWithoutCurly" />
-			<koan name="nestedIfsWithoutCurlysAreReallyMisleading" />
-			<koan name="ifAsIntended" />
-			<koan name="basicSwitchStatement" />
-			<koan name="switchStatementFallThrough" />
-			<koan name="switchStatementCrazyFallThrough" />
-			<koan name="switchStatementConstants" />
-			<koan name="switchStatementSwitchValues" />
-		</suite>
+		<suite class="AboutLoops" />
+		<suite class="AboutCasting"/>
+		<suite class="AboutConditionals"/>
 		<suite class="AboutInheritance">
-			<koan name="differenceBetweenOverloadingAndOverriding" />
 			<koan name="overridenMethodsMayReturnSubtype"
 				lesson="An overridden method may return a subtype of the return type for the method being overridden. Look at the javadoc for java.util.Collection or java.util.List - it will reveal how to eliminate this type cast." />
 		</suite>
-		<suite class="AboutConstructors">
-			<koan name="simpleConstructorOrder" />
-			<koan name="complexConstructorOrder" />
-		</suite>
-		<suite class="AboutEnums">
-			<koan name="basicEnums" />
-			<koan name="basicEnumsAccess" />
-			<koan name="enumsWithAttributes" />
-			<koan name="enumsWithMethods" />
-		</suite>
-		<suite class="AboutExceptions">
-			<koan name="catchCheckedExceptions" />
-			<koan name="useFinally" />
-			<koan name="finallyWithoutCatch" />
-			<koan name="catchUncheckedExceptions" />
-			<koan name="catchOrder" />
-		</suite>
-		<suite class="AboutMethodPreference">
-			<koan name="methodPreferenceInt" />
-			<koan name="methodPreferenceInteger" />
-			<koan name="methodPreferenceLong" />
-			<koan name="methodPreferenceBoxedLong" />
-			<koan name="methodPreferenceDouble" />
-			<koan name="methodPreferenceMore" />
-		</suite>
-		<suite class="AboutOperators">
-			<koan name="plusPlusVariablePlusPlus" />
-			<koan name="shortCircuit" />
-			<koan name="fullAnd" />
-			<koan name="shortCircuitAnd" />
-			<koan name="aboutXOR" />
-			<koan name="dontMistakeEqualsForEqualsEquals" />
-			<koan name="aboutBitShiftingRightShift" />
-			<koan name="aboutBitShiftingLeftShift" />
-			<koan name="aboutBitShiftingRightUnsigned" />
-		</suite>
+		<suite class="AboutConstructors"/>
+		<suite class="AboutEnums"/>
+		<suite class="AboutExceptions"/>
+		<suite class="AboutMethodPreference"/>
+		<suite class="AboutOperators"/>
 		<suite class="AboutArrays">
 			<koan name="arraysDoNotConsiderElementsWhenEvaluatingEquality"
 				lesson="Arrays utilize reference equality, they do not consider elements when determining equality." />
@@ -133,11 +70,9 @@
 				lesson="The general contract of clone is that: Object a == new Object(); a != a.clone(); a.equals(a.clone()). Array instances DO NOT honor this contract, despite implementing Cloneable." />
 			<koan name="anArraysHashCodeMethodDoesNotConsiderElements"
 				lesson="Likewise with hashcode, an array instance's hashCode is that of the array, it does not incorporate elements." />
-			<koan
-				name="arraysHelperClassEqualsMethodConsidersElementsWhenDeterminingEquality"
+			<koan name="arraysHelperClassEqualsMethodConsidersElementsWhenDeterminingEquality"
 				lesson="The Arrays.equals(...) method DOES evaluate elements when determining equality. This is called 'Logical Equality'." />
-			<koan
-				name="arraysHelperClassHashCodeMethodConsidersElementsWhenDeterminingHashCode"
+			<koan name="arraysHelperClassHashCodeMethodConsidersElementsWhenDeterminingHashCode"
 				lesson="Likewise with hashCode, the Arrays.hashCode(...) method DOES consider elements when determining hashCode." />
 			<koan name="arraysAreMutable"
 				lesson="Arrays are always mutable, even when declared final. The final declaration prevents reassignment, but does nothing for elements." />
@@ -148,15 +83,7 @@
 			<koan name="arrayLengthCanBeChecked"
 				lesson="It is often necessary to check the length of an array to ensure an index is valid. This is easy with the array's length property." />
 		</suite>
-		<suite class="AboutPrimitives">
-			<koan name="byteSize" />
-			<koan name="shortSize" />
-			<koan name="integerSize" />
-			<koan name="longSize" />
-			<koan name="charSizeAndValue" />
-			<koan name="floatSize" />
-			<koan name="doubleSize" />
-		</suite>
+		<suite class="AboutPrimitives"/>
 	</package>
 	<package pkg="intermediate" name="Intermediate">
 		<suite class="AboutAutoboxing">
@@ -167,85 +94,19 @@
 				lesson="With AutoBoxing, we can intermix as well" />
 			<koan name="allPrimativesCanBeAutoboxed" lesson="All primatives can be autoboxed" />
 		</suite>
-		<suite class="AboutCollections">
-			<koan name="usingAnArrayList" />
-			<koan name="usingAQueue" />
-			<koan name="usingABasicSet" />
-			<koan name="usingABasicMap" />
-			<koan name="usingBackedArrayList" />
-			<koan name="usingBackedSubMap" />
-			<koan name="differenceBetweenOrderedAndSorted" />
-		</suite>
-		<suite class="AboutComparison">
-			<koan name="compareObjects" />
-			<koan name="makeObjectsComparable" />
-			<koan name="makeObjectsComparableWithoutComparable" />
-		</suite>
-		<suite class="AboutDates">
-			<koan name="dateToString" />
-			<koan name="changingDateValue" />
-			<koan name="usingCalendarToChangeDates" />
-			<koan name="usingRollToChangeDatesDoesntWrapOtherFields" />
-			<koan name="usingDateFormatToFormatDate" />
-			<koan name="usingDateFormatToFormatDateShort" />
-			<koan name="usingDateFormatToFormatDateFull" />
-			<koan name="usingDateFormatToParseDates" />
-		</suite>
-		<suite class="AboutEquality">
-			<koan name="sameObject" />
-			<koan name="equalObject" />
-			<koan name="noObjectShouldbeEqualToNull" />
-			<koan name="equalForOwnObjects" />
-			<koan name="unequalForOwnObjects" />
-			<koan name="unequalForOwnObjectsWithDifferentType" />
-			<koan name="equalNullForOwnObjects" />
-			<koan name="ownHashCode" />
-			<koan name="ownHashCodeImplementationPartTwo" />
-		</suite>
-		<suite class="AboutFileIO">
-			<koan name="fileObjectDoesntCreateFile" />
-			<koan name="fileCreationAndDeletion" />
-			<koan name="basicFileWritingAndReading" />
-			<koan name="betterFileWritingAndReading" />
-			<koan name="directChainingForReadingAndWriting" />
-		</suite>
-		<suite class="AboutInnerClasses">
-			<koan name="creatingInnerClassInstance" />
-			<koan name="creatingInnerClassInstanceWithOtherSyntax" />
-			<koan name="accessingOuterClassMembers" />
-			<koan name="innerClassesInMethods" />
-			<koan name="innerClassesInMethodsThatEscape" />
-			<koan name="creatingAnonymousInnerClasses" />
-			<koan name="creatingAnonymousInnerClassesToImplementInterface" />
-			<koan name="innerClassAndInheritance" />
-			<koan name="innerClassAndInheritanceOther" />
-			<koan name="staticInnerClass" />
-			<koan name="staticInnerClassFullyQualified" />
-		</suite>
-		<suite class="AboutLocale">
-			<koan name="localizedOutputOfDates" />
-			<koan name="getCountryInformation" />
-			<koan name="formatCurrency" />
-		</suite>
-		<suite class="AboutRegularExpressions">
-			<koan name="basicMatching" />
-			<koan name="extendedMatching" />
-			<koan name="escapingMetaCharacters" />
-			<koan name="splittingStrings" />
-		</suite>
-		<suite class="AboutSerialization">
-			<koan name="simpleSerialization" />
-			<koan name="customObjectSerialization" />
-			<koan name="customObjectSerializationWithTransientFields" />
-			<koan name="customSerializationWithUnserializableFields" />
-			<koan name="serializeWithInteritance" />
-			<koan name="serializeWithInheritanceWhenParentNotserializable" />
-		</suite>
+		<suite class="AboutCollections"/>
+		<suite class="AboutComparison"/>
+		<suite class="AboutDates"/>
+		<suite class="AboutEquality"/>
+		<suite class="AboutFileIO"/>
+		<suite class="AboutInnerClasses"/>
+		<suite class="AboutLocale"/>
+		<suite class="AboutRegularExpressions"/>
+		<suite class="AboutSerialization"/>
 	</package>
 	<package pkg="advanced" name="Advanced">
 		<suite class="AboutMocks">
-			<koan name="simpleAnonymousMock"
-				lesson="How can this pass without touching the ClassUnderTest?" />
+			<koan name="simpleAnonymousMock" lesson="How can this pass without touching the ClassUnderTest?" />
 		</suite>
 	</package>
 </packages>

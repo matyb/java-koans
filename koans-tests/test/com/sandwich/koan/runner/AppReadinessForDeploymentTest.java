@@ -105,7 +105,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		String message = "Not all koans need solving! Each should ship in a failing state.";
 		assertEquals(message, 0, result[0].getNumberPassing());
 		// make sure test was actually useful (ie something actually failed)
-		assertNotNull(result[0].getFailingCase());
+		assertNotNull(result[0].getFailingCase())
 	}
 	
 	@Test
