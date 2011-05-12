@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
@@ -171,9 +172,18 @@ public abstract class PathToEnlightenment {
 			Map<String, Method> methodByName = new HashMap<String, Method>();
 			for(Method method : cls.getDeclaredMethods()){
 				methodByName.put(method.getName(), method);
-			}
-			for(KoanMethod method : methodsBySuite){
-				newMethods.add(method.clone(methodByName.get(method.getMethod().getName())));
+				KoanMethod equivalentKoanMethod = null;
+				for(KoanMethod koanMethod : methodsBySuite){
+					if(koanMethod.getMethod().getName().equals(method.getName())){
+						equivalentKoanMethod = koanMethod;
+						break;
+					}
+				}
+				if(equivalentKoanMethod != null && method.getAnnotation(Koan.class) != null){
+					newMethods.add(equivalentKoanMethod.clone(method));
+				}else if(method.getAnnotation(Koan.class) != null){
+					newMethods.add(new KoanMethod("", method));
+				}
 			}
 		} catch (Exception e2) {
 			throw new RuntimeException(e2);

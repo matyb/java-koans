@@ -70,6 +70,7 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 			NodeList childNodes) throws DOMException, ClassNotFoundException,
 			InstantiationException, IllegalAccessException {
 		Map<Object, List<KoanMethod>> suitesAndKoans = new LinkedHashMap<Object, List<KoanMethod>>();
+		DynamicClassLoader dynamicClassLoader = new DynamicClassLoader();
 		for (int i = 0; i < childNodes.getLength(); i++) {
 			Node node = childNodes.item(i);
 			if ("suite".equalsIgnoreCase(node.getNodeName())) {
@@ -78,9 +79,7 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 						+ node.getAttributes().getNamedItem("class")
 								.getNodeValue();
 				if (suiteName == null || suiteName.equalsIgnoreCase(className)) {
-					DynamicClassLoader dynamicClassLoader = new DynamicClassLoader();
-					Class<?> koanSuiteClass = dynamicClassLoader
-							.loadClass(className);
+					Class<?> koanSuiteClass = dynamicClassLoader.loadClass(className);
 					suitesAndKoans.put(koanSuiteClass.newInstance(),
 							Collections.unmodifiableList(createKoanMethods(
 									koanSuiteClass, node.getChildNodes())));
