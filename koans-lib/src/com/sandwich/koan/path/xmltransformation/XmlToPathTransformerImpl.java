@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,6 @@ import org.w3c.dom.NodeList;
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
-import com.sandwich.util.KoanComparator;
 import com.sandwich.util.io.DynamicClassLoader;
 
 public class XmlToPathTransformerImpl implements XmlToPathTransformer {
@@ -53,24 +51,32 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 			Document doc = db.parse(xmlFile);
 			doc.getDocumentElement().normalize();
 			NodeList nodeLst = doc.getElementsByTagName("package");
-			Map<String, Map<Object, List<KoanMethod>>> koans = new LinkedHashMap<String, Map<Object, List<KoanMethod>>>();
+			/*	
+			 * Map of string values read from xml in following form
+			 * package
+			 * 	  |-suite class name
+			 * 		      |-method name
+			 * 				     |-method attributes from xml
+			 */
+			Map<String, Map<String, Map<String, KoanElementAttributes>>> koans = 
+				new LinkedHashMap<String, Map<String, Map<String, KoanElementAttributes>>>();
 			for(int i = 0; i < nodeLst.getLength(); i++){
 				Node node = nodeLst.item(i);
 				String packageTitle = node.getAttributes().getNamedItem("name").getNodeValue();
 				String pkg = node.getAttributes().getNamedItem("pkg").getNodeValue();
-				koans.put(packageTitle, createSuitesAndKoans(pkg, node.getChildNodes()));
+				koans.put(packageTitle, getKoanElementAttributesByMethodNameBySuite(pkg, node.getChildNodes()));
 			}
-			return new Path(koans);
+			return new Path().stubKoanMethodsBySuiteByClass(koans);
 		}catch(Exception x){
 			throw new RuntimeException(x);
 		}
 	}
 	
-	Map<Object, List<KoanMethod>> createSuitesAndKoans(String pkg,
+	Map<String, Map<String, KoanElementAttributes>> getKoanElementAttributesByMethodNameBySuite(String pkg,
 			NodeList childNodes) throws DOMException, ClassNotFoundException,
 			InstantiationException, IllegalAccessException {
-		Map<Object, List<KoanMethod>> suitesAndKoans = new LinkedHashMap<Object, List<KoanMethod>>();
-		DynamicClassLoader dynamicClassLoader = new DynamicClassLoader();
+		Map<String, Map<String, KoanElementAttributes>> koansByMethodNameByClass = 
+			new LinkedHashMap<String, Map<String, KoanElementAttributes>>();
 		for (int i = 0; i < childNodes.getLength(); i++) {
 			Node node = childNodes.item(i);
 			if ("suite".equalsIgnoreCase(node.getNodeName())) {
@@ -79,26 +85,23 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 						+ node.getAttributes().getNamedItem("class")
 								.getNodeValue();
 				if (suiteName == null || suiteName.equalsIgnoreCase(className)) {
-					Class<?> koanSuiteClass = dynamicClassLoader.loadClass(className);
-					suitesAndKoans.put(koanSuiteClass.newInstance(),
-							Collections.unmodifiableList(createKoanMethods(
-									koanSuiteClass, node.getChildNodes())));
+					koansByMethodNameByClass.put(className, extractKoansAndRawLessons(className, node.getChildNodes()));
 				}
 			}
 		}
-		return suitesAndKoans;
+		return koansByMethodNameByClass;
 	}
 
-	List<KoanMethod> createKoanMethods(Class<?> koanSuiteClass, NodeList nodes) {
-		Map<String, KoanElementAttributes> rawKoanLessonByMethodName = extractKoansAndRawLessons(
-				koanSuiteClass.getName(), nodes);
-		List<KoanMethod> koanMethods = getKoanMethods(koanSuiteClass,
-				rawKoanLessonByMethodName);
-		KoanComparator koanComparator = new KoanComparator(
-				rawKoanLessonByMethodName.keySet());
-		Collections.sort(koanMethods, koanComparator);
-		return koanMethods;
-	}
+//	List<KoanMethod> createKoanMethods(Class<?> koanSuiteClass, NodeList nodes) {
+//		Map<String, KoanElementAttributes> rawKoanLessonByMethodName = extractKoansAndRawLessons(
+//				koanSuiteClass.getName(), nodes);
+//		List<KoanMethod> koanMethods = getKoanMethods(koanSuiteClass,
+//				rawKoanLessonByMethodName);
+//		KoanComparator koanComparator = new KoanComparator(
+//				rawKoanLessonByMethodName.keySet());
+//		Collections.sort(koanMethods, koanComparator);
+//		return koanMethods;
+//	}
 
 	Map<String, KoanElementAttributes> extractKoansAndRawLessons(
 			String className, NodeList nodes) {
@@ -120,7 +123,7 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 				}
 				rawKoanAttributesByMethodName.put(name,
 						new KoanElementAttributes(rawLesson, name,
-								displayIncompleteKoanException));
+								displayIncompleteKoanException, className));
 			}
 		}
 		return rawKoanAttributesByMethodName;
@@ -133,33 +136,21 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 			}
 		}
 
-		public List<KoanMethod> getKoanMethods(Class<?> koanSuiteClass, Map<String, KoanElementAttributes> attributesByKoanName) {
+		public List<KoanMethod> getKoanMethods(String koanSuiteClass, Map<String, KoanElementAttributes> attributesByKoanName) {
 			List<KoanMethod> koanMethods = new ArrayList<KoanMethod>();
-			for(final Method koan : koanSuiteClass.getMethods()){
+			DynamicClassLoader loader = new DynamicClassLoader();
+			for(final Method koan : loader.loadClass(koanSuiteClass).getMethods()){
 				final Koan annotation = koan.getAnnotation(Koan.class);
 				if(annotation != null){
 					if(methodName == null || methodName.equalsIgnoreCase(koan.getName())){
 						KoanElementAttributes koanMethodAttributes = attributesByKoanName.get(koan.getName());
-						koanMethodAttributes = koanMethodAttributes == null ? KoanElementAttributes.NON_EXISTENT : koanMethodAttributes;
-						String incompleteKoanException = koanMethodAttributes.displayIncompleteKoanException;
-						boolean displayIncompleteKoanException = 
-							incompleteKoanException == null || "true".equalsIgnoreCase(incompleteKoanException.trim());
-						koanMethods.add(new KoanMethod(koanMethodAttributes.lesson, koan, displayIncompleteKoanException));
+						koanMethodAttributes = koanMethodAttributes == null ? 
+									new KoanElementAttributes(null, koan.getName(), null, koanSuiteClass) : koanMethodAttributes;
+						koanMethods.add(KoanMethod.getInstance(koanMethodAttributes));
 					}
 				}
 			}
 			return koanMethods;
-		}
-
-		public static class KoanElementAttributes{
-			public static final KoanElementAttributes NON_EXISTENT = new KoanElementAttributes("", "", "true");
-			String lesson, name, displayIncompleteKoanException;
-			
-			public KoanElementAttributes(String lesson, String name, String displayIncompleteKoanException){
-				this.lesson = lesson;
-				this.name = name;
-				this.displayIncompleteKoanException = displayIncompleteKoanException;
-			}
 		}
 
 }

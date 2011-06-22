@@ -1,18 +1,14 @@
 package com.sandwich.koan.cmdline;
 
-import static com.sandwich.koan.constant.KoanConstants.DATA_FOLDER;
-import static com.sandwich.koan.constant.KoanConstants.FILESYSTEM_SEPARATOR;
-import static com.sandwich.koan.constant.KoanConstants.PROJ_MAIN_FOLDER;
-
-import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.koan.util.ApplicationUtils;
+import com.sandwich.util.ConsoleUtils;
 import com.sandwich.util.io.DynamicClassLoader;
-import com.sandwich.util.io.FileUtils;
 
 public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, CommandLineArgument> {
 	
@@ -87,20 +83,11 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 			}
 		}
 	}
-	
-	static private boolean isFirstTimeAppHasBeenRun() {
-		File dataDirectory = new File(FileUtils.makeAbsoluteRelativeTo(
-				new StringBuilder(PROJ_MAIN_FOLDER).append(FILESYSTEM_SEPARATOR).append(DATA_FOLDER).toString()));
-		return !dataDirectory.exists();
-	}
 
 	void applyAssumedStartupBehaviors() {
-		if(isFirstTimeAppHasBeenRun()){
+		if(ApplicationUtils.isFirstTimeAppHasBeenRun()){
 			ArgumentType.BACKUP.run(null);
-			// really hackish - but this will clear console for first run, not necessary after
-			for(int i = 0; i < 80; i++){
-				System.out.println();
-			}
+			ConsoleUtils.clearConsole();
 		}
 		if(isEmpty() || !containsKey(ArgumentType.RUN_KOANS) && containsKey(ArgumentType.CLASS_ARG)){
 			if(KoanConstants.DEBUG){

@@ -2,19 +2,36 @@ package com.sandwich.koan;
 
 import java.lang.reflect.Method;
 
+import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.path.xmltransformation.XmlVariableInjector;
+import com.sandwich.util.io.DynamicClassLoader;
 
 public class KoanMethod {
 	
 	private final transient Method method;
 	private final String lesson;
 	private final boolean displayIncompleteException;
+	private static final DynamicClassLoader classLoader = new DynamicClassLoader();
 	
-	public KoanMethod(String lesson, Method method){
-		this(lesson,method,true);
+	private KoanMethod(KoanElementAttributes koanAttributes) throws SecurityException, NoSuchMethodException{
+		this(	koanAttributes.lesson, 
+				classLoader.loadClass(koanAttributes.className).getMethod(koanAttributes.name),
+				!"false".equalsIgnoreCase(koanAttributes.displayIncompleteKoanException));
 	}
 	
-	public KoanMethod(String lesson, Method method, boolean displayIncompleteException){
+	public static KoanMethod getInstance(KoanElementAttributes koanAttributes){
+		try {
+			return new KoanMethod(koanAttributes);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+	}
+	
+	public static KoanMethod getInstance(String lesson, Method method){
+		return new KoanMethod(lesson, method, true);
+	}
+	
+	private KoanMethod(String lesson, Method method, boolean displayIncompleteException){
 		if(method == null){
 			throw new IllegalArgumentException("method may not be null");
 		}

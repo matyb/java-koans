@@ -2,19 +2,16 @@ package com.sandwich.koan.path;
 
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.sandwich.koan.Koan;
-import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformerImpl;
+import com.sandwich.util.io.DynamicClassLoader;
 
 public abstract class PathToEnlightenment {
 
@@ -66,53 +63,59 @@ public abstract class PathToEnlightenment {
 		}
 	}
 	
-	public static class Path implements Iterable<Entry<String, Map<Object, List<KoanMethod>>>>{
-		final Map<String, Map<Object, List<KoanMethod>>> koanMethodsBySuiteByPackage;
-		public Path(Map<String, Map<Object, List<KoanMethod>>> koanMethodsBySuiteByPackage){
-			this.koanMethodsBySuiteByPackage = koanMethodsBySuiteByPackage;
-		}
+	public static class Path implements Iterable<Entry<String, Map<String, Map<String, KoanElementAttributes>>>>{
+		private Map<String, Map<String, Map<String, KoanElementAttributes>>> koanMethodsBySuiteByPackage;
+		public Path(){}
 		public int getTotalNumberOfKoans() {
 			int total = 0;
-			for(Entry<String, Map<Object, List<KoanMethod>>> e0 : koanMethodsBySuiteByPackage.entrySet()){
-				for(Entry<Object, List<KoanMethod>> e1 : e0.getValue().entrySet()){
-					total += e1.getValue().size();
+			Iterator<Entry<String, Map<String, Map<String, KoanElementAttributes>>>> koanMethodsBySuiteByPackageIter = 
+				getKoanMethodsBySuiteByPackage();
+			DynamicClassLoader loader = new DynamicClassLoader();
+			while(koanMethodsBySuiteByPackageIter.hasNext()){
+				Entry<String, Map<String, Map<String, KoanElementAttributes>>> e = koanMethodsBySuiteByPackageIter.next();
+				for(Entry<String, Map<String, KoanElementAttributes>> e1 : e.getValue().entrySet()){
+					Class<?> c = loader.loadClass(e1.getKey());
+					for(Method m : c.getMethods()){
+						if(m.getAnnotation(Koan.class) != null){
+							total++;
+						}
+					}
 				}
 			}
 			return total;
 		}
-		public Iterator<Entry<String, Map<Object, List<KoanMethod>>>> iterator() {
+		public Iterator<Entry<String, Map<String, Map<String, KoanElementAttributes>>>> iterator() {
+			return getKoanMethodsBySuiteByPackage();
+		}
+		public Path stubKoanMethodsBySuiteByClass(Map<String, Map<String, Map<String, KoanElementAttributes>>> koanMethodsBySuiteByPackage){
+			// unlike other collections in this app, this actually needs to remain mutable after the reference is
+			// stored and utilized internally. this is so the DynamicClassLoader can swap out references to 
+			// any dynamic classes
+			this.koanMethodsBySuiteByPackage = koanMethodsBySuiteByPackage;
+			return this;
+		}
+		protected Iterator<Entry<String, Map<String, Map<String, KoanElementAttributes>>>> getKoanMethodsBySuiteByPackage() {
 			return koanMethodsBySuiteByPackage.entrySet().iterator();
-		}
-		public int size() {
-			return koanMethodsBySuiteByPackage.size();
-		}
-		public int size(String pkg){
-			Map<?,?> suiteAndKoans = koanMethodsBySuiteByPackage.get(pkg);
-			if(suiteAndKoans == null){
-				return -1;
-			}
-			return suiteAndKoans.size();
 		}
 		@Override public boolean equals(Object o){
 			if(o == this){
 				return true;
 			}
 			if(o instanceof Path){
-				if(koanMethodsBySuiteByPackage == ((Path)o).koanMethodsBySuiteByPackage){
+				if(getKoanMethodsBySuiteByPackage() == ((Path)o).getKoanMethodsBySuiteByPackage()){
 					return true;
 				}
-				if(koanMethodsBySuiteByPackage == null || ((Path)o).koanMethodsBySuiteByPackage == null
-						|| koanMethodsBySuiteByPackage.size() != ((Path)o).koanMethodsBySuiteByPackage.size()
-						|| koanMethodsBySuiteByPackage.getClass() != ((Path)o).koanMethodsBySuiteByPackage.getClass()){
+				if(getKoanMethodsBySuiteByPackage() == null || ((Path)o).getKoanMethodsBySuiteByPackage() == null
+						|| getKoanMethodsBySuiteByPackage().getClass() != ((Path)o).getKoanMethodsBySuiteByPackage().getClass()){
 					return false;
 				}
-				Iterator<Entry<String,Map<Object, List<KoanMethod>>>> i1 = 
-					koanMethodsBySuiteByPackage.entrySet().iterator();
-				Iterator<Entry<String,Map<Object, List<KoanMethod>>>> i2 = 
-					((Path)o).koanMethodsBySuiteByPackage.entrySet().iterator();
+				Iterator<Entry<String,Map<String, Map<String, KoanElementAttributes>>>> i1 = 
+					getKoanMethodsBySuiteByPackage();
+				Iterator<Entry<String, Map<String, Map<String, KoanElementAttributes>>>> i2 = 
+					((Path)o).getKoanMethodsBySuiteByPackage();
 				while(i1.hasNext()){
-					Map<Object, List<KoanMethod>> m1 = i1.next().getValue();
-					Map<Object, List<KoanMethod>> m2 = i2.next().getValue();
+					Map<String, Map<String, KoanElementAttributes>> m1 = i1.next().getValue();
+					Map<String, Map<String, KoanElementAttributes>> m2 = i2.next().getValue();
 					if(m1 == m2){
 						continue;
 					}
@@ -122,11 +125,11 @@ public abstract class PathToEnlightenment {
 							||  m1.getClass() != m2.getClass()){
 						return false;
 					}
-					Iterator<Entry<Object, List<KoanMethod>>> ii1 = m1.entrySet().iterator();
-					Iterator<Entry<Object, List<KoanMethod>>> ii2 = m2.entrySet().iterator();
+					Iterator<Entry<String, Map<String, KoanElementAttributes>>> ii1 = m1.entrySet().iterator();
+					Iterator<Entry<String, Map<String, KoanElementAttributes>>> ii2 = m2.entrySet().iterator();
 					while(ii1.hasNext()){
-						Entry<Object, List<KoanMethod>> e1 = ii1.next();
-						Entry<Object, List<KoanMethod>> e2 = ii2.next();
+						Entry<String, Map<String, KoanElementAttributes>> e1 = ii1.next();
+						Entry<String, Map<String, KoanElementAttributes>> e2 = ii2.next();
 						if(!e1.getKey().getClass().equals(e2.getKey().getClass())){
 							return false;
 						}
@@ -139,55 +142,33 @@ public abstract class PathToEnlightenment {
 			return true;
 		}
 		@Override public int hashCode(){
-			return koanMethodsBySuiteByPackage.hashCode();
+			return getKoanMethodsBySuiteByPackage().hashCode();
 		}
 		@Override public String toString(){
-			return koanMethodsBySuiteByPackage.toString();
+			return getKoanMethodsBySuiteByPackage().toString();
 		}
 	}
 
 	public static void replace(Class<?> cls) {
-		for(Entry<String,Map<Object, List<KoanMethod>>> e : getPathToEnlightment().koanMethodsBySuiteByPackage.entrySet()){
-			Map<Object, List<KoanMethod>> methodsBySuite = e.getValue();
-			Map<Object, List<KoanMethod>> replacementValue = new LinkedHashMap<Object, List<KoanMethod>>();
-			for(Entry<Object, List<KoanMethod>> e1 : methodsBySuite.entrySet()){
-				Object suite = e1.getKey();
-				if(suite.getClass().getName().equals(cls.getName())){
-					try {
-						replacementValue.put(cls.newInstance(), copyMethods(cls, e1.getValue()));
-					} catch (Exception e2) {
-						e2.printStackTrace();
-					} 
-				}else{
-					replacementValue.put(suite, e1.getValue());
-				}
-			}
-			e.setValue(replacementValue);
-		}
+//		for(Entry<String, Map<Object, List<KoanMethod>>> e : getPathToEnlightment().koanMethodsBySuiteByPackage.entrySet()){
+//			Map<Object, List<KoanMethod>> methodsBySuite = e.getValue();
+//			Map<Object, List<KoanMethod>> replacementValue = new LinkedHashMap<Object, List<KoanMethod>>();
+//			for(Entry<Object, List<KoanMethod>> e1 : methodsBySuite.entrySet()){
+//				Object suite = e1.getKey();
+//				if(suite.getClass().getName().equals(cls.getName())){
+//					try {
+//						replacementValue.put(cls.newInstance(), copyMethods(cls, e1.getValue()));
+//					} catch (Exception e2) {
+//						e2.printStackTrace();
+//					} 
+//				}else{
+//					replacementValue.put(suite, e1.getValue());
+//				}
+//			}
+//			e.setValue(replacementValue);
+//		}
+		System.out.println("UNIQ-replace hit: "+cls);
 	}
 
-	private static List<KoanMethod> copyMethods(Class<?> cls, List<KoanMethod> methodsBySuite) {
-		List<KoanMethod> newMethods = new ArrayList<KoanMethod>();
-		try {
-			Map<String, Method> methodByName = new HashMap<String, Method>();
-			for(Method method : cls.getDeclaredMethods()){
-				methodByName.put(method.getName(), method);
-				KoanMethod equivalentKoanMethod = null;
-				for(KoanMethod koanMethod : methodsBySuite){
-					if(koanMethod.getMethod().getName().equals(method.getName())){
-						equivalentKoanMethod = koanMethod;
-						break;
-					}
-				}
-				if(equivalentKoanMethod != null && method.getAnnotation(Koan.class) != null){
-					newMethods.add(equivalentKoanMethod.clone(method));
-				}else if(method.getAnnotation(Koan.class) != null){
-					newMethods.add(new KoanMethod("", method));
-				}
-			}
-		} catch (Exception e2) {
-			throw new RuntimeException(e2);
-		}
-		return newMethods;
-	}
+	
 }

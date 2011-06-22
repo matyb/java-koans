@@ -10,6 +10,7 @@ import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.PathToEnlightenment;
 import com.sandwich.koan.runner.KoanSuiteRunner;
+import com.sandwich.util.ConsoleUtils;
 
 public class KoanFileCompileAndRunListener implements FileListener {
 	
@@ -31,9 +32,7 @@ public class KoanFileCompileAndRunListener implements FileListener {
 				DynamicClassLoader.remove(FileUtils.sourceToClass(file).toURI().toURL());
 				PathToEnlightenment.replace(FileCompiler.loadClass(file,
 						KoanConstants.SOURCE_FOLDER, KoanConstants.BIN_FOLDER));
-				for(int i = 0; i < 80; i++){
-					System.out.println();
-				}
+				ConsoleUtils.clearConsole();
 				new KoanSuiteRunner(args).run();
 			} catch (Exception e) {
 				throw new RuntimeException(e);

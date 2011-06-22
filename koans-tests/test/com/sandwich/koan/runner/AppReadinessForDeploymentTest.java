@@ -7,7 +7,6 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Handler;
@@ -23,6 +22,7 @@ import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.path.PathToEnlightenment;
+import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.suite.BlowUpOnLineEleven;
 import com.sandwich.koan.suite.BlowUpOnLineTen;
 import com.sandwich.koan.suite.OneFailingKoan;
@@ -68,12 +68,12 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	@Test
 	public void testGetKoans() throws Exception {
 		stubAllKoans(Arrays.asList(new OnePassingKoan()));
-		Map<Object, List<KoanMethod>> koans = PathToEnlightenment.getPathToEnlightment()
-			.iterator().next().getValue();
+		Map<String, Map<String, KoanElementAttributes>> koans = PathToEnlightenment.getPathToEnlightment().iterator().next().getValue();
 		assertEquals(1, koans.size());
-		Entry<Object, List<KoanMethod>> entry = koans.entrySet().iterator().next();
-		assertEquals(OnePassingKoan.class, entry.getKey().getClass());
-		assertEquals(OnePassingKoan.class.getDeclaredMethod("koan"), entry.getValue().get(0).getMethod());
+		Entry<String, Map<String, KoanElementAttributes>> entry = koans.entrySet().iterator().next();
+		assertEquals(OnePassingKoan.class.getName(), entry.getKey());
+		assertEquals(	OnePassingKoan.class.getDeclaredMethod("koan").toString(), 
+						KoanMethod.getInstance(entry.getValue().get("koan")).getMethod().toString());
 	}
 	
 	@Test	/** Ensures that koans are ready for packaging & distribution */
@@ -87,8 +87,8 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 			}
 		};
 		new RunKoans(presenter, PathToEnlightenment.getPathToEnlightment()).run(null);
-		assertEquals(result[0].getFailingCase(), PathToEnlightenment.getPathToEnlightment()
-				.iterator().next().getValue().entrySet().iterator().next().getKey().getClass());
+		assertEquals(result[0].getFailingCase().getName(), PathToEnlightenment.getPathToEnlightment()
+				.iterator().next().getValue().entrySet().iterator().next().getKey());
 	}
 	
 	@Test	/** Ensures that koans are ready for packaging & distribution */

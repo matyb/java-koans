@@ -21,6 +21,24 @@ public class FileUtils {
 	public static String BASE_DIR = new File(ClassLoader.getSystemResource(".").getFile()).getParentFile().getParent();
 	private static final Map<Class<?>,String> FILE_CONTENTS_BY_CLASS_CACHE = new HashMap<Class<?>,String>();
 	
+	private static String PROJECT_DIRECTORY = KoanConstants.PROJ_MAIN_FOLDER; 
+	
+	public static void setToTest(){
+		PROJECT_DIRECTORY = KoanConstants.PROJ_TESTS_FOLDER;
+	}
+	
+	public static void setToProd(){
+		PROJECT_DIRECTORY = KoanConstants.PROJ_MAIN_FOLDER;
+	}
+	
+	public static String getProjectDirectory(){
+		return PROJECT_DIRECTORY;
+	}
+	
+	public static String makeAbsoluteRelativeToProject(){
+		return makeAbsoluteRelativeTo(getProjectDirectory());
+	}
+	
 	public static String makeAbsoluteRelativeTo(String fileName){
 		StringBuilder builder = new StringBuilder(BASE_DIR);
 		return builder.append(FILESYSTEM_SEPARATOR).append(fileName).toString();

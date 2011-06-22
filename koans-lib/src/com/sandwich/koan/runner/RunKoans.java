@@ -6,11 +6,11 @@ import static com.sandwich.koan.constant.KoanConstants.EXPECTED_LEFT;
 import static com.sandwich.koan.constant.KoanConstants.EXPECTED_RIGHT;
 import static com.sandwich.koan.constant.KoanConstants.__;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -24,9 +24,12 @@ import com.sandwich.koan.cmdline.behavior.AbstractArgumentBehavior;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.PathToEnlightenment;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
+import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.ui.ConsolePresenter;
 import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.util.Counter;
+import com.sandwich.util.ExceptionUtils;
+import com.sandwich.util.io.DynamicClassLoader;
 
 public class RunKoans extends AbstractArgumentBehavior {
 
@@ -56,15 +59,36 @@ public class RunKoans extends AbstractArgumentBehavior {
 		KoanMethod firstFailingMethod = null;
 		boolean testsPassed = true;
 		String level = null;
-		for (Entry<String, Map<Object, List<KoanMethod>>> packages : getPathToEnlightement()) {
-			for (Entry<Object, List<KoanMethod>> e : packages.getValue()
-					.entrySet()) {
-				final Object suite = e.getKey();
+		DynamicClassLoader loader = new DynamicClassLoader();
+		for (Entry<String, Map<String, Map<String, KoanElementAttributes>>> packages : getPathToEnlightement()) {
+			for (Entry<String, Map<String, KoanElementAttributes>> e : packages.getValue().entrySet()) {
+				Object suite;
+				try {
+					Class<?> clazz = loader.loadClass(e.getKey());
+					if(!clazz.isAnonymousClass()){
+						suite = clazz.newInstance();
+					}else{
+						Class<?> enclosingClass = clazz.getEnclosingClass();
+						Constructor<?> cons = null;
+						for(Constructor<?> c : clazz.getDeclaredConstructors()){
+							for(Class<?> p : c.getParameterTypes()){
+								if(p == enclosingClass){
+									cons = c;
+									break;
+								}
+							}
+						}
+						cons.setAccessible(true);
+						suite = cons.newInstance(enclosingClass.newInstance());
+					}
+				} catch (Exception e1) {
+					throw new RuntimeException(e1);
+				}
 				if(testsPassed){
-					final List<KoanMethod> methods = e.getValue();
-					for (final KoanMethod koan : methods) {
-						failure = KoanMethodRunner.run(suite, koan,
-								successfull);
+					final Collection<KoanElementAttributes> methods = e.getValue().values();
+					for (final KoanElementAttributes koanElement : methods) {
+						KoanMethod koan = KoanMethod.getInstance(koanElement);
+						failure = KoanMethodRunner.run(suite, koan, successfull);
 						Throwable tempException = failure;
 						while(tempException != null){
 							if(tempException instanceof KoanIncompleteException){
@@ -109,7 +133,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 	}
 	
 	private String formatNormalException(Throwable failure) {
-		return failure == null ? "" : fillStackTrace(failure).toString();
+		return failure == null ? "" : ExceptionUtils.convertToPopulatedStackTraceString(failure);
 	}
 
 	/**
@@ -121,28 +145,19 @@ public class RunKoans extends AbstractArgumentBehavior {
 	 * @return
 	 */
 	static String getOriginalLineNumber(Throwable t, Class<?> failingSuite){
-		StringWriter stringWriter = fillStackTrace(t);
-		String[] lines = stringWriter.toString().split(EOLS);
+		String[] lines = ExceptionUtils.convertToPopulatedStackTraceString(t).split(EOLS);
 		if(failingSuite != null){
 			for(int i = lines.length - 1; i >= 0; --i){
 				String line = lines[i];
 				if(line.contains(failingSuite.getName())){
-					return line.substring(
-							line.indexOf(KoanConstants.LINE_NO_START)+KoanConstants.LINE_NO_START.length(),
-							line.lastIndexOf(KoanConstants.LINE_NO_END));
+					int start = line.indexOf(KoanConstants.LINE_NO_START)+KoanConstants.LINE_NO_START.length();
+					int end = line.lastIndexOf(KoanConstants.LINE_NO_END);
+					end = end > line.length() ? line.length() : end;
+					return line.substring(start, end);
 				}
 			}
 		}
 		return null;
-	}
-
-	private static StringWriter fillStackTrace(Throwable t) {
-		StringWriter stringWriter = new StringWriter();
-		if(t == null){
-			return stringWriter;
-		}
-		t.printStackTrace(new PrintWriter(stringWriter));
-		return stringWriter;
 	}
 
 	private Path getPathToEnlightement() {

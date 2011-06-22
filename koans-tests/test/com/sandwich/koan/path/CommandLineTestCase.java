@@ -3,8 +3,8 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.Collections;
-import java.util.HashMap;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,15 +12,17 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Before;
 
+import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanIncompleteException;
-import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.TestUtils;
 import com.sandwich.koan.TestUtils.ArgRunner;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
 import com.sandwich.koan.path.xmltransformation.FakeXmlToPathTransformer;
-import com.sandwich.koan.path.xmltransformation.XmlToPathTransformerImpl.KoanElementAttributes;
+import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.runner.RunKoans;
+import com.sandwich.util.io.DynamicClassLoader;
+import com.sandwich.util.io.FileUtils;
 
 public abstract class CommandLineTestCase {
 
@@ -29,6 +31,7 @@ public abstract class CommandLineTestCase {
 	
 	@Before
 	public void setUp() {
+		FileUtils.setToTest();
 		bytes = new ByteArrayOutputStream();
 		console = System.out;
 		TestUtils.setValue("behavior", new RunKoans(), ArgumentType.RUN_KOANS);
@@ -39,6 +42,7 @@ public abstract class CommandLineTestCase {
 
 	@After
 	public void tearDown() {
+		FileUtils.setToProd();
 		setRealPath();
 		System.setOut(console);
 	}
@@ -48,22 +52,39 @@ public abstract class CommandLineTestCase {
 		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
 	}
 	
-	protected Path stubAllKoans(String packageName, List<?> path){
+	protected Path stubAllKoans(String packageName, List<String> path){
 		Path oldKoans = PathToEnlightenment.getPathToEnlightment();
-		Map<Object, List<KoanMethod>> tempSuitesAndMethods = new LinkedHashMap<Object, List<KoanMethod>>();
-		for(Object suite : path){
-			Map<String, KoanElementAttributes> emptyMap = Collections.emptyMap();
-			tempSuitesAndMethods.put(suite,
-				new FakeXmlToPathTransformer().getKoanMethods(suite.getClass(), emptyMap));
+		Map<String, Map<String, KoanElementAttributes>> tempSuitesAndMethods = 
+			new LinkedHashMap<String, Map<String, KoanElementAttributes>>();
+		DynamicClassLoader loader = new DynamicClassLoader();
+		for(String suite : path){
+			Map<String, KoanElementAttributes> methodsByName = new LinkedHashMap<String, KoanElementAttributes>();
+			for(Method m : loader.loadClass(suite).getMethods()){
+				if(m.getAnnotation(Koan.class) != null){
+					methodsByName.put(m.getName(), new KoanElementAttributes("", m.getName(), "", m.getDeclaringClass().getName()));
+				}
+			}
+			tempSuitesAndMethods.put(suite, methodsByName);
 		}
-		Map<String, Map<Object, List<KoanMethod>>> stubbedPath = new HashMap<String, Map<Object,List<KoanMethod>>>();
+		Map<String, Map<String, Map<String, KoanElementAttributes>>> stubbedPath = 
+			new LinkedHashMap<String, Map<String, Map<String, KoanElementAttributes>>>();
 		stubbedPath.put(packageName, tempSuitesAndMethods);
-		PathToEnlightenment.theWay = new Path(stubbedPath);
+		PathToEnlightenment.theWay = new Path().stubKoanMethodsBySuiteByClass(stubbedPath);
 		return oldKoans;
 	}
 	
 	public Path stubAllKoans(List<?> path){
-		return stubAllKoans("Test", path);
+		List<String> classes = new ArrayList<String>();
+		for(Object o : path){
+			String className;
+			if(o instanceof Class<?>){
+				className = ((Class<?>)o).getName();
+			}else{
+				className = o.getClass().getName();
+			}
+			classes.add(className);
+		}
+		return stubAllKoans("Test", classes);
 	}
 	
 	public void clearSysout(){

@@ -42,7 +42,7 @@ public class KoanComparatorTest {
 		}.getClass().getDeclaredMethod("someMethod");
 		KoanComparator comparator = new KoanComparator("meh");
 		try{
-			comparator.compare(new KoanMethod("2",m), new KoanMethod("1",m));
+			comparator.compare(KoanMethod.getInstance("2",m), KoanMethod.getInstance("1",m));
 		}catch(RuntimeException fileNotFound){}
 	}
 	
@@ -52,8 +52,8 @@ public class KoanComparatorTest {
 			@SuppressWarnings("unused") @Koan public void someMethodOne(){}
 			@SuppressWarnings("unused") @Koan public void someMethodTwo(){}
 		}.getClass();
-		KoanMethod m1 = new KoanMethod("",clazz.getDeclaredMethod("someMethodOne"));
-		KoanMethod m2 = new KoanMethod("",clazz.getDeclaredMethod("someMethodTwo"));
+		KoanMethod m1 = KoanMethod.getInstance("",clazz.getDeclaredMethod("someMethodOne"));
+		KoanMethod m2 = KoanMethod.getInstance("",clazz.getDeclaredMethod("someMethodTwo"));
 		List<KoanMethod> methods = Arrays.asList(m2,m1);
 		Collections.sort(methods, new KoanComparator("someMethodOne","someMethodTwo"));
 		assertSame(m1,methods.get(0));

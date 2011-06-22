@@ -14,7 +14,7 @@ public class KoansResultTest {
 		KoanResultBuilder builder = new KoanResultBuilder()
 			.message("msg")
 			.failingCase(OneFailingKoan.class)
-			.failingMethod(new KoanMethod("", OneFailingKoan.class.getDeclaredMethods()[0]))
+			.failingMethod(KoanMethod.getInstance("", OneFailingKoan.class.getDeclaredMethods()[0]))
 			.level("1")
 			.lineNumber("2")
 			.numberPassing(3);

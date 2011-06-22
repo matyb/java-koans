@@ -45,7 +45,7 @@ public class DynamicClassLoader extends ClassLoader {
 	}
 	
 	public Class<?> loadClass(String className){
-		File classFile = new File(FileUtils.makeAbsoluteRelativeTo("koans")
+		File classFile = new File(FileUtils.makeAbsoluteRelativeToProject()
 				+ KoanConstants.FILESYSTEM_SEPARATOR
 				+ KoanConstants.BIN_FOLDER
 				+ KoanConstants.FILESYSTEM_SEPARATOR
