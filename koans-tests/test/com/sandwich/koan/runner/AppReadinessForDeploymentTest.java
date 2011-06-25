@@ -17,17 +17,19 @@ import org.junit.Test;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.KoanSuiteResult;
+import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.path.PathToEnlightenment;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
+import com.sandwich.koan.result.KoanSuiteResult;
 import com.sandwich.koan.suite.BlowUpOnLineEleven;
 import com.sandwich.koan.suite.BlowUpOnLineTen;
 import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.suite.OnePassingKoan;
 import com.sandwich.koan.ui.SuitePresenter;
+import com.sandwich.util.io.FileUtils;
 
 /**
  * Anything that absoutely has to happen before bundling client jar - to be sure:
@@ -40,24 +42,24 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	@Test
 	public void testMainMethodWithClassNameArg_qualifiedWithPkgName() throws Throwable {
 		stubAllKoans(Arrays.asList(new OnePassingKoan()));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		assertSystemOutContains(KoanConstants.PASSING_SUITES+" "+OnePassingKoan.class.getSimpleName());
 	}
 
 	@Test
 	public void testMainMethodWithClassNameArg_classSimpleName() throws Throwable {
 		stubAllKoans(Arrays.asList(new OnePassingKoan()));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		assertSystemOutContains(KoanConstants.PASSING_SUITES+" "+OnePassingKoan.class.getSimpleName());
 	}
 	
 	@Test
 	public void testMainMethodWithClassNameArg_classNameAndMethod() throws Throwable {
 		stubAllKoans(Arrays.asList(new TwoFailingKoans()));
-		String failingKoanMethodName = TwoFailingKoans.class.getDeclaredMethod("koanTwo").getName();
-		new KoanSuiteRunner().run();
+		String failingKoanMethodName = TwoFailingKoans.class.getMethod("koanTwo").getName();
+		new CommandLineArgumentRunner().run();
 		assertSystemOutContains(failingKoanMethodName);
-		assertSystemOutDoesntContain(OneFailingKoan.class.getDeclaredMethods()[0].getName());
+		assertSystemOutContains("0/2");
 	}
 	
 	public static class TwoFailingKoans extends OneFailingKoan {
@@ -86,9 +88,14 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 				result[0] = actualAppResult;
 			}
 		};
-		new RunKoans(presenter, PathToEnlightenment.getPathToEnlightment()).run(null);
-		assertEquals(result[0].getFailingCase().getName(), PathToEnlightenment.getPathToEnlightment()
-				.iterator().next().getValue().entrySet().iterator().next().getKey());
+		doAsIfInProd(new Runnable(){
+			public void run(){
+				new RunKoans(presenter, PathToEnlightenment.getPathToEnlightment()).run(null);
+			}
+		});
+		String firstSuiteClassRan = PathToEnlightenment.getPathToEnlightment()
+				.iterator().next().getValue().entrySet().iterator().next().getKey();
+		assertEquals(result[0].getFailingCase(), firstSuiteClassRan.substring(firstSuiteClassRan.lastIndexOf(".") + 1));
 	}
 	
 	@Test	/** Ensures that koans are ready for packaging & distribution */
@@ -101,17 +108,30 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 				result[0] = actualAppResult;
 			}
 		};
-		new RunKoans(presenter, PathToEnlightenment.getPathToEnlightment()).run(null);
+		doAsIfInProd(new Runnable(){
+			public void run(){
+				new RunKoans(presenter, PathToEnlightenment.getPathToEnlightment()).run(null);
+			}
+		});
 		String message = "Not all koans need solving! Each should ship in a failing state.";
 		assertEquals(message, 0, result[0].getNumberPassing());
 		// make sure test was actually useful (ie something actually failed)
 		assertNotNull(result[0].getFailingCase());
 	}
 	
+	private void doAsIfInProd(Runnable runnable) {
+		try{
+			FileUtils.setToProd();
+			runnable.run();
+		}finally{
+			FileUtils.setToTest();
+		}
+	}
+
 	@Test
 	public void testLineExceptionIsThrownAtIsHintedAt() throws Exception {
 		stubAllKoans(Arrays.asList(new BlowUpOnLineTen()));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		assertSystemOutContains("Line 10");
 		assertSystemOutDoesntContain("Line 11");
 	}
@@ -119,7 +139,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	@Test
 	public void testLineExceptionIsThrownAtIsHintedAtEvenIfThrownFromSuperClass() throws Exception {
 		stubAllKoans(Arrays.asList(new BlowUpOnLineEleven()));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		assertSystemOutContains("Line 11");
 		assertSystemOutDoesntContain("Line 10");
 	}
@@ -128,7 +148,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	public void testWarningFromPlacingExpecationOnWrongSide() throws Throwable {
 		final String[] message = new String[1];
 		stubAllKoans(Arrays.asList(new WrongExpectationOrderKoan()));
-		Logger.getLogger(KoanSuiteRunner.class.getSimpleName()).addHandler(
+		Logger.getLogger(CommandLineArgumentRunner.class.getSimpleName()).addHandler(
 				new Handler() {
 					@Override
 					public void close() throws SecurityException {
@@ -143,7 +163,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 						message[0] = arg0.getMessage();
 					}
 				});
-		new KoanSuiteRunner(new CommandLineArgumentBuilder()).run();
+		new CommandLineArgumentRunner(new CommandLineArgumentBuilder()).run();
 		assertEquals(
 				new StringBuilder(
 						WrongExpectationOrderKoan.class.getSimpleName())
@@ -155,7 +175,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	public void testNoWarningFromPlacingExpecationOnRightSide()
 			throws Throwable {
 		stubAllKoans(Arrays.asList(new OnePassingKoan()));
-		Logger.getLogger(KoanSuiteRunner.class.getSimpleName()).addHandler(
+		Logger.getLogger(CommandLineArgumentRunner.class.getSimpleName()).addHandler(
 				new Handler() {
 					@Override
 					public void close() throws SecurityException {
@@ -170,7 +190,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 						fail("No logging necessary when koan passes, otherwise - logging is new, adjust accordingly.");
 					}
 				});
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 	}
 
 	public static class WrongExpectationOrderKoan {

@@ -20,4 +20,9 @@ public class Counter {
 		return count;
 	}
 	
+	@Override
+	public String toString() {
+		return "Counter [count=" + count + "]";
+	}
+	
 }

@@ -45,22 +45,35 @@ public class DynamicClassLoader extends ClassLoader {
 	}
 	
 	public Class<?> loadClass(String className){
-		File classFile = new File(FileUtils.makeAbsoluteRelativeToProject()
-				+ KoanConstants.FILESYSTEM_SEPARATOR
-				+ KoanConstants.BIN_FOLDER
-				+ KoanConstants.FILESYSTEM_SEPARATOR
-				+ className.replace(KoanConstants.PERIOD, KoanConstants.FILESYSTEM_SEPARATOR)
-				+ FileCompiler.CLASS_SUFFIX);
+		String fileName = FileUtils.makeAbsoluteRelativeToProject()
+						+ KoanConstants.FILESYSTEM_SEPARATOR
+						+ KoanConstants.BIN_FOLDER
+						+ KoanConstants.FILESYSTEM_SEPARATOR
+						+ className.replace(KoanConstants.PERIOD, KoanConstants.FILESYSTEM_SEPARATOR)
+						+ FileCompiler.CLASS_SUFFIX;
+		File classFile = new File(fileName);
 		try {
 			if(classFile.exists()){
 				return loadClass(classFile.toURI().toURL(), className);
 			}
-			return super.loadClass(className);
+			try{
+				return super.loadClass(className);
+			}catch(ClassNotFoundException x){
+				// file may have never been compiled, go ahead and compile it now
+				FileCompiler.compile(	
+						FileUtils.classToSource(classFile), 
+						new File(fileName.substring(0, fileName.length() - (className + FileCompiler.CLASS_SUFFIX).length())),
+						FileUtils.makeAbsoluteRelativeTo(KoanConstants.PROJ_MAIN_FOLDER +
+								KoanConstants.FILESYSTEM_SEPARATOR + KoanConstants.LIB_FOLDER + 
+								KoanConstants.FILESYSTEM_SEPARATOR + "koans.jar"));
+				classFile = new File(fileName);
+				return loadClass(classFile.toURI().toURL(), className);
+			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
 	public Class<?> loadClass(URL url, String className){
 		Class<?> clazz = classesByLocation.get(url);
 		if(clazz != null){

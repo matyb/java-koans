@@ -5,11 +5,10 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
+import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
-import com.sandwich.koan.path.PathToEnlightenment;
-import com.sandwich.koan.runner.KoanSuiteRunner;
 import com.sandwich.util.ConsoleUtils;
 
 public class KoanFileCompileAndRunListener implements FileListener {
@@ -30,10 +29,8 @@ public class KoanFileCompileAndRunListener implements FileListener {
 								KoanConstants.FILESYSTEM_SEPARATOR + KoanConstants.LIB_FOLDER + 
 								KoanConstants.FILESYSTEM_SEPARATOR + "koans.jar"));
 				DynamicClassLoader.remove(FileUtils.sourceToClass(file).toURI().toURL());
-				PathToEnlightenment.replace(FileCompiler.loadClass(file,
-						KoanConstants.SOURCE_FOLDER, KoanConstants.BIN_FOLDER));
 				ConsoleUtils.clearConsole();
-				new KoanSuiteRunner(args).run();
+				new CommandLineArgumentRunner(args).run();
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

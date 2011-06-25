@@ -17,7 +17,6 @@ import com.sandwich.koan.cmdline.behavior.Debug;
 import com.sandwich.koan.cmdline.behavior.Help;
 import com.sandwich.koan.cmdline.behavior.MethodArg;
 import com.sandwich.koan.cmdline.behavior.Reset;
-import com.sandwich.koan.cmdline.behavior.Test;
 import com.sandwich.koan.runner.RunKoans;
 import com.sandwich.util.Strings;
 
@@ -28,7 +27,7 @@ public enum ArgumentType implements ArgumentBehavior {
 	RESET(		Reset.class), 
 	BACKUP(		Backup.class),
 	DEBUG(		Debug.class), 
-	TEST(		Test.class), 
+	//TEST(		Test.class), 
 	// important class MUST come before method - due to how Enum implements comparable and order
 	// dependent logic later @ see ArgumentTypeTest.testClassPrecedesMethod
 	CLASS_ARG(	ClassArg.class),  

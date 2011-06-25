@@ -89,7 +89,9 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 			ArgumentType.BACKUP.run(null);
 			ConsoleUtils.clearConsole();
 		}
-		if(isEmpty() || !containsKey(ArgumentType.RUN_KOANS) && containsKey(ArgumentType.CLASS_ARG)){
+		if(isEmpty() || !containsKey(ArgumentType.RUN_KOANS) && (
+				containsKey(ArgumentType.CLASS_ARG) ||
+				containsKey(ArgumentType.DEBUG))){
 			if(KoanConstants.DEBUG){
 				System.out.println("Planting default run target.");
 				for(Entry<ArgumentType, CommandLineArgument> argEntry : entrySet()){

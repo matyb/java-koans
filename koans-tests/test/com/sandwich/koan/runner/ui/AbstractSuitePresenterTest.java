@@ -3,10 +3,14 @@ package com.sandwich.koan.runner.ui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.util.Arrays;
+
 import org.junit.Test;
 
-import com.sandwich.koan.KoanSuiteResult;
-import com.sandwich.koan.KoanSuiteResult.KoanResultBuilder;
+import com.sandwich.koan.KoanMethod;
+import com.sandwich.koan.result.KoanMethodResult;
+import com.sandwich.koan.result.KoanSuiteResult;
+import com.sandwich.koan.result.KoanSuiteResult.KoanResultBuilder;
 import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.ui.AbstractSuitePresenter;
 
@@ -67,7 +71,9 @@ public class AbstractSuitePresenterTest {
 			}
 		};
 
-		KoanSuiteResult kr = new KoanResultBuilder().failingCase(OneFailingKoan.class).build();
+		KoanSuiteResult kr = new KoanResultBuilder().remainingCases(Arrays.asList(OneFailingKoan.class.getSimpleName())
+			).methodResult(new KoanMethodResult(KoanMethod.getInstance("", OneFailingKoan.class.getDeclaredMethods()[0]), 
+					"", "")).build();
 		presenter.displayResult(kr);
 		assertEquals(4, state[0]);
 	}

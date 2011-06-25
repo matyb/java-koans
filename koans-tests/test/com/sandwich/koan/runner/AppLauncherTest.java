@@ -32,6 +32,7 @@ public class AppLauncherTest {
 	public void testNecessityOfAddingRunKoansCommandLineArgument_doesntIfClassArgIsntPresent(){
 		List<ArgumentType> types = new ArrayList<ArgumentType>(Arrays.asList(ArgumentType.values()));
 		assertTrue(types.remove(ArgumentType.CLASS_ARG));
+		assertTrue(types.remove(ArgumentType.DEBUG));
 		assertTrue(types.remove(ArgumentType.RUN_KOANS));
 		for(ArgumentType type : types){
 			Map<ArgumentType, CommandLineArgument> args = new CommandLineArgumentBuilder(type.args().iterator().next());

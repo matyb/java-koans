@@ -1,13 +1,8 @@
 @echo off
 cls
 
-REM compile class files
-mkdir ..\bin
-cls
-javac -d ..\bin -classpath ..\lib\koans.jar beginner\*.java
+javac -version
 if ERRORLEVEL 3 goto no_javac
-javac -d ..\bin -classpath ..\lib\koans.jar intermediate\*.java
-javac -d ..\bin -classpath ..\lib\koans.jar advanced\*.java
 java -version
 if ERRORLEVEL 1 goto no_java
 cls

@@ -1,9 +1,9 @@
 package com.sandwich.util;
 
 import static com.sandwich.koan.constant.KoanConstants.PROJ_MAIN_FOLDER;
+import static com.sandwich.koan.constant.KoanConstants.PROJ_TESTS_FOLDER;
 import static com.sandwich.koan.constant.KoanConstants.SOURCE_FOLDER;
 import static com.sandwich.koan.constant.KoanConstants.TESTS_FOLDER;
-import static com.sandwich.koan.constant.KoanConstants.PROJ_TESTS_FOLDER;
 import static org.junit.Assert.assertSame;
 
 import java.lang.reflect.Method;
@@ -17,8 +17,9 @@ import org.junit.Test;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
+import com.sandwich.koan.path.CommandLineTestCase;
 
-public class KoanComparatorTest {
+public class KoanComparatorTest extends CommandLineTestCase {
 	
 	private static final String ORIGINAL_KOANS_PROJ_DIR = 	PROJ_MAIN_FOLDER;
 	private static final String ORIGINAL_SRC_DIR 		= 	SOURCE_FOLDER;			

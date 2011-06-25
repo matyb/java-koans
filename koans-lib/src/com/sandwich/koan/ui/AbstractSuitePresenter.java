@@ -1,6 +1,6 @@
 package com.sandwich.koan.ui;
 
-import com.sandwich.koan.KoanSuiteResult;
+import com.sandwich.koan.result.KoanSuiteResult;
 
 public abstract class AbstractSuitePresenter implements SuitePresenter {
 

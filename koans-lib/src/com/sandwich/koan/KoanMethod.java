@@ -27,6 +27,10 @@ public class KoanMethod {
 		}
 	}
 	
+	public static KoanMethod getInstance(Method method){
+		return new KoanMethod(null, method, true);
+	}
+	
 	public static KoanMethod getInstance(String lesson, Method method){
 		return new KoanMethod(lesson, method, true);
 	}

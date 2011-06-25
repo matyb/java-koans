@@ -6,6 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 
+import com.sandwich.koan.constant.KoanConstants;
+
 public class FileCompiler {
 	
 	public static final String JAVA_SUFFIX = ".java";
@@ -28,10 +30,19 @@ public class FileCompiler {
 				//javac -d ..\bin -classpath ..\lib\koans.jar beginner\*.java
 				String fileName = src.getName();
 				if(fileName.length() > 4 && fileName.toLowerCase().endsWith(JAVA_SUFFIX)){
+					if(!destinationDirectory.exists()){
+						if(!destinationDirectory.mkdir()){
+							System.out.println("Was unable to create: "+destinationDirectory);
+							System.exit(-231);
+						}
+					}
 					String command = "javac -d "+destinationDirectory.getAbsolutePath()+" "+
 						getClasspath(classpath)+src.getAbsolutePath();
 					Process p = Runtime.getRuntime().exec(command);
 					try{
+						if(KoanConstants.DEBUG){
+							System.out.println("compiling file: "+src.getAbsolutePath());
+						}
 						if(p.waitFor() != 0){
 							System.out.println();
 							System.out.println("*****************************************************************");

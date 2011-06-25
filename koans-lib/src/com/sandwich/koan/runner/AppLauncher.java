@@ -2,6 +2,7 @@ package com.sandwich.koan.runner;
 
 import java.util.Map;
 
+import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.constant.ArgumentType;
@@ -14,7 +15,7 @@ public class AppLauncher {
 
 	public static void main(final String... args) throws Throwable {
 		Map<ArgumentType, CommandLineArgument> argsMap = new CommandLineArgumentBuilder(args);
-		new KoanSuiteRunner(argsMap).run();
+		new CommandLineArgumentRunner(argsMap).run();
 		if(KoanConstants.DEBUG){
 			StringBuilder argsBuilder = new StringBuilder();
 			int argNumber = 0;

@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.CommandLineTestCase;
@@ -33,7 +34,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	@Test
 	public void hintPresentation() throws Throwable {
 		stubAllKoans(Arrays.asList(new OneFailingKoanDifferentName()));
-		new KoanSuiteRunner(new CommandLineArgumentBuilder()).run();
+		new CommandLineArgumentRunner(new CommandLineArgumentBuilder()).run();
 		assertSystemOutContains(new StringBuilder(
 				INVESTIGATE_IN_THE).append(
 				" ").append(
@@ -49,7 +50,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 		if(KoanConstants.ENABLE_ENCOURAGEMENT){
 			stubAllKoans(Arrays.asList(new Class<?>[] { 
 					OneFailingKoan.class }));
-			new KoanSuiteRunner().run();
+			new CommandLineArgumentRunner().run();
 			assertSystemOutContains(new StringBuilder(
 					CONQUERED).append(
 					" 0 ").append(
@@ -66,7 +67,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	public void testOneHundredPercentSuccessReward() throws Throwable {
 		stubAllKoans(Arrays.asList(new Class<?>[] { 
 				OnePassingKoan.class }));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		assertSystemOutContains(ALL_SUCCEEDED);
 		assertSystemOutDoesntContain(CONQUERED);
 		assertSystemOutDoesntContain(ENCOURAGEMENT);
@@ -75,42 +76,42 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	@Test
 	public void passingSuites() throws Throwable {
 		stubAllKoans(Arrays.asList(new OnePassingKoan(), new OnePassingKoanDifferentName()));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		assertSystemOutContains(PASSING_SUITES+" OnePassingKoan, OnePassingKoanDifferentName");
 	}
 	
 	@Test
 	public void failingSuites() throws Throwable {
 		stubAllKoans(Arrays.asList(new OneFailingKoan(), new OneFailingKoanDifferentName()));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		assertSystemOutContains(FAILING_SUITES+" OneFailingKoan, OneFailingKoanDifferentName");
 	}
 	
 	@Test
 	public void failingAndPassingSuites() throws Throwable {
 		stubAllKoans(Arrays.asList(new OnePassingKoan(), new OneFailingKoan()));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		assertSystemOutContains(PASSING_SUITES+" OnePassingKoan"+EOL+
 								FAILING_SUITES+" OneFailingKoan");
 	}
 	
 	@Test
 	public void progressAllPassing() throws Throwable {
-		stubAllKoans(Arrays.asList(new OnePassingKoan(), new OnePassingKoanDifferentName()));
-		new KoanSuiteRunner().run();
+		stubAllKoans(Arrays.asList(new OnePassingKoan()));
+		new CommandLineArgumentRunner().run();
 		StringBuilder sb = new StringBuilder(PROGRESS).append(" ")
 									.append(PROGRESS_BAR_START);
 		for(int i = 0; i < PROGRESS_BAR_WIDTH; i++){ // 100% success
 			sb.append(COMPLETE_CHAR);
 		}
-		sb.append("] 2/2").append(EOL);
+		sb.append("] 1/1").append(EOL);
 		assertSystemOutContains(sb.toString());
 	}
 	
 	@Test
 	public void progressAllFailing() throws Throwable {
 		stubAllKoans(Arrays.asList(new OneFailingKoan(), new OneFailingKoanDifferentName()));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		StringBuilder sb = new StringBuilder(
 				PROGRESS).append(" ").append(
 				PROGRESS_BAR_START);
@@ -124,7 +125,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	@Test
 	public void progressFiftyFifty() throws Throwable {
 		stubAllKoans(Arrays.asList(new OnePassingKoan(), new OneFailingKoan()));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		StringBuilder sb = new StringBuilder(
 				PROGRESS).append(" ").append(
 				PROGRESS_BAR_START);
@@ -141,7 +142,7 @@ public class ConsolePresenterTest extends CommandLineTestCase {
 	@Test
 	public void whatWentWrongExplanation() throws Throwable {
 		stubAllKoans(Arrays.asList(new OneFailingKoan()));
-		new KoanSuiteRunner().run();
+		new CommandLineArgumentRunner().run();
 		assertSystemOutContains(new StringBuilder(
 				WHATS_WRONG).append(
 				EOL).append(

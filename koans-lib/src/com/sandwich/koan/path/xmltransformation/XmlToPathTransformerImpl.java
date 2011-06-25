@@ -2,10 +2,7 @@ package com.sandwich.koan.path.xmltransformation;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -17,10 +14,7 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.sandwich.koan.Koan;
-import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
-import com.sandwich.util.io.DynamicClassLoader;
 
 public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 
@@ -92,17 +86,6 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 		return koansByMethodNameByClass;
 	}
 
-//	List<KoanMethod> createKoanMethods(Class<?> koanSuiteClass, NodeList nodes) {
-//		Map<String, KoanElementAttributes> rawKoanLessonByMethodName = extractKoansAndRawLessons(
-//				koanSuiteClass.getName(), nodes);
-//		List<KoanMethod> koanMethods = getKoanMethods(koanSuiteClass,
-//				rawKoanLessonByMethodName);
-//		KoanComparator koanComparator = new KoanComparator(
-//				rawKoanLessonByMethodName.keySet());
-//		Collections.sort(koanMethods, koanComparator);
-//		return koanMethods;
-//	}
-
 	Map<String, KoanElementAttributes> extractKoansAndRawLessons(
 			String className, NodeList nodes) {
 		Map<String, KoanElementAttributes> rawKoanAttributesByMethodName = new LinkedHashMap<String, KoanElementAttributes>();
@@ -129,29 +112,12 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 		return rawKoanAttributesByMethodName;
 	}
 
-		static class DuplicateKoanException extends RuntimeException {
-			private static final long serialVersionUID = 3846796580641690961L;
-			public DuplicateKoanException(String className, String name){
-				super("Duplicate koans in the same suite: "+className+" with the name "+name);
-			}
+	static class DuplicateKoanException extends RuntimeException {
+		private static final long serialVersionUID = 3846796580641690961L;
+		public DuplicateKoanException(String className, String name){
+			super("Duplicate koans in the same suite: "+className+" with the name "+name);
 		}
-
-		public List<KoanMethod> getKoanMethods(String koanSuiteClass, Map<String, KoanElementAttributes> attributesByKoanName) {
-			List<KoanMethod> koanMethods = new ArrayList<KoanMethod>();
-			DynamicClassLoader loader = new DynamicClassLoader();
-			for(final Method koan : loader.loadClass(koanSuiteClass).getMethods()){
-				final Koan annotation = koan.getAnnotation(Koan.class);
-				if(annotation != null){
-					if(methodName == null || methodName.equalsIgnoreCase(koan.getName())){
-						KoanElementAttributes koanMethodAttributes = attributesByKoanName.get(koan.getName());
-						koanMethodAttributes = koanMethodAttributes == null ? 
-									new KoanElementAttributes(null, koan.getName(), null, koanSuiteClass) : koanMethodAttributes;
-						koanMethods.add(KoanMethod.getInstance(koanMethodAttributes));
-					}
-				}
-			}
-			return koanMethods;
-		}
+	}
 
 }
 

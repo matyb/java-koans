@@ -18,8 +18,8 @@ import static com.sandwich.koan.constant.KoanConstants.WHATS_WRONG;
 import java.util.List;
 
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.KoanSuiteResult;
 import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.koan.result.KoanSuiteResult;
 
 public class ConsolePresenter extends AbstractSuitePresenter {
 	
@@ -34,13 +34,13 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		System.out.println(sb.toString());
 	}
 	
-	private void appendLabeledClassesList(String suiteType, List<Class<?>> suites, StringBuilder sb) {
+	private void appendLabeledClassesList(String suiteType, List<String> suites, StringBuilder sb) {
 		if(suites == null || suites.isEmpty()){
 			return;
 		}
 		sb.append(suiteType+' ');
-		for(Class<?> c : suites){
-			sb.append(c.getSimpleName());
+		for(String c : suites){
+			sb.append(c);
 			if(suites.indexOf(c) != suites.size() - 1){
 				sb.append(", ");
 			}
@@ -107,7 +107,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	protected void printSuggestion(KoanSuiteResult result) {
 		KoanMethod failedKoan = result.getFailingMethod();
 		StringBuilder sb = 	buildLessonLine(failedKoan);
-		buildInvestigateLine(sb, result.getFailingCase().getSimpleName(),failedKoan.getMethod().getName());
+		buildInvestigateLine(sb, result.getFailingCase(),failedKoan.getMethod().getName());
 		sb.append(EOL).append(EOL);
 		buildLineClue(sb, result);
 		System.out.println(sb.toString());

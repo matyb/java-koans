@@ -10,7 +10,6 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.util.io.FileUtils;
 
 public class KoanComparator implements Comparator<KoanMethod> {
@@ -33,8 +32,7 @@ public class KoanComparator implements Comparator<KoanMethod> {
 					+ " and: "+declaringClass1);
 			return 0;
 		}
-		String contentsOfOriginalJavaFile = FileUtils.getContentsOfOriginalJavaFile(
-				KoanConstants.PROJ_MAIN_FOLDER, KoanConstants.SOURCE_FOLDER, declaringClass0);
+		String contentsOfOriginalJavaFile = FileUtils.getContentsOfOriginalJavaFile(declaringClass0.getName());
 		Integer index0 = Integer.valueOf(	contentsOfOriginalJavaFile.indexOf(arg0.getMethod().getName()));
 		Integer index1 = Integer.valueOf(	contentsOfOriginalJavaFile.indexOf(arg1.getMethod().getName()));
 		return index0.compareTo(index1);
