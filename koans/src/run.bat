@@ -5,6 +5,7 @@ javac -version
 if ERRORLEVEL 3 goto no_javac
 java -version
 if ERRORLEVEL 1 goto no_java
+mkdir ..\bin
 cls
 java -classpath ..\bin;..\lib\koans.jar com.sandwich.koan.runner.AppLauncher
  
