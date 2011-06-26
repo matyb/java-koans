@@ -32,7 +32,7 @@ public class FakeXmlToPathTransformer extends XmlToPathTransformerImpl {
 		Map<String, Map<String, Map<String, KoanElementAttributes>>> koans = 
 			new LinkedHashMap<String, Map<String, Map<String, KoanElementAttributes>>>();
 		koans.put("test", new LinkedHashMap<String, Map<String, KoanElementAttributes>>(methodsBySuite));
-		return new Path().stubKoanMethodsBySuiteByClass(koans);
+		return new Path(null,koans);
 	}
 	
 }

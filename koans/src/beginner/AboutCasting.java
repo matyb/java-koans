@@ -2,6 +2,7 @@ package beginner;
 
 import static com.sandwich.koan.constant.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
+import static com.sandwich.util.Assert.fail;
 
 import com.sandwich.koan.Koan;
 
@@ -34,69 +35,85 @@ public class AboutCasting {
 		assertEquals(c, __);
 	}
     
-    class Parent { public String doThing() { return "parent style"; } }
-    class Child extends Parent { public String doThing() { return "child style"; } }
+    class GrandParent { public String complain() { return "Get your feet off the davenport!"; } }
+    class Parent extends GrandParent { public String complain() { return "TPS reports don't even have a cover letter!"; } }
     
     @Koan
     public void downCastWithInerhitance() {
-    	Child child = new Child();
-    	Parent parent = child; // Why isn't there an explicit cast?
+    	Parent parent = new Parent();
+    	GrandParent grandParent = parent; // Why isn't there an explicit cast?
+    	assertEquals(grandParent instanceof GrandParent,__);
+    	assertEquals(parent instanceof GrandParent,__);
     	assertEquals(parent instanceof Parent,__);
-    	assertEquals(child instanceof Parent,__);
-    	assertEquals(child instanceof Child,__);
+    	// parents know of their parents
     }
     
     @Koan
     public void downCastAndPolymophism() {
-    	Child child = new Child();
-    	Parent parent = child;
+    	Parent parent = new Parent();
+    	GrandParent grandParent = parent;
     	// Think about the result. Did you expect that? Why?
     	// Think about inheritance, objects, classes and instances.
-    	assertEquals(parent.doThing(),__);
-    	assertEquals(child.doThing(),__);
+    	assertEquals(parent.complain(), __);
+    	assertEquals(grandParent.complain(), __);
     }
     
     @Koan
     public void upCastWithInheritance() {
-    	Parent parent = new Child();
-    	Child child = (Child)parent; // Why do we need an explicit cast here?
+    	GrandParent grandParent = new Parent();
+    	Parent parent = (Parent)grandParent; // Why do we need an explicit cast here?
+    	assertEquals(grandParent instanceof GrandParent,__);
+    	assertEquals(parent instanceof GrandParent,__);
     	assertEquals(parent instanceof Parent,__);
-    	assertEquals(child instanceof Parent,__);
-    	assertEquals(child instanceof Child,__);
+    	// a parent does not know of it's children implicitly, it is an open ended contract... 
+    	// so YOU need to define that for the compiler with a cast - this can vary at runtime
     }
     
     @Koan
     public void upCastAndPolymophism() {
-    	Parent parent = new Child();
-    	Child child = (Child)parent;
+    	GrandParent grandParent = new GrandParent();
+    	Parent parent = (Parent)grandParent;
     	// Think about the result. Did you expect that? Why?
     	// How is that different from above?
-    	assertEquals(parent.doThing(),__);
-    	assertEquals(child.doThing(),__);
+    	assertEquals(grandParent.complain(),__);
+    	assertEquals(parent.complain(),__);
     }
     
-    class SuperChild extends Child {
-    	public String doSuperChildThing() { return "Superchild"; }
-    }
-    
-    @Koan
-    public void complicatedCast() {
-    	Parent parent = new SuperChild();
-    	// What do you need to do in order to call "doSuperChildThing"? 
-    	assertEquals("Superchild", __);
-    }
-
     interface Sleepable {
     	String sleep();
     }
     
-    class SleepChild extends Child implements Sleepable {
-		public String sleep() { return "zzzz"; }
+    class Child extends Parent implements Sleepable{ 
+    	public String praise() { 
+    		return "I think you are a great software developer."; 
+    	}
+    	public String sleep() { 
+    		return "zzzz"; 
+    	}
+    }
+    
+    @Koan
+    public void classCasting(){
+    	try{
+    		Object o = new Parent(); 	// were downcasting way to far here - would it be possible
+    									// to even author this koan had we done what was safe, and 
+    									// held the reference as Sleepable?
+    		((Sleepable)o).sleep();
+    	}catch(ClassCastException x){
+    		fail("Parent does not implement Sleepable, maybe one of his kids do?");
+    	}
+    }
+    
+    @Koan
+    public void complicatedCast() {
+    	Parent parent = new Child();
+    	// How can we access the stepchild's ability to "praise" - if the reference is held as a superclass? 
+    	assertEquals("I think you are a great software developer.", __);
     }
     
     @Koan
     public void complicatedCastWithInterface() {
-    	Parent parent = new SleepChild();
+    	Parent parent = new Child();
     	// What do you need to do in order to call "sleep"? 
     	assertEquals("zzzz", __);
     }

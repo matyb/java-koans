@@ -1,5 +1,10 @@
 package com.sandwich.util.io;
 
+import static com.sandwich.koan.constant.KoanConstants.DATA_FOLDER;
+import static com.sandwich.koan.constant.KoanConstants.FILESYSTEM_SEPARATOR;
+import static com.sandwich.koan.constant.KoanConstants.FILE_HASH_FILE_NAME;
+import static com.sandwich.koan.constant.KoanConstants.PROJ_MAIN_FOLDER;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -10,7 +15,11 @@ import java.util.Vector;
 public class FileMonitor {
 
 	private final List<FileListener> listeners = new Vector<FileListener>();
-	private static Map<String, Long> fileHashesByDirectory = new HashMap<String, Long>();
+	private static DataFileHelper<Map<String, Long>> fileHashesHelper =  new DataFileHelper<Map<String,Long>>(
+											getFileHashesDataFilePath(), new HashMap<String,Long>());
+	
+	private static Map<String, Long> fileHashesByDirectory = fileHashesHelper.retrieve();
+	
 	final File fileSystemPath;
 	
 	public FileMonitor(String fileSystemPath){
@@ -39,13 +48,10 @@ public class FileMonitor {
 	synchronized void notifyListeners(){
 		try {
 			Map<String, Long> currentHashes = getFilesystemHashes();
-			if(fileHashesByDirectory.isEmpty()){
-				fileHashesByDirectory.putAll(currentHashes);
-			}
 			for(String fileName : currentHashes.keySet()){
 				Long currentHash 	= currentHashes.get(fileName);
 				Long previousHash 	= fileHashesByDirectory.get(fileName);
-				if(!currentHash.equals(previousHash)){
+				if(previousHash != null && !currentHash.equals(previousHash)){
 					fileHashesByDirectory.put(fileName, currentHash);
 					File file = new File(fileName);
 					for(FileListener listener : listeners){
@@ -70,6 +76,21 @@ public class FileMonitor {
 			}
 		});
 		return fileHashes;
+	}
+	
+	private static String getFileHashesDataFilePath(){
+		return FileUtils.makeAbsoluteRelativeTo(
+				new StringBuilder(PROJ_MAIN_FOLDER).append(FILESYSTEM_SEPARATOR).append(DATA_FOLDER)
+				.append(FILESYSTEM_SEPARATOR).append(FILE_HASH_FILE_NAME).toString());
+	}
+
+	public boolean isFileModifiedSinceLastPoll(String filePath, Long lastModified) {
+		Long previousHash = fileHashesByDirectory.get(filePath);
+		return !lastModified.equals(previousHash);
+	}
+
+	public void updateFileSaveTime(File file) {
+		fileHashesByDirectory.put(file.getAbsolutePath(), file.lastModified());
 	}
 	
 }

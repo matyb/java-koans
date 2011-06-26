@@ -23,6 +23,7 @@ public abstract class KoanConstants {
 	public static String 		SOURCE_FOLDER 		= "src";
 	public static String 		BIN_FOLDER 			= "bin";
 	public static String 		DATA_FOLDER 		= "data";
+	public static String 		FILE_HASH_FILE_NAME = "file_hashes.dat";
 	public static String 		TESTS_FOLDER 		= "test";
 	public static String 		LIB_FOLDER 			= "lib";
 	

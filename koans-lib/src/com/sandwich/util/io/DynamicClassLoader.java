@@ -16,6 +16,8 @@ public class DynamicClassLoader extends ClassLoader {
 
 	private static Map<URL, Class<?>> classesByLocation = new HashMap<URL, Class<?>>();
 	private static Map<Class<?>, URL> locationByClass = new HashMap<Class<?>, URL>();
+	private final FileMonitor fileMonitor = FileMonitorFactory.getInstance(
+											FileUtils.makeAbsoluteRelativeTo(KoanConstants.PROJ_MAIN_FOLDER));
 	
 	public DynamicClassLoader(){
 		this(ClassLoader.getSystemClassLoader());
@@ -53,25 +55,38 @@ public class DynamicClassLoader extends ClassLoader {
 						+ FileCompiler.CLASS_SUFFIX;
 		File classFile = new File(fileName);
 		try {
+			// file may have never been compiled, go ahead and compile it now
+			File sourceFile = FileUtils.classToSource(classFile);
 			if(classFile.exists()){
+				String absolutePath = classFile.getAbsolutePath();
+				boolean isAnonymous = absolutePath.contains("$");
+				if(fileMonitor.isFileModifiedSinceLastPoll(sourceFile.getAbsolutePath(), sourceFile.lastModified())){
+					if(!isAnonymous){
+						compile(className, fileName, sourceFile);
+					}
+				}
 				return loadClass(classFile.toURI().toURL(), className);
 			}
 			try{
 				return super.loadClass(className);
 			}catch(ClassNotFoundException x){
-				// file may have never been compiled, go ahead and compile it now
-				FileCompiler.compile(	
-						FileUtils.classToSource(classFile), 
-						new File(fileName.substring(0, fileName.length() - (className + FileCompiler.CLASS_SUFFIX).length())),
-						FileUtils.makeAbsoluteRelativeTo(KoanConstants.PROJ_MAIN_FOLDER +
-								KoanConstants.FILESYSTEM_SEPARATOR + KoanConstants.LIB_FOLDER + 
-								KoanConstants.FILESYSTEM_SEPARATOR + "koans.jar"));
+				compile(className, fileName, sourceFile);
 				classFile = new File(fileName);
 				return loadClass(classFile.toURI().toURL(), className);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	private void compile(String className, String fileName, File sourceFile)
+			throws IOException {
+		FileCompiler.compile(sourceFile, 
+				new File(fileName.substring(0, fileName.length() - (className + FileCompiler.CLASS_SUFFIX).length())),
+				FileUtils.makeAbsoluteRelativeTo(KoanConstants.PROJ_MAIN_FOLDER +
+						KoanConstants.FILESYSTEM_SEPARATOR + KoanConstants.LIB_FOLDER + 
+						KoanConstants.FILESYSTEM_SEPARATOR + "koans.jar"));
+		fileMonitor.updateFileSaveTime(sourceFile);
 	}
 
 	public Class<?> loadClass(URL url, String className){

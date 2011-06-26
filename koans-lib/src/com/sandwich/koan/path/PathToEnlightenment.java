@@ -43,10 +43,12 @@ public abstract class PathToEnlightenment {
 	
 	public static void filterBySuite(String suite){
 		suiteName = suite;
+		xmlToPathTransformer = null;
 	}
 	
 	public static void filterByKoan(String koan){
 		koanMethod = koan;
+		xmlToPathTransformer = null;
 	}
 	
 	public static Path getPathToEnlightment(){
@@ -65,8 +67,16 @@ public abstract class PathToEnlightenment {
 	
 	public static class Path implements Iterable<Entry<String, Map<String, Map<String, KoanElementAttributes>>>>{
 		private Map<String, Map<String, Map<String, KoanElementAttributes>>> koanMethodsBySuiteByPackage;
+		private String methodName;
 		public Path(){}
+		public Path(String methodName, Map<String, Map<String, Map<String, KoanElementAttributes>>> koans) {
+			stubKoanMethodsBySuiteByClass(koans);
+			this.methodName = methodName;
+		}
 		public int getTotalNumberOfKoans() {
+			if(methodName != null){
+				return 1;
+			}
 			Counter total = new Counter();
 			Iterator<Entry<String, Map<String, Map<String, KoanElementAttributes>>>> koanMethodsBySuiteByPackageIter = 
 				getKoanMethodsBySuiteByPackage();
@@ -95,7 +105,7 @@ public abstract class PathToEnlightenment {
 			return getKoanMethodsBySuiteByPackage();
 		}
 		
-		public Path stubKoanMethodsBySuiteByClass(Map<String, Map<String, Map<String, KoanElementAttributes>>> koanMethodsBySuiteByPackage){
+		protected Path stubKoanMethodsBySuiteByClass(Map<String, Map<String, Map<String, KoanElementAttributes>>> koanMethodsBySuiteByPackage){
 			// unlike other collections in this app, this actually needs to remain mutable after the reference is
 			// stored and utilized internally. this is so the DynamicClassLoader can swap out references to 
 			// any dynamic classes
@@ -154,6 +164,9 @@ public abstract class PathToEnlightenment {
 		}
 		@Override public String toString(){
 			return getKoanMethodsBySuiteByPackage().toString();
+		}
+		public String getOnlyMethodNameToRun() {
+			return methodName;
 		}
 	}
 }

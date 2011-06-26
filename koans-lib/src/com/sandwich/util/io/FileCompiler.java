@@ -38,6 +38,9 @@ public class FileCompiler {
 					}
 					String command = "javac -d "+destinationDirectory.getAbsolutePath()+" "+
 						getClasspath(classpath)+src.getAbsolutePath();
+					if(KoanConstants.DEBUG){
+						System.out.println("executing command: \""+command+"\" to compile the sourcefile: "+src+".");
+					}
 					Process p = Runtime.getRuntime().exec(command);
 					try{
 						if(KoanConstants.DEBUG){

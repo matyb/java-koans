@@ -69,7 +69,7 @@ public abstract class CommandLineTestCase {
 		Map<String, Map<String, Map<String, KoanElementAttributes>>> stubbedPath = 
 			new LinkedHashMap<String, Map<String, Map<String, KoanElementAttributes>>>();
 		stubbedPath.put(packageName, tempSuitesAndMethods);
-		PathToEnlightenment.theWay = new Path().stubKoanMethodsBySuiteByClass(stubbedPath);
+		PathToEnlightenment.theWay = new Path(null,stubbedPath);
 		return oldKoans;
 	}
 	

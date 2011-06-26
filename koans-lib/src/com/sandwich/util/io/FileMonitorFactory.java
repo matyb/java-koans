@@ -57,7 +57,7 @@ public class FileMonitorFactory {
 		}).start();
 	}
 	
-	public static FileMonitor getInstance(String fileSystemPath) throws IOException{
+	public static FileMonitor getInstance(String fileSystemPath) {
 		FileMonitor monitor = monitors.get(fileSystemPath);
 		if(monitor == null){
 			monitor = new FileMonitor(fileSystemPath);

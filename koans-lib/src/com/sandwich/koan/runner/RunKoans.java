@@ -48,13 +48,14 @@ public class RunKoans extends AbstractArgumentBehavior {
 		String level = null;
 		KoanMethodResult failure = null;
 		DynamicClassLoader loader = new DynamicClassLoader();
-		for (Entry<String, Map<String, Map<String, KoanElementAttributes>>> packages : getPathToEnlightement()) {
+		Path pathToEnlightement = getPathToEnlightement();
+		for (Entry<String, Map<String, Map<String, KoanElementAttributes>>> packages : pathToEnlightement) {
 			for (Entry<String, Map<String, KoanElementAttributes>> e : packages.getValue().entrySet()) {
 				String name = e.getKey().substring(e.getKey().lastIndexOf('.')+1);
 				if(failure == null){
 					Object suite = constructSuite(loader, e.getKey());
 					final List<KoanElementAttributes> attributes = new ArrayList<KoanElementAttributes>(e.getValue().values());
-					final List<KoanMethod> methods = mergeJavaFilesMethodsAndThoseInXml(suite, attributes);
+					final List<KoanMethod> methods = mergeJavaFilesMethodsAndThoseInXml(suite, attributes, pathToEnlightement.getOnlyMethodNameToRun());
 					Collections.sort(methods, new KoanComparator());
 					for (final KoanMethod koan : methods) {
 						KoanMethodResult result = KoanMethodRunner.run(suite, koan);
@@ -69,9 +70,8 @@ public class RunKoans extends AbstractArgumentBehavior {
 					}
 					if (failure == null) {
 						passingSuites.add(name);
-					} else {
-						level = packages.getKey();
 					}
+					level = packages.getKey();
 				}else{
 					failingSuites.add(name);
 				}
@@ -79,26 +79,34 @@ public class RunKoans extends AbstractArgumentBehavior {
 		}
 		return new KoanResultBuilder()	.level(level)
 										.numberPassing((int)successfull.getCount())
-										.totalNumberOfKoanMethods(getPathToEnlightement().getTotalNumberOfKoans())
+										.totalNumberOfKoanMethods(pathToEnlightement.getTotalNumberOfKoans())
 										.methodResult(failure)
 										.passingCases(passingSuites).remainingCases(failingSuites).build();
 	}
 
 	private List<KoanMethod> mergeJavaFilesMethodsAndThoseInXml(Object suite,
-			final List<KoanElementAttributes> attributes) {
+			final List<KoanElementAttributes> attributes, String onlyMethodNameToRun) {
 		final List<KoanMethod> methods = new ArrayList<KoanMethod>();
 		final List<String> methodNames = new ArrayList<String>();
 		for(KoanElementAttributes attributeSet : attributes){
-			KoanMethod method = KoanMethod.getInstance(attributeSet);
-			methods.add(method);
-			methodNames.add(method.getMethod().getName());
+			if(isMethodEligibleForRunning(onlyMethodNameToRun, attributeSet.name)){
+				KoanMethod method = KoanMethod.getInstance(attributeSet);
+				methods.add(method);
+				methodNames.add(method.getMethod().getName());
+			}
 		}
 		for(Method method : suite.getClass().getMethods()){
-			if(!methodNames.contains(method.getName()) && method.getAnnotation(Koan.class) != null){
+			if(!methodNames.contains(method.getName()) &&
+					isMethodEligibleForRunning(onlyMethodNameToRun, method.getName()) &&
+					method.getAnnotation(Koan.class) != null){
 				methods.add(KoanMethod.getInstance(method));
 			}
 		}
 		return methods;
+	}
+
+	private boolean isMethodEligibleForRunning(String onlyMethodNameToRun, String name) {
+		return onlyMethodNameToRun == null || onlyMethodNameToRun.equals(name);
 	}
 
 	private Object constructSuite(DynamicClassLoader loader, String className) {

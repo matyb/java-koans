@@ -60,7 +60,7 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 				String pkg = node.getAttributes().getNamedItem("pkg").getNodeValue();
 				koans.put(packageTitle, getKoanElementAttributesByMethodNameBySuite(pkg, node.getChildNodes()));
 			}
-			return new Path().stubKoanMethodsBySuiteByClass(koans);
+			return new Path(methodName, koans);
 		}catch(Exception x){
 			throw new RuntimeException(x);
 		}
@@ -104,9 +104,8 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 				if (rawKoanAttributesByMethodName.containsKey(name)) {
 					throw new DuplicateKoanException(className, name);
 				}
-				rawKoanAttributesByMethodName.put(name,
-						new KoanElementAttributes(rawLesson, name,
-								displayIncompleteKoanException, className));
+				rawKoanAttributesByMethodName.put(name, new KoanElementAttributes(
+					rawLesson, name, displayIncompleteKoanException, className));
 			}
 		}
 		return rawKoanAttributesByMethodName;
