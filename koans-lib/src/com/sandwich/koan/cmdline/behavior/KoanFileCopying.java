@@ -10,6 +10,7 @@ public abstract class KoanFileCopying extends AbstractArgumentBehavior {
 		try {
 			copy(DirectoryManager.getProjectDataSourceDir(), DirectoryManager.getSourceDir());
 		} catch (IOException e) {
+			e.printStackTrace();
 			System.out.println(getErrorMessage());
 			System.exit(-1);
 		}

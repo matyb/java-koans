@@ -115,7 +115,17 @@ public class FileUtils {
 	}
 	
 	public static File classToSource(File file) {
-		return new File(file.getAbsolutePath()
+		return classToSource(file.getAbsolutePath());
+	}
+
+	public static File classToClassFile(Class<?> clazz) {
+		String className = clazz.getName();
+		String path = className.replace(".", System.getProperty("file.separator")) + FileCompiler.CLASS_SUFFIX;
+		return new File(ClassLoader.getSystemResource(path).toString().substring(5));
+	}
+	
+	public static File classToSource(String absolutePath) {
+		return new File(absolutePath
 				.replace(DirectoryManager.getBinDir(), DirectoryManager.getSourceDir())
 				.replace(FileCompiler.CLASS_SUFFIX, FileCompiler.JAVA_SUFFIX));
 	}
