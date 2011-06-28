@@ -13,9 +13,11 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.util.io.directories.DirectoryManager;
 
 public class FileUtils {
 	
+	private static final String DOLLAR_SIGN = "$";
 	public static String BASE_DIR; static{ File dir = new File(ClassLoader.getSystemResource(".").getFile());
 		if(dir.exists()){
 			dir = dir.getParentFile();
@@ -24,27 +26,6 @@ public class FileUtils {
 			}
 		}
 		BASE_DIR = dir.getAbsolutePath();
-	}
-	
-	private static String PROJECT_DIRECTORY = KoanConstants.PROJ_MAIN_FOLDER; 
-	private static String SOURCE_FOLDER = KoanConstants.SOURCE_FOLDER;
-	
-	public static void setToTest(){
-		PROJECT_DIRECTORY = KoanConstants.PROJ_TESTS_FOLDER;
-		SOURCE_FOLDER = KoanConstants.TESTS_FOLDER;
-	}
-	
-	public static void setToProd(){
-		PROJECT_DIRECTORY = KoanConstants.PROJ_MAIN_FOLDER;
-		SOURCE_FOLDER = KoanConstants.SOURCE_FOLDER;
-	}
-	
-	public static String getProjectDirectory(){
-		return PROJECT_DIRECTORY;
-	}
-	
-	public static String makeAbsoluteRelativeToProject(){
-		return makeAbsoluteRelativeTo(getProjectDirectory());
 	}
 	
 	public static String makeAbsoluteRelativeTo(String fileName){
@@ -138,13 +119,23 @@ public class FileUtils {
 	}
 
 	public static String getContentsOfOriginalJavaFile(String className) {
-			File sourceFile = new File(makeAbsolute(PROJECT_DIRECTORY, SOURCE_FOLDER, className));
-			if(!sourceFile.exists()){
-				throw new RuntimeException(new FileNotFoundException(sourceFile.getAbsolutePath()+" does not exist"));
-			}
-			return readFileAsString(sourceFile);
+		File sourceFile = new File(	DirectoryManager.getSourceDir() 
+								  + DirectoryManager.FILESYSTEM_SEPARATOR
+								  + classNameToJavaFileName(className));
+		if(!sourceFile.exists()){
+			throw new RuntimeException(new FileNotFoundException(sourceFile.getAbsolutePath()+" does not exist"));
+		}
+		return readFileAsString(sourceFile);
 	}
 	
+	private static String classNameToJavaFileName(String className) {
+		className = className.replace(KoanConstants.PERIOD, DirectoryManager.FILESYSTEM_SEPARATOR);
+		if(className.contains(DOLLAR_SIGN)){
+			className = className.substring(0, className.indexOf(DOLLAR_SIGN));
+		}
+		return className + FileCompiler.JAVA_SUFFIX;
+	}
+
 	private static String makeAbsolute(String projectMainFolder, String sourceFolder, Class<?> declaringClass) {
 		return makeAbsolute(projectMainFolder, sourceFolder, declaringClass.getName());
 	}
@@ -171,18 +162,18 @@ public class FileUtils {
 
 	public static File sourceToClass(File file) {
 		return new File(file.getAbsolutePath()
-				.replace(SOURCE_FOLDER, KoanConstants.BIN_FOLDER)
+				.replace(DirectoryManager.getSourceDir(), DirectoryManager.getBinDir())
 				.replace(FileCompiler.JAVA_SUFFIX, FileCompiler.CLASS_SUFFIX));
 	}
 	
 	public static File classToSource(File file) {
 		return new File(file.getAbsolutePath()
-				.replace(KoanConstants.BIN_FOLDER, SOURCE_FOLDER)
+				.replace(DirectoryManager.getBinDir(), DirectoryManager.getSourceDir())
 				.replace(FileCompiler.CLASS_SUFFIX, FileCompiler.JAVA_SUFFIX));
 	}
 
 	public static String getContentsOfOriginalJavaFile(Class<?> declaringClass0) {
-		return getContentsOfOriginalJavaFile(PROJECT_DIRECTORY, SOURCE_FOLDER, declaringClass0);
+		return getContentsOfOriginalJavaFile(declaringClass0.getName());
 	}
 	
 }

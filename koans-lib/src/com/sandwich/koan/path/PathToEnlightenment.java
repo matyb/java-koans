@@ -12,6 +12,7 @@ import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformerImpl;
 import com.sandwich.util.Counter;
 import com.sandwich.util.io.FileUtils;
+import com.sandwich.util.io.directories.DirectoryManager;
 
 public abstract class PathToEnlightenment {
 
@@ -33,7 +34,8 @@ public abstract class PathToEnlightenment {
 	private static XmlToPathTransformer getXmlToPathTransformer(){
 		if(xmlToPathTransformer == null){
 			try {
-				xmlToPathTransformer = new XmlToPathTransformerImpl(KoanConstants.PATH_XML_LOCATION, suiteName, koanMethod);
+				xmlToPathTransformer = new XmlToPathTransformerImpl(DirectoryManager.injectFileSystemSeparators(
+						DirectoryManager.getProdSourceDir(), KoanConstants.PATH_XML_NAME), suiteName, koanMethod);
 			} catch (FileNotFoundException e) {
 				throw new RuntimeException(e);
 			}

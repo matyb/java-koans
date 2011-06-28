@@ -11,13 +11,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.util.io.directories.DirectoryManager;
 
 public class DynamicClassLoader extends ClassLoader {
 
 	private static Map<URL, Class<?>> classesByLocation = new HashMap<URL, Class<?>>();
 	private static Map<Class<?>, URL> locationByClass = new HashMap<Class<?>, URL>();
 	private final FileMonitor fileMonitor = FileMonitorFactory.getInstance(
-											FileUtils.makeAbsoluteRelativeTo(KoanConstants.PROJ_MAIN_FOLDER));
+											DirectoryManager.getProdMainDir());
 	
 	public DynamicClassLoader(){
 		this(ClassLoader.getSystemClassLoader());
@@ -47,11 +48,9 @@ public class DynamicClassLoader extends ClassLoader {
 	}
 	
 	public Class<?> loadClass(String className){
-		String fileName = FileUtils.makeAbsoluteRelativeToProject()
-						+ KoanConstants.FILESYSTEM_SEPARATOR
-						+ KoanConstants.BIN_FOLDER
-						+ KoanConstants.FILESYSTEM_SEPARATOR
-						+ className.replace(KoanConstants.PERIOD, KoanConstants.FILESYSTEM_SEPARATOR)
+		String fileName = DirectoryManager.getBinDir()
+						+ DirectoryManager.FILESYSTEM_SEPARATOR
+						+ className.replace(KoanConstants.PERIOD, DirectoryManager.FILESYSTEM_SEPARATOR)
 						+ FileCompiler.CLASS_SUFFIX;
 		File classFile = new File(fileName);
 		try {
@@ -82,10 +81,8 @@ public class DynamicClassLoader extends ClassLoader {
 	private void compile(String className, String fileName, File sourceFile)
 			throws IOException {
 		FileCompiler.compile(sourceFile, 
-				new File(fileName.substring(0, fileName.length() - (className + FileCompiler.CLASS_SUFFIX).length())),
-				FileUtils.makeAbsoluteRelativeTo(KoanConstants.PROJ_MAIN_FOLDER +
-						KoanConstants.FILESYSTEM_SEPARATOR + KoanConstants.LIB_FOLDER + 
-						KoanConstants.FILESYSTEM_SEPARATOR + "koans.jar"));
+				new File(DirectoryManager.getBinDir()),
+				DirectoryManager.getProjectLibraryDir() + DirectoryManager.FILESYSTEM_SEPARATOR + "koans.jar");
 		fileMonitor.updateFileSaveTime(sourceFile);
 	}
 

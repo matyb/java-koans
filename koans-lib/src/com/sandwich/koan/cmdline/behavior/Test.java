@@ -2,13 +2,20 @@ package com.sandwich.koan.cmdline.behavior;
 
 import java.io.IOException;
 
-import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.util.io.FileCompiler;
+import com.sandwich.util.io.directories.DirectoryManager;
+import com.sandwich.util.io.directories.Production;
+import com.sandwich.util.io.directories.UnitTest;
 
 public class Test extends AbstractArgumentBehavior{
 
 	public void run(String value) throws IOException {
-		FileCompiler.compileRelative(KoanConstants.PROJ_TESTS_FOLDER, KoanConstants.TESTS_FOLDER, KoanConstants.BIN_FOLDER);
+		try{
+			DirectoryManager.setDirectorySet(new UnitTest());
+			FileCompiler.compileAbsolute(DirectoryManager.getSourceDir(), DirectoryManager.getBinDir());
+		}finally{
+			DirectoryManager.setDirectorySet(new Production());
+		}
 	}
 	
 }

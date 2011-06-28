@@ -1,10 +1,5 @@
 package com.sandwich.util.io;
 
-import static com.sandwich.koan.constant.KoanConstants.DATA_FOLDER;
-import static com.sandwich.koan.constant.KoanConstants.FILESYSTEM_SEPARATOR;
-import static com.sandwich.koan.constant.KoanConstants.FILE_HASH_FILE_NAME;
-import static com.sandwich.koan.constant.KoanConstants.PROJ_MAIN_FOLDER;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -12,8 +7,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import com.sandwich.util.io.directories.DirectoryManager;
+
 public class FileMonitor {
 
+	public static String FILE_HASH_FILE_NAME = "file_hashes.dat";
+	
 	private final List<FileListener> listeners = new Vector<FileListener>();
 	private static DataFileHelper<Map<String, Long>> fileHashesHelper =  new DataFileHelper<Map<String,Long>>(
 											getFileHashesDataFilePath(), new HashMap<String,Long>());
@@ -79,9 +78,8 @@ public class FileMonitor {
 	}
 	
 	private static String getFileHashesDataFilePath(){
-		return FileUtils.makeAbsoluteRelativeTo(
-				new StringBuilder(PROJ_MAIN_FOLDER).append(FILESYSTEM_SEPARATOR).append(DATA_FOLDER)
-				.append(FILESYSTEM_SEPARATOR).append(FILE_HASH_FILE_NAME).toString());
+		return new StringBuilder(DirectoryManager.getDataDir())
+					.append(System.getProperty("file.separator")).append(FILE_HASH_FILE_NAME).toString();
 	}
 
 	public boolean isFileModifiedSinceLastPoll(String filePath, Long lastModified) {

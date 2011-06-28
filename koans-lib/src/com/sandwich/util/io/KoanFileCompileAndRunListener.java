@@ -10,6 +10,7 @@ import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.util.ConsoleUtils;
+import com.sandwich.util.io.directories.DirectoryManager;
 
 public class KoanFileCompileAndRunListener implements FileListener {
 	
@@ -24,10 +25,9 @@ public class KoanFileCompileAndRunListener implements FileListener {
 		if(absolutePath.toLowerCase().endsWith(FileCompiler.JAVA_SUFFIX)){
 			System.out.println(KoanConstants.EOL+"loading: "+absolutePath);
 			try {
-				FileCompiler.compile(file, new File(replaceSourceWithBin(absolutePath)), 
-						FileUtils.makeAbsoluteRelativeTo(KoanConstants.PROJ_MAIN_FOLDER +
-								KoanConstants.FILESYSTEM_SEPARATOR + KoanConstants.LIB_FOLDER + 
-								KoanConstants.FILESYSTEM_SEPARATOR + "koans.jar"));
+				FileCompiler.compile(file, 
+					new File(DirectoryManager.getBinDir()),
+					DirectoryManager.injectFileSystemSeparators(DirectoryManager.getProjectLibraryDir(), "koans.jar"));
 				DynamicClassLoader.remove(FileUtils.sourceToClass(file).toURI().toURL());
 				ConsoleUtils.clearConsole();
 				new CommandLineArgumentRunner(args).run();
@@ -36,14 +36,7 @@ public class KoanFileCompileAndRunListener implements FileListener {
 			}
 		}
 	}
-
-	private String replaceSourceWithBin(String absolutePath) {
-		return new StringBuilder(absolutePath.substring(0, 
-				absolutePath.lastIndexOf(KoanConstants.SOURCE_FOLDER))).append(
-						KoanConstants.FILESYSTEM_SEPARATOR).append(
-						KoanConstants.BIN_FOLDER).append(KoanConstants.FILESYSTEM_SEPARATOR).toString();
-	}
-
+	
 	public void newFile(File file) {
 		
 	}

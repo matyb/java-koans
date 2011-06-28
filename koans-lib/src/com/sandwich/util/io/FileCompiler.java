@@ -25,17 +25,17 @@ public class FileCompiler {
 
 	public static void compile(File src, File bin, final String...classpath) throws IOException {
 		final File destinationDirectory = bin;
+		if(!destinationDirectory.exists()){
+			if(!destinationDirectory.mkdir()){
+				System.out.println("Was unable to create: "+destinationDirectory);
+				System.exit(-231);
+			}
+		}
 		FileUtils.forEachFile(src, bin, new FileAction(){
 			public void sourceToDestination(File src, File bin) throws IOException {
 				//javac -d ..\bin -classpath ..\lib\koans.jar beginner\*.java
 				String fileName = src.getName();
 				if(fileName.length() > 4 && fileName.toLowerCase().endsWith(JAVA_SUFFIX)){
-					if(!destinationDirectory.exists()){
-						if(!destinationDirectory.mkdir()){
-							System.out.println("Was unable to create: "+destinationDirectory);
-							System.exit(-231);
-						}
-					}
 					String command = "javac -d "+destinationDirectory.getAbsolutePath()+" "+
 						getClasspath(classpath)+src.getAbsolutePath();
 					if(KoanConstants.DEBUG){

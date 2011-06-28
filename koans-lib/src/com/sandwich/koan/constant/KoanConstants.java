@@ -1,7 +1,5 @@
 package com.sandwich.koan.constant;
 
-import java.io.File;
-
 import com.sandwich.util.io.IOConstants;
 
 
@@ -17,22 +15,9 @@ public abstract class KoanConstants {
 	public static final char 	EXIT_CHARACTER		= 'Q';
 	public static final boolean ENABLE_ENCOURAGEMENT= false;
 	
-	public static String 		PROJ_MAIN_FOLDER 	= "koans";
-	public static String 		PROJ_TESTS_FOLDER 	= "koans-tests";
-
-	public static String 		SOURCE_FOLDER 		= "src";
-	public static String 		BIN_FOLDER 			= "bin";
-	public static String 		DATA_FOLDER 		= "data";
-	public static String 		FILE_HASH_FILE_NAME = "file_hashes.dat";
-	public static String 		TESTS_FOLDER 		= "test";
-	public static String 		LIB_FOLDER 			= "lib";
-	
 	public static final String  __					= "REPLACE ME";
 	public static final String  PATH_XML_NAME 		= "PathToEnlightment.xml";
 //	public static final String  PATH_XML			= "src/";  // TODO: Adapt so dev and deployed can use same path
-	public static final String FILESYSTEM_SEPARATOR	= System.getProperty("file.separator");
-	public static final String PATH_XML_LOCATION 	= new File("").getAbsolutePath().replace("koans-tests", "koans").replace(FILESYSTEM_SEPARATOR+"src", "")
-													+ FILESYSTEM_SEPARATOR + "src" + FILESYSTEM_SEPARATOR + PATH_XML_NAME;
 	
 	public static final String  DESCRIPTION			= "description";
 	public static final String  ARGUMENTS			= "args";
