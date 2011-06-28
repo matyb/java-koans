@@ -28,8 +28,7 @@ public class KoanComparator implements Comparator<KoanMethod> {
 		Class<?> declaringClass0 = arg0.getMethod().getDeclaringClass();
 		Class<?> declaringClass1 = arg1.getMethod().getDeclaringClass();
 		if(declaringClass0 != declaringClass1){
-			Logger.getAnonymousLogger().severe("no idea how to handle comparing the classes: "+declaringClass0
-					+ " and: "+declaringClass1);
+			Logger.getAnonymousLogger().severe("no idea how to handle comparing the classes: " + declaringClass0 + " and: "+declaringClass1);
 			return 0;
 		}
 		String contentsOfOriginalJavaFile = FileUtils.getContentsOfOriginalJavaFile(declaringClass0.getName());

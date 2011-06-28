@@ -9,7 +9,7 @@ public class Backup extends KoanFileCopying{
 	@Override
 	protected void copy(String backupSrcDirectory, String appSrcDirectory)
 			throws IOException {
-		FileUtils.copyAbsolute(appSrcDirectory, backupSrcDirectory);
+		FileUtils.copy(appSrcDirectory, backupSrcDirectory);
 	}
 	
 }

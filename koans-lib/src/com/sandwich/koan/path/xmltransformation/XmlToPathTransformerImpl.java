@@ -74,10 +74,7 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 		for (int i = 0; i < childNodes.getLength(); i++) {
 			Node node = childNodes.item(i);
 			if ("suite".equalsIgnoreCase(node.getNodeName())) {
-				String className = pkg
-						+ '.'
-						+ node.getAttributes().getNamedItem("class")
-								.getNodeValue();
+				String className = pkg + '.' + node.getAttributes().getNamedItem("class").getNodeValue();
 				if (suiteName == null || suiteName.equalsIgnoreCase(className)) {
 					koansByMethodNameByClass.put(className, extractKoansAndRawLessons(className, node.getChildNodes()));
 				}

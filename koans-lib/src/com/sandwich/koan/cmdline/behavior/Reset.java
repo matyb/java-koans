@@ -9,7 +9,7 @@ public class Reset extends KoanFileCopying{
 	@Override
 	protected void copy(String backupSrcDirectory, String appSrcDirectory)
 			throws IOException {
-		FileUtils.copyAbsolute(backupSrcDirectory, appSrcDirectory);
+		FileUtils.copy(backupSrcDirectory, appSrcDirectory);
 	}
 	
 }

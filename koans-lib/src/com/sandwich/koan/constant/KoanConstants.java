@@ -1,11 +1,5 @@
 package com.sandwich.koan.constant;
 
-import com.sandwich.util.io.IOConstants;
-
-
-
-
-
 public abstract class KoanConstants {
 
 	private KoanConstants(){}
@@ -25,7 +19,7 @@ public abstract class KoanConstants {
 	public static final String  EOL					= System.getProperty("line.separator");
 	public static final String  EOLS				= "[\n\r"+EOL+"]";
 	
-	public static final String  PERIOD 				= IOConstants.PERIOD;
+	public static final String  PERIOD 				= ".";
 	public static final String  EXPECTATION_LEFT_ARG= "has expectation as wrong argument!";
 	public static final String  EXPECTED_LEFT 		= "expected:<";
 	public static final String  EXPECTED_RIGHT 		= ">";

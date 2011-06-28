@@ -1,8 +1,5 @@
 package com.sandwich.util.io;
 
-import static com.sandwich.util.io.IOConstants.FILESYSTEM_SEPARATOR;
-import static com.sandwich.util.io.IOConstants.PERIOD;
-
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,17 +24,8 @@ public class FileUtils {
 		}
 		BASE_DIR = dir.getAbsolutePath();
 	}
-	
-	public static String makeAbsoluteRelativeTo(String fileName){
-		StringBuilder builder = new StringBuilder(BASE_DIR);
-		return builder.append(FILESYSTEM_SEPARATOR).append(fileName).toString();
-	}
 
-	public static void copyRelative(String fileName0, String fileName1) throws IOException{
-		copyAbsolute(makeAbsoluteRelativeTo(fileName0), makeAbsoluteRelativeTo(fileName1));
-	}
-
-	public static void copyAbsolute(String fileName0, String fileName1) throws IOException {
+	public static void copy(String fileName0, String fileName1) throws IOException {
 		copy(new File(fileName0), new File(fileName1));
 	}
 	
@@ -101,22 +89,6 @@ public class FileUtils {
 	    }
 	    return new String(buffer);
 	}
-	
-	public static String getContentsOfOriginalJavaFile(String projectMainFolder, String sourceFolder, String className) {
-		File sourceFile = new File(makeAbsolute(projectMainFolder, sourceFolder, className));
-		if(!sourceFile.exists()){
-			throw new RuntimeException(new FileNotFoundException(sourceFile.getAbsolutePath()+" does not exist"));
-		}
-		return readFileAsString(sourceFile);
-	}
-	
-	public static String getContentsOfOriginalJavaFile(String projectMainFolder, String sourceFolder, Class<?> declaringClass) {
-		File sourceFile = new File(makeAbsolute(projectMainFolder, sourceFolder, declaringClass));
-		if(!sourceFile.exists()){
-			throw new RuntimeException(new FileNotFoundException(sourceFile.getAbsolutePath()+" does not exist"));
-		}
-		return readFileAsString(sourceFile);
-	}
 
 	public static String getContentsOfOriginalJavaFile(String className) {
 		File sourceFile = new File(	DirectoryManager.getSourceDir() 
@@ -136,30 +108,6 @@ public class FileUtils {
 		return className + FileCompiler.JAVA_SUFFIX;
 	}
 
-	private static String makeAbsolute(String projectMainFolder, String sourceFolder, Class<?> declaringClass) {
-		return makeAbsolute(projectMainFolder, sourceFolder, declaringClass.getName());
-	}
-	
-	private static String makeAbsolute(String projectMainFolder, String sourceFolder, String className){
-		String removedText = className.substring(className.lastIndexOf(KoanConstants.PERIOD) + 1);
-		String inferredPackageNamePlusPeriod = className.replace(removedText, "");
-		return makeAbsoluteRelativeTo(new StringBuilder(projectMainFolder).append(FILESYSTEM_SEPARATOR)
-				.append(sourceFolder).append(FILESYSTEM_SEPARATOR)
-				.append(inferredPackageNamePlusPeriod.replace(PERIOD, FILESYSTEM_SEPARATOR)).append(FILESYSTEM_SEPARATOR)
-				.append(getJavaFileNameFromClass(className,inferredPackageNamePlusPeriod)).append(".java").toString());
-	}
-	
-	private static String getJavaFileNameFromClass(String clazzName, String inferredPackageNamePlusPeriod) {
-		StringBuffer className = new StringBuffer(clazzName);
-		if(!clazzName.contains("$")){
-			return className.substring(inferredPackageNamePlusPeriod.length(), className.length());
-		}
-		int dollarIndex = className.indexOf("$");
-		className.replace(dollarIndex, className.length(), "");
-		className.replace(0, clazzName.lastIndexOf('.') + 1, "");
-		return className.toString();
-	}
-
 	public static File sourceToClass(File file) {
 		return new File(file.getAbsolutePath()
 				.replace(DirectoryManager.getSourceDir(), DirectoryManager.getBinDir())
@@ -171,9 +119,4 @@ public class FileUtils {
 				.replace(DirectoryManager.getBinDir(), DirectoryManager.getSourceDir())
 				.replace(FileCompiler.CLASS_SUFFIX, FileCompiler.JAVA_SUFFIX));
 	}
-
-	public static String getContentsOfOriginalJavaFile(Class<?> declaringClass0) {
-		return getContentsOfOriginalJavaFile(declaringClass0.getName());
-	}
-	
 }

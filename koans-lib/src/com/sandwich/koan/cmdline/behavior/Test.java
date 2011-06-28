@@ -12,7 +12,7 @@ public class Test extends AbstractArgumentBehavior{
 	public void run(String value) throws IOException {
 		try{
 			DirectoryManager.setDirectorySet(new UnitTest());
-			FileCompiler.compileAbsolute(DirectoryManager.getSourceDir(), DirectoryManager.getBinDir());
+			FileCompiler.compile(DirectoryManager.getSourceDir(), DirectoryManager.getBinDir());
 		}finally{
 			DirectoryManager.setDirectorySet(new Production());
 		}
