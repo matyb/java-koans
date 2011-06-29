@@ -9,7 +9,6 @@ Running Instructions:
    https://github.com/matyb/java-koans/archives/master
 2. Open a terminal and cd to the 'koans/src' directory from within the archive
 3. run run.bat or run.sh (whichever is applicable for your OS)
-4. follow the instructions on screen, and rerun the run file in the last step
 
 Developing a Koan:
 1. Follow any of the existing koans as an example to create a new class w/ koan methods (indicated by the @Koan annotation)
