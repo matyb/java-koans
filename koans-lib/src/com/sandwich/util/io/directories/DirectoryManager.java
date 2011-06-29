@@ -52,7 +52,9 @@ public abstract class DirectoryManager {
 	}
 	
 	public static String getDataDir() {
-		return constructProjectDir(instance, instance.getDataDir());
+		return injectFileSystemSeparators(	instance.getBaseDir(), 
+											production.getProjectDir(), 
+											instance.getDataDir());
 	}
 	
 	private static String constructProjectDir(DirectorySet directories, String childDir){
@@ -93,7 +95,14 @@ public abstract class DirectoryManager {
 			}
 			builder.append(folder);
 		}
-		return builder.toString();
+		String constructedFolder = builder.toString();
+		if(System.getProperty("os.name").toLowerCase().contains("win") && constructedFolder.startsWith(FILESYSTEM_SEPARATOR)){
+			constructedFolder = constructedFolder.substring(1);
+		}
+		if(constructedFolder.contains("%20")){
+			constructedFolder.replace("%20", " ");
+		}
+		return constructedFolder;
 	}
 	
 }

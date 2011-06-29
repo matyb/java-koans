@@ -30,6 +30,7 @@ abstract class DirectorySet {
 	
 	private static String createBaseDir() {
 		File dir = new File(ClassLoader.getSystemResource(".").getFile());
+		dir = new File(dir.getAbsolutePath().replace("%20", " "));
 		if (dir.exists()) {
 			dir = dir.getParentFile();
 			if (dir.exists()) {

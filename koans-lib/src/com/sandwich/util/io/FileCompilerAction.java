@@ -25,6 +25,9 @@ class FileCompilerAction implements FileAction {
 				System.out.println("executing command: \"" + command
 						+ "\" to compile the sourcefile: " + src + ".");
 			}
+			if(System.getProperty("os.name").toLowerCase().contains("mac")){
+				command = command.replace("\"", "");
+			}
 			Process p = Runtime.getRuntime().exec(command);
 			try {
 				if (KoanConstants.DEBUG) {
@@ -41,16 +44,17 @@ class FileCompilerAction implements FileAction {
 	}
 
 	private String constructJavaCompilationCommand(File src) {
-		String command = "javac -d "
-				+ destinationPath + " "
-				+ getClasspath() + src.getAbsolutePath();
+		String command = "javac -d \""
+				+ destinationPath + "\" "
+				+ getClasspath()+"\"" + src.getAbsolutePath()+"\"";
 		return command;
 	}
 
 	private void compilationFailed(File src, String command, Process p) {
 		System.out.println();
-		System.out
-				.println("*****************************************************************");
+		System.out.println("*****************************************************************");
+		System.out.println("  CHECK THAT THE DIR THIS IS RUN IN IS NOT IN A DIR WITH SPACES");
+		System.out.println("*****************************************************************");
 		System.out.println(command);
 		System.out.println(src.getAbsolutePath()
 				+ " does not compile. exit status was: "
@@ -66,7 +70,7 @@ class FileCompilerAction implements FileAction {
 			builder.append(" -classpath ");
 		}
 		for (String classpath : classPaths) {
-			builder.append(classpath).append(" ");
+			builder.append("\"").append(classpath).append("\" ");
 		}
 		return builder.toString();
 	}
