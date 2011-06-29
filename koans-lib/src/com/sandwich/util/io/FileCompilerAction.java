@@ -25,7 +25,8 @@ class FileCompilerAction implements FileAction {
 				System.out.println("executing command: \"" + command
 						+ "\" to compile the sourcefile: " + src + ".");
 			}
-			if(System.getProperty("os.name").toLowerCase().contains("mac")){
+			// not windows
+			if(!System.getProperty("os.name").toLowerCase().contains("win")){
 				command = command.replace("\"", "");
 			}
 			Process p = Runtime.getRuntime().exec(command);
