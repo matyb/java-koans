@@ -1,22 +1,12 @@
 package com.sandwich.util.io.directories;
 
+import com.sandwich.koan.util.ApplicationUtils;
+
 
 public abstract class DirectoryManager {
+	
 	private DirectoryManager(){}
-/*
- * FileUtils, IOConstants, KoanConsants, FileCompiler
-	public static String 		PROJ_MAIN_FOLDER 	= "koans";
-	public static String 		PROJ_TESTS_FOLDER 	= "koans-tests";
-
-	public static String 		SOURCE_FOLDER 		= "src";
-	public static String 		BIN_FOLDER 			= "bin";
-	public static String 		DATA_FOLDER 		= "data";
-	public static String 		FILE_HASH_FILE_NAME = "file_hashes.dat";
-	public static String 		TESTS_FOLDER 		= "test";
 	
-	
-	public static final String FILESYSTEM_SEPARATOR	= System.getProperty("file.separator");
-*/
 	private static DirectorySet production = new Production();
 	private static DirectorySet instance = production;
 	
@@ -99,8 +89,8 @@ public abstract class DirectoryManager {
 		if(System.getProperty("os.name").toLowerCase().contains("win") && constructedFolder.startsWith(FILESYSTEM_SEPARATOR)){
 			constructedFolder = constructedFolder.substring(1);
 		}
-		if(constructedFolder.contains("%20")){
-			constructedFolder.replace("%20", " ");
+		if(ApplicationUtils.isWindows() && constructedFolder.contains("%20")){
+				constructedFolder.replace("%20", " ");
 		}
 		return constructedFolder;
 	}

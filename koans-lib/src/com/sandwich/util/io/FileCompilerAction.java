@@ -2,6 +2,7 @@ package com.sandwich.util.io;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import com.sandwich.koan.constant.KoanConstants;
 
@@ -20,14 +21,10 @@ class FileCompilerAction implements FileAction {
 		String fileName = src.getName();
 		if (fileName.length() > 4
 				&& fileName.toLowerCase().endsWith(FileCompiler.JAVA_SUFFIX)) {
-			String command = constructJavaCompilationCommand(src);
+			String[] command = constructJavaCompilationCommand(src);
 			if (KoanConstants.DEBUG) {
 				System.out.println("executing command: \"" + command
 						+ "\" to compile the sourcefile: " + src + ".");
-			}
-			// not windows
-			if(!System.getProperty("os.name").toLowerCase().contains("win")){
-				command = command.replace("\"", "");
 			}
 			Process p = Runtime.getRuntime().exec(command);
 			try {
@@ -35,45 +32,56 @@ class FileCompilerAction implements FileAction {
 					System.out.println("compiling file: " + src.getAbsolutePath());
 				}
 				if (p.waitFor() != 0) {
-					compilationFailed(src, command, p);
+					compilationFailed(src, command, p, null);
 				}
 			} catch (Exception x) {
 				x.printStackTrace();
-				compilationFailed(src, command, p);
+				compilationFailed(src, command, p, x);
 			}
 		}
 	}
 
-	private String constructJavaCompilationCommand(File src) {
-		String command = "javac -d \""
-				+ destinationPath + "\" "
-				+ getClasspath()+"\"" + src.getAbsolutePath()+"\"";
-		return command;
+	private String[] constructJavaCompilationCommand(File src) {
+		return copy(new String[]{"javac", "-d", destinationPath}, getClasspath(), new String[]{src.getAbsolutePath()});
 	}
 
-	private void compilationFailed(File src, String command, Process p) {
-		System.out.println();
-		System.out.println("*****************************************************************");
-		System.out.println("  CHECK THAT THE DIR THIS IS RUN IN IS NOT IN A DIR WITH SPACES");
-		System.out.println("*****************************************************************");
-		System.out.println(command);
-		System.out.println(src.getAbsolutePath()
-				+ " does not compile. exit status was: "
-				+ p.exitValue());
-		System.out
-				.println("*****************************************************************");
-		System.out.println();
+	private String[] copy(String[]...strings) {
+		String[] copies = new String[getTotalSize(strings)];
+		int i = 0;
+		for(String[] strings2 : strings){
+			for(String string : strings2){
+				copies[i++] = string;
+			}
+		}
+		return copies;
 	}
 
-	private String getClasspath() {
-		StringBuilder builder = new StringBuilder();
+	private int getTotalSize(String[][] strings) {
+		int i = 0;
+		for(String[] strings2 : strings){
+			i += strings2.length;
+		}
+		return i;
+	}
+
+	private void compilationFailed(File src, String[] command, Process p, Throwable x) {
+		System.out.println("\n*****************************************************************");
+		System.out.println(Arrays.toString(command));
+		System.out.println(src.getAbsolutePath() + " does not compile. exit status was: " + p.exitValue());
+		System.out.println("*****************************************************************\n");
+	}
+
+	private String[] getClasspath() {
+		String[] classpaths = new String[classPaths.length + 1];
 		if (classPaths.length > 0) {
-			builder.append(" -classpath ");
+			classpaths[0]  = "-classpath";
+		}else{
+			return new String[]{};
 		}
-		for (String classpath : classPaths) {
-			builder.append("\"").append(classpath).append("\" ");
+		for(int i = 1; i <= classPaths.length; i++){
+			classpaths[i] = classPaths[i - 1];
 		}
-		return builder.toString();
+		return classpaths;
 	}
 
 	public File makeDestination(File dest, String fileInDirectory) {

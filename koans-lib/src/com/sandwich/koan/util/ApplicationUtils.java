@@ -11,4 +11,8 @@ public class ApplicationUtils {
 		return !dataDirectory.exists();
 	}
 	
+	static public boolean isWindows(){
+		return System.getProperty("os.name").toLowerCase().contains("win");
+	}
+	
 }
