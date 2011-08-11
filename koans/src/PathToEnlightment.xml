@@ -3,7 +3,7 @@
 	<package pkg="beginner" name="Novice">
 		<suite class="AboutKoans">
 			<koan name="findAboutKoansFile"
-				lesson="You need to open the file ${file_path}${file_name}.java. There should be a method starting with @Koan called ${method_name}, look within it for your first lesson. Once conquered, run again for your next lesson."
+				lesson="You need to open the file ${file_path}${file_name}.java. There should be a method starting with @Koan called ${method_name}, look within it for your first lesson. Once you have solved that, save the file and check back for your next lesson."
 				displayIncompleteKoanException="false" />
 			<koan name="definitionOfKoanCompletion"
 				lesson="A koan is considered complete when it no longer throws an exception. Often there is more than one way to solve a koan, but only one correct way. This is often hinted at within the koan itself, or the comments appearing here."
