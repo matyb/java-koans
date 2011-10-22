@@ -1,25 +1,17 @@
 package com.sandwich.koan.ui;
 
-import static com.sandwich.koan.constant.KoanConstants.ALL_SUCCEEDED;
-import static com.sandwich.koan.constant.KoanConstants.CONQUERED;
-import static com.sandwich.koan.constant.KoanConstants.ENCOURAGEMENT;
 import static com.sandwich.koan.constant.KoanConstants.EOL;
-import static com.sandwich.koan.constant.KoanConstants.FAILING_SUITES;
-import static com.sandwich.koan.constant.KoanConstants.INVESTIGATE_IN_THE;
-import static com.sandwich.koan.constant.KoanConstants.KOAN;
-import static com.sandwich.koan.constant.KoanConstants.OUT_OF;
-import static com.sandwich.koan.constant.KoanConstants.PASSING_SUITES;
-import static com.sandwich.koan.constant.KoanConstants.PROGRESS;
 import static com.sandwich.koan.constant.KoanConstants.PROGRESS_BAR_END;
 import static com.sandwich.koan.constant.KoanConstants.PROGRESS_BAR_START;
 import static com.sandwich.koan.constant.KoanConstants.PROGRESS_BAR_WIDTH;
-import static com.sandwich.koan.constant.KoanConstants.WHATS_WRONG;
 
 import java.util.List;
 
 import com.sandwich.koan.KoanMethod;
+import com.sandwich.koan.constant.ApplicationSettings;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.result.KoanSuiteResult;
+import com.sandwich.util.Strings;
 
 public class ConsolePresenter extends AbstractSuitePresenter {
 	
@@ -28,9 +20,9 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	
 	protected void displayPassingFailing(KoanSuiteResult result) {
 		StringBuilder sb = new StringBuilder();
-		appendLabeledClassesList(PASSING_SUITES, result.getPassingSuites(), sb);
-		appendLabeledClassesList(FAILING_SUITES, result.getRemainingSuites(), sb);
-		sb.append(EOL).append("Edit & save a koan to reload or enter '"+ KoanConstants.EXIT_CHARACTER +"' to exit");
+		appendLabeledClassesList(Strings.getMessage("passing_suites")+":", result.getPassingSuites(), sb);
+		appendLabeledClassesList(Strings.getMessage("remaining_suites")+":", result.getRemainingSuites(), sb);
+		sb.append(EOL).append("Edit & save a koan to reload or enter '"+ ApplicationSettings.getExitChar() +"' to exit");
 		System.out.println(sb.toString());
 	}
 	
@@ -49,12 +41,12 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	}
 	
 	protected void displayChart(KoanSuiteResult result) {
-		StringBuilder sb = new StringBuilder(KoanConstants.LEVEL).append(result.getLevel()).append(EOL);
+		StringBuilder sb = new StringBuilder(Strings.getMessage("level")).append(": ").append(result.getLevel()).append(EOL);
 		int numberPassing = result.getNumberPassing();
 		int totalKoans = result.getTotalNumberOfKoans();
 		double percentPassing = ((double) numberPassing) / ((double) totalKoans);
 		int percentScaledToFifty = (int) (percentPassing * PROGRESS_BAR_WIDTH);
-		sb.append(PROGRESS).append(" ").append(PROGRESS_BAR_START);
+		sb.append(Strings.getMessage("progress")).append(" ").append(PROGRESS_BAR_START);
 		for (int i = 0; i < PROGRESS_BAR_WIDTH; i++) {
 			if (i < percentScaledToFifty) {
 				sb.append(KoanConstants.COMPLETE_CHAR);
@@ -70,7 +62,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	
 	@Override
 	protected void displayAllSuccess(KoanSuiteResult result) {
-		System.out.println(new StringBuilder(EOL).append(ALL_SUCCEEDED).toString());
+		System.out.println(new StringBuilder(EOL).append(Strings.getMessage("all_koans_succeeded")).toString());
 	}
 	
 	@Override
@@ -79,26 +71,27 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		String message = result.getMessage();
 		StringBuilder sb = new StringBuilder(
 			message == null || message.length() == 0 || !result.displayIncompleteException() ? ""
-				: new StringBuilder(WHATS_WRONG).append(
+				: new StringBuilder(Strings.getMessage("what_went_wrong")).append(
+									": ").append(
 									EOL).append(
 									message).append(
 									EOL).append(
 									EOL));
-		if(KoanConstants.ENABLE_ENCOURAGEMENT){ // added noise to console output, and no real value
+		if(ApplicationSettings.isEncouragementEnabled()){ // added noise to console output, and no real value
 			int totalKoans = result.getTotalNumberOfKoans();
 			int numberPassing = result.getNumberPassing();
 			sb.append(				EOL).append(
-									CONQUERED).append(
+									Strings.getMessage("you_have_conquered")).append(
 									" ").append(
 									numberPassing).append(
 									" ").append(
-									OUT_OF).append(
+									Strings.getMessage("out_of")).append(
 									" ").append(
 									totalKoans).append(
 									" ").append(
-									KOAN).append(
-									totalKoans != 1 ? 's' : "").append(
-									"! ").append(ENCOURAGEMENT).append(
+									totalKoans != 1 ? Strings.getMessage("koans") : Strings.getMessage("koan")).append(
+									"! ").append(
+									Strings.getMessage("encouragement")).append(
 									EOL);
 		}
 		System.out.print(sb.toString());
@@ -116,8 +109,8 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	private StringBuilder buildInvestigateLine(StringBuilder sb, String simpleName,
 			String methodName) {
 		return sb.append(
-				INVESTIGATE_IN_THE).append(
-				" ").append(
+				Strings.getMessage("investigate")).append(
+				": ").append(
 				simpleName).append(
 				" class's ").append(
 				methodName).append(

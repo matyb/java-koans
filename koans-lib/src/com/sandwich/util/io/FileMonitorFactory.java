@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.koan.constant.ApplicationSettings;
 
 public class FileMonitorFactory {
 
@@ -45,7 +45,7 @@ public class FileMonitorFactory {
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					if(Character.toUpperCase(c) == Character.valueOf(KoanConstants.EXIT_CHARACTER)){
+					if(Character.toUpperCase(c) == Character.valueOf(ApplicationSettings.getExitChar())){
 						keepCheckingDirectory = false;
 						for(FileMonitor monitor : monitors.values()){
 							monitor.close();

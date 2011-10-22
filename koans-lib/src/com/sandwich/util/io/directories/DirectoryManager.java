@@ -59,6 +59,12 @@ public abstract class DirectoryManager {
 											instance.getLibrariesDir());
 	}
 	
+	public static String getProjectI18nDir(){
+		return injectFileSystemSeparators(	instance.getBaseDir(), 
+											production.getProjectDir(), 
+											instance.getI18nDir());
+	}
+	
 	public static String getProjectDataSourceDir() {
 		return injectFileSystemSeparators(	getDataDir(),
 											instance.getSourceDir());

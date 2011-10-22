@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
-import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.koan.constant.ApplicationSettings;
 
 class FileCompilerAction implements FileAction {
 	
@@ -22,13 +22,13 @@ class FileCompilerAction implements FileAction {
 		if (fileName.length() > 4
 				&& fileName.toLowerCase().endsWith(FileCompiler.JAVA_SUFFIX)) {
 			String[] command = constructJavaCompilationCommand(src);
-			if (KoanConstants.DEBUG) {
+			if (ApplicationSettings.isDebug()) {
 				System.out.println("executing command: \"" + command
 						+ "\" to compile the sourcefile: " + src + ".");
 			}
 			Process p = Runtime.getRuntime().exec(command);
 			try {
-				if (KoanConstants.DEBUG) {
+				if (ApplicationSettings.isDebug()) {
 					System.out.println("compiling file: " + src.getAbsolutePath());
 				}
 				if (p.waitFor() != 0) {

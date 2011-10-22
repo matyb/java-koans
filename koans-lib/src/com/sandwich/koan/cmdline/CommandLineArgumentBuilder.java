@@ -4,8 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.sandwich.koan.constant.ApplicationSettings;
 import com.sandwich.koan.constant.ArgumentType;
-import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.util.ConsoleUtils;
 import com.sandwich.util.io.DynamicClassLoader;
@@ -92,7 +92,7 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 		if(isEmpty() || !containsKey(ArgumentType.RUN_KOANS) && (
 				containsKey(ArgumentType.CLASS_ARG) ||
 				containsKey(ArgumentType.DEBUG))){
-			if(KoanConstants.DEBUG){
+			if(ApplicationSettings.isDebug()){
 				System.out.println("Planting default run target.");
 				for(Entry<ArgumentType, CommandLineArgument> argEntry : entrySet()){
 					System.out.println("Key: '"+argEntry.getKey()+"'");

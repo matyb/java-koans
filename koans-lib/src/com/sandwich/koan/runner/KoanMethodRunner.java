@@ -15,9 +15,12 @@ import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.result.KoanMethodResult;
 import com.sandwich.util.ExceptionUtils;
+import com.sandwich.util.Strings;
 
 public class KoanMethodRunner {
 
+	private static final String EXPECTED_PROPERTY_KEY = "expected";
+	
 	public static KoanMethodResult run(Object suite, KoanMethod koan){
 		try {
 			Method method = koan.getMethod();
@@ -30,7 +33,7 @@ public class KoanMethodRunner {
 				if(tempException instanceof KoanIncompleteException){
 					t = (KoanIncompleteException)tempException;
 					message = t.getMessage();
-					if(message.contains(EXPECTED_LEFT + __ + EXPECTED_RIGHT)) {
+					if(message.contains(Strings.getMessage(EXPECTED_PROPERTY_KEY) + EXPECTED_LEFT + __ + EXPECTED_RIGHT)) {
 						logExpectationOnWrongSideWarning(suite.getClass(), koan.getMethod());
 					}
 					break;

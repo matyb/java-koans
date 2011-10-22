@@ -33,7 +33,7 @@ public class XmlToPathTransformerImpl implements XmlToPathTransformer {
 		this.suiteName = suiteName;
 		this.methodName = methodName;
 		if(!xmlFile.exists()){
-		throw new FileNotFoundException(xmlFile.getAbsolutePath()
+			throw new FileNotFoundException(xmlFile.getAbsolutePath()
 				+ " was not found. it may have been deleted, renamed.");
 		}
 	}

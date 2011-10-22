@@ -1,8 +1,5 @@
 package com.sandwich.koan.constant;
 
-import static com.sandwich.koan.constant.KoanConstants.ARGUMENTS;
-import static com.sandwich.koan.constant.KoanConstants.DESCRIPTION;
-
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -33,6 +30,9 @@ public enum ArgumentType implements ArgumentBehavior {
 	CLASS_ARG(	ClassArg.class),  
 	METHOD_ARG(	MethodArg.class), 
 	RUN_KOANS(	RunKoans.class);  
+	
+	private static final String  DESCRIPTION = "description";
+	private static final String  ARGUMENTS = "args";
 	
 	private final List<String> args;
 	private final ArgumentBehavior behavior;

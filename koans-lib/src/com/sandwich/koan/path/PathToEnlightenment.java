@@ -1,11 +1,16 @@
 package com.sandwich.koan.path;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.sandwich.koan.Koan;
+import com.sandwich.koan.constant.ApplicationSettings;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
@@ -34,8 +39,16 @@ public abstract class PathToEnlightenment {
 	private static XmlToPathTransformer getXmlToPathTransformer(){
 		if(xmlToPathTransformer == null){
 			try {
-				xmlToPathTransformer = new XmlToPathTransformerImpl(DirectoryManager.injectFileSystemSeparators(
-						DirectoryManager.getProdSourceDir(), KoanConstants.PATH_XML_NAME), suiteName, koanMethod);
+				String filename = DirectoryManager.injectFileSystemSeparators(
+						DirectoryManager.getProjectI18nDir(), ApplicationSettings.getPathXmlFileName());
+				if(!new File(filename).exists()){
+					Logger.getAnonymousLogger().log(Level.WARNING, "No path to enlightenment for language "+Locale.getDefault().getDisplayLanguage()+".");
+					filename = DirectoryManager.injectFileSystemSeparators(
+							DirectoryManager.getProjectI18nDir(), ApplicationSettings.getPathXmlFileName().replace(
+									Locale.getDefault().getLanguage(), "_en"));
+				}
+				xmlToPathTransformer = new XmlToPathTransformerImpl(filename, 
+						suiteName, koanMethod);
 			} catch (FileNotFoundException e) {
 				throw new RuntimeException(e);
 			}

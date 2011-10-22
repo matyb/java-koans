@@ -19,7 +19,6 @@ import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
-import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.path.PathToEnlightenment;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
@@ -29,6 +28,7 @@ import com.sandwich.koan.suite.BlowUpOnLineTen;
 import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.suite.OnePassingKoan;
 import com.sandwich.koan.ui.SuitePresenter;
+import com.sandwich.util.Strings;
 import com.sandwich.util.io.directories.DirectoryManager;
 import com.sandwich.util.io.directories.Production;
 
@@ -44,14 +44,14 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	public void testMainMethodWithClassNameArg_qualifiedWithPkgName() throws Throwable {
 		stubAllKoans(Arrays.asList(new OnePassingKoan()));
 		new CommandLineArgumentRunner().run();
-		assertSystemOutContains(KoanConstants.PASSING_SUITES+" "+OnePassingKoan.class.getSimpleName());
+		assertSystemOutContains(Strings.getMessage("passing_suites")+": "+OnePassingKoan.class.getSimpleName());
 	}
 
 	@Test
 	public void testMainMethodWithClassNameArg_classSimpleName() throws Throwable {
 		stubAllKoans(Arrays.asList(new OnePassingKoan()));
 		new CommandLineArgumentRunner().run();
-		assertSystemOutContains(KoanConstants.PASSING_SUITES+" "+OnePassingKoan.class.getSimpleName());
+		assertSystemOutContains(Strings.getMessage("passing_suites")+": "+OnePassingKoan.class.getSimpleName());
 	}
 	
 	@Test
