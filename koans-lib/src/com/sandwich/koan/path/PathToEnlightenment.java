@@ -36,16 +36,16 @@ public abstract class PathToEnlightenment {
 		}
 	}
 	
-	private static XmlToPathTransformer getXmlToPathTransformer(){
+	static XmlToPathTransformer getXmlToPathTransformer(){
 		if(xmlToPathTransformer == null){
 			try {
 				String filename = DirectoryManager.injectFileSystemSeparators(
 						DirectoryManager.getProjectI18nDir(), ApplicationSettings.getPathXmlFileName());
 				if(!new File(filename).exists()){
-					Logger.getAnonymousLogger().log(Level.WARNING, "No path to enlightenment for language "+Locale.getDefault().getDisplayLanguage()+".");
+					Logger.getAnonymousLogger().log(Level.WARNING, "No path to enlightenment for language "+Locale.getDefault().getLanguage()+".");
 					filename = DirectoryManager.injectFileSystemSeparators(
 							DirectoryManager.getProjectI18nDir(), ApplicationSettings.getPathXmlFileName().replace(
-									Locale.getDefault().getLanguage(), "_en"));
+									Locale.getDefault().getLanguage(), "en"));
 				}
 				xmlToPathTransformer = new XmlToPathTransformerImpl(filename, 
 						suiteName, koanMethod);

@@ -14,31 +14,7 @@ import com.sandwich.util.io.directories.DirectoryManager;
 
 public class Strings {
 	
-	private static final ResourceBundle MESSAGES_BUNDLE;
-	// conditionally create messages bundle for proper locale, not on classpath so need to handle manually 
-	static{
-		ResourceBundle temp = null;
-		try {
-			temp = new PropertyResourceBundle(new FileInputStream(
-				DirectoryManager.injectFileSystemSeparators(
-					DirectoryManager.getProjectI18nDir(), 
-							new StringBuilder("messages_").append(
-									Locale.getDefault().getLanguage()).append(
-									".properties").toString())));
-		} catch(FileNotFoundException x) {
-			try {
-				Logger.getAnonymousLogger().log(Level.WARNING, "Your default language is not supported yet. "+x.getLocalizedMessage());
-				temp = new PropertyResourceBundle(new FileInputStream(
-						DirectoryManager.injectFileSystemSeparators(
-							DirectoryManager.getProjectI18nDir(), "messages_en.properties")));
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
-		MESSAGES_BUNDLE = temp;
-	}
+	private static final ResourceBundle MESSAGES_BUNDLE = getMessagesBundle();
 
 	private Strings() {
 	}
@@ -62,5 +38,40 @@ public class Strings {
 			trimmed[i] = tmp[i].trim();
 		}
 		return trimmed;
+	}
+	 
+	private static ResourceBundle getMessagesBundle(){
+		if(MESSAGES_BUNDLE == null){
+			return createResourceBundle();
+		}
+		return MESSAGES_BUNDLE;
+	}
+
+	/**
+	 * conditionally create messages bundle for proper locale, not on classpath so need to handle manually
+	 * @return a resource bundle for default locale, or USA if default locale's language has no translated messages
+	 */
+	static ResourceBundle createResourceBundle() {
+		ResourceBundle temp = null;
+		try {
+			temp = new PropertyResourceBundle(new FileInputStream(
+				DirectoryManager.injectFileSystemSeparators(
+					DirectoryManager.getProjectI18nDir(), 
+							new StringBuilder("messages_").append(
+									Locale.getDefault().getLanguage()).append(
+									".properties").toString())));
+		} catch(FileNotFoundException x) {
+			try {
+				Logger.getAnonymousLogger().log(Level.WARNING, "Your default language is not supported yet. "+x.getLocalizedMessage());
+				temp = new PropertyResourceBundle(new FileInputStream(
+						DirectoryManager.injectFileSystemSeparators(
+							DirectoryManager.getProjectI18nDir(), "messages_en.properties")));
+			} catch (Exception e) {
+				throw new RuntimeException(e);
+			}
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return temp;
 	}
 }
