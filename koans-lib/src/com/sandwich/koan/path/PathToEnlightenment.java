@@ -42,7 +42,7 @@ public abstract class PathToEnlightenment {
 				String filename = DirectoryManager.injectFileSystemSeparators(
 						DirectoryManager.getProjectI18nDir(), ApplicationSettings.getPathXmlFileName());
 				if(!new File(filename).exists()){
-					Logger.getAnonymousLogger().log(Level.WARNING, "No path to enlightenment for language "+Locale.getDefault().getLanguage()+".");
+					Logger.getLogger(PathToEnlightenment.class.getName()).log(Level.INFO, "No path to enlightenment for language "+Locale.getDefault().getLanguage()+".");
 					filename = DirectoryManager.injectFileSystemSeparators(
 							DirectoryManager.getProjectI18nDir(), ApplicationSettings.getPathXmlFileName().replace(
 									Locale.getDefault().getLanguage(), "en"));

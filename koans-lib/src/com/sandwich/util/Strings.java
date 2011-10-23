@@ -62,7 +62,7 @@ public class Strings {
 									".properties").toString())));
 		} catch(FileNotFoundException x) {
 			try {
-				Logger.getAnonymousLogger().log(Level.WARNING, "Your default language is not supported yet. "+x.getLocalizedMessage());
+				Logger.getLogger(Strings.class.getName()).log(Level.INFO, "Your default language is not supported yet. "+x.getLocalizedMessage());
 				temp = new PropertyResourceBundle(new FileInputStream(
 						DirectoryManager.injectFileSystemSeparators(
 							DirectoryManager.getProjectI18nDir(), "messages_en.properties")));
