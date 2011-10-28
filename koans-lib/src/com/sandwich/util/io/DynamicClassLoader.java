@@ -47,7 +47,7 @@ public class DynamicClassLoader extends ClassLoader {
 		}
 	}
 	
-	public Class<?> loadClass(String className){
+	public Class<?> loadClass(String className, CompilationListener listener){
 		String fileName = DirectoryManager.getBinDir()
 						+ DirectoryManager.FILESYSTEM_SEPARATOR
 						+ className.replace(KoanConstants.PERIOD, DirectoryManager.FILESYSTEM_SEPARATOR)
@@ -61,7 +61,7 @@ public class DynamicClassLoader extends ClassLoader {
 				boolean isAnonymous = absolutePath.contains("$");
 				if(fileMonitor.isFileModifiedSinceLastPoll(sourceFile.getAbsolutePath(), sourceFile.lastModified())){
 					if(!isAnonymous){
-						compile(className, fileName, sourceFile);
+						compile(className, fileName, sourceFile, listener);
 					}
 				}
 				return loadClass(classFile.toURI().toURL(), className);
@@ -69,7 +69,7 @@ public class DynamicClassLoader extends ClassLoader {
 			try{
 				return super.loadClass(className);
 			}catch(ClassNotFoundException x){
-				compile(className, fileName, sourceFile);
+				compile(className, fileName, sourceFile, listener);
 				classFile = new File(fileName);
 				return loadClass(classFile.toURI().toURL(), className);
 			}
@@ -78,11 +78,12 @@ public class DynamicClassLoader extends ClassLoader {
 		}
 	}
 
-	private void compile(String className, String fileName, File sourceFile)
+	private void compile(String className, String fileName, File sourceFile, CompilationListener listener)
 			throws IOException {
 		FileCompiler.compile(sourceFile, 
 				new File(DirectoryManager.getBinDir()),
-				DirectoryManager.getProjectLibraryDir() + DirectoryManager.FILESYSTEM_SEPARATOR + "koans.jar");
+				listener,
+				new String[]{DirectoryManager.getProjectLibraryDir() + DirectoryManager.FILESYSTEM_SEPARATOR + "koans.jar"});
 		fileMonitor.updateFileSaveTime(sourceFile);
 	}
 

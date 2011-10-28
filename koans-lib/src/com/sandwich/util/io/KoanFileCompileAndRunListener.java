@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
-import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.cmdline.CommandLineArgument;
+import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.util.ConsoleUtils;
@@ -15,6 +15,7 @@ import com.sandwich.util.io.directories.DirectoryManager;
 public class KoanFileCompileAndRunListener implements FileListener {
 	
 	private Map<ArgumentType, CommandLineArgument> args = Collections.emptyMap();
+	private KoanSuiteCompilationListener listener = new KoanSuiteCompilationListener();
 	
 	public KoanFileCompileAndRunListener(Map<ArgumentType, CommandLineArgument> args) throws IOException{
 		this.args = args;
@@ -27,10 +28,13 @@ public class KoanFileCompileAndRunListener implements FileListener {
 			try {
 				FileCompiler.compile(file, 
 					new File(DirectoryManager.getBinDir()),
-					DirectoryManager.injectFileSystemSeparators(DirectoryManager.getProjectLibraryDir(), "koans.jar"));
+					listener,
+					new String[]{DirectoryManager.injectFileSystemSeparators(DirectoryManager.getProjectLibraryDir(), "koans.jar")});
 				DynamicClassLoader.remove(FileUtils.sourceToClass(file).toURI().toURL());
-				ConsoleUtils.clearConsole();
-				new CommandLineArgumentRunner(args).run();
+				if(!listener.isLastCompilationAttemptFailure()){
+					ConsoleUtils.clearConsole();
+					new CommandLineArgumentRunner(args).run();
+				}
 			} catch (Exception e) {
 				throw new RuntimeException(e);
 			}

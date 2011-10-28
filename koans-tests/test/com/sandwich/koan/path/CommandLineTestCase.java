@@ -22,6 +22,7 @@ import com.sandwich.koan.path.xmltransformation.FakeXmlToPathTransformer;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.runner.RunKoans;
 import com.sandwich.util.io.DynamicClassLoader;
+import com.sandwich.util.io.KoanSuiteCompilationListener;
 import com.sandwich.util.io.directories.DirectoryManager;
 import com.sandwich.util.io.directories.Production;
 import com.sandwich.util.io.directories.UnitTest;
@@ -61,7 +62,8 @@ public abstract class CommandLineTestCase {
 		DynamicClassLoader loader = new DynamicClassLoader();
 		for(String suite : path){
 			Map<String, KoanElementAttributes> methodsByName = new LinkedHashMap<String, KoanElementAttributes>();
-			for(Method m : loader.loadClass(suite).getMethods()){
+			KoanSuiteCompilationListener listener = new KoanSuiteCompilationListener();
+			for(Method m : loader.loadClass(suite, listener).getMethods()){
 				if(m.getAnnotation(Koan.class) != null){
 					methodsByName.put(m.getName(), new KoanElementAttributes("", m.getName(), "", m.getDeclaringClass().getName()));
 				}

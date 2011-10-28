@@ -13,6 +13,10 @@ public class FileCompiler {
 	}
 
 	public static void compile(File src, File bin, final String...classpath) throws IOException {
+		compile(src, bin, new CompilationFailureLogger(), classpath);
+	}
+
+	public static void compile(File src, File bin, CompilationListener listener, String[] classpath) throws IOException {
 		final File destinationDirectory = bin;
 		if(!destinationDirectory.exists()){
 			if(!destinationDirectory.mkdir()){
@@ -20,7 +24,7 @@ public class FileCompiler {
 				System.exit(-231);
 			}
 		}
-		FileUtils.forEachFile(src, bin, new FileCompilerAction(destinationDirectory, classpath));
+		FileUtils.forEachFile(src, bin, new FileCompilerAction(destinationDirectory, listener, classpath));
 	}
 	
 }

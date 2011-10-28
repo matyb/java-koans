@@ -2,7 +2,6 @@ package com.sandwich.util.io;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.sandwich.koan.constant.ApplicationSettings;
 
@@ -10,10 +9,16 @@ class FileCompilerAction implements FileAction {
 	
 	private final String destinationPath;
 	private final String[] classPaths;
+	private CompilationListener errorHandler;
+	static final CompilationListener LOGGING_HANDLER = new CompilationFailureLogger();
 	
-	public FileCompilerAction(File destinationPath, String...classPaths){
+	public FileCompilerAction(File destinationPath, CompilationListener errorHandler, String...classPaths){
+		if(destinationPath == null){
+			throw new IllegalArgumentException("the destination path is required");
+		}
 		this.destinationPath = destinationPath.getAbsolutePath();
 		this.classPaths = classPaths;
+		this.errorHandler = errorHandler == null ? LOGGING_HANDLER : errorHandler;
 	}
 	
 	public void sourceToDestination(File src, File bin) throws IOException {
@@ -32,11 +37,13 @@ class FileCompilerAction implements FileAction {
 					System.out.println("compiling file: " + src.getAbsolutePath());
 				}
 				if (p.waitFor() != 0) {
-					compilationFailed(src, command, p, null);
+					errorHandler.compilationFailed(src, command, p, null);
+				}else{
+					errorHandler.compilationSucceeded(src, command, p, null);
 				}
 			} catch (Exception x) {
 				x.printStackTrace();
-				compilationFailed(src, command, p, x);
+				errorHandler.compilationFailed(src, command, p, x);
 			}
 		}
 	}
@@ -64,13 +71,6 @@ class FileCompilerAction implements FileAction {
 		return i;
 	}
 
-	private void compilationFailed(File src, String[] command, Process p, Throwable x) {
-		System.out.println("\n*****************************************************************");
-		System.out.println(Arrays.toString(command));
-		System.out.println(src.getAbsolutePath() + " does not compile. exit status was: " + p.exitValue());
-		System.out.println("*****************************************************************\n");
-	}
-
 	private String[] getClasspath() {
 		String[] classpaths = new String[classPaths.length + 1];
 		if (classPaths.length > 0) {
@@ -93,5 +93,5 @@ class FileCompilerAction implements FileAction {
 		System.out.println("file: " + dest.getAbsolutePath());
 		return dest;
 	}
-
+	
 }

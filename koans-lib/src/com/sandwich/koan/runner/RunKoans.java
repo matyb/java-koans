@@ -21,7 +21,9 @@ import com.sandwich.koan.ui.ConsolePresenter;
 import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.util.Counter;
 import com.sandwich.util.KoanComparator;
+import com.sandwich.util.io.CompilationListener;
 import com.sandwich.util.io.DynamicClassLoader;
+import com.sandwich.util.io.KoanSuiteCompilationListener;
 
 public class RunKoans extends AbstractArgumentBehavior {
 
@@ -49,11 +51,18 @@ public class RunKoans extends AbstractArgumentBehavior {
 		KoanMethodResult failure = null;
 		DynamicClassLoader loader = new DynamicClassLoader();
 		Path pathToEnlightement = getPathToEnlightement();
+		KoanSuiteCompilationListener compilationListener = new KoanSuiteCompilationListener();
 		for (Entry<String, Map<String, Map<String, KoanElementAttributes>>> packages : pathToEnlightement) {
 			for (Entry<String, Map<String, KoanElementAttributes>> e : packages.getValue().entrySet()) {
 				String name = e.getKey().substring(e.getKey().lastIndexOf('.')+1);
 				if(failure == null){
-					Object suite = constructSuite(loader, e.getKey());
+					Object suite = constructSuite(loader, e.getKey(), compilationListener);
+					while(compilationListener.isLastCompilationAttemptFailure()) {
+						suite = constructSuite(loader, e.getKey(), compilationListener);
+						try {
+							Thread.sleep(1000);
+						} catch (InterruptedException e1) {}
+					}
 					final List<KoanElementAttributes> attributes = new ArrayList<KoanElementAttributes>(e.getValue().values());
 					final List<KoanMethod> methods = mergeJavaFilesMethodsAndThoseInXml(suite, attributes, pathToEnlightement.getOnlyMethodNameToRun());
 					Collections.sort(methods, new KoanComparator());
@@ -109,10 +118,10 @@ public class RunKoans extends AbstractArgumentBehavior {
 		return onlyMethodNameToRun == null || onlyMethodNameToRun.equals(name);
 	}
 
-	private Object constructSuite(DynamicClassLoader loader, String className) {
+	private Object constructSuite(DynamicClassLoader loader, String className, CompilationListener listener) {
 		Object suite;
 		try {
-			Class<?> clazz = loader.loadClass(className);
+			Class<?> clazz = loader.loadClass(className, listener);
 			if(!clazz.isAnonymousClass()){
 				suite = clazz.newInstance();
 			}else{

@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.path.xmltransformation.XmlVariableInjector;
 import com.sandwich.util.io.DynamicClassLoader;
+import com.sandwich.util.io.KoanSuiteCompilationListener;
 
 public class KoanMethod {
 	
@@ -12,10 +13,11 @@ public class KoanMethod {
 	private final String lesson;
 	private final boolean displayIncompleteException;
 	private static final DynamicClassLoader classLoader = new DynamicClassLoader();
+	private static final KoanSuiteCompilationListener listener = new KoanSuiteCompilationListener();
 	
 	private KoanMethod(KoanElementAttributes koanAttributes) throws SecurityException, NoSuchMethodException{
 		this(	koanAttributes.lesson, 
-				classLoader.loadClass(koanAttributes.className).getMethod(koanAttributes.name),
+				classLoader.loadClass(koanAttributes.className, listener).getMethod(koanAttributes.name),
 				!"false".equalsIgnoreCase(koanAttributes.displayIncompleteKoanException));
 	}
 	
