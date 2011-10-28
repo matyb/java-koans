@@ -1,7 +1,6 @@
 package com.sandwich.koan.runner;
 
 import static com.sandwich.koan.constant.KoanConstants.EXPECTATION_LEFT_ARG;
-import static com.sandwich.koan.constant.KoanConstants.__;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
@@ -15,7 +14,6 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
-import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
@@ -25,8 +23,9 @@ import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.result.KoanSuiteResult;
 import com.sandwich.koan.suite.BlowUpOnLineEleven;
 import com.sandwich.koan.suite.BlowUpOnLineTen;
-import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.suite.OnePassingKoan;
+import com.sandwich.koan.suite.TwoFailingKoans;
+import com.sandwich.koan.suite.WrongExpectationOrderKoan;
 import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.util.Strings;
 import com.sandwich.util.io.directories.DirectoryManager;
@@ -61,11 +60,6 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		new CommandLineArgumentRunner().run();
 		assertSystemOutContains(failingKoanMethodName);
 		assertSystemOutContains("0/2");
-	}
-	
-	public static class TwoFailingKoans extends OneFailingKoan {
-		@Koan
-		public void koanTwo(){assertEquals(true, false);}
 	}
 	
 	@Test
@@ -188,12 +182,5 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 					}
 				});
 		new CommandLineArgumentRunner().run();
-	}
-
-	public static class WrongExpectationOrderKoan {
-		@Koan
-		public void expectationOnLeft() {
-			com.sandwich.util.Assert.assertEquals(__, false);
-		}
 	}
 }

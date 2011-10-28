@@ -58,10 +58,10 @@ public class RunKoans extends AbstractArgumentBehavior {
 				if(failure == null){
 					Object suite = constructSuite(loader, e.getKey(), compilationListener);
 					while(compilationListener.isLastCompilationAttemptFailure()) {
-						suite = constructSuite(loader, e.getKey(), compilationListener);
 						try {
 							Thread.sleep(1000);
 						} catch (InterruptedException e1) {}
+						suite = constructSuite(loader, e.getKey(), compilationListener);
 					}
 					final List<KoanElementAttributes> attributes = new ArrayList<KoanElementAttributes>(e.getValue().values());
 					final List<KoanMethod> methods = mergeJavaFilesMethodsAndThoseInXml(suite, attributes, pathToEnlightement.getOnlyMethodNameToRun());
