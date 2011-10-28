@@ -3,7 +3,9 @@ package com.sandwich.util.io;
 import java.io.File;
 import java.io.IOException;
 
-import com.sandwich.koan.constant.ApplicationSettings;
+import com.sandwich.koan.ApplicationSettings;
+import com.sandwich.koan.ui.SuitePresenter;
+import com.sandwich.koan.util.ApplicationUtils;
 
 class FileCompilerAction implements FileAction {
 	
@@ -27,14 +29,15 @@ class FileCompilerAction implements FileAction {
 		if (fileName.length() > 4
 				&& fileName.toLowerCase().endsWith(FileCompiler.JAVA_SUFFIX)) {
 			String[] command = constructJavaCompilationCommand(src);
+			SuitePresenter presenter = ApplicationUtils.getPresenter();
 			if (ApplicationSettings.isDebug()) {
-				System.out.println("executing command: \"" + command
+				presenter.displayMessage("executing command: \"" + command
 						+ "\" to compile the sourcefile: " + src + ".");
 			}
 			Process p = Runtime.getRuntime().exec(command);
 			try {
 				if (ApplicationSettings.isDebug()) {
-					System.out.println("compiling file: " + src.getAbsolutePath());
+					presenter.displayMessage("compiling file: " + src.getAbsolutePath());
 				}
 				if (p.waitFor() != 0) {
 					errorHandler.compilationFailed(src, command, p, null);

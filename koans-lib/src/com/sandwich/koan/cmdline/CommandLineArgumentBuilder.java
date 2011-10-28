@@ -4,8 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.sandwich.koan.constant.ApplicationSettings;
+import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.constant.ArgumentType;
+import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.util.ConsoleUtils;
 import com.sandwich.util.io.DynamicClassLoader;
@@ -93,10 +94,11 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 				containsKey(ArgumentType.CLASS_ARG) ||
 				containsKey(ArgumentType.DEBUG))){
 			if(ApplicationSettings.isDebug()){
-				System.out.println("Planting default run target.");
+				SuitePresenter presenter = ApplicationUtils.getPresenter();
+				presenter.displayMessage("Planting default run target.");
 				for(Entry<ArgumentType, CommandLineArgument> argEntry : entrySet()){
-					System.out.println("Key: '"+argEntry.getKey()+"'");
-					System.out.println("Value: '"+argEntry.getValue()+"'");
+					presenter.displayMessage("Key: '"+argEntry.getKey()+"'");
+					presenter.displayMessage("Value: '"+argEntry.getValue()+"'");
 				}
 			}
 			put(ArgumentType.RUN_KOANS, new CommandLineArgument(ArgumentType.RUN_KOANS, null, true));

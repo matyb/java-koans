@@ -17,8 +17,7 @@ import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.result.KoanMethodResult;
 import com.sandwich.koan.result.KoanSuiteResult;
 import com.sandwich.koan.result.KoanSuiteResult.KoanResultBuilder;
-import com.sandwich.koan.ui.ConsolePresenter;
-import com.sandwich.koan.ui.SuitePresenter;
+import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.util.Counter;
 import com.sandwich.util.KoanComparator;
 import com.sandwich.util.io.CompilationListener;
@@ -27,20 +26,18 @@ import com.sandwich.util.io.KoanSuiteCompilationListener;
 
 public class RunKoans extends AbstractArgumentBehavior {
 
-	private SuitePresenter presenter;
 	private Path pathToEnlightenment;
 	
 	public RunKoans(){
-		this(null, null); // use defaults coded in getters
+		this(null); // use defaults coded in getters
 	}
 	
-	public RunKoans(SuitePresenter presenter, Path pathToEnlightenment){
-		this.presenter = presenter;
+	public RunKoans(Path pathToEnlightenment){
 		this.pathToEnlightenment = pathToEnlightenment;
 	}
 	
 	public void run(String value) {
-		getPresenter().displayResult(runKoans());
+		ApplicationUtils.getPresenter().displayResult(runKoans());
 	}
 
 	KoanSuiteResult runKoans() {
@@ -150,11 +147,5 @@ public class RunKoans extends AbstractArgumentBehavior {
 		}
 		return pathToEnlightenment;
 	}
-
-	private SuitePresenter getPresenter(){
-		if(presenter == null){
-			presenter = new ConsolePresenter();
-		}
-		return presenter;
-	}
+	
 }

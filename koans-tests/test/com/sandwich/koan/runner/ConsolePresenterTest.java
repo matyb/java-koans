@@ -10,9 +10,9 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
-import com.sandwich.koan.constant.ApplicationSettings;
 import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.suite.OneFailingKoanDifferentName;

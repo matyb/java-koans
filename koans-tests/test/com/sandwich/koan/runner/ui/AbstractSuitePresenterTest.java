@@ -39,6 +39,12 @@ public class AbstractSuitePresenterTest {
 			public void displayOneOrMoreFailure(KoanSuiteResult result) {
 				fail();
 			}
+			public void displayError(String error) {
+				fail();
+			}
+			public void displayMessage(String error) {
+				fail();
+			}
 		};
 
 		KoanSuiteResult kr = new KoanResultBuilder().build();
@@ -67,6 +73,12 @@ public class AbstractSuitePresenterTest {
 				state[0] = 4;
 			}
 			public void displayAllSuccess(KoanSuiteResult result) {
+				fail();
+			}
+			public void displayError(String error) {
+				fail();
+			}
+			public void displayMessage(String error) {
 				fail();
 			}
 		};

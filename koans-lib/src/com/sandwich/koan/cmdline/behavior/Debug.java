@@ -1,6 +1,6 @@
 package com.sandwich.koan.cmdline.behavior;
 
-import com.sandwich.koan.constant.ApplicationSettings;
+import com.sandwich.koan.ApplicationSettings;
 
 public class Debug extends AbstractArgumentBehavior{
 

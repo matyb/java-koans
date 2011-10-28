@@ -5,7 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.sandwich.koan.constant.ApplicationSettings;
+import com.sandwich.koan.ApplicationSettings;
 
 public class FileMonitorFactory {
 

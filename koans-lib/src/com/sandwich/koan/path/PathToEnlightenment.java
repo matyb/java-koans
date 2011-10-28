@@ -9,8 +9,8 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.Koan;
-import com.sandwich.koan.constant.ApplicationSettings;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;

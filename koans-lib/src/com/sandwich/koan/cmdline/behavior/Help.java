@@ -6,6 +6,7 @@ import java.util.Collections;
 
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.koan.util.ApplicationUtils;
 
 
 public class Help extends AbstractArgumentBehavior {
@@ -32,8 +33,7 @@ public class Help extends AbstractArgumentBehavior {
 					makeCharWidth(70, getPositionOnCurrentLine(sb), argType.description()))
 					.append(KoanConstants.EOL);
 		}
-		
-		System.out.println(sb.toString());
+		ApplicationUtils.getPresenter().displayMessage(sb.toString());
 	}
 
 	private String makeCharWidth(int width, int positionOnCurrentLine, String text) {

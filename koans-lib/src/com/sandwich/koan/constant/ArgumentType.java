@@ -15,6 +15,7 @@ import com.sandwich.koan.cmdline.behavior.Help;
 import com.sandwich.koan.cmdline.behavior.MethodArg;
 import com.sandwich.koan.cmdline.behavior.Reset;
 import com.sandwich.koan.runner.RunKoans;
+import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.util.Strings;
 
 
@@ -81,7 +82,7 @@ public enum ArgumentType implements ArgumentBehavior {
 				}
 			}else{
 				Logger.getAnonymousLogger().severe(t.getLocalizedMessage());
-				System.out.println(behavior.getErrorMessage());
+				ApplicationUtils.getPresenter().displayError(behavior.getErrorMessage());
 			}
 		}
 	}

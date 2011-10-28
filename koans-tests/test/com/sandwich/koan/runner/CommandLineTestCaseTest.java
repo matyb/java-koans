@@ -62,7 +62,7 @@ public class CommandLineTestCaseTest {
 	}
 	
 	@Test
-	public void testThatTearDownDetachesDummiedConsoleFromSystem(){
+	public void testThatTearDownDetachesDummiedConsoleFromSystem() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException{
 		PrintStream originalConsole = System.out;
 		testCase.setUp();
 		PrintStream fakeConsole = System.out;
@@ -104,7 +104,7 @@ public class CommandLineTestCaseTest {
 	}
 	
 	@Test
-	public void testSystemOutEquals_freshStart(){
+	public void testSystemOutEquals_freshStart() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException{
 		testCase.setUp();
 		testCase.assertSystemOutEquals("");
 	}

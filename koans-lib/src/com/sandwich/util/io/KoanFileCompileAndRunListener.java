@@ -9,6 +9,7 @@ import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
+import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.util.ConsoleUtils;
 import com.sandwich.util.io.directories.DirectoryManager;
 
@@ -24,7 +25,7 @@ public class KoanFileCompileAndRunListener implements FileListener {
 	public void fileSaved(File file) {
 		String absolutePath = file.getAbsolutePath();
 		if(absolutePath.toLowerCase().endsWith(FileCompiler.JAVA_SUFFIX)){
-			System.out.println(KoanConstants.EOL+"loading: "+absolutePath);
+			ApplicationUtils.getPresenter().displayMessage(KoanConstants.EOL+"loading: "+absolutePath);
 			try {
 				FileCompiler.compile(file, 
 					new File(DirectoryManager.getBinDir()),

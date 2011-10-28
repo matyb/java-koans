@@ -7,8 +7,8 @@ import static com.sandwich.koan.constant.KoanConstants.PROGRESS_BAR_WIDTH;
 
 import java.util.List;
 
+import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.constant.ApplicationSettings;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.result.KoanSuiteResult;
 import com.sandwich.util.Strings;
@@ -23,7 +23,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		appendLabeledClassesList(Strings.getMessage("passing_suites")+":", result.getPassingSuites(), sb);
 		appendLabeledClassesList(Strings.getMessage("remaining_suites")+":", result.getRemainingSuites(), sb);
 		sb.append(EOL).append("Edit & save a koan to reload or enter '"+ ApplicationSettings.getExitChar() +"' to exit");
-		System.out.println(sb.toString());
+		displayMessage(sb.toString());
 	}
 	
 	private void appendLabeledClassesList(String suiteType, List<String> suites, StringBuilder sb) {
@@ -57,12 +57,12 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		sb.append(PROGRESS_BAR_END);
 		sb.append(' ');
 		sb.append(numberPassing).append("/").append(totalKoans);
-		System.out.println(sb.toString());
+		displayMessage(sb.toString());
 	}
 	
 	@Override
 	protected void displayAllSuccess(KoanSuiteResult result) {
-		System.out.println(new StringBuilder(EOL).append(Strings.getMessage("all_koans_succeeded")).toString());
+		displayMessage(new StringBuilder(EOL).append(Strings.getMessage("all_koans_succeeded")).toString());
 	}
 	
 	@Override
@@ -75,7 +75,6 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 									": ").append(
 									EOL).append(
 									message).append(
-									EOL).append(
 									EOL));
 		if(ApplicationSettings.isEncouragementEnabled()){ // added noise to console output, and no real value
 			int totalKoans = result.getTotalNumberOfKoans();
@@ -91,10 +90,9 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 									" ").append(
 									totalKoans != 1 ? Strings.getMessage("koans") : Strings.getMessage("koan")).append(
 									"! ").append(
-									Strings.getMessage("encouragement")).append(
-									EOL);
+									Strings.getMessage("encouragement"));
 		}
-		System.out.print(sb.toString());
+		displayMessage(sb.toString());
 	}
 	
 	protected void printSuggestion(KoanSuiteResult result) {
@@ -103,7 +101,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		buildInvestigateLine(sb, result.getFailingCase(),failedKoan.getMethod().getName());
 		sb.append(EOL).append(EOL);
 		buildLineClue(sb, result);
-		System.out.println(sb.toString());
+		displayMessage(sb.toString());
 	}
 
 	private StringBuilder buildInvestigateLine(StringBuilder sb, String simpleName,
@@ -133,5 +131,13 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 			return new StringBuilder(); // no lesson
 		}
 		return new StringBuilder(lesson).append(EOL).append(EOL);
+	}
+
+	public void displayError(String error) {
+		System.err.println(error);
+	}
+	
+	public void displayMessage(String message) {
+		System.out.println(message);
 	}
 }

@@ -3,6 +3,8 @@ package com.sandwich.util.io;
 import java.io.File;
 import java.io.IOException;
 
+import com.sandwich.koan.util.ApplicationUtils;
+
 public class FileCompiler {
 	
 	public static final String JAVA_SUFFIX = ".java";
@@ -20,7 +22,7 @@ public class FileCompiler {
 		final File destinationDirectory = bin;
 		if(!destinationDirectory.exists()){
 			if(!destinationDirectory.mkdir()){
-				System.out.println("Was unable to create: "+destinationDirectory);
+				ApplicationUtils.getPresenter().displayError("Was unable to create: "+destinationDirectory);
 				System.exit(-231);
 			}
 		}

@@ -14,7 +14,7 @@ public abstract class AbstractSuitePresenter implements SuitePresenter {
 		displayPassingFailing(result);
 		displayHeader(result);
 	}
-
+	
 	abstract protected void displayHeader(KoanSuiteResult result);
 	abstract protected void displayPassingFailing(KoanSuiteResult result);
 	abstract protected void displayChart(KoanSuiteResult result);

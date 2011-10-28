@@ -32,7 +32,7 @@ import com.sandwich.util.io.directories.DirectoryManager;
 import com.sandwich.util.io.directories.Production;
 
 /**
- * Anything that absoutely has to happen before bundling client jar - to be sure:
+ * Anything that absolutely has to happen before bundling client jar - to be sure:
  * - all koans fail by default
  * - necessary aspects of app presentation are preserved
  * - progression through koans (the sequence of koans) is consistent
@@ -77,35 +77,41 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	public void testKoanSuiteRunner_firstKoanFail() throws Exception {
 		setRealPath();
 		final KoanSuiteResult[] result = new KoanSuiteResult[]{null};
-		final SuitePresenter presenter = new SuitePresenter(){
-			public void displayResult(KoanSuiteResult actualAppResult) {
-				// don't display, capture them so we can analyze and ensure first failure is reported
-				result[0] = actualAppResult;
-			}
-		};
+		stubPresenter(new SuitePresenter(){
+				public void displayResult(KoanSuiteResult actualAppResult) {
+					// don't display, capture them so we can analyze and ensure first failure is reported
+					result[0] = actualAppResult;
+				}
+				public void displayError(String error) {fail();}
+				public void displayMessage(String msg) {fail();}
+			});
 		doAsIfInProd(new Runnable(){
 			public void run(){
-				new RunKoans(presenter, PathToEnlightenment.getPathToEnlightment()).run(null);
+				new RunKoans(PathToEnlightenment.getPathToEnlightment()).run(null);
 			}
 		});
 		String firstSuiteClassRan = PathToEnlightenment.getPathToEnlightment()
 				.iterator().next().getValue().entrySet().iterator().next().getKey();
 		assertEquals(result[0].getFailingCase(), firstSuiteClassRan.substring(firstSuiteClassRan.lastIndexOf(".") + 1));
 	}
-	
+
 	@Test	/** Ensures that koans are ready for packaging & distribution */
 	public void testKoanSuiteRunner_allKoansFail() throws Exception {
 		setRealPath();
 		final KoanSuiteResult[] result = new KoanSuiteResult[]{null};
-		final SuitePresenter presenter = new SuitePresenter(){
+		stubPresenter(new SuitePresenter(){
 			public void displayResult(KoanSuiteResult actualAppResult) {
 				// don't display, capture them so we can analyze and ensure first failure is reported
 				result[0] = actualAppResult;
 			}
-		};
+			public void displayError(String error) {
+				fail();
+			}
+			public void displayMessage(String msg) {fail();}
+		});
 		doAsIfInProd(new Runnable(){
 			public void run(){
-				new RunKoans(presenter, PathToEnlightenment.getPathToEnlightment()).run(null);
+				new RunKoans(PathToEnlightenment.getPathToEnlightment()).run(null);
 			}
 		});
 		String message = "Not all koans need solving! Each should ship in a failing state.";

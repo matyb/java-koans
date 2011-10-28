@@ -2,11 +2,12 @@ package com.sandwich.koan.runner;
 
 import java.util.Map;
 
+import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
-import com.sandwich.koan.constant.ApplicationSettings;
 import com.sandwich.koan.constant.ArgumentType;
+import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.util.io.FileMonitorFactory;
 import com.sandwich.util.io.KoanFileCompileAndRunListener;
 import com.sandwich.util.io.directories.DirectoryManager;
@@ -22,7 +23,7 @@ public class AppLauncher {
 			for(String arg : args){
 				argsBuilder.append("Argument number "+String.valueOf(++argNumber)+": '"+arg+"'");
 			}
-			System.out.println(argsBuilder.toString());
+			ApplicationUtils.getPresenter().displayMessage(argsBuilder.toString());
 		}
 		if(argsMap.containsKey(ArgumentType.RUN_KOANS)){
 			FileMonitorFactory.getInstance(DirectoryManager.getProdMainDir())

@@ -3,6 +3,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -21,6 +22,10 @@ import com.sandwich.koan.path.PathToEnlightenment.Path;
 import com.sandwich.koan.path.xmltransformation.FakeXmlToPathTransformer;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.runner.RunKoans;
+import com.sandwich.koan.ui.ConsolePresenter;
+import com.sandwich.koan.ui.SuitePresenter;
+import com.sandwich.koan.util.ApplicationUtils;
+import com.sandwich.koan.util.ApplicationUtils.SuitePresenterFactory;
 import com.sandwich.util.io.DynamicClassLoader;
 import com.sandwich.util.io.KoanSuiteCompilationListener;
 import com.sandwich.util.io.directories.DirectoryManager;
@@ -33,7 +38,7 @@ public abstract class CommandLineTestCase {
 	private ByteArrayOutputStream bytes;
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
 		DirectoryManager.setDirectorySet(new UnitTest());
 		bytes = new ByteArrayOutputStream();
 		console = System.out;
@@ -41,6 +46,7 @@ public abstract class CommandLineTestCase {
 		PathToEnlightenment.xmlToPathTransformer = new FakeXmlToPathTransformer();
 		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
 		System.setOut(new PrintStream(bytes));
+		stubPresenter(new ConsolePresenter());
 	}
 
 	@After
@@ -53,6 +59,22 @@ public abstract class CommandLineTestCase {
 	protected void setRealPath(){
 		PathToEnlightenment.xmlToPathTransformer = null;
 		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
+	}
+	
+	protected void stubPresenter(final SuitePresenter presenter)
+			throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
+		Field f = ApplicationUtils.class.getDeclaredField("suitePresenterFactory");
+		boolean isAccessible = f.isAccessible();
+		try {
+			f.setAccessible(true);
+			f.set(ApplicationUtils.class, new SuitePresenterFactory(){
+				@Override public SuitePresenter create(){
+					return presenter;
+				}
+			});
+		} finally {
+			f.setAccessible(isAccessible);
+		}
 	}
 	
 	protected Path stubAllKoans(String packageName, List<String> path){

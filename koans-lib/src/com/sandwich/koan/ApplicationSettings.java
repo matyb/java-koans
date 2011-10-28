@@ -1,10 +1,11 @@
-package com.sandwich.koan.constant;
+package com.sandwich.koan;
 
 import java.io.FileInputStream;
 import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
+import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.util.io.directories.DirectoryManager;
 
 public class ApplicationSettings {
