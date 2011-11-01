@@ -21,6 +21,7 @@ public class DataFileHelper<T> {
 	public DataFileHelper(String absolutePath, T defaultState){
 		dataFile = new File(absolutePath);
 		if(!dataFile.exists()){
+			dataFile.getParentFile().mkdirs();
 			save(defaultState);
 		}
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
