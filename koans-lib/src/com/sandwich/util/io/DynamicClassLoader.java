@@ -47,6 +47,10 @@ public class DynamicClassLoader extends ClassLoader {
 		}
 	}
 	
+	public Class<?> loadClass(String className){
+        return loadClass(className, FileCompilerAction.LOGGING_HANDLER);
+	} 
+	
 	public Class<?> loadClass(String className, CompilationListener listener){
 		String fileName = DirectoryManager.getBinDir()
 						+ DirectoryManager.FILESYSTEM_SEPARATOR
