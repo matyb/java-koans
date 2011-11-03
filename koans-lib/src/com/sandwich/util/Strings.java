@@ -15,6 +15,7 @@ import com.sandwich.util.io.directories.DirectoryManager;
 public class Strings {
 	
 	private static final ResourceBundle MESSAGES_BUNDLE = getMessagesBundle();
+	private static final String UNFOUND_PROP_VALUE_STRING = "!";
 
 	private Strings() {
 	}
@@ -23,7 +24,7 @@ public class Strings {
 		try {
 			return MESSAGES_BUNDLE.getString(key);
 		} catch (MissingResourceException e) {
-			return '!' + key + '!';
+			return new StringBuilder(UNFOUND_PROP_VALUE_STRING).append(key).append(UNFOUND_PROP_VALUE_STRING).toString();
 		}
 	}
 	
@@ -73,5 +74,9 @@ public class Strings {
 			throw new RuntimeException(e);
 		}
 		return temp;
+	}
+
+	public static boolean wasNotFound(String lesson) {
+		return lesson.startsWith(UNFOUND_PROP_VALUE_STRING) && lesson.endsWith(UNFOUND_PROP_VALUE_STRING);
 	}
 }

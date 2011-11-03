@@ -29,6 +29,12 @@ public abstract class DirectoryManager {
 											directories.getProjectDir());
 	}
 	
+	public static String getConfigDir(){
+		return injectFileSystemSeparators(	instance.getBaseDir(),
+											production.getProjectDir(),
+											instance.getConfigDir());
+	}
+	
 	public static String getSourceDir(){
 		return constructProjectDir(instance, instance.getSourceDir());
 	}
@@ -92,11 +98,11 @@ public abstract class DirectoryManager {
 			builder.append(folder);
 		}
 		String constructedFolder = builder.toString();
-		if(System.getProperty("os.name").toLowerCase().contains("win") && constructedFolder.startsWith(FILESYSTEM_SEPARATOR)){
-			constructedFolder = constructedFolder.substring(1);
-		}
-		if(ApplicationUtils.isWindows() && constructedFolder.contains("%20")){
-				constructedFolder.replace("%20", " ");
+		if(ApplicationUtils.isWindows()){
+			if(constructedFolder.startsWith(FILESYSTEM_SEPARATOR)){
+				constructedFolder = constructedFolder.substring(1);
+			}
+			constructedFolder = constructedFolder.replace("%20", " ");
 		}
 		return constructedFolder;
 	}

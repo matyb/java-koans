@@ -1,20 +1,16 @@
 package com.sandwich.koan;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 
 import org.easymock.EasyMock;
 import org.junit.Test;
 
 import com.sandwich.koan.TestUtils.ArgRunner;
 import com.sandwich.koan.TestUtils.TwoObjectAssertion;
+import com.sandwich.koan.path.CommandLineTestCase;
 
-public class TestUtilsTest {
+public class TestUtilsTest extends CommandLineTestCase {
 
 	@Test
 	public void testEqualsContractEnforcement_integerIdentity_happyPath() throws Exception {
@@ -152,36 +148,28 @@ public class TestUtilsTest {
 	
 	@Test(expected=AssertionError.class, timeout=1000)
 	public void testEqualsConcurrency_concurrentAccessFails() throws Exception {
-		final PrintStream temp = System.err;
-		try {
-			ByteArrayOutputStream sysErr = new ByteArrayOutputStream();
-			System.setErr(new PrintStream(sysErr));
-			TestUtils.doSimultaneouslyAndRepetitively(new TwoObjectAssertion() {
-				public void assertOn(String msg, Object o0, Object o1) {
-					assertEquals(msg, o0, o1);
-				}
-			}, IllegalMonitorStateException.class,
-			new Runnable() {
-				public void run() {
-					waste(10);
-				}
-			}, new Runnable() {
-				public void run() {
-					waste(11);
-				}
-			}, new Runnable() {
-				public void run() {
-					waste(3);
-				}
-			});
-			String errors = sysErr.toString();
-			assertTrue(errors.contains("Thread-1\" java.lang.IllegalMonitorStateException"));
-			assertTrue(errors.contains("Thread-2\" java.lang.IllegalMonitorStateException"));
-			assertTrue(errors.contains("Thread-3\" java.lang.IllegalMonitorStateException"));
-			assertFalse(errors.contains("Thread-4"));
-		} finally {
-			System.setErr(new PrintStream(temp));
-		}
+		TestUtils.doSimultaneouslyAndRepetitively(new TwoObjectAssertion() {
+			public void assertOn(String msg, Object o0, Object o1) {
+				assertEquals(msg, o0, o1);
+			}
+		}, IllegalMonitorStateException.class,
+		new Runnable() {
+			public void run() {
+				waste(10);
+			}
+		}, new Runnable() {
+			public void run() {
+				waste(11);
+			}
+		}, new Runnable() {
+			public void run() {
+				waste(3);
+			}
+		});
+		assertSystemErrContains("Thread-1\" java.lang.IllegalMonitorStateException");
+		assertSystemErrContains("Thread-2\" java.lang.IllegalMonitorStateException");
+		assertSystemErrContains("Thread-3\" java.lang.IllegalMonitorStateException");
+		assertSystemErrContains("Thread-4");
 	}
 	
 	@Test(expected=java.lang.AssertionError.class, timeout=500)

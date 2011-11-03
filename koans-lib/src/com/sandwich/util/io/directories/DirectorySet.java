@@ -8,6 +8,7 @@ abstract class DirectorySet {
 	private static final String LIB_DIR 		= "lib";
 	private static final String DATA_DIR	 	= "data";
 	private static final String I18N_DIR		= "i18n";
+	private static final String CONFIG_DIR		= "config";
 	private static final String BASE_DIR 		= createBaseDir();
 	
 	abstract String getSourceDir();
@@ -27,6 +28,10 @@ abstract class DirectorySet {
 	
 	public String getI18nDir(){
 		return I18N_DIR;
+	}
+	
+	public String getConfigDir() {
+		return CONFIG_DIR;
 	}
 	
 	public String getDataDir(){

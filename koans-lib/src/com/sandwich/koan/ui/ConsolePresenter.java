@@ -119,8 +119,7 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		if(result.getLineNumber() != null && result.getLineNumber().trim().length() != 0){
 			sb.append(	"Line ").append(
 						result.getLineNumber()).append(
-						" may offer a clue as to how you may progress, now make haste!").append(
-						EOL);
+						" may offer a clue as to how you may progress, now make haste!");
 		}
 		return sb;
 	}

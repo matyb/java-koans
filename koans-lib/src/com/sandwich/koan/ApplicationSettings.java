@@ -1,11 +1,9 @@
 package com.sandwich.koan;
 
 import java.io.FileInputStream;
-import java.util.Locale;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
 
-import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.util.io.directories.DirectoryManager;
 
 public class ApplicationSettings {
@@ -15,7 +13,7 @@ public class ApplicationSettings {
 		try {
 			CONFIG_BUNDLE= new PropertyResourceBundle(new FileInputStream(
 				DirectoryManager.injectFileSystemSeparators(
-					DirectoryManager.getProdMainDir(), "config.properties")));
+					DirectoryManager.getConfigDir(), "config.properties")));
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
@@ -40,11 +38,7 @@ public class ApplicationSettings {
 	}
 	
 	public static String getPathXmlFileName(){
-		String tempFileName = CONFIG_BUNDLE.getString("path_xml_filename");
-		int midpoint = tempFileName.contains(KoanConstants.PERIOD) ? tempFileName.lastIndexOf(KoanConstants.PERIOD) : tempFileName.length();
-		String filename = tempFileName.substring(0, midpoint);
-		String suffix = tempFileName.substring(midpoint, tempFileName.length());
-		return new StringBuilder(filename).append("_").append(Locale.getDefault().getLanguage()).append(suffix).toString();
+		return CONFIG_BUNDLE.getString("path_xml_filename");
 	}
 	
 	private static boolean isEqual(String value, Object e2, boolean ignoreCase){

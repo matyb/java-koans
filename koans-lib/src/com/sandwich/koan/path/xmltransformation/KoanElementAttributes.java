@@ -3,10 +3,9 @@ package com.sandwich.koan.path.xmltransformation;
 
 public class KoanElementAttributes{
 	
-	public String lesson, name, displayIncompleteKoanException, className;
+	public String name, displayIncompleteKoanException, className;
 	
-	public KoanElementAttributes(String lesson, String name, String displayIncompleteKoanException, String className){
-		this.lesson = lesson;
+	public KoanElementAttributes(String name, String displayIncompleteKoanException, String className){
 		this.name = name;
 		this.displayIncompleteKoanException = displayIncompleteKoanException;
 		this.className = className;
@@ -22,7 +21,6 @@ public class KoanElementAttributes{
 				* result
 				+ ((displayIncompleteKoanException == null) ? 0
 						: displayIncompleteKoanException.hashCode());
-		result = prime * result + ((lesson == null) ? 0 : lesson.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		return result;
 	}
@@ -47,11 +45,6 @@ public class KoanElementAttributes{
 		} else if (!displayIncompleteKoanException
 				.equals(other.displayIncompleteKoanException))
 			return false;
-		if (lesson == null) {
-			if (other.lesson != null)
-				return false;
-		} else if (!lesson.equals(other.lesson))
-			return false;
 		if (name == null) {
 			if (other.name != null)
 				return false;
@@ -62,7 +55,7 @@ public class KoanElementAttributes{
 
 	@Override
 	public String toString() {
-		return "KoanElementAttributes [lesson=" + lesson + ", name=" + name
+		return "KoanElementAttributes [name=" + name
 				+ ", displayIncompleteKoanException="
 				+ displayIncompleteKoanException + ", className=" + className
 				+ "]";

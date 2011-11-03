@@ -1,6 +1,4 @@
 package com.sandwich.koan.path;
-import static org.junit.Assert.assertEquals;
-
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
@@ -11,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 
 import com.sandwich.koan.Koan;
@@ -34,18 +33,20 @@ import com.sandwich.util.io.directories.UnitTest;
 
 public abstract class CommandLineTestCase {
 
-	private PrintStream console;
-	private ByteArrayOutputStream bytes;
+	private PrintStream out;
+	private PrintStream err;
+	private ByteArrayOutputStream outBytes;
+	private ByteArrayOutputStream errBytes;
 	
 	@Before
 	public void setUp() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException {
 		DirectoryManager.setDirectorySet(new UnitTest());
-		bytes = new ByteArrayOutputStream();
-		console = System.out;
+		out = System.out;
+		err = System.err;
 		TestUtils.setValue("behavior", new RunKoans(), ArgumentType.RUN_KOANS);
 		PathToEnlightenment.xmlToPathTransformer = new FakeXmlToPathTransformer();
 		PathToEnlightenment.theWay = PathToEnlightenment.createPath();
-		System.setOut(new PrintStream(bytes));
+		clearSystemOutputs();
 		stubPresenter(new ConsolePresenter());
 	}
 
@@ -53,7 +54,8 @@ public abstract class CommandLineTestCase {
 	public void tearDown() {
 		DirectoryManager.setDirectorySet(new Production());
 		setRealPath();
-		System.setOut(console);
+		System.setOut(out);
+		System.setErr(err);
 	}
 	
 	protected void setRealPath(){
@@ -87,7 +89,7 @@ public abstract class CommandLineTestCase {
 			KoanSuiteCompilationListener listener = new KoanSuiteCompilationListener();
 			for(Method m : loader.loadClass(suite, listener).getMethods()){
 				if(m.getAnnotation(Koan.class) != null){
-					methodsByName.put(m.getName(), new KoanElementAttributes("", m.getName(), "", m.getDeclaringClass().getName()));
+					methodsByName.put(m.getName(), new KoanElementAttributes(m.getName(), "", m.getDeclaringClass().getName()));
 				}
 			}
 			tempSuitesAndMethods.put(suite, methodsByName);
@@ -113,28 +115,47 @@ public abstract class CommandLineTestCase {
 		return stubAllKoans("Test", classes);
 	}
 	
-	public void clearSysout(){
-		bytes = new ByteArrayOutputStream();
-		System.setOut(new PrintStream(bytes));
+	public void clearSystemOutputs(){
+		outBytes = new ByteArrayOutputStream();
+		errBytes = new ByteArrayOutputStream();
+		System.setOut(new PrintStream(outBytes));
+		System.setErr(new PrintStream(errBytes));
 	}
 	
 	public void assertSystemOutEquals(String expectation){
+		assertEquals(expectation, outBytes);
+	}
+	
+	public void assertSystemErrEquals(String expectation){
+		assertEquals(expectation, errBytes);
+	}
+	
+	private void assertEquals(String expectation, ByteArrayOutputStream bytes){
 		expectation = expectation == null ? "" : expectation;
-		if(!expectation.equals(bytes.toString())){
-			throw new KoanIncompleteException("expected: <"+expectation+"> but found: <"+bytes.toString()+">");
+		String bytesString = String.valueOf(bytes);
+		if(!expectation.equals(bytesString)){
+			throw new KoanIncompleteException("expected: <"+expectation+"> but found: <"+bytesString+">");
 		}
 	}
 	
 	public void assertSystemOutContains(String expectation){
-		assertSystemOutContains(true, expectation);
+		assertContains(true, expectation, outBytes);
 	}
 	
-	protected void assertSystemOutDoesntContain(String expectation){
-		assertSystemOutContains(false, expectation);
+	public void assertSystemOutDoesntContain(String expectation){
+		assertContains(false, expectation, outBytes);
 	}
 	
-	private void assertSystemOutContains(boolean assertContains, String expectation) {
-		String consoleOutput = bytes.toString();
+	public void assertSystemErrContains(String expectation){
+		assertContains(true, expectation, errBytes);
+	}
+	
+	public void assertSystemErrDoesntContain(String expectation){
+		assertContains(false, expectation, errBytes);
+	}
+
+	private void assertContains(boolean assertContains, String expectation, ByteArrayOutputStream bytes) {
+		String consoleOutput = String.valueOf(bytes.toString());
 		boolean containsTheSubstring = consoleOutput.contains(expectation);
 		if(assertContains && !containsTheSubstring || !assertContains && containsTheSubstring){
 			throw new KoanIncompleteException(new StringBuilder(
@@ -150,27 +171,31 @@ public abstract class CommandLineTestCase {
 	}
 
 	public void assertSystemOutLineEquals(final int lineNumber, final String lineText){
-		assertSystemOutLineEquals(lineNumber, lineText, false);
+		assertLineEquals(lineNumber, lineText, false, outBytes);
 	}
 	
-	public void assertSystemOutLineEquals(final int lineNumber, final String lineText,
-			final boolean trimLinesString) {
+	public void assertSystemErrLineEquals(final int lineNumber, final String lineText){
+		assertLineEquals(lineNumber, lineText, false, errBytes);
+	}
+	
+	public void assertLineEquals(final int lineNumber, final String lineText, final boolean trimLinesString, ByteArrayOutputStream bytes) {
 		final int[] onLine = new int[]{0};
 		final boolean[] found = new boolean[]{false};
-		TestUtils.forEachLine(bytes.toString(), new ArgRunner<String>(){
+		String bytesString = String.valueOf(bytes);
+		TestUtils.forEachLine(bytesString, new ArgRunner<String>(){
 			public void run(String s){
 				if(onLine[0] == lineNumber){
 					if(trimLinesString){
 						s = s.trim();
 					}
-					assertEquals(lineText, s);
+					Assert.assertEquals(lineText, s);
 					found[0] = true;
 				}
 				onLine[0]++;
 			}
 		});
 		if(!found[0]){
-			throw new KoanIncompleteException(lineText+" was expected, but not found in: "+bytes.toString());
+			throw new KoanIncompleteException(lineText+" was expected, but not found in: "+bytesString);
 		}
 	}
 }

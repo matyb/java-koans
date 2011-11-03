@@ -54,14 +54,6 @@ public class CommandLineTestCaseTest {
 	}
 	
 	@Test
-	public void testThatAssertSystemOutLineEquals_withTrimStringArg() throws Exception {
-		testCase.setUp();
-		System.out.println(" hello \n world! ");
-		testCase.assertSystemOutLineEquals(0, "hello", true);
-		testCase.assertSystemOutLineEquals(1, "world!", true);
-	}
-	
-	@Test
 	public void testThatTearDownDetachesDummiedConsoleFromSystem() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException{
 		PrintStream originalConsole = System.out;
 		testCase.setUp();
@@ -99,7 +91,7 @@ public class CommandLineTestCaseTest {
 		testCase.setUp();
 		System.out.print("!");
 		testCase.assertSystemOutLineEquals(0, "!");
-		testCase.clearSysout();
+		testCase.clearSystemOutputs();
 		testCase.assertSystemOutLineEquals(0, "");
 	}
 	

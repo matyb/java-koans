@@ -7,7 +7,7 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
-import com.sandwich.koan.path.xmltransformation.XmlVariableInjector;
+import com.sandwich.koan.path.xmltransformation.RbVariableInjector;
 import com.sandwich.koan.suite.OneFailingKoan;
 
 public class XmlVariableInjectorTest {
@@ -15,7 +15,7 @@ public class XmlVariableInjectorTest {
 	@Test
 	public void construction_nullMethod() throws Exception {
 		try{
-			new XmlVariableInjector("", null);
+			new RbVariableInjector("", null);
 			fail("why construct w/ null method?");
 		}catch(IllegalArgumentException t){
 			// this is ok - we want this!
@@ -35,7 +35,7 @@ public class XmlVariableInjectorTest {
 	@Test
 	public void injectInputVariables_filePath() throws Exception {
 		String lesson = "meh ${file_path}";
-		String result = new XmlVariableInjector(lesson, OneFailingKoan.class.getDeclaredMethod("koanMethod"))
+		String result = new RbVariableInjector(lesson, OneFailingKoan.class.getDeclaredMethod("koanMethod"))
 			.injectLessonVariables();
 		String firstPkgName = "com";
 		// just inspect anything beyond the root of the project
@@ -48,7 +48,7 @@ public class XmlVariableInjectorTest {
 	@Test
 	public void injectInputVariables_fileName() throws Exception {
 		String lesson = "meh ${file_name}";
-		String result = new XmlVariableInjector(lesson, OneFailingKoan.class.getDeclaredMethod("koanMethod"))
+		String result = new RbVariableInjector(lesson, OneFailingKoan.class.getDeclaredMethod("koanMethod"))
 			.injectLessonVariables();
 		assertEquals("meh OneFailingKoan", result);
 	}
@@ -56,7 +56,7 @@ public class XmlVariableInjectorTest {
 	@Test
 	public void injectInputVariables_methodName() throws Exception {
 		String lesson = "meh ${method_name}";
-		String result = new XmlVariableInjector(lesson, OneFailingKoan.class.getDeclaredMethod("koanMethod"))
+		String result = new RbVariableInjector(lesson, OneFailingKoan.class.getDeclaredMethod("koanMethod"))
 			.injectLessonVariables();
 		assertEquals("meh koanMethod", result);
 	}
@@ -64,7 +64,7 @@ public class XmlVariableInjectorTest {
 	@Test
 	public void nothingToInject() throws Exception {
 		String lesson = " meh ea asdwdw s ";
-		assertSame(lesson, new XmlVariableInjector(lesson, 
+		assertSame(lesson, new RbVariableInjector(lesson, 
 			OneFailingKoan.class.getDeclaredMethod("koanMethod")).injectLessonVariables());
 	}
 }

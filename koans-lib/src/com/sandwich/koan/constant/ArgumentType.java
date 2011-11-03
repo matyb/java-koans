@@ -21,16 +21,16 @@ import com.sandwich.util.Strings;
 
 public enum ArgumentType implements ArgumentBehavior {	
 	
-	HELP(		Help.class), 
-	RESET(		Reset.class), 
-	BACKUP(		Backup.class),
-	DEBUG(		Debug.class), 
+	HELP(       Help.class), 
+	RESET(      Reset.class), 
+	BACKUP(     Backup.class),
+	DEBUG(      Debug.class), 
 	//TEST(		Test.class), 
 	// important class MUST come before method - due to how Enum implements comparable and order
 	// dependent logic later @ see ArgumentTypeTest.testClassPrecedesMethod
-	CLASS_ARG(	ClassArg.class),  
-	METHOD_ARG(	MethodArg.class), 
-	RUN_KOANS(	RunKoans.class);  
+	CLASS_ARG(  ClassArg.class),  
+	METHOD_ARG( MethodArg.class), 
+	RUN_KOANS(  RunKoans.class);  
 	
 	private static final String  DESCRIPTION = "description";
 	private static final String  ARGUMENTS = "args";

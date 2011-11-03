@@ -3,7 +3,7 @@ package com.sandwich.koan;
 import java.lang.reflect.Method;
 
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
-import com.sandwich.koan.path.xmltransformation.XmlVariableInjector;
+import com.sandwich.koan.path.xmltransformation.RbVariableInjector;
 import com.sandwich.util.io.DynamicClassLoader;
 import com.sandwich.util.io.KoanSuiteCompilationListener;
 
@@ -16,9 +16,7 @@ public class KoanMethod {
 	private static final KoanSuiteCompilationListener listener = new KoanSuiteCompilationListener();
 	
 	private KoanMethod(KoanElementAttributes koanAttributes) throws SecurityException, NoSuchMethodException{
-		this(	koanAttributes.lesson, 
-				classLoader.loadClass(koanAttributes.className, listener).getMethod(koanAttributes.name),
-				!"false".equalsIgnoreCase(koanAttributes.displayIncompleteKoanException));
+		this(null, koanAttributes);
 	}
 	
 	public static KoanMethod getInstance(KoanElementAttributes koanAttributes){
@@ -42,8 +40,14 @@ public class KoanMethod {
 			throw new IllegalArgumentException("method may not be null");
 		}
 		this.method = method;
-		this.lesson = new XmlVariableInjector(lesson, method).injectLessonVariables();
+		this.lesson = new RbVariableInjector(lesson, method).injectLessonVariables();
 		this.displayIncompleteException = displayIncompleteException;
+	}
+
+	public KoanMethod(String lesson, KoanElementAttributes koanAttributes) throws SecurityException, NoSuchMethodException {
+		this(	lesson, 
+				classLoader.loadClass(koanAttributes.className, listener).getMethod(koanAttributes.name),
+				!"false".equalsIgnoreCase(koanAttributes.displayIncompleteKoanException));
 	}
 
 	public String getLesson() {

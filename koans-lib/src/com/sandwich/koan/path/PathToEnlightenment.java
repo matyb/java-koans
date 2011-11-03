@@ -3,11 +3,8 @@ package com.sandwich.koan.path;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Iterator;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.Koan;
@@ -40,12 +37,10 @@ public abstract class PathToEnlightenment {
 		if(xmlToPathTransformer == null){
 			try {
 				String filename = DirectoryManager.injectFileSystemSeparators(
-						DirectoryManager.getProjectI18nDir(), ApplicationSettings.getPathXmlFileName());
-				if(!new File(filename).exists()){
-					Logger.getLogger(PathToEnlightenment.class.getName()).log(Level.INFO, "No path to enlightenment for language "+Locale.getDefault().getLanguage()+".");
-					filename = DirectoryManager.injectFileSystemSeparators(
-							DirectoryManager.getProjectI18nDir(), ApplicationSettings.getPathXmlFileName().replace(
-									Locale.getDefault().getLanguage(), "en"));
+						DirectoryManager.getConfigDir(), ApplicationSettings.getPathXmlFileName());
+				File file = new File(filename);
+				if(!file.exists()){
+					throw new RuntimeException("No "+filename+" was found at: "+file.getAbsolutePath());
 				}
 				xmlToPathTransformer = new XmlToPathTransformerImpl(filename, 
 						suiteName, koanMethod);

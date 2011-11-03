@@ -39,4 +39,26 @@ public class DirectoryManagerTest extends CommandLineTestCase {
 		assertEquals("/home/wilford/liberty", DirectoryManager.injectFileSystemSeparators(
 				"home", "wilford/liberty"));
 	}
+	
+	@Test
+	public void testWindowsFileSystemPathWithSpaces() throws Exception {
+		String osName = System.getProperty("os.name");
+		try{
+			System.setProperty("os.name", "Windows ME");
+			assertEquals("Documents and Settings", DirectoryManager.injectFileSystemSeparators("Documents%20and%20Settings"));
+		}finally{
+			System.setProperty("os.name", osName);
+		}
+	}
+	
+	@Test
+	public void testNonWindowsFileSystemPathWithSpaces() throws Exception {
+		String osName = System.getProperty("os.name");
+		try{
+			System.setProperty("os.name", "Not MS");
+			assertEquals("/Documents%20and%20Settings", DirectoryManager.injectFileSystemSeparators("Documents%20and%20Settings"));
+		}finally{
+			System.setProperty("os.name", osName);
+		}
+	}
 }

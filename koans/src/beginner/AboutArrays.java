@@ -18,7 +18,7 @@ public class AboutArrays {
 	}
 	
 	@Koan
-	public void cloneEqualityIs_NotRespected(){ //!
+	public void cloneEqualityIsNotRespected(){ //!
 		int[] original = new int[] { 1 };
 		assertEquals(original.equals(original.clone()), __);
 	}
