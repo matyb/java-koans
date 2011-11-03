@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.sandwich.koan.path.xmltransformation.RbVariableInjector;
 import com.sandwich.koan.suite.OneFailingKoan;
 
-public class XmlVariableInjectorTest {
+public class RbVariableInjectorTest {
 
 	@Test
 	public void construction_nullMethod() throws Exception {
