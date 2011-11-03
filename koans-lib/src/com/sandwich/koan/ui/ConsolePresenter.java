@@ -117,9 +117,9 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 
 	private StringBuilder buildLineClue(StringBuilder sb, KoanSuiteResult result) {
 		if(result.getLineNumber() != null && result.getLineNumber().trim().length() != 0){
-			sb.append(	"Line ").append(
-						result.getLineNumber()).append(
-						" may offer a clue as to how you may progress, now make haste!");
+			sb.append(	Strings.getMessage("line")).append(" ").append(
+						result.getLineNumber()).append(" ").append(
+						Strings.getMessage("may_offer_clue"));
 		}
 		return sb;
 	}

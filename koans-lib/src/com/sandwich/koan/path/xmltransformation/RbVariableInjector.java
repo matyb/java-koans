@@ -28,7 +28,7 @@ public class RbVariableInjector {
 		this.lesson = lesson;
 		methodName = koanMethod.getName();
 		suiteName = declaringClass.getSimpleName();
-		suitePath = new File(declaringClass.getName().replace('.', '/')).getAbsolutePath()
+		suitePath = new File("src/"+declaringClass.getName().replace('.', '/')).getAbsolutePath()
 			.replace(koanMethod.getDeclaringClass().getSimpleName(), "");
 	}
 	
