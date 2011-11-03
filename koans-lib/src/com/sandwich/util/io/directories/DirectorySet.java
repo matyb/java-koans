@@ -39,13 +39,12 @@ abstract class DirectorySet {
 	}
 	
 	private static String createBaseDir() {
-		File dir = new File(ClassLoader.getSystemResource(".").getFile());
+		File dir = new File(".");
 		dir = new File(dir.getAbsolutePath().replace("%20", " "));
 		if (dir.exists()) {
 			dir = dir.getParentFile();
 			if (dir.exists()) {
-				dir = dir.getParentFile();  // go up 2 levels from koans/src or
-											// koans-tests/src
+				dir = dir.getParentFile();
 			}
 		}
 		return dir.getAbsolutePath();

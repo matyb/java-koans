@@ -15,15 +15,6 @@ import com.sandwich.util.io.directories.DirectoryManager;
 public class FileUtils {
 	
 	private static final String DOLLAR_SIGN = "$";
-	public static String BASE_DIR; static{ File dir = new File(ClassLoader.getSystemResource(".").getFile());
-		if(dir.exists()){
-			dir = dir.getParentFile();
-			if(dir.exists()){
-				dir = dir.getParentFile(); // go up 2 levels from koans/src or koans-tests/src
-			}
-		}
-		BASE_DIR = dir.getAbsolutePath();
-	}
 
 	public static void copy(String fileName0, String fileName1) throws IOException {
 		copy(new File(fileName0), new File(fileName1));
