@@ -1,6 +1,10 @@
 package com.sandwich.util.io.directories;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+
+import com.sandwich.koan.util.ApplicationUtils;
 
 abstract class DirectorySet {
 
@@ -39,14 +43,21 @@ abstract class DirectorySet {
 	}
 	
 	private static String createBaseDir() {
-		File dir = new File(".");
-		dir = new File(dir.getAbsolutePath().replace("%20", " "));
-		if (dir.exists()) {
-			dir = dir.getParentFile();
+		URL path = DirectorySet.class.getClassLoader().getResource(".");
+		try {
+			File dir = new File(path.toURI());
+			if(ApplicationUtils.isWindows()){
+				dir = new File(dir.getAbsolutePath().replace("%20", " "));
+			}
 			if (dir.exists()) {
 				dir = dir.getParentFile();
+				if (dir.exists()) {
+					dir = dir.getParentFile();
+				}
 			}
+			return dir.getAbsolutePath();
+		} catch (URISyntaxException e) {
+			throw new RuntimeException(e);
 		}
-		return dir.getAbsolutePath();
 	}
 }
