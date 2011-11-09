@@ -18,3 +18,21 @@ for(Entry<String, String> entry : annotatedResourceBundle.getAttributes("warning
 would output:
 location=warning_dialog
 resource_type=png-image
+
+There is also the ability to reference properties in the annotations:
+#@ host:${host_name} user:${user_name} password:${pass}
+connection=my_connection://
+host_name=www.github.com
+user_name=matyb
+password=pass123
+
+AnnotatedResourceBundle annotatedResourceBundle = new AnnotatedResourceBundle(
+    "images.properties", getClass().getClassLoader());
+for(Entry<String, String> entry : annotatedResourceBundle.getAttributes("connection").entrySet()){
+    System.out.println(entry);
+}
+
+would output:
+host_name=www.github.com
+user_name=matyb
+password=pass123
