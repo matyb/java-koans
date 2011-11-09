@@ -27,7 +27,7 @@ user_name=matyb
 password=pass123
 
 AnnotatedResourceBundle annotatedResourceBundle = new AnnotatedResourceBundle(
-    "images.properties", getClass().getClassLoader());
+    "connections.properties", getClass().getClassLoader());
 for(Entry<String, String> entry : annotatedResourceBundle.getAttributes("connection").entrySet()){
     System.out.println(entry);
 }
