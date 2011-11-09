@@ -1,0 +1,20 @@
+A java.util.ResourceBundle replacement for configuration properties. Helpful for metadata to properties for the purpose of validating, inspecting, binding, etc. properties without infringing on any existing useage of those resources.
+
+For example the property:
+warning.dialog.alert.icon=/images/w_alert.png
+
+Could be analyzed by acceptance tests or validation code:
+#@ location:warning_dialog; resource_type:png-image
+warning.dialog.alert.icon=/images/w_alert.png
+
+Now at runtime, the annotated keys and values are available via the AnnotatedResourceBundle class. Keeping with the same example:
+
+AnnotatedResourceBundle annotatedResourceBundle = new AnnotatedResourceBundle(
+    "images.properties", getClass().getClassLoader());
+for(Entry<String, String> entry : annotatedResourceBundle.getAttributes("warning.dialog.alert.icon").entrySet()){
+    System.out.println(entry);
+}
+
+would output:
+location=warning_dialog
+resource_type=png-image
