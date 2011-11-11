@@ -9,35 +9,40 @@ import com.sandwich.util.io.directories.DirectoryManager;
 
 
 public class DirectoryManagerTest extends CommandLineTestCase {
-
+	
+	private static final String sep = System.getProperty("file.separator");
+	private static final String start =
+			System.getProperty("os.name").toLowerCase().contains("windows") ?
+					"" : sep;
+	
 	@Test
 	public void testFileSeparatorInjection_happyPath() throws Exception {
-		assertEquals("/home/wilford/liberty", DirectoryManager.injectFileSystemSeparators(
+		assertEquals(start+"home"+sep+"wilford"+sep+"liberty", DirectoryManager.injectFileSystemSeparators(
 				"home", "wilford", "liberty"));
 	}
 	
 	@Test
 	public void testFileSeparatorInjection_separatorsAtBeginning() throws Exception {
-		assertEquals("/home/wilford/liberty", DirectoryManager.injectFileSystemSeparators(
-				"/home", "/wilford", "/liberty"));
+		assertEquals(start+"home"+sep+"wilford"+sep+"liberty", DirectoryManager.injectFileSystemSeparators(
+				sep+"home", sep+"wilford", sep+"liberty"));
 	}
 	
 	@Test
 	public void testFileSeparatorInjection_separatorsAtEnding() throws Exception {
-		assertEquals("/home/wilford/liberty", DirectoryManager.injectFileSystemSeparators(
-				"home/", "wilford/", "liberty/"));
+		assertEquals(start+"home"+sep+"wilford"+sep+"liberty", DirectoryManager.injectFileSystemSeparators(
+				"home"+sep, "wilford"+sep, "liberty"+sep));
 	}
 	
 	@Test
 	public void testFileSeparatorInjection_separatorsAtBeginningAndEnding() throws Exception {
-		assertEquals("/home/wilford/liberty", DirectoryManager.injectFileSystemSeparators(
-				"home/", "wilford/", "/liberty/"));
+		assertEquals(start+"home"+sep+"wilford"+sep+"liberty", DirectoryManager.injectFileSystemSeparators(
+				"home"+sep, "wilford"+sep, sep+"liberty"+sep));
 	}
 	
 	@Test
 	public void testFileSeparatorInjection_separatorsInMiddle() throws Exception {
-		assertEquals("/home/wilford/liberty", DirectoryManager.injectFileSystemSeparators(
-				"home", "wilford/liberty"));
+		assertEquals(start+"home"+sep+"wilford"+sep+"liberty", DirectoryManager.injectFileSystemSeparators(
+				"home", "wilford"+sep+"liberty"));
 	}
 	
 	@Test
@@ -56,7 +61,7 @@ public class DirectoryManagerTest extends CommandLineTestCase {
 		String osName = System.getProperty("os.name");
 		try{
 			System.setProperty("os.name", "Not MS");
-			assertEquals("/Documents%20and%20Settings", DirectoryManager.injectFileSystemSeparators("Documents%20and%20Settings"));
+			assertEquals(sep+"Documents%20and%20Settings", DirectoryManager.injectFileSystemSeparators("Documents%20and%20Settings"));
 		}finally{
 			System.setProperty("os.name", osName);
 		}

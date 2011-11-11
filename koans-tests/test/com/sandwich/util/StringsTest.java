@@ -28,14 +28,10 @@ public class StringsTest extends LocaleSwitchingTestCase {
 			protected void logCalled(LogRecord record) {
 				assertEquals(Level.INFO, record.getLevel());
 				String expectation0 = "Your default language is not supported yet. ";
-				String expectation1 = "messages_zh.properties (No such file or directory)";
 				String msg = record.getMessage();
-				int exp0EndIndex = expectation0.length();
-				assertEquals(expectation0, msg.substring(0, exp0EndIndex));
-				int exp1StartIndex = msg.length() - expectation1.length();
+				assertTrue(msg.startsWith(expectation0));
 				// c:\meh\always funny stuff %$#\messages_ze.properties or /User/nix machine/messages_ze.properties...
-				assertTrue(msg.substring(exp0EndIndex, exp1StartIndex).contains(System.getProperty("file.separator")));
-				assertEquals(expectation1, msg.substring(exp1StartIndex, msg.length()));
+				assertTrue(msg.contains("messages_zh.properties"));			
 			}
 		});
 	}
