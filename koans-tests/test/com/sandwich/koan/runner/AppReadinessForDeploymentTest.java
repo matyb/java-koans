@@ -161,6 +161,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 					}
 				});
 		new CommandLineArgumentRunner(new CommandLineArgumentBuilder()).run();
+		Thread.sleep(20); // logging not guarenteed to occur in same thread (Java 7 - it doesn't)
 		assertEquals(
 				new StringBuilder(
 						WrongExpectationOrderKoan.class.getSimpleName())
