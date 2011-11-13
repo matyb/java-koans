@@ -8,6 +8,7 @@
 		<suite class="AboutAssertions"/>
 		<!-- TODO: AboutDataTypes... -->
 		<suite class="AboutObjects"/>
+		<suite class="AboutStrings"/>
 		<suite class="AboutLoops" />
 		<suite class="AboutCasting"/>
 		<suite class="AboutConditionals"/>
