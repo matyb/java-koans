@@ -31,62 +31,55 @@ public class AboutCasting {
 	public void implicitTypecast() {
     	int a = 1;
     	int b = Integer.MAX_VALUE;
-		long c = a + b; 
+		long c = a + b; // still overflows int... which is the Integer.MIN_VALUE, the operation occurs prior to assignment to long
 		assertEquals(c, __);
 	}
     
-    class GrandParent { public String complain() { return "Get your feet off the davenport!"; } }
-    class Parent extends GrandParent { public String complain() { return "TPS reports don't even have a cover letter!"; } }
+    class Parent extends Child { public String complain() { return "TPS reports don't even have a cover letter!"; } }
+    class GrandParent extends Parent { public String complain() { return "Get your feet off the davenport!"; } }
     
     @Koan
     public void downCastWithInerhitance() {
-    	Parent parent = new Parent();
-    	GrandParent grandParent = parent; // Why isn't there an explicit cast?
-    	assertEquals(grandParent instanceof GrandParent,__);
-    	assertEquals(parent instanceof GrandParent,__);
-    	assertEquals(parent instanceof Parent,__);
-    	// parents know of their parents
+    	GrandParent grandParent = new GrandParent();
+    	Parent parentReference = grandParent; // Why isn't there an explicit cast?
+    	assertEquals(grandParent instanceof GrandParent, __);
+    	assertEquals(parentReference instanceof GrandParent, __);
+    	assertEquals(parentReference instanceof Parent, __);
+    	assertEquals(parentReference instanceof Child, __);
     }
     
     @Koan
     public void downCastAndPolymophism() {
-    	Parent parent = new Parent();
-    	GrandParent grandParent = parent;
-    	// Think about the result. Did you expect that? Why?
-    	// Think about inheritance, objects, classes and instances.
-    	assertEquals(parent.complain(), __);
-    	assertEquals(grandParent.complain(), __);
+    	GrandParent grandParent = new GrandParent();
+    	Parent parentReference = grandParent;
+    	// If the result is unexpected, consider the difference between an instance and its reference
+    	assertEquals(parentReference.complain(), __);
     }
     
     @Koan
     public void upCastWithInheritance() {
-    	GrandParent grandParent = new Parent();
-    	Parent parent = (Parent)grandParent; // Why do we need an explicit cast here?
-    	assertEquals(grandParent instanceof GrandParent,__);
-    	assertEquals(parent instanceof GrandParent,__);
-    	assertEquals(parent instanceof Parent,__);
-    	// a parent does not know of it's children implicitly, it is an open ended contract... 
-    	// so YOU need to define that for the compiler with a cast - this can vary at runtime
+    	Object grandParent = new GrandParent();
+    	Parent parentReference = (Parent)grandParent; // Why do we need an explicit cast here?
+    	assertEquals(grandParent instanceof Child,__);
+    	assertEquals(parentReference instanceof GrandParent,__);
+    	assertEquals(parentReference instanceof Parent,__);
+    	assertEquals(parentReference instanceof Child,__);
     }
     
     @Koan
     public void upCastAndPolymophism() {
-    	GrandParent grandParent = new GrandParent();
-    	Parent parent = (Parent)grandParent;
+    	Object grandParent = new GrandParent();
+    	Parent parent = (GrandParent)grandParent;
     	// Think about the result. Did you expect that? Why?
     	// How is that different from above?
-    	assertEquals(grandParent.complain(),__);
-    	assertEquals(parent.complain(),__);
+    	assertEquals(parent.complain(), __);
     }
     
     interface Sleepable {
     	String sleep();
     }
     
-    class Child extends Parent implements Sleepable{ 
-    	public String praise() { 
-    		return "I think you are a great software developer."; 
-    	}
+    class Child implements Sleepable{
     	public String sleep() { 
     		return "zzzz"; 
     	}
@@ -95,27 +88,27 @@ public class AboutCasting {
     @Koan
     public void classCasting(){
     	try{
-    		Object o = new Parent(); 	// were downcasting way to far here - would it be possible
-    									// to even author this koan had we done what was safe, and 
+    		Object o = new Object(); 	// were downcasting way to far here - would it be possible
+    									// to even compile this koan had we done what was safe, and 
     									// held the reference as Sleepable?
     		((Sleepable)o).sleep();
     	}catch(ClassCastException x){
-    		fail("Parent does not implement Sleepable, maybe one of his kids do?");
+    		fail("Object does not implement Sleepable, maybe one of the people classes do?");
     	}
     }
     
     @Koan
     public void complicatedCast() {
-    	Parent parent = new Child();
-    	// How can we access the stepchild's ability to "praise" - if the reference is held as a superclass? 
-    	assertEquals("I think you are a great software developer.", __);
+    	Child parent = new Parent();
+    	// How can we access the parent's ability to "complain" - if the reference is held as a superclass? 
+    	assertEquals(new Parent().complain(), __);
     }
     
     @Koan
     public void complicatedCastWithInterface() {
-    	Parent parent = new Child();
-    	// What do you need to do in order to call "sleep"? 
-    	assertEquals("zzzz", __);
+    	Object parent = new Child();
+    	// What do you need to do in order to call "sleep" on the parent? 
+    	assertEquals(new Child().sleep(), __);
     }
 
    

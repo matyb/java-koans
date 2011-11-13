@@ -12,6 +12,8 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import com.sandwich.koan.KoanMethod;
@@ -38,6 +40,24 @@ import com.sandwich.util.io.directories.Production;
  * - progression through koans (the sequence of koans) is consistent
  */
 public class AppReadinessForDeploymentTest extends CommandLineTestCase {
+	
+	@Before 
+	public void setUp() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException  {
+		super.setUp();
+		resetHandlers();
+	}
+	
+	@After
+	public void tearDown() {
+		super.tearDown();
+		resetHandlers();
+	}
+	
+	private void resetHandlers(){
+		for(Handler handler : Logger.getLogger(CommandLineArgumentRunner.class.getSimpleName()).getHandlers()){
+			Logger.getLogger(CommandLineArgumentRunner.class.getSimpleName()).removeHandler(handler);
+		}
+	}
 	
 	@Test
 	public void testMainMethodWithClassNameArg_qualifiedWithPkgName() throws Throwable {
@@ -161,7 +181,6 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 					}
 				});
 		new CommandLineArgumentRunner(new CommandLineArgumentBuilder()).run();
-		Thread.sleep(20); // logging not guarenteed to occur in same thread (Java 7 - it doesn't)
 		assertEquals(
 				new StringBuilder(
 						WrongExpectationOrderKoan.class.getSimpleName())
@@ -185,7 +204,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 
 					@Override
 					public void publish(LogRecord arg0) {
-						fail("No logging necessary when koan passes, otherwise - logging is new, adjust accordingly.");
+						fail("No logging necessary when koan passes, otherwise - logging is new, adjust accordingly.\n"+arg0.getMessage());
 					}
 				});
 		new CommandLineArgumentRunner().run();
