@@ -36,7 +36,7 @@ public class AboutConstructors {
 	
 	@Koan
 	public void complexConstructorOrder(){
-		assertEquals(new B().someString, __);
+		assertEquals(new Bb().someString, __);
 	}
 	
 }
