@@ -5,14 +5,6 @@ import static com.sandwich.util.Assert.fail;
 
 public class AboutMocks {
 	
-	@Koan()
-	public void simpleAnonymousMock(){
-		// HINT: pass a safe Collaborator implementation to constructor
-		// new ClassUnderTest(new Colloborator(){... it should not be the
-		// objective of this test to test that collaborator, so replace it
-		new ClassUnderTest().doSomething();
-	}
-	
 	static interface Collaborator {
 		public void doBusinessStuff();
 	}
@@ -37,6 +29,14 @@ public class AboutMocks {
 			c.doBusinessStuff();
 			return true;
 		}
+	}
+	
+	@Koan()
+	public void simpleAnonymousMock(){
+		// HINT: pass a safe Collaborator implementation to constructor
+		// new ClassUnderTest(new Colloborator(){... it should not be the
+		// objective of this test to test that collaborator, so replace it
+		new ClassUnderTest().doSomething();
 	}
 	
 }
