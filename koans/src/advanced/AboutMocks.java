@@ -1,20 +1,26 @@
 package advanced;
 
 import com.sandwich.koan.Koan;
+import static com.sandwich.util.Assert.fail;
 
 public class AboutMocks {
 	
 	@Koan()
 	public void simpleAnonymousMock(){
-		// HINT: pass different Collaborator implementation to constructor
-		// new ClassUnderTest(new Colloborator(){...
+		// HINT: pass a safe Collaborator implementation to constructor
+		// new ClassUnderTest(new Colloborator(){... it should not be the
+		// objective of this test to test that collaborator, so replace it
 		new ClassUnderTest().doSomething();
-		// TODO: ponder why this assertion was failing
-		// originally... look in default constructor
 	}
 	
 	static interface Collaborator {
 		public void doBusinessStuff();
+	}
+	
+	static class ExplosiveCollaborator implements Collaborator {
+		public void doBusinessStuff() {
+			fail("Default collaborator's behavior is complicating testing.");
+		}
 	}
 	
 	static class ClassUnderTest {
@@ -22,11 +28,7 @@ public class AboutMocks {
 		public ClassUnderTest(){
 			// default is to pass a broken Collaborator, test should pass one
 			// that doesn't throw exception
-			this(new Collaborator(){
-				public void doBusinessStuff() {
-					throw new AssertionError("Default collaborator's behavior is complicating testing.");
-				}
-			});
+			this(new ExplosiveCollaborator());
 		}
 		public ClassUnderTest(Collaborator c){
 			this.c = c;
@@ -36,8 +38,5 @@ public class AboutMocks {
 			return true;
 		}
 	}
-
-	
-	//TODO: perhaps show off some mocking frameworks?
 	
 }
