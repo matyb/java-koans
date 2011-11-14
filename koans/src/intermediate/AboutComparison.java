@@ -48,12 +48,12 @@ public class AboutComparison {
 	}
 	static class HorseSpeedComparator implements Comparator<RaceHorse> {
 		public int compare(RaceHorse o1, RaceHorse o2) {
-			return o1.age - o2.age;
+			return o1.speed - o2.speed;
 		}
 	}
 	static class HorseAgeComparator implements Comparator<RaceHorse> {
 		public int compare(RaceHorse o1, RaceHorse o2) {
-			return o1.speed - o2.speed;
+			return o1.age - o2.age;
 		}
 	}
 	
