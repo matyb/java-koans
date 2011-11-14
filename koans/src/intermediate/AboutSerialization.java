@@ -98,12 +98,12 @@ public class AboutSerialization {
 	
 	@Koan
 	public void customSerializationWithUnserializableFields() throws FileNotFoundException, IOException {
-		Boat car = new Boat();
-		car.engine = new Engine("diesel");
+		Boat boat = new Boat();
+		boat.engine = new Engine("diesel");
 		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("SerializeFile"));
 		String marker = "Start ";
 		try {
-			os.writeObject(car);	
+			os.writeObject(boat);	
 		} catch(NotSerializableException e) {
 			marker += "Exception";
 		}
