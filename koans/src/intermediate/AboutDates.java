@@ -5,6 +5,7 @@ import static com.sandwich.util.Assert.assertEquals;
 
 import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -64,8 +65,8 @@ public class AboutDates {
 	
 	@Koan
 	public void usingDateFormatToParseDates() throws ParseException {
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
-		Date date2 = dateFormat.parse("Sat Sep 01 12:34:46 CET 2001");
+		DateFormat dateFormat = new SimpleDateFormat("MM-dd-yyyy");
+		Date date2 = dateFormat.parse("01-01-2000");
 		assertEquals(date2.toString(), __);
 		// What happened to the time? What do you need to change to keep the time as well?
 	}
