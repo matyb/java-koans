@@ -5,12 +5,12 @@ import static com.sandwich.util.Assert.assertEquals;
 
 import com.sandwich.koan.Koan;
 
-interface Ignorable {
-	String ignoreAll();
-}
-
 public class AboutInnerClasses {
 
+	interface Ignoreable {
+		String ignoreAll();
+	}
+	
 	class Inner {
 		public String doStuff() { return "stuff"; }
 		public int returnOuter() { return x; }
@@ -76,12 +76,15 @@ public class AboutInnerClasses {
 		assertEquals(anonymous.theAnswer(), __);
 	}
 	
-	@SuppressWarnings("null")
 	@Koan
 	public void creatingAnonymousInnerClassesToImplementInterface() {
-		Ignorable ignorable = null; // Complete the code so that the statement below is correct.
+		Ignoreable ignoreable = new Ignoreable(){
+			public String ignoreAll() {
+				return null;
+			}
+		}; // Complete the code so that the statement below is correct.
 		// Look at the koan above for inspiration
-		assertEquals(ignorable.ignoreAll(), "SomeInterestingString");
+		assertEquals(ignoreable.ignoreAll(), "SomeInterestingString");
 		// Did you just created an object of an interface type?
 		// Or did you create a class that implemented this interface and 
 		// an object of that type?
