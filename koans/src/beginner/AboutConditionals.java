@@ -52,7 +52,7 @@ public class AboutConditionals {
 		boolean otherBooleanCondition = true;
 		// Ifs without curly braces are ugly and not recommended but still valid:
 		if (secretBoolean)  x++;
-		if (otherBooleanCondition) x = 10;
+			if (otherBooleanCondition) x = 10;
 		else x--;
 		// Where does this else belong to!?
 		assertEquals(x,__);
