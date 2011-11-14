@@ -35,8 +35,24 @@ public class AboutCasting {
 		assertEquals(c, __);
 	}
     
-    class Parent extends Child { public String complain() { return "TPS reports don't even have a cover letter!"; } }
-    class GrandParent extends Parent { public String complain() { return "Get your feet off the davenport!"; } }
+    interface Sleepable {
+    	String sleep();
+    }
+    class Child implements Sleepable{
+    	public String sleep() { 
+    		return "zzzz"; 
+    	}
+    }
+    class Parent extends Child { 
+    	public String complain() { 
+    		return "TPS reports don't even have a cover letter!"; 
+    	} 
+    }
+    class GrandParent extends Parent { 
+    	public String complain() { 
+    		return "Get your feet off the davenport!"; 
+    	} 
+    }
     
     @Koan
     public void downCastWithInerhitance() {
@@ -58,31 +74,21 @@ public class AboutCasting {
     
     @Koan
     public void upCastWithInheritance() {
-    	Object grandParent = new GrandParent();
+    	Child grandParent = new GrandParent();
     	Parent parentReference = (Parent)grandParent; // Why do we need an explicit cast here?
-    	assertEquals(grandParent instanceof Child,__);
-    	assertEquals(parentReference instanceof GrandParent,__);
-    	assertEquals(parentReference instanceof Parent,__);
-    	assertEquals(parentReference instanceof Child,__);
+    	GrandParent grandParentReference = (GrandParent)parentReference; // Or here?
+    	assertEquals(grandParentReference instanceof GrandParent,__);
+    	assertEquals(grandParentReference instanceof Parent,__);
+    	assertEquals(grandParentReference instanceof Child,__);
     }
     
     @Koan
     public void upCastAndPolymophism() {
-    	Object grandParent = new GrandParent();
+    	Child grandParent = new GrandParent();
     	Parent parent = (GrandParent)grandParent;
     	// Think about the result. Did you expect that? Why?
     	// How is that different from above?
     	assertEquals(parent.complain(), __);
-    }
-    
-    interface Sleepable {
-    	String sleep();
-    }
-    
-    class Child implements Sleepable{
-    	public String sleep() { 
-    		return "zzzz"; 
-    	}
     }
     
     @Koan
@@ -103,13 +109,5 @@ public class AboutCasting {
     	// How can we access the parent's ability to "complain" - if the reference is held as a superclass? 
     	assertEquals(new Parent().complain(), __);
     }
-    
-    @Koan
-    public void complicatedCastWithInterface() {
-    	Object parent = new Child();
-    	// What do you need to do in order to call "sleep" on the parent? 
-    	assertEquals(new Child().sleep(), __);
-    }
-
    
 }
