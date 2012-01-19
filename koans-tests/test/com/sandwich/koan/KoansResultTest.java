@@ -6,13 +6,14 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
+import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.result.KoanMethodResult;
 import com.sandwich.koan.result.KoanSuiteResult;
 import com.sandwich.koan.result.KoanSuiteResult.KoanResultBuilder;
 import com.sandwich.koan.suite.OneFailingKoan;
 
-public class KoansResultTest {
-
+public class KoansResultTest extends CommandLineTestCase {
+	
 	@Test
 	public void testToString() throws Exception {
 		KoanResultBuilder builder = new KoanResultBuilder()

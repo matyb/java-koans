@@ -8,13 +8,14 @@ import java.util.Arrays;
 import org.junit.Test;
 
 import com.sandwich.koan.KoanMethod;
+import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.result.KoanMethodResult;
 import com.sandwich.koan.result.KoanSuiteResult;
 import com.sandwich.koan.result.KoanSuiteResult.KoanResultBuilder;
 import com.sandwich.koan.suite.OneFailingKoan;
 import com.sandwich.koan.ui.AbstractSuitePresenter;
 
-public class AbstractSuitePresenterTest {
+public class AbstractSuitePresenterTest extends CommandLineTestCase {
 
 	@Test
 	public void testForwardingOneHundredPercentSuccess() throws Exception {

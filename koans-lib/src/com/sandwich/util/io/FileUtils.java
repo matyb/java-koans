@@ -82,16 +82,22 @@ public class FileUtils {
 	}
 
 	public static String getContentsOfOriginalJavaFile(String className) {
-		File sourceFile = new File(	DirectoryManager.getSourceDir() 
-								  + DirectoryManager.FILESYSTEM_SEPARATOR
-								  + classNameToJavaFileName(className));
-		if(!sourceFile.exists()){
-			throw new RuntimeException(new FileNotFoundException(sourceFile.getAbsolutePath()+" does not exist"));
-		}
-		return readFileAsString(sourceFile);
+		return readFileAsString(getSourceFileFromClass(className));
 	}
 	
-	private static String classNameToJavaFileName(String className) {
+	public static File getSourceFileFromClass(String className) {
+		File sourceFile = new File(
+				  DirectoryManager.getSourceDir()
+				+ DirectoryManager.FILESYSTEM_SEPARATOR
+				+ classNameToJavaFileName(className));
+		if (!sourceFile.exists()) {
+			throw new IllegalArgumentException(new FileNotFoundException(
+					sourceFile.getAbsolutePath() + " does not exist"));
+		}
+		return sourceFile;
+	}
+
+	public static String classNameToJavaFileName(String className) {
 		className = className.replace(KoanConstants.PERIOD, DirectoryManager.FILESYSTEM_SEPARATOR);
 		if(className.contains(DOLLAR_SIGN)){
 			className = className.substring(0, className.indexOf(DOLLAR_SIGN));

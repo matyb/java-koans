@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.sandwich.koan.path.xmltransformation.RbVariableInjector;
 import com.sandwich.koan.suite.OneFailingKoan;
 
-public class RbVariableInjectorTest {
+public class RbVariableInjectorTest extends CommandLineTestCase {
 
 	@Test
 	public void construction_nullMethod() throws Exception {
@@ -21,16 +21,6 @@ public class RbVariableInjectorTest {
 			// this is ok - we want this!
 		}
 	}
-	
-//	@Test
-//	public void construction_nullLesson() throws Exception {
-//		try{
-//			new XmlVariableInjector(null, Object.class.getDeclaredMethod("equals", Object.class));
-//			fail("why construct w/ null lesson?");
-//		}catch(IllegalArgumentException t){
-//			// this is ok - we want this!
-//		}
-//	}
 	
 	@Test
 	public void injectInputVariables_filePath() throws Exception {
