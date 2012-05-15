@@ -1,8 +1,6 @@
 package com.sandwich.util.io.directories;
 
 import java.io.File;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 abstract class DirectorySet {
 
@@ -41,18 +39,13 @@ abstract class DirectorySet {
 	}
 	
 	private static String createBaseDir() {
-		try {
-			URL path = DirectorySet.class.getClassLoader().getResource(".");
-			File dir = new File(path.toURI());
-			if (dir.exists()) {
-				dir = dir.getParentFile();
-				if (dir.exists()) {
-					dir = dir.getParentFile();
-				}
-			}
-			return dir.getAbsolutePath();
-		} catch (URISyntaxException e) {
-			throw new RuntimeException(e);
-		}
+        File dir = new File(Thread.currentThread().getContextClassLoader().getResource(".").getFile());
+        if (dir.exists()) {
+            dir = dir.getParentFile();
+            if (dir.exists()) {
+                dir = dir.getParentFile();
+            }
+        }
+        return dir.getAbsolutePath();
 	}
 }
