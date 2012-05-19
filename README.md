@@ -9,6 +9,7 @@ Running Instructions:
 3. Run run.bat or run.sh (whichever is applicable for your OS)
 
 Developing a Koan:
+==================
 1. Follow any of the existing koans as an example to create a new class w/ koan methods (indicated by the @Koan annotation)
 2. Define the order and metadata associated with each koan in the PathToEnlightment.xml
 3. If necessary - use dynamic content in your lesson, examples are located in XmlVariableInjector class (and Test) and the AboutKoans.java file
