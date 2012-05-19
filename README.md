@@ -1,10 +1,11 @@
 Running Instructions:
+=====================
 1. Download and unarchive the contents of the most recent java-koans in development from:
    https://github.com/matyb/java-koans/archives/master
 2. Open a terminal and cd to the koans directory within the directory you unarchived
-* koans: this directory contains the application and its lessons, it is all that is needed to advance through the koans themselves.
-* koans-lib: the directory for the koans the application
-* koans-tests is the directory for tests to check the sanity of the application
+    * koans: this directory contains the application and its lessons, it is all that is needed to advance through the koans themselves.
+    * koans-lib: the directory for the koans the application
+    * koans-tests is the directory for tests to check the sanity of the application
 3. Run run.bat or run.sh (whichever is applicable for your OS)
 
 Developing a Koan:
