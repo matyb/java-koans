@@ -199,7 +199,7 @@ public class TestUtils {
 				assertTrue(errors.contains("Thread-"+i+"\" "+anticipatedExceptionClass.getName()));
 			}
 		} finally {
-			System.setErr(new PrintStream(temp));
+			System.setErr(temp);
 		}
 	}
 	
