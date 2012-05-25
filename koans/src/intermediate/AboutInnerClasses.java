@@ -40,7 +40,7 @@ public class AboutInnerClasses {
 	public void innerClassesInMethods() {
 		class MethodInnerClass {
 			int oneHundred() { return 100; }
-		}; // <- Why do you need a semicolon here?
+		}
 		assertEquals(new MethodInnerClass().oneHundred(), __);
 		// Where can you use this class?
 	}
@@ -72,7 +72,7 @@ public class AboutInnerClasses {
 	public void creatingAnonymousInnerClasses() {
 		AboutInnerClasses anonymous = new AboutInnerClasses() {
 			int theAnswer() { return 23; }
-		};
+		};// <- Why do you need a semicolon here?
 		assertEquals(anonymous.theAnswer(), __);
 	}
 	
