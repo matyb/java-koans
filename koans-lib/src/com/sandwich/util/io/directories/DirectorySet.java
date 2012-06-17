@@ -39,13 +39,6 @@ abstract class DirectorySet {
 	}
 	
 	private static String createBaseDir() {
-        File dir = new File(Thread.currentThread().getContextClassLoader().getResource(".").getFile().replace("%20", " "));
-        if (dir.exists()) {
-            dir = dir.getParentFile();
-            if (dir.exists()) {
-                dir = dir.getParentFile();
-            }
-        }
-        return dir.getAbsolutePath();
+		return new File("").getAbsoluteFile().getParentFile().getAbsolutePath();
 	}
 }
