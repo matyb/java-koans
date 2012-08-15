@@ -49,6 +49,73 @@ public class AboutExceptions {
 		assertEquals(s,__);
 	}
 	
+	private int k = 1, m = 2;
+	
+	private void tryCatchFinallyWithVoidReturn() {
+		try {
+			doStuff();
+		} catch(IOException e) { 
+			k += 1;
+			return;
+		} finally {
+			// Will this code be executed despite the return statement above?
+			k += 1;
+		}
+	}
+	
+	@Koan
+	public void finallyIsAlwaysRan() {
+		tryCatchFinallyWithVoidReturn();
+		assertEquals(k,3);
+	}
+	
+	private int tryCatchFinallyReturningInt() {
+		try {
+			doStuff();
+		} catch(IOException e) { 
+			k += 1;
+			return k + m;
+		} finally {
+			m = 5;
+		}
+		return k;
+	}
+	
+	@Koan
+	public void orderOfCatchFinallyAndReturn() {
+		k = 1;
+		assertEquals(tryCatchFinallyReturningInt(),4);
+		// What is the order of executing catch, finally
+		// and return statements in this case?
+		assertEquals(k,2);
+		assertEquals(m,5);
+	}
+	
+	private int i = 0, j = 1, l = 2;
+	
+	private int returnStatementsEverywhere() {
+		try {
+			doStuff();
+			return i++;
+		} catch (IOException e) {
+			return j++;
+		} finally {
+			// Watch out! It is an EXTREMELY bad practice to 
+			// put return statement in finally block! 
+			return l++;
+		}
+	}
+	
+	@Koan
+	public void returnInFinallyBlock() {
+		// Which value will be returned here?
+		assertEquals(returnStatementsEverywhere(),2);
+		// Is only the returned variable modified?
+		assertEquals(i,__);
+		assertEquals(j,__);
+		assertEquals(l,__);
+	}
+	
 	private void doUncheckedStuff() {
 		throw new RuntimeException();	
 	}
