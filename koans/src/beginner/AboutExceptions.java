@@ -66,7 +66,7 @@ public class AboutExceptions {
 	@Koan
 	public void finallyIsAlwaysRan() {
 		tryCatchFinallyWithVoidReturn();
-		assertEquals(k,3);
+		assertEquals(k,__);
 	}
 	
 	private int tryCatchFinallyReturningInt() {
@@ -84,11 +84,11 @@ public class AboutExceptions {
 	@Koan
 	public void orderOfCatchFinallyAndReturn() {
 		k = 1;
-		assertEquals(tryCatchFinallyReturningInt(),4);
+		assertEquals(tryCatchFinallyReturningInt(),__);
 		// What is the order of executing catch, finally
 		// and return statements in this case?
-		assertEquals(k,2);
-		assertEquals(m,5);
+		assertEquals(k,__);
+		assertEquals(m,__);
 	}
 	
 	private int i = 0, j = 1, l = 2;
@@ -109,7 +109,7 @@ public class AboutExceptions {
 	@Koan
 	public void returnInFinallyBlock() {
 		// Which value will be returned here?
-		assertEquals(returnStatementsEverywhere(),2);
+		assertEquals(returnStatementsEverywhere(),__);
 		// Is only the returned variable modified?
 		assertEquals(i,__);
 		assertEquals(j,__);
