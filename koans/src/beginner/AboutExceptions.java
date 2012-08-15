@@ -8,7 +8,7 @@ import static com.sandwich.util.Assert.assertEquals;
 
 public class AboutExceptions {
 	
-	private void doSutff() throws IOException {
+	private void doStuff() throws IOException {
 		throw new IOException();
 	}
 	
@@ -16,7 +16,7 @@ public class AboutExceptions {
 	public void catchCheckedExceptions() {
 		String s;
 		try {
-			doSutff();
+			doStuff();
 			s = "code run normally";
 		} catch(IOException e) { 
 			s = "exception thrown";
@@ -28,7 +28,7 @@ public class AboutExceptions {
 	public void useFinally() {
 		String s = "";
 		try {
-			doSutff();
+			doStuff();
 			s = "code run normally";
 		} catch(IOException e) { 
 			s = "exception thrown";
