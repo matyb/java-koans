@@ -17,11 +17,11 @@ public class AboutExceptions {
 		String s;
 		try {
 			doStuff();
-			s = "code run normally";
+			s = "code ran normally";
 		} catch(IOException e) { 
 			s = "exception thrown";
 		}
-		assertEquals(s,__);
+		assertEquals(s, __);
 	}
 	
 	@Koan
@@ -29,91 +29,68 @@ public class AboutExceptions {
 		String s = "";
 		try {
 			doStuff();
-			s = "code run normally";
+			s += "code ran normally";
 		} catch(IOException e) { 
-			s = "exception thrown";
+			s += "exception thrown";
 		} finally {
 			s += " and finally ran as well";
 		}
-		assertEquals(s,__);
+		assertEquals(s, __);
 	}
 	
 	@Koan
 	public void finallyWithoutCatch() {
 		String s = "";
 		try {
-			s = "code run normally";
+			s = "code ran normally";
 		} finally {
 			s += " and finally ran as well";
 		}
-		assertEquals(s,__);
+		assertEquals(s, __);
 	}
 	
-	private int k = 1, m = 2;
-	
-	private void tryCatchFinallyWithVoidReturn() {
+	private void tryCatchFinallyWithVoidReturn(StringBuilder whatHappened) {
 		try {
+			whatHappened.append("did something dangerous");
 			doStuff();
 		} catch(IOException e) { 
-			k += 1;
+			whatHappened.append("; the catch block executed");
 			return;
 		} finally {
-			// Will this code be executed despite the return statement above?
-			k += 1;
+			whatHappened.append(", but so did the finally!");
 		}
 	}
 	
 	@Koan
 	public void finallyIsAlwaysRan() {
-		tryCatchFinallyWithVoidReturn();
-		assertEquals(k,__);
+		StringBuilder whatHappened = new StringBuilder();
+		tryCatchFinallyWithVoidReturn(whatHappened);
+		assertEquals(whatHappened.toString(), __);
 	}
 	
-	private int tryCatchFinallyReturningInt() {
+	@SuppressWarnings("finally") // this is suppressed because returning in finally block is obviously a compiler warning
+	private String returnStatementsEverywhere(StringBuilder whatHappened) {
 		try {
+			whatHappened.append("try");
 			doStuff();
-		} catch(IOException e) { 
-			k += 1;
-			return k + m;
-		} finally {
-			m = 5;
-		}
-		return k;
-	}
-	
-	@Koan
-	public void orderOfCatchFinallyAndReturn() {
-		k = 1;
-		assertEquals(tryCatchFinallyReturningInt(),__);
-		// What is the order of executing catch, finally
-		// and return statements in this case?
-		assertEquals(k,__);
-		assertEquals(m,__);
-	}
-	
-	private int i = 0, j = 1, l = 2;
-	
-	private int returnStatementsEverywhere() {
-		try {
-			doStuff();
-			return i++;
+			return "from try";
 		} catch (IOException e) {
-			return j++;
+			whatHappened.append(", catch");
+			return "from catch";
 		} finally {
-			// Watch out! It is an EXTREMELY bad practice to 
-			// put return statement in finally block! 
-			return l++;
+			whatHappened.append(", finally");
+			// Think about how bad an idea it is to put a return statement in the finally block
+			// DO NOT DO THIS!
+			return "from finally";
 		}
 	}
 	
 	@Koan
 	public void returnInFinallyBlock() {
+		StringBuilder whatHappened = new StringBuilder();
 		// Which value will be returned here?
-		assertEquals(returnStatementsEverywhere(),__);
-		// Is only the returned variable modified?
-		assertEquals(i,__);
-		assertEquals(j,__);
-		assertEquals(l,__);
+		assertEquals(returnStatementsEverywhere(whatHappened), __);
+		assertEquals(whatHappened.toString(), __);
 	}
 	
 	private void doUncheckedStuff() {
@@ -122,8 +99,7 @@ public class AboutExceptions {
 	
 	@Koan
 	public void catchUncheckedExceptions() {
-		// What do you need to do to catch the
-		// unchecked exception?
+		// What do you need to do to catch the unchecked exception?
 		doUncheckedStuff();
 	}
 	
