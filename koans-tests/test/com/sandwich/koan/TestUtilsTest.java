@@ -377,7 +377,7 @@ public class TestUtilsTest extends CommandLineTestCase {
 	}
 	
 	@Test
-	public void testForEachLine_nothingThreeNewLinesSeperatedBy1Space() throws Exception {
+	public void testForEachLine_nothingThreeNewLinesSeparatedBy1Space() throws Exception {
 		@SuppressWarnings("unchecked")
 		ArgRunner<String> runner = EasyMock.createStrictMock(ArgRunner.class);
 		
@@ -400,7 +400,7 @@ public class TestUtilsTest extends CommandLineTestCase {
 	}
 	
 	@Test
-	public void testForEachLine_nothingThreeNewLinesSeperatedBy1SpaceThen2Spaces() throws Exception {
+	public void testForEachLine_nothingThreeNewLinesSeparatedBy1SpaceThen2Spaces() throws Exception {
 		@SuppressWarnings("unchecked")
 		ArgRunner<String> runner = EasyMock.createStrictMock(ArgRunner.class);
 		

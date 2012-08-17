@@ -22,7 +22,7 @@ public class AboutEquality {
 	}
 	
 	@Koan 
-	public void noObjectShouldbeEqualToNull() {
+	public void noObjectShouldBeEqualToNull() {
 		assertEquals(new Object().equals(null), __);
 	}
 	
@@ -60,7 +60,7 @@ public class AboutEquality {
 	@Koan 
 	public void unequalForOwnObjects() {
 		Car car1 = new Car("Beetle", 50);
-		Car car2 = new Car("Prosche", 300);
+		Car car2 = new Car("Porsche", 300);
 		// See line 37 for the task you have to solve
 		assertEquals(car1.equals(car2), false);
 	}

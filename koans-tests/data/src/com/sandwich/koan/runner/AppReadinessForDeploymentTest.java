@@ -71,7 +71,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	@Test
 	public void testGetKoans() throws Exception {
 		stubAllKoans(Arrays.asList(new OnePassingKoan()));
-		Map<String, Map<String, KoanElementAttributes>> koans = PathToEnlightenment.getPathToEnlightment().iterator().next().getValue();
+		Map<String, Map<String, KoanElementAttributes>> koans = PathToEnlightenment.getPathToEnlightenment().iterator().next().getValue();
 		assertEquals(1, koans.size());
 		Entry<String, Map<String, KoanElementAttributes>> entry = koans.entrySet().iterator().next();
 		assertEquals(OnePassingKoan.class.getName(), entry.getKey());
@@ -91,10 +91,10 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		};
 		doAsIfInProd(new Runnable(){
 			public void run(){
-				new RunKoans(presenter, PathToEnlightenment.getPathToEnlightment()).run(null);
+				new RunKoans(presenter, PathToEnlightenment.getPathToEnlightenment()).run(null);
 			}
 		});
-		String firstSuiteClassRan = PathToEnlightenment.getPathToEnlightment()
+		String firstSuiteClassRan = PathToEnlightenment.getPathToEnlightenment()
 				.iterator().next().getValue().entrySet().iterator().next().getKey();
 		assertEquals(result[0].getFailingCase(), firstSuiteClassRan.substring(firstSuiteClassRan.lastIndexOf(".") + 1));
 	}
@@ -111,7 +111,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		};
 		doAsIfInProd(new Runnable(){
 			public void run(){
-				new RunKoans(presenter, PathToEnlightenment.getPathToEnlightment()).run(null);
+				new RunKoans(presenter, PathToEnlightenment.getPathToEnlightenment()).run(null);
 			}
 		});
 		String message = "Not all koans need solving! Each should ship in a failing state.";

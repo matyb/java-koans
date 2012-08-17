@@ -80,7 +80,7 @@ public abstract class CommandLineTestCase {
 	}
 	
 	protected Path stubAllKoans(String packageName, List<String> path){
-		Path oldKoans = PathToEnlightenment.getPathToEnlightment();
+		Path oldKoans = PathToEnlightenment.getPathToEnlightenment();
 		Map<String, Map<String, KoanElementAttributes>> tempSuitesAndMethods = 
 			new LinkedHashMap<String, Map<String, KoanElementAttributes>>();
 		DynamicClassLoader loader = new DynamicClassLoader();

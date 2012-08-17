@@ -36,14 +36,14 @@ public class AboutObjects {
 	}
 	
 	@Koan()
-	public void doubleEqualsOperatorEvalutesToTrueOnlyWithSameInstance(){
+	public void doubleEqualsOperatorEvaluatesToTrueOnlyWithSameInstance(){
 		Integer integer0 = new Integer(0);
 		Integer integer1 = integer0; // <- assigning same instance to different reference
 		assertEquals(integer0 == integer1, __);
 	}
 	
 	@Koan()
-	public void doubleEqualsOperatorEvalutesToFalseWithDifferentInstances(){
+	public void doubleEqualsOperatorEvaluatesToFalseWithDifferentInstances(){
 		Integer integer0 = new Integer(0);
 		Integer integer1 = new Integer(0); // <- new keyword is generating new object instance
 		assertEquals(integer0 == integer1, __);

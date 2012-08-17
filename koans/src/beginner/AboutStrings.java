@@ -30,14 +30,14 @@ public class AboutStrings {
 	}
 	
 	@Koan
-	public void newStringIsNotIdentitical(){
+	public void newStringIsNotIdentical(){
 		String stringInstance = "zero";
 		String stringReference = new String(stringInstance);
 		assertEquals(stringInstance == stringReference, __);
 	}
 	
 	@Koan
-	public void stringConcatination(){
+	public void stringConcatenation(){
 		String one = "one";
 		String space = " ";
 		String two = "two";

@@ -47,9 +47,9 @@ public class RunKoans extends AbstractArgumentBehavior {
 		String level = null;
 		KoanMethodResult failure = null;
 		DynamicClassLoader loader = new DynamicClassLoader();
-		Path pathToEnlightement = getPathToEnlightement();
+		Path pathToEnlightenment = getPathToEnlightenment();
 		KoanSuiteCompilationListener compilationListener = new KoanSuiteCompilationListener();
-		for (Entry<String, Map<String, Map<String, KoanElementAttributes>>> packages : pathToEnlightement) {
+		for (Entry<String, Map<String, Map<String, KoanElementAttributes>>> packages : pathToEnlightenment) {
 			for (Entry<String, Map<String, KoanElementAttributes>> e : packages.getValue().entrySet()) {
 				String name = e.getKey().substring(e.getKey().lastIndexOf('.')+1);
 				if(failure == null){
@@ -61,7 +61,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 						suite = constructSuite(loader, e.getKey(), compilationListener);
 					}
 					final List<KoanElementAttributes> attributes = new ArrayList<KoanElementAttributes>(e.getValue().values());
-					final List<KoanMethod> methods = mergeJavaFilesMethodsAndThoseInXml(suite, attributes, pathToEnlightement.getOnlyMethodNameToRun());
+					final List<KoanMethod> methods = mergeJavaFilesMethodsAndThoseInXml(suite, attributes, pathToEnlightenment.getOnlyMethodNameToRun());
 					Collections.sort(methods, new KoanComparator());
 					for (final KoanMethod koan : methods) {
 						KoanMethodResult result = KoanMethodRunner.run(suite, koan);
@@ -85,7 +85,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 		}
 		return new KoanResultBuilder()	.level(level)
 										.numberPassing((int)successfull.getCount())
-										.totalNumberOfKoanMethods(pathToEnlightement.getTotalNumberOfKoans())
+										.totalNumberOfKoanMethods(pathToEnlightenment.getTotalNumberOfKoans())
 										.methodResult(failure)
 										.passingCases(passingSuites).remainingCases(failingSuites).build();
 	}
@@ -141,9 +141,9 @@ public class RunKoans extends AbstractArgumentBehavior {
 		return suite;
 	}
 
-	private Path getPathToEnlightement() {
+	private Path getPathToEnlightenment() {
 		if(pathToEnlightenment == null){
-			pathToEnlightenment = PathToEnlightenment.getPathToEnlightment();
+			pathToEnlightenment = PathToEnlightenment.getPathToEnlightenment();
 		}
 		return pathToEnlightenment;
 	}

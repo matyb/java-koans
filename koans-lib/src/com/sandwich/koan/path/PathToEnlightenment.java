@@ -61,7 +61,7 @@ public abstract class PathToEnlightenment {
 		xmlToPathTransformer = null;
 	}
 	
-	public static Path getPathToEnlightment(){
+	public static Path getPathToEnlightenment(){
 		if(theWay == null){
 			theWay = createPath();
 		}

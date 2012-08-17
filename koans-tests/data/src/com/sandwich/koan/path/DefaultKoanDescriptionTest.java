@@ -28,7 +28,7 @@ public class DefaultKoanDescriptionTest extends CommandLineTestCase {
 	public void defaultKoanDescriptions() throws Exception {
 		StringBuilder exceptionStringBuilder = new StringBuilder(KoanConstants.EOL);
 		for (Entry<String, Map<String, KoanElementAttributes>> suiteAndKoans : 
-			PathToEnlightenment.getPathToEnlightment().getKoanMethodsBySuiteByPackage().next().getValue().entrySet()) {
+			PathToEnlightenment.getPathToEnlightenment().getKoanMethodsBySuiteByPackage().next().getValue().entrySet()) {
 			for(Entry<String, KoanElementAttributes> koanEntry : suiteAndKoans.getValue().entrySet()){
 				KoanMethod koan = KoanMethod.getInstance(koanEntry.getValue());
 				Koan annotation = koan.getMethod().getAnnotation(Koan.class);
