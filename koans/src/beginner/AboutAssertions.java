@@ -44,14 +44,16 @@ public class AboutAssertions {
 	
 	@Koan()
 	public void assertSameInstance(){
-		Integer same = new Integer(1);
-		assertSame(same, __);
+		Object same				= new Integer(1);
+		Object sameReference	= __;
+		assertSame(same, sameReference);
 	}
 	
 	@Koan()
 	public void assertNotSameInstance(){
-		Integer same 			= new Integer(1);
-		Integer sameReference   = same;
-		assertNotSame(same, sameReference); 
+		Object same 			= new Integer(1);
+		Object sameCopy			= __;
+		assertEquals(same, sameCopy);
+		assertNotSame(same, sameCopy);
 	}
 }
