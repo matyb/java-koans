@@ -2,7 +2,7 @@ package com.sandwich.util.io.directories;
 
 import java.io.File;
 
-abstract class DirectorySet {
+abstract public class DirectorySet {
 
 	private static final String BIN_DIR 		= "bin";
 	private static final String LIB_DIR 		= "lib";
