@@ -12,7 +12,6 @@ import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformerImpl;
-import com.sandwich.util.Counter;
 import com.sandwich.util.io.FileUtils;
 import com.sandwich.util.io.directories.DirectoryManager;
 
@@ -87,28 +86,30 @@ public abstract class PathToEnlightenment {
 			if(methodName != null){
 				return 1;
 			}
-			Counter total = new Counter();
+			int total = 0;
 			Iterator<Entry<String, Map<String, Map<String, KoanElementAttributes>>>> koanMethodsBySuiteByPackageIter = 
 				getKoanMethodsBySuiteByPackage();
 			while(koanMethodsBySuiteByPackageIter.hasNext()){
 				Entry<String, Map<String, Map<String, KoanElementAttributes>>> e = koanMethodsBySuiteByPackageIter.next();
 				for(Entry<String, Map<String, KoanElementAttributes>> e1 : e.getValue().entrySet()){
-					countKoanAnnotationsInJavaFileGivenClassName(e1.getKey(), total);
+					total += countKoanAnnotationsInJavaFileGivenClassName(e1.getKey());
 				}
 			}
-			return (int)total.getCount();
+			return total;
 		}
 		
-		private void countKoanAnnotationsInJavaFileGivenClassName(String className, Counter total) {
+		private int countKoanAnnotationsInJavaFileGivenClassName(String className) {
 			String[] lines = FileUtils.getContentsOfOriginalJavaFile(className).split(KoanConstants.EOLS);
 			String koanClassSimpleNameWithAnnotationPrefix = '@'+Koan.class.getSimpleName();
+			int total = 0;
 			for(String line : lines){
 				String trimmedLine = line.trim();
 				if(trimmedLine.contains(koanClassSimpleNameWithAnnotationPrefix)
 						&& !trimmedLine.startsWith("//") && !trimmedLine.startsWith("*") && !trimmedLine.startsWith("/*")){
-					total.count();
+					total++;
 				}
 			}
+			return total;
 		}
 		
 		public Iterator<Entry<String, Map<String, Map<String, KoanElementAttributes>>>> iterator() {
