@@ -12,7 +12,7 @@ public class CompilationFailureLogger implements CompilationListener {
 		String lineSeparator = KoanConstants.EOL;
 		presenter.displayError(lineSeparator+
 				"*****************************************************************");
-		presenter.displayError(lineSeparator+"Compile Output:");
+		presenter.displayError("Compile Output:");
 		presenter.displayError(errorMessage.
 				replace(lineSeparator, lineSeparator + "    ") + lineSeparator); // indent compiler output
 		presenter.displayError("Compiling \""+src.getAbsolutePath() +"\" failed."); 
