@@ -8,7 +8,7 @@ public class KoanSuiteCompilationListener implements CompilationListener {
 	private String lastMessageShown = null;
 	
 	public void compilationFailed(File src, String[] command, int exitCode, String errorMessage, Throwable x) {
-		if(!errorMessage.equals(lastMessageShown)){
+		if(lastMessageShown == null || !errorMessage.trim().equals(lastMessageShown.trim())){
 			FileCompilerAction.LOGGING_HANDLER.compilationFailed(src, command, exitCode, errorMessage, x);
 		}
 		lastMessageShown = errorMessage;

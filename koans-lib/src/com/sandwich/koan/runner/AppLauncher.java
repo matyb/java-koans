@@ -16,6 +16,10 @@ public class AppLauncher {
 
 	public static void main(final String... args) throws Throwable {
 		Map<ArgumentType, CommandLineArgument> argsMap = new CommandLineArgumentBuilder(args);
+		if(argsMap.containsKey(ArgumentType.RUN_KOANS)){
+			FileMonitorFactory.getInstance(DirectoryManager.getProdMainDir())
+				.addFileSavedListener(new KoanFileCompileAndRunListener(argsMap));
+		}
 		new CommandLineArgumentRunner(argsMap).run();
 		if(ApplicationSettings.isDebug()){
 			StringBuilder argsBuilder = new StringBuilder();
@@ -24,10 +28,6 @@ public class AppLauncher {
 				argsBuilder.append("Argument number "+String.valueOf(++argNumber)+": '"+arg+"'");
 			}
 			ApplicationUtils.getPresenter().displayMessage(argsBuilder.toString());
-		}
-		if(argsMap.containsKey(ArgumentType.RUN_KOANS)){
-			FileMonitorFactory.getInstance(DirectoryManager.getProdMainDir())
-				.addFileSavedListener(new KoanFileCompileAndRunListener(argsMap));
 		}
 	}
 }

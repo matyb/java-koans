@@ -11,6 +11,7 @@ import java.util.Map.Entry;
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.cmdline.behavior.AbstractArgumentBehavior;
+import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.PathToEnlightenment;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
@@ -18,9 +19,11 @@ import com.sandwich.koan.result.KoanMethodResult;
 import com.sandwich.koan.result.KoanSuiteResult;
 import com.sandwich.koan.result.KoanSuiteResult.KoanResultBuilder;
 import com.sandwich.koan.util.ApplicationUtils;
+import com.sandwich.util.ExceptionUtils;
 import com.sandwich.util.KoanComparator;
 import com.sandwich.util.io.CompilationListener;
 import com.sandwich.util.io.DynamicClassLoader;
+import com.sandwich.util.io.FileUtils;
 import com.sandwich.util.io.KoanSuiteCompilationListener;
 
 public class RunKoans extends AbstractArgumentBehavior {
@@ -53,13 +56,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 			for (Entry<String, Map<String, KoanElementAttributes>> e : packages.getValue().entrySet()) {
 				String name = e.getKey().substring(e.getKey().lastIndexOf('.')+1);
 				if(failure == null){
-					Object suite = constructSuite(loader, e.getKey(), compilationListener);
-					while(compilationListener.isLastCompilationAttemptFailure()) {
-						try {
-							Thread.sleep(1000);
-						} catch (InterruptedException e1) {}
-						suite = constructSuite(loader, e.getKey(), compilationListener);
-					}
+					Object suite = safelyConstructSuite(loader, compilationListener, e);
 					final List<KoanElementAttributes> attributes = new ArrayList<KoanElementAttributes>(e.getValue().values());
 					final List<KoanMethod> methods = mergeJavaFilesMethodsAndThoseInXml(suite, attributes, pathToEnlightement.getOnlyMethodNameToRun());
 					Collections.sort(methods, new KoanComparator());
@@ -88,6 +85,24 @@ public class RunKoans extends AbstractArgumentBehavior {
 										.totalNumberOfKoanMethods(pathToEnlightement.getTotalNumberOfKoans())
 										.methodResult(failure)
 										.passingCases(passingSuites).remainingCases(failingSuites).build();
+	}
+
+	private Object safelyConstructSuite(DynamicClassLoader loader,
+			KoanSuiteCompilationListener compilationListener,
+			Entry<String, Map<String, KoanElementAttributes>> e) {
+		// this is written strangely so stack trace will always be the same when constructSuite fails
+		// this permits the app to only show the compilation failure once, despite the fact this
+		// is getting hit every second.
+		Object suite = null;
+		while(suite == null || compilationListener.isLastCompilationAttemptFailure()) {
+			suite = constructSuite(loader, e.getKey(), compilationListener);
+			if(compilationListener.isLastCompilationAttemptFailure()){
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e1) {}
+			}
+		}
+		return suite;
 	}
 
 	private List<KoanMethod> mergeJavaFilesMethodsAndThoseInXml(Object suite,
@@ -137,6 +152,16 @@ public class RunKoans extends AbstractArgumentBehavior {
 			}
 		} catch (Exception e1) {
 			throw new RuntimeException(e1);
+		} catch (Error e1) {
+			if(e1.getClass() == Error.class && e1.getMessage().contains("Unresolved compilation problem")) {
+				listener.compilationFailed(FileUtils.getSourceFileFromClass(className), 
+						new String[]{"(compilation yielded a class, but it cannot be cereated)"}, 
+						-1, "Unable to load class \""+className+"\"." + KoanConstants.EOL + 
+						ExceptionUtils.convertToPopulatedStackTraceString(e1), e1);
+				return null; // just consume this exception, this will have been logged and is handled
+			}else{
+				throw new RuntimeException(e1);
+			}
 		}
 		return suite;
 	}
