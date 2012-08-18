@@ -7,5 +7,6 @@ public interface SuitePresenter {
 	public void displayResult(KoanSuiteResult result);
 	public void displayError(String error);
 	public void displayMessage(String error);
+	public void clearMessages();
 
 }

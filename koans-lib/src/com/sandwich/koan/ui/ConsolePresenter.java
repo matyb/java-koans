@@ -11,9 +11,18 @@ import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.result.KoanSuiteResult;
+import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.util.Strings;
 
 public class ConsolePresenter extends AbstractSuitePresenter {
+	
+	private static final int NUMBER_OF_LINES_TO_CLEAR_CONSOLE = 80;
+	
+	public void clearMessages(){
+		for(int i = 0; i < NUMBER_OF_LINES_TO_CLEAR_CONSOLE; i++){
+			ApplicationUtils.getPresenter().displayMessage(" ");
+		}
+	}
 	
 	protected void displayHeader(KoanSuiteResult result){
 	}

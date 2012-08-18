@@ -104,6 +104,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 				}
 				public void displayError(String error) {fail();}
 				public void displayMessage(String msg) {fail();}
+				public void clearMessages() {}
 			});
 		doAsIfInProd(new Runnable(){
 			public void run(){
@@ -128,6 +129,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 				fail();
 			}
 			public void displayMessage(String msg) {fail();}
+			public void clearMessages() {}
 		});
 		doAsIfInProd(new Runnable(){
 			public void run(){

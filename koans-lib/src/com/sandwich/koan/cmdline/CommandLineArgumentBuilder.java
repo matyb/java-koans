@@ -8,7 +8,6 @@ import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.koan.util.ApplicationUtils;
-import com.sandwich.util.ConsoleUtils;
 import com.sandwich.util.io.DynamicClassLoader;
 
 public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, CommandLineArgument> {
@@ -88,7 +87,7 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 	void applyAssumedStartupBehaviors() {
 		if(ApplicationUtils.isFirstTimeAppHasBeenRun()){
 			ArgumentType.BACKUP.run(null);
-			ConsoleUtils.clearConsole();
+			ApplicationUtils.getPresenter().clearMessages();
 		}
 		if(isEmpty() || !containsKey(ArgumentType.RUN_KOANS) && (
 				containsKey(ArgumentType.CLASS_ARG) ||

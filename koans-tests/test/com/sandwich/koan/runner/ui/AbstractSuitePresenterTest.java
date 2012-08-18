@@ -46,6 +46,9 @@ public class AbstractSuitePresenterTest extends CommandLineTestCase {
 			public void displayMessage(String error) {
 				fail();
 			}
+			public void clearMessages() {
+				fail();
+			}
 		};
 
 		KoanSuiteResult kr = new KoanResultBuilder().build();
@@ -80,6 +83,9 @@ public class AbstractSuitePresenterTest extends CommandLineTestCase {
 				fail();
 			}
 			public void displayMessage(String error) {
+				fail();
+			}
+			public void clearMessages() {
 				fail();
 			}
 		};

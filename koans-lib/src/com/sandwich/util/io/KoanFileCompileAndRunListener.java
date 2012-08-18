@@ -10,7 +10,6 @@ import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.util.ApplicationUtils;
-import com.sandwich.util.ConsoleUtils;
 import com.sandwich.util.io.directories.DirectoryManager;
 
 public class KoanFileCompileAndRunListener implements FileListener {
@@ -33,7 +32,7 @@ public class KoanFileCompileAndRunListener implements FileListener {
 					new String[]{DirectoryManager.injectFileSystemSeparators(DirectoryManager.getProjectLibraryDir(), "koans.jar")});
 				DynamicClassLoader.remove(FileUtils.sourceToClass(file).toURI().toURL());
 				if(!listener.isLastCompilationAttemptFailure()){
-					ConsoleUtils.clearConsole();
+					ApplicationUtils.getPresenter().clearMessages();
 					new CommandLineArgumentRunner(args).run();
 				}
 			} catch (Exception e) {

@@ -18,7 +18,6 @@ import com.sandwich.koan.result.KoanMethodResult;
 import com.sandwich.koan.result.KoanSuiteResult;
 import com.sandwich.koan.result.KoanSuiteResult.KoanResultBuilder;
 import com.sandwich.koan.util.ApplicationUtils;
-import com.sandwich.util.Counter;
 import com.sandwich.util.KoanComparator;
 import com.sandwich.util.io.CompilationListener;
 import com.sandwich.util.io.DynamicClassLoader;
@@ -37,11 +36,11 @@ public class RunKoans extends AbstractArgumentBehavior {
 	}
 	
 	public void run(String value) {
+		ApplicationUtils.getPresenter().clearMessages();
 		ApplicationUtils.getPresenter().displayResult(runKoans());
 	}
 
 	KoanSuiteResult runKoans() {
-		Counter successfull = new Counter();
 		List<String> passingSuites = new ArrayList<String>();
 		List<String> failingSuites = new ArrayList<String>();
 		String level = null;
@@ -49,6 +48,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 		DynamicClassLoader loader = new DynamicClassLoader();
 		Path pathToEnlightement = getPathToEnlightement();
 		KoanSuiteCompilationListener compilationListener = new KoanSuiteCompilationListener();
+		int successfull = 0;
 		for (Entry<String, Map<String, Map<String, KoanElementAttributes>>> packages : pathToEnlightement) {
 			for (Entry<String, Map<String, KoanElementAttributes>> e : packages.getValue().entrySet()) {
 				String name = e.getKey().substring(e.getKey().lastIndexOf('.')+1);
@@ -71,7 +71,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 							failingSuites.add(name);
 							break;
 						}else{
-							successfull.count();
+							successfull++;
 						}
 					}
 					if (failure == null) {
@@ -84,7 +84,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 			}
 		}
 		return new KoanResultBuilder()	.level(level)
-										.numberPassing((int)successfull.getCount())
+										.numberPassing(successfull)
 										.totalNumberOfKoanMethods(pathToEnlightement.getTotalNumberOfKoans())
 										.methodResult(failure)
 										.passingCases(passingSuites).remainingCases(failingSuites).build();
