@@ -5,17 +5,19 @@ import java.io.File;
 public class KoanSuiteCompilationListener implements CompilationListener {
 
 	private boolean lastCompilationAttemptFailed = false;
-	private boolean messageShown = false;
+	private String lastMessageShown = null;
 	
-	public void compilationFailed(File src, String[] command, Process p, Throwable x) {
-		if(!messageShown){
-			FileCompilerAction.LOGGING_HANDLER.compilationFailed(src, command, p, x);
+	public void compilationFailed(File src, String[] command, int exitCode, String errorMessage, Throwable x) {
+		if(!errorMessage.equals(lastMessageShown)){
+			FileCompilerAction.LOGGING_HANDLER.compilationFailed(src, command, exitCode, errorMessage, x);
 		}
-		messageShown = lastCompilationAttemptFailed = true;
+		lastMessageShown = errorMessage;
+		lastCompilationAttemptFailed = true;
 	}
 	
-	public void compilationSucceeded(File src, String[] command, Process p, Throwable x) {
-		messageShown = lastCompilationAttemptFailed = false;
+	public void compilationSucceeded(File src, String[] command, String stdIo, Throwable x) {
+		lastMessageShown = null; // reset last failed compilation message
+		lastCompilationAttemptFailed = false;
 	}
 	
 	public boolean isLastCompilationAttemptFailure(){

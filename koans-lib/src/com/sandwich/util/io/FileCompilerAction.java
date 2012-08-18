@@ -11,7 +11,7 @@ class FileCompilerAction implements FileAction {
 	
 	private final String destinationPath;
 	private final String[] classPaths;
-	private CompilationListener errorHandler;
+	private CompilationListener compilationListner;
 	static final CompilationListener LOGGING_HANDLER = new CompilationFailureLogger();
 	
 	public FileCompilerAction(File destinationPath, CompilationListener errorHandler, String...classPaths){
@@ -20,7 +20,7 @@ class FileCompilerAction implements FileAction {
 		}
 		this.destinationPath = destinationPath.getAbsolutePath();
 		this.classPaths = classPaths;
-		this.errorHandler = errorHandler == null ? LOGGING_HANDLER : errorHandler;
+		this.compilationListner = errorHandler == null ? LOGGING_HANDLER : errorHandler;
 	}
 	
 	public void sourceToDestination(File src, File bin) throws IOException {
@@ -40,13 +40,14 @@ class FileCompilerAction implements FileAction {
 					presenter.displayMessage("compiling file: " + src.getAbsolutePath());
 				}
 				if (p.waitFor() != 0) {
-					errorHandler.compilationFailed(src, command, p, null);
+					compilationListner.compilationFailed(src, command, p.exitValue(), StreamUtils.convertStreamToString(p.getErrorStream()), null);
 				}else{
-					errorHandler.compilationSucceeded(src, command, p, null);
+					compilationListner.compilationSucceeded(src, command, StreamUtils.convertStreamToString(p.getInputStream()), null);
 				}
 			} catch (Exception x) {
 				x.printStackTrace();
-				errorHandler.compilationFailed(src, command, p, x);
+				compilationListner.compilationFailed(src, command, 
+						p.exitValue(), StreamUtils.convertStreamToString(p.getErrorStream()), x);
 			}
 		}
 	}
