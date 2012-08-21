@@ -9,8 +9,7 @@ public class AboutStrings {
 
 	@Koan
 	public void implicitStrings(){
-		Class<?> c = "just a plain ole string".getClass();
-		assertEquals(c, __);
+		assertEquals("just a plain ole string".getClass(), __);
 	}
 	
 	@Koan
