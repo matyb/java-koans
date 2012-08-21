@@ -7,8 +7,9 @@
 		</suite>
 		<suite class="AboutAssertions"/>
 		<!-- TODO: AboutDataTypes... -->
-		<suite class="AboutObjects"/>
+		<suite class="AboutEquality"/>
 		<suite class="AboutStrings"/>
+		<suite class="AboutObjects"/>
 		<suite class="AboutLoops" />
 		<suite class="AboutCasting"/>
 		<suite class="AboutConditionals"/>

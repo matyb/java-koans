@@ -5,6 +5,7 @@ import static com.sandwich.koan.constant.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
 
 public class AboutEquality {
+	// This suite of Koans expands on the concepts introduced in beginner.AboutEquality
 
 	@Koan
 	public void sameObject() {
