@@ -8,6 +8,7 @@
 		<suite class="AboutAssertions"/>
 		<!-- TODO: AboutDataTypes... -->
 		<suite class="AboutEquality"/>
+		<suite class="AboutPrimitives" />
 		<suite class="AboutStrings"/>
 		<suite class="AboutObjects"/>
 		<suite class="AboutLoops" />
@@ -20,7 +21,6 @@
 		<suite class="AboutMethodPreference"/>
 		<suite class="AboutOperators"/>
 		<suite class="AboutArrays"/>
-		<suite class="AboutPrimitives"/>
 	</package>
 	<package pkg="intermediate" name="Intermediate">
 		<suite class="AboutAutoboxing"/>
