@@ -1,7 +1,7 @@
 Running Instructions:
 =====================
 * Download and unarchive the contents of the most recent java-koans in development from:
-```https://github.com/matyb/java-koans/archives/master```
+https://github.com/matyb/java-koans/archives/master
 
 * Open a terminal and cd to the directory you unarchived:
 ```cd <the directory you just unarchived>```
