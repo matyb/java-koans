@@ -80,11 +80,12 @@ public class RunKoans extends AbstractArgumentBehavior {
 				}
 			}
 		}
-		return new KoanResultBuilder()	.level(level)
-										.numberPassing(successfull)
-										.totalNumberOfKoanMethods(pathToEnlightenment.getTotalNumberOfKoans())
-										.methodResult(failure)
-										.passingCases(passingSuites).remainingCases(failingSuites).build();
+		return new KoanResultBuilder()
+				.level(level)
+				.numberPassing(successfull)
+				.totalNumberOfKoanMethods(pathToEnlightenment.getTotalNumberOfKoans())
+				.methodResult(failure).passingCases(passingSuites)
+				.remainingCases(failingSuites).build();
 	}
 
 	private Object safelyConstructSuite(DynamicClassLoader loader,
