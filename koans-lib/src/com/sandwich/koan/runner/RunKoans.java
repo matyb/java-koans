@@ -51,12 +51,8 @@ public class RunKoans extends AbstractArgumentBehavior {
 		DynamicClassLoader loader = new DynamicClassLoader();
 		Path pathToEnlightenment = getPathToEnlightenment();
 		KoanSuiteCompilationListener compilationListener = new KoanSuiteCompilationListener();
-<<<<<<< HEAD
 		int successfull = 0;
-		for (Entry<String, Map<String, Map<String, KoanElementAttributes>>> packages : pathToEnlightement) {
-=======
 		for (Entry<String, Map<String, Map<String, KoanElementAttributes>>> packages : pathToEnlightenment) {
->>>>>>> 81d381746890bea20bccf589fa8e5ed63a9ec90b
 			for (Entry<String, Map<String, KoanElementAttributes>> e : packages.getValue().entrySet()) {
 				String name = e.getKey().substring(e.getKey().lastIndexOf('.')+1);
 				if(failure == null){
@@ -85,13 +81,8 @@ public class RunKoans extends AbstractArgumentBehavior {
 			}
 		}
 		return new KoanResultBuilder()	.level(level)
-<<<<<<< HEAD
 										.numberPassing(successfull)
-										.totalNumberOfKoanMethods(pathToEnlightement.getTotalNumberOfKoans())
-=======
-										.numberPassing((int)successfull.getCount())
 										.totalNumberOfKoanMethods(pathToEnlightenment.getTotalNumberOfKoans())
->>>>>>> 81d381746890bea20bccf589fa8e5ed63a9ec90b
 										.methodResult(failure)
 										.passingCases(passingSuites).remainingCases(failingSuites).build();
 	}

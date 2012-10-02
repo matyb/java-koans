@@ -1,30 +1,31 @@
 package beginner;
 
-import com.sandwich.koan.Koan;
+import static com.sandwich.koan.constant.KoanConstants.__;
+import static com.sandwich.util.Assert.assertEquals;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.List;
 
-import static com.sandwich.koan.constant.KoanConstants.*;
-import static com.sandwich.util.Assert.*;
-import static com.sandwich.util.TypeUtils.*;
+import com.sandwich.koan.Koan;
 
 public class AboutObjects {
 
-	@Koan()
+	@Koan
 	public void newObjectInstancesCanBeCreatedDirectly() {
 		assertEquals(new Object() instanceof Object, __);
 	}
 
-	@Koan()
+	@Koan
 	public void allClassesInheritFromObject() {
 		class Foo {}
 
-		Class[] ancestors = ancestors(new Foo());
+		Class<?>[] ancestors = getAncestors(new Foo());
 		assertEquals(ancestors[0], __);
 		assertEquals(ancestors[1], __);
 	}
 
-	@Koan()
+	@Koan
 	public void objectToString() {
 		Object object = new Object();
 		// TODO: Why is it best practice to ALWAYS override toString?
@@ -32,7 +33,7 @@ public class AboutObjects {
 		assertEquals(expectedToString, __); // hint: object.toString()
 	}
 
-	@Koan()
+	@Koan
 	public void toStringConcatenates(){
 		final String string = "ha";
 		Object object = new Object(){
@@ -43,10 +44,20 @@ public class AboutObjects {
 		assertEquals(string + object, __);
 	}
 
-	@Koan()
+	@Koan
 	public void toStringIsTestedForNullWhenInvokedImplicitly(){
 		String string = "string";
 		assertEquals(string+null, __);
 	}
 
+	private Class<?>[] getAncestors(Object object) {
+		List<Class<?>> ancestors = new ArrayList<Class<?>>();
+		Class<?> clazz = object.getClass();
+		while(clazz != null) {
+			ancestors.add(clazz);
+			clazz = clazz.getSuperclass();	
+		}
+		return ancestors.toArray(new Class[]{});	
+	}
+	
 }

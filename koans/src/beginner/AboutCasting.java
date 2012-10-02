@@ -97,10 +97,8 @@ public class AboutCasting {
 	@Koan
 	public void classCasting() {
 		try {
-			Object o = new Child();		// were downcasting way to far here - would it be possible
-										// to even compile this koan had we done what was safe, and
-										// held the reference as Sleepable?
-			((Sleepable) o).sleep();
+			Object o = new Object();
+			((Sleepable) o).sleep(); // would this even compile without the cast?
 		} catch (ClassCastException x) {
 			fail("Object does not implement Sleepable, maybe one of the people classes do?");
 		}

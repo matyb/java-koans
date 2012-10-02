@@ -1,10 +1,9 @@
 package beginner;
 
-import com.sandwich.koan.Koan;
+import static com.sandwich.koan.constant.KoanConstants.__;
+import static com.sandwich.util.Assert.assertEquals;
 
-import static com.sandwich.koan.constant.KoanConstants.*;
-import static com.sandwich.util.Assert.*;
-import static com.sandwich.util.TypeUtils.*;
+import com.sandwich.koan.Koan;
 
 public class AboutPrimitives {
 
@@ -193,4 +192,36 @@ public class AboutPrimitives {
 		assertEquals(Float.SIZE, __);
 	}
 
+	private Class<?> getType(int value) {
+		return int.class;
+	}
+
+	private Class<?> getType(long value) {
+		return long.class;
+	}
+
+	private Class<?> getType(float value) {
+		return float.class;
+	}
+
+	private Class<?> getType(double value) {
+		return double.class;
+	}
+
+	private Class<?> getType(byte value) {
+		return byte.class;
+	}
+
+	private Class<?> getType(char value) {
+		return char.class;
+	}
+
+	private Class<?> getType(short value) {
+		return short.class;
+	}
+
+	private Class<?> getType(Object value) {
+		return value.getClass();
+	}
+	
 }
