@@ -65,25 +65,25 @@ public class CommandLineTestCaseTest {
 	
 	@Test
 	public void testThatStubAllKoansStubsAllKoansReference() throws Exception {
-		Path oldKoans = PathToEnlightenment.getPathToEnlightment();
+		Path oldKoans = PathToEnlightenment.getPathToEnlightenment();
 		List<Object> newKoans = Collections.emptyList();
 		testCase.stubAllKoans(newKoans);
-		assertNotSame(oldKoans, PathToEnlightenment.getPathToEnlightment());
+		assertNotSame(oldKoans, PathToEnlightenment.getPathToEnlightenment());
 		// number of suites
-		assertEquals(0, PathToEnlightenment.getPathToEnlightment()
+		assertEquals(0, PathToEnlightenment.getPathToEnlightenment()
 				.iterator().next().getValue().size()); 
 	}
 	
 	@Test
 	public void testTestCaseRestoresAllKoansReference() throws Exception {
-		Path oldKoans = PathToEnlightenment.getPathToEnlightment();
+		Path oldKoans = PathToEnlightenment.getPathToEnlightenment();
 		List<Object> newKoans = Collections.emptyList();
 		testCase.stubAllKoans(newKoans);
-		assertNotSame(oldKoans, PathToEnlightenment.getPathToEnlightment());
+		assertNotSame(oldKoans, PathToEnlightenment.getPathToEnlightenment());
 		testCase.tearDown();
 		// creates all new instance
-		assertNotSame(oldKoans, PathToEnlightenment.getPathToEnlightment());
-		assertEquals(oldKoans, PathToEnlightenment.getPathToEnlightment());
+		assertNotSame(oldKoans, PathToEnlightenment.getPathToEnlightenment());
+		assertEquals(oldKoans, PathToEnlightenment.getPathToEnlightenment());
 	}
 	
 	@Test

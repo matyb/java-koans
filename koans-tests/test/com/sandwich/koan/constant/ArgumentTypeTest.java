@@ -22,7 +22,7 @@ public class ArgumentTypeTest extends CommandLineTestCase {
 		assertEquals(1, classVsMethod.indexOf(ArgumentType.CLASS_ARG));
 		Collections.sort(classVsMethod);
 		// now - because of comparable impl was applied, class precedes method - this is necessary
-		// @ see KaonSuiteRunner.run()
+		// @ see KoanSuiteRunner.run()
 		assertEquals(1, classVsMethod.indexOf(ArgumentType.METHOD_ARG));
 		assertEquals(0, classVsMethod.indexOf(ArgumentType.CLASS_ARG));
 	}

@@ -11,14 +11,14 @@ import com.sandwich.koan.Koan;
 public class AboutAutoboxing {
 
 	@Koan
-	public void addPrimativesToCollection() {
+	public void addPrimitivesToCollection() {
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(0, new Integer(42));
 		assertEquals(list.get(0), __);
 	}
 	
 	@Koan
-	public void addPrimativesToCollectionWithAutoBoxing() {
+	public void addPrimitivesToCollectionWithAutoBoxing() {
 		List<Integer> list = new ArrayList<Integer>();
 		list.add(0, 42);
 		assertEquals(list.get(0), __);
@@ -35,7 +35,7 @@ public class AboutAutoboxing {
 	}
 	
 	@Koan
-	public void allPrimativesCanBeAutoboxed() {
+	public void allPrimitivesCanBeAutoboxed() {
 		List<Double> doubleList = new ArrayList<Double>();
 		doubleList.add(0, new Double(42));
 		assertEquals(doubleList.get(0), __);

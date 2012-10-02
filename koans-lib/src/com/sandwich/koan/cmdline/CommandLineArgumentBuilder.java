@@ -36,7 +36,7 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 					// - in other words, argumentType will be argumentTypePlusOne in next iteration
 					continue;
 				}
-				// ok 2nd argument wasn't a recongized argument type - go
+				// ok 2nd argument wasn't a recognized argument type - go
 				// ahead and see if it's a class, if not, it must be a
 				// method - or bogus
 				else if(stringArgPlusOne != null){

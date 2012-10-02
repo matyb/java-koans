@@ -85,7 +85,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	@Test
 	public void testGetKoans() throws Exception {
 		stubAllKoans(Arrays.asList(new OnePassingKoan()));
-		Map<String, Map<String, KoanElementAttributes>> koans = PathToEnlightenment.getPathToEnlightment().iterator().next().getValue();
+		Map<String, Map<String, KoanElementAttributes>> koans = PathToEnlightenment.getPathToEnlightenment().iterator().next().getValue();
 		assertEquals(1, koans.size());
 		Entry<String, Map<String, KoanElementAttributes>> entry = koans.entrySet().iterator().next();
 		assertEquals(OnePassingKoan.class.getName(), entry.getKey());
@@ -108,10 +108,10 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 			});
 		doAsIfInProd(new Runnable(){
 			public void run(){
-				new RunKoans(PathToEnlightenment.getPathToEnlightment()).run(null);
+				new RunKoans(PathToEnlightenment.getPathToEnlightenment()).run(null);
 			}
 		});
-		String firstSuiteClassRan = PathToEnlightenment.getPathToEnlightment()
+		String firstSuiteClassRan = PathToEnlightenment.getPathToEnlightenment()
 				.iterator().next().getValue().entrySet().iterator().next().getKey();
 		assertEquals(result[0].getFailingCase(), firstSuiteClassRan.substring(firstSuiteClassRan.lastIndexOf(".") + 1));
 	}
@@ -133,7 +133,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		});
 		doAsIfInProd(new Runnable(){
 			public void run(){
-				new RunKoans(PathToEnlightenment.getPathToEnlightment()).run(null);
+				new RunKoans(PathToEnlightenment.getPathToEnlightenment()).run(null);
 			}
 		});
 		String message = "Not all koans need solving! Each should ship in a failing state.";
@@ -164,7 +164,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	}
 	
 	@Test
-	public void testWarningFromPlacingExpecationOnWrongSide() throws Throwable {
+	public void testWarningFromPlacingExpectationOnWrongSide() throws Throwable {
 		final String[] message = new String[1];
 		stubAllKoans(Arrays.asList(new WrongExpectationOrderKoan()));
 		Logger.getLogger(CommandLineArgumentRunner.class.getSimpleName()).addHandler(
@@ -191,7 +191,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	}
 
 	@Test
-	public void testNoWarningFromPlacingExpecationOnRightSide()
+	public void testNoWarningFromPlacingExpectationOnRightSide()
 			throws Throwable {
 		stubAllKoans(Arrays.asList(new OnePassingKoan()));
 		Logger.getLogger(CommandLineArgumentRunner.class.getSimpleName()).addHandler(

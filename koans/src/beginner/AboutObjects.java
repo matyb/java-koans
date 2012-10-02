@@ -1,63 +1,37 @@
 package beginner;
 
-import static com.sandwich.koan.constant.KoanConstants.__;
-import static com.sandwich.util.Assert.assertEquals;
-
 import com.sandwich.koan.Koan;
+
+import java.text.MessageFormat;
+
+import static com.sandwich.koan.constant.KoanConstants.*;
+import static com.sandwich.util.Assert.*;
+import static com.sandwich.util.TypeUtils.*;
 
 public class AboutObjects {
 
 	@Koan()
-	public void objectEqualsNull(){
-		// does a new object instance equal the null keyword?
-		assertEquals(new Object().equals(null), __);
+	public void newObjectInstancesCanBeCreatedDirectly() {
+		assertEquals(new Object() instanceof Object, __);
 	}
-	
+
 	@Koan()
-	public void objectEqualsSelf(){
-		Object obj = new Object();
-		// does a new object equal itself?
-		assertEquals(obj.equals(obj), __);
+	public void allClassesInheritFromObject() {
+		class Foo {}
+
+		Class[] ancestors = ancestors(new Foo());
+		assertEquals(ancestors[0], __);
+		assertEquals(ancestors[1], __);
 	}
-	
+
 	@Koan()
-	public void objectIdentityEqualityIsTrueWhenReferringToSameObject(){
-		Object objectReference = new Object();
-		Object referenceToSameObject = objectReference;
-		// does a new object == itself?
-		assertEquals(objectReference == referenceToSameObject, __);
-	}
-	
-	@Koan()
-	public void subclassesEqualsMethodIsLooserThanDoubleEquals(){
-		Integer integer0 = new Integer(0);
-		Integer integer1 = new Integer(0);
-		assertEquals(integer0.equals(integer1), __);
-	}
-	
-	@Koan()
-	public void doubleEqualsOperatorEvalutesToTrueOnlyWithSameInstance(){
-		Integer integer0 = new Integer(0);
-		Integer integer1 = integer0; // <- assigning same instance to different reference
-		assertEquals(integer0 == integer1, __);
-	}
-	
-	@Koan()
-	public void doubleEqualsOperatorEvalutesToFalseWithDifferentInstances(){
-		Integer integer0 = new Integer(0);
-		Integer integer1 = new Integer(0); // <- new keyword is generating new object instance
-		assertEquals(integer0 == integer1, __);
-	}
-	
-	@Koan()
-	public void objectToString(){
+	public void objectToString() {
 		Object object = new Object();
 		// TODO: Why is it best practice to ALWAYS override toString?
-		assertEquals((new StringBuilder()).append(Object.class.getName())
-				.append('@')
-				.append(Integer.toHexString(object.hashCode())).toString(), __); //object.toString()
+		String expectedToString = MessageFormat.format("{0}@{1}", Object.class.getName(), Integer.toHexString(object.hashCode()));
+		assertEquals(expectedToString, __); // hint: object.toString()
 	}
-	
+
 	@Koan()
 	public void toStringConcatenates(){
 		final String string = "ha";
@@ -74,4 +48,5 @@ public class AboutObjects {
 		String string = "string";
 		assertEquals(string+null, __);
 	}
+
 }

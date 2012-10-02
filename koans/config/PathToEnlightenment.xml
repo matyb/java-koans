@@ -7,19 +7,20 @@
 		</suite>
 		<suite class="AboutAssertions"/>
 		<!-- TODO: AboutDataTypes... -->
-		<suite class="AboutObjects"/>
+		<suite class="AboutEquality"/>
+		<suite class="AboutPrimitives" />
 		<suite class="AboutStrings"/>
+		<suite class="AboutObjects"/>
 		<suite class="AboutLoops" />
+		<suite class="AboutInheritance"/>
 		<suite class="AboutCasting"/>
 		<suite class="AboutConditionals"/>
-		<suite class="AboutInheritance"/>
 		<suite class="AboutConstructors"/>
 		<suite class="AboutEnums"/>
 		<suite class="AboutExceptions"/>
 		<suite class="AboutMethodPreference"/>
 		<suite class="AboutOperators"/>
 		<suite class="AboutArrays"/>
-		<suite class="AboutPrimitives"/>
 	</package>
 	<package pkg="intermediate" name="Intermediate">
 		<suite class="AboutAutoboxing"/>

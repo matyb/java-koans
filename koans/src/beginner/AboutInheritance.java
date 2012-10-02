@@ -35,7 +35,7 @@ public class AboutInheritance {
 	}
 	
 	@Koan
-	public void overridenMethodsMayReturnSubtype() {
+	public void overriddenMethodsMayReturnSubtype() {
 		// What do you need to change in order to get rid of the type cast?
 		// Why does this work?
 		List<?> list = (List<?>)new ChildTwo().doStuff();

@@ -5,6 +5,7 @@ import static com.sandwich.koan.constant.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
 
 public class AboutEquality {
+	// This suite of Koans expands on the concepts introduced in beginner.AboutEquality
 
 	@Koan
 	public void sameObject() {
@@ -22,7 +23,7 @@ public class AboutEquality {
 	}
 	
 	@Koan 
-	public void noObjectShouldbeEqualToNull() {
+	public void noObjectShouldBeEqualToNull() {
 		assertEquals(new Object().equals(null), __);
 	}
 	
@@ -60,7 +61,7 @@ public class AboutEquality {
 	@Koan 
 	public void unequalForOwnObjects() {
 		Car car1 = new Car("Beetle", 50);
-		Car car2 = new Car("Prosche", 300);
+		Car car2 = new Car("Porsche", 300);
 		// See line 37 for the task you have to solve
 		assertEquals(car1.equals(car2), false);
 	}

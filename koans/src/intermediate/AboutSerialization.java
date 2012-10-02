@@ -127,7 +127,7 @@ public class AboutSerialization {
 	}
 	
 	@Koan
-	public void serializeWithInteritance() throws IOException, ClassNotFoundException {
+	public void serializeWithInheritance() throws IOException, ClassNotFoundException {
 		Dog d = new Dog("snoopy");
 		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("SerializeFile"));
 		os.writeObject(d);
@@ -153,7 +153,7 @@ public class AboutSerialization {
 	}
 	
 	@Koan
-	public void serializeWithInheritanceWhenParentNotserializable() throws FileNotFoundException, IOException, ClassNotFoundException {
+	public void serializeWithInheritanceWhenParentNotSerializable() throws FileNotFoundException, IOException, ClassNotFoundException {
 		MilitaryPlane p = new MilitaryPlane("F22");
 		
 		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("SerializeFile"));
@@ -167,7 +167,7 @@ public class AboutSerialization {
 		
 		// Think about how serialization creates objects... 
 		// It does not use constructors! But if a parent object is not serializable
-		// it actually uses contstructors and if the fields are not in a serializable class...
+		// it actually uses constructors and if the fields are not in a serializable class...
 		// unexpected things - like this - may happen
 	}
 }

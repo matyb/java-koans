@@ -14,6 +14,12 @@ https://github.com/matyb/java-koans/archives/master
 
 Developing a Koan:
 ==================
+<<<<<<< HEAD
 * Follow any of the existing koans as an example to create a new class with koan methods (indicated by the @Koan annotation, they're public and specify no arguments)
 * Define the order the koan suite (if it's new) will run in the koans/config/PathToEnlightenment.xml file
 * Optionally you may use dynamic content in your lesson, examples are located in the XmlVariableInjector class (and Test) and the AboutKoans.java file
+=======
+1. Follow any of the existing koans as an example to create a new class w/ koan methods (indicated by the @Koan annotation)
+2. Define the order and metadata associated with each koan in the PathToEnlightenment.xml
+3. If necessary - use dynamic content in your lesson, examples are located in XmlVariableInjector class (and Test) and the AboutKoans.java file
+>>>>>>> 81d381746890bea20bccf589fa8e5ed63a9ec90b

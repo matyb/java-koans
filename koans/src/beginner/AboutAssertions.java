@@ -33,13 +33,23 @@ public class AboutAssertions {
 	public void assertNotNullObject(){
 		assertNotNull(null); // anything other than null should pass here...
 	}
-	
+
+	@Koan()
+	public void assertEqualsUsingExpression(){
+		assertTrue("Hello World!".equals(__));
+	}
+
+	@Koan()
+	public void assertEqualsWithBetterFailureMessage(){
+		assertEquals(1, __);
+	}
+
 	@Koan()
 	public void assertEqualsWithDescriptiveMessage() {
 		// Generally, when using an assertXXX methods, expectation is on the 
 		// left and it is best practice to use a String for the first arg 
 		// indication what has failed
-		assertEquals("1 should equal 1", 1, __); 	
+		assertEquals("The answer to 'life the universe and everything' should be 42", 42, __);
 	}
 	
 	@Koan()
