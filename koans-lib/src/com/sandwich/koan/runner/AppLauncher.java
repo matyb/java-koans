@@ -1,5 +1,6 @@
 package com.sandwich.koan.runner;
 
+import java.io.File;
 import java.util.Map;
 
 import com.sandwich.koan.ApplicationSettings;
@@ -17,7 +18,9 @@ public class AppLauncher {
 	public static void main(final String... args) throws Throwable {
 		Map<ArgumentType, CommandLineArgument> argsMap = new CommandLineArgumentBuilder(args);
 		if(argsMap.containsKey(ArgumentType.RUN_KOANS)){
-			FileMonitorFactory.getInstance(DirectoryManager.getProdMainDir())
+			FileMonitorFactory.getInstance(
+					new File(DirectoryManager.getProdMainDir()), 
+					new File(DirectoryManager.getDataFile()))
 				.addFileSavedListener(new KoanFileCompileAndRunListener(argsMap));
 		}
 		new CommandLineArgumentRunner(argsMap).run();

@@ -18,7 +18,7 @@ public class DynamicClassLoader extends ClassLoader {
 	private static Map<URL, Class<?>> classesByLocation = new HashMap<URL, Class<?>>();
 	private static Map<Class<?>, URL> locationByClass = new HashMap<Class<?>, URL>();
 	private final FileMonitor fileMonitor = FileMonitorFactory.getInstance(
-											DirectoryManager.getProdMainDir());
+			new File(DirectoryManager.getProdMainDir()), new File(DirectoryManager.getDataFile()));
 	
 	public DynamicClassLoader(){
 		this(ClassLoader.getSystemClassLoader());

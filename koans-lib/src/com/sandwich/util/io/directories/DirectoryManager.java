@@ -72,8 +72,11 @@ public abstract class DirectoryManager {
 	}
 	
 	public static String getProjectDataSourceDir() {
-		return injectFileSystemSeparators(	getDataDir(),
-											instance.getSourceDir());
+		return injectFileSystemSeparators(getDataDir(), instance.getSourceDir());
+	}
+	
+	public static String getDataFile() {
+		return injectFileSystemSeparators(getDataDir(), "file_hashes.dat");
 	}
 	
 	/**
