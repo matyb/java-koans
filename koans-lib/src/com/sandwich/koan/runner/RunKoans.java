@@ -1,5 +1,6 @@
 package com.sandwich.koan.runner;
 
+import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.sandwich.koan.Koan;
+import com.sandwich.koan.KoanClassLoader;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.cmdline.behavior.AbstractArgumentBehavior;
 import com.sandwich.koan.constant.KoanConstants;
@@ -23,8 +25,9 @@ import com.sandwich.util.ExceptionUtils;
 import com.sandwich.util.KoanComparator;
 import com.sandwich.util.io.CompilationListener;
 import com.sandwich.util.io.DynamicClassLoader;
-import com.sandwich.util.io.FileUtils;
+import com.sandwich.util.io.FileCompiler;
 import com.sandwich.util.io.KoanSuiteCompilationListener;
+import com.sandwich.util.io.directories.DirectoryManager;
 
 public class RunKoans extends AbstractArgumentBehavior {
 
@@ -48,7 +51,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 		List<String> failingSuites = new ArrayList<String>();
 		String level = null;
 		KoanMethodResult failure = null;
-		DynamicClassLoader loader = new DynamicClassLoader();
+		DynamicClassLoader loader = KoanClassLoader.getInstance();
 		Path pathToEnlightenment = getPathToEnlightenment();
 		KoanSuiteCompilationListener compilationListener = new KoanSuiteCompilationListener();
 		int successfull = 0;
@@ -155,9 +158,11 @@ public class RunKoans extends AbstractArgumentBehavior {
 			throw new RuntimeException(e1);
 		} catch (Error e1) {
 			if(e1.getClass() == Error.class && e1.getMessage().contains("Unresolved compilation problem")) {
-				listener.compilationFailed(FileUtils.getSourceFileFromClass(className), 
-						new String[]{"(compilation yielded a class, but it cannot be cereated)"}, 
-						-1, "Unable to load class \""+className+"\"." + KoanConstants.EOL + 
+				File sourceFile = FileCompiler.getSourceFileFromClass(
+						DirectoryManager.getSourceDir(), className);
+				listener.compilationFailed(
+					sourceFile, new String[]{}, -1, 
+					"Unable to load class \""+className+"\"." + KoanConstants.EOL + 
 						ExceptionUtils.convertToPopulatedStackTraceString(e1), e1);
 				return null; // just consume this exception, this will have been logged and is handled
 			}else{

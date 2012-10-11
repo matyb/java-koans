@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.util.Strings;
-import com.sandwich.util.io.FileUtils;
+import com.sandwich.util.io.FileCompiler;
 import com.sandwich.util.io.directories.DirectoryManager;
 
 public class RbVariableInjector {
@@ -29,7 +29,8 @@ public class RbVariableInjector {
 		this.lesson = lesson;
 		methodName = koanMethod.getName();
 		suiteName = declaringClass.getSimpleName();
-		String path = FileUtils.getSourceFileFromClass(declaringClass.getName()).getAbsolutePath();
+		String path = FileCompiler.getSourceFileFromClass(
+				DirectoryManager.getSourceDir(), declaringClass.getName()).getAbsolutePath();
 		suitePath = path.substring(0, path.lastIndexOf(DirectoryManager.FILESYSTEM_SEPARATOR) + 1);
 	}
 	

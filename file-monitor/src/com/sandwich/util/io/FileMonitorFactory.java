@@ -58,4 +58,11 @@ public class FileMonitorFactory {
 		monitors.remove(absolutePath);
 	}
 
+	public static void closeAll() {
+		for(FileMonitor monitor : monitors.values()){
+			monitor.close();
+		}
+		monitors.clear();
+	}
+
 }

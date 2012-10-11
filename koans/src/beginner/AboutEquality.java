@@ -10,7 +10,8 @@ public class AboutEquality {
 	@Koan()
 	public void doubleEqualsTestsIfTwoObjectsAreTheSame(){
 		Object object = new Object();
-		assertEquals(object == object, __);
+		Object sameObject = object;
+		assertEquals(object == sameObject, __);
 		assertEquals(object == new Object(), __);
 	}
 

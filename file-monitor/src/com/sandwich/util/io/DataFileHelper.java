@@ -22,19 +22,19 @@ public class DataFileHelper<T> {
 		this.dataFile = dataFile;
 		if(!dataFile.exists()){
 			dataFile.getParentFile().mkdirs();
-			save(defaultState);
+			write(defaultState);
 		}
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {
 				if(lastRetrieval != null){
-					save(lastRetrieval);
+					write(lastRetrieval);
 				}
 	        }
 	    }));
 	}
 	
 	@SuppressWarnings("unchecked")
-	public T readLastModifiedTimes(){
+	public T read(){
 		ObjectInputStream objectInputStream = null;
 		try {
 			objectInputStream = new ObjectInputStream(new FileInputStream(getDataFile()));
@@ -51,7 +51,7 @@ public class DataFileHelper<T> {
 		}
 	}
 
-	public void save(T state){
+	public void write(T state){
 		ObjectOutputStream objectOutputStream = null;
 		try {
 			objectOutputStream = new ObjectOutputStream(new FileOutputStream(getDataFile()));

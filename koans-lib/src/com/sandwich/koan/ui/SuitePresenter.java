@@ -1,8 +1,9 @@
 package com.sandwich.koan.ui;
 
 import com.sandwich.koan.result.KoanSuiteResult;
+import com.sandwich.util.io.ui.ErrorPresenter;
 
-public interface SuitePresenter {
+public interface SuitePresenter extends ErrorPresenter {
 
 	public void displayResult(KoanSuiteResult result);
 	public void displayError(String error);

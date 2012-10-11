@@ -10,7 +10,8 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.util.io.FileUtils;
+import com.sandwich.util.io.FileCompiler;
+import com.sandwich.util.io.directories.DirectoryManager;
 
 public class KoanComparator implements Comparator<KoanMethod> {
 	List<String> orderedKeywords;
@@ -31,7 +32,7 @@ public class KoanComparator implements Comparator<KoanMethod> {
 			Logger.getAnonymousLogger().severe("no idea how to handle comparing the classes: " + declaringClass0 + " and: "+declaringClass1);
 			return 0;
 		}
-		String contentsOfOriginalJavaFile = FileUtils.getContentsOfOriginalJavaFile(declaringClass0.getName());
+		String contentsOfOriginalJavaFile = FileCompiler.getContentsOfJavaFile(DirectoryManager.getSourceDir(), declaringClass0.getName());
 		Integer index0 = Integer.valueOf(	contentsOfOriginalJavaFile.indexOf(arg0.getMethod().getName()));
 		Integer index1 = Integer.valueOf(	contentsOfOriginalJavaFile.indexOf(arg1.getMethod().getName()));
 		return index0.compareTo(index1);

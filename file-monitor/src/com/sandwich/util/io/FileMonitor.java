@@ -23,7 +23,7 @@ public class FileMonitor {
 		}
 		fileHashesHelper = new DataFileHelper<Map<String,Long>>(
 				dataFile, new HashMap<String,Long>());
-		fileHashesByDirectory = fileHashesHelper.readLastModifiedTimes();
+		fileHashesByDirectory = fileHashesHelper.read();
 	}
 	
 	public String getFilesystemPath() {
@@ -64,7 +64,7 @@ public class FileMonitor {
 	
 	Map<String, Long> getFilesystemHashes() throws IOException {
 		final HashMap<String,Long> fileHashes = new HashMap<String,Long>();
-		forEachFile(fileSystemPath, fileSystemPath, new FileAction(){
+		FileUtils.forEachFile(fileSystemPath, fileSystemPath, new FileAction(){
 			public File makeDestination(File dest, String fileInDirectory) {
 				return new File(dest, fileInDirectory);
 			}
@@ -82,27 +82,6 @@ public class FileMonitor {
 
 	public void updateFileSaveTime(File file) {
 		fileHashesByDirectory.put(file.getAbsolutePath(), file.lastModified());
-	}
-	
-	public static void forEachFile(File src, File dest, FileAction fileAction) throws IOException {
-		if((src == null || !src.exists()) && dest == null){
-			throw new IllegalArgumentException("Both path's must actually exist");
-		}
-		if (src.isDirectory()) {
-			if (!dest.exists()) {
-				dest.mkdir();
-			}
-			String files[] = src.list();
-			for (int i = 0; i < files.length; i++) {
-				forEachFile(new File(src, files[i]), fileAction.makeDestination(dest, files[i]), fileAction);
-			}
-		} else {
-			if (!src.exists()) {
-				throw new IOException("File or directory does not exist: "+src);
-			} else {
-				fileAction.sourceToDestination(src, dest);
-			}
-		}
 	}
 	
 }

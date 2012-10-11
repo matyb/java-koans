@@ -12,7 +12,7 @@ import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformerImpl;
-import com.sandwich.util.io.FileUtils;
+import com.sandwich.util.io.FileCompiler;
 import com.sandwich.util.io.directories.DirectoryManager;
 
 public abstract class PathToEnlightenment {
@@ -99,7 +99,8 @@ public abstract class PathToEnlightenment {
 		}
 		
 		private int countKoanAnnotationsInJavaFileGivenClassName(String className) {
-			String[] lines = FileUtils.getContentsOfOriginalJavaFile(className).split(KoanConstants.EOLS);
+			String[] lines = FileCompiler.getContentsOfJavaFile(
+					DirectoryManager.getSourceDir(), className).split(KoanConstants.EOLS);
 			String koanClassSimpleNameWithAnnotationPrefix = '@'+Koan.class.getSimpleName();
 			int total = 0;
 			for(String line : lines){

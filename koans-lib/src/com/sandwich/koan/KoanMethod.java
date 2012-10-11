@@ -12,7 +12,7 @@ public class KoanMethod {
 	private final transient Method method;
 	private final String lesson;
 	private final boolean displayIncompleteException;
-	private static final DynamicClassLoader classLoader = new DynamicClassLoader();
+	private static final DynamicClassLoader classLoader = KoanClassLoader.getInstance();
 	private static final KoanSuiteCompilationListener listener = new KoanSuiteCompilationListener();
 	
 	private KoanMethod(KoanElementAttributes koanAttributes) throws SecurityException, NoSuchMethodException{

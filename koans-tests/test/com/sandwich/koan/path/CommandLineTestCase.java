@@ -13,6 +13,7 @@ import org.junit.Assert;
 import org.junit.Before;
 
 import com.sandwich.koan.Koan;
+import com.sandwich.koan.KoanClassLoader;
 import com.sandwich.koan.KoanIncompleteException;
 import com.sandwich.koan.TestUtils;
 import com.sandwich.koan.TestUtils.ArgRunner;
@@ -83,7 +84,7 @@ public abstract class CommandLineTestCase {
 		Path oldKoans = PathToEnlightenment.getPathToEnlightenment();
 		Map<String, Map<String, KoanElementAttributes>> tempSuitesAndMethods = 
 			new LinkedHashMap<String, Map<String, KoanElementAttributes>>();
-		DynamicClassLoader loader = new DynamicClassLoader();
+		DynamicClassLoader loader = KoanClassLoader.getInstance();
 		for(String suite : path){
 			Map<String, KoanElementAttributes> methodsByName = new LinkedHashMap<String, KoanElementAttributes>();
 			KoanSuiteCompilationListener listener = new KoanSuiteCompilationListener();

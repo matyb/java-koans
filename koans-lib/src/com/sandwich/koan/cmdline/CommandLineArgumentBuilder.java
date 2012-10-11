@@ -5,10 +5,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.sandwich.koan.ApplicationSettings;
+import com.sandwich.koan.KoanClassLoader;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.koan.util.ApplicationUtils;
-import com.sandwich.util.io.DynamicClassLoader;
 
 public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, CommandLineArgument> {
 	
@@ -67,7 +67,7 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 				if(!hasClass){
 					commandLineArguments.put(ArgumentType.CLASS_ARG, 
 						new CommandLineArgument(ArgumentType.CLASS_ARG, 
-								new DynamicClassLoader().loadClass(potentialClassOrMethod).getName()));
+								KoanClassLoader.getInstance().loadClass(potentialClassOrMethod).getName()));
 				}else if(!hasMethod){
 					commandLineArguments.put(ArgumentType.METHOD_ARG, 
 							new CommandLineArgument(ArgumentType.METHOD_ARG, potentialClassOrMethod));
