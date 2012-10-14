@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 
+import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.constant.ArgumentType;
@@ -29,6 +30,7 @@ public class KoanFileCompileAndRunListener implements FileListener {
 				FileCompiler.compile(file, 
 					new File(DirectoryManager.getBinDir()),
 					listener,
+					ApplicationSettings.getFileCompilationTimeoutInMs(),
 					new String[]{DirectoryManager.injectFileSystemSeparators(DirectoryManager.getProjectLibraryDir(), "koans.jar")});
 				DynamicClassLoader.remove(FileCompiler.sourceToClass(
 						DirectoryManager.getSourceDir(), DirectoryManager.getBinDir(), file).toURI().toURL());
