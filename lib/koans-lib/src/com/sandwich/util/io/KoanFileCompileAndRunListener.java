@@ -31,7 +31,8 @@ public class KoanFileCompileAndRunListener implements FileListener {
 					new File(DirectoryManager.getBinDir()),
 					listener,
 					ApplicationSettings.getFileCompilationTimeoutInMs(),
-					new String[]{DirectoryManager.injectFileSystemSeparators(DirectoryManager.getProjectLibraryDir(), "koans.jar")});
+					new String[]{DirectoryManager.injectFileSystemSeparators(
+							DirectoryManager.getProjectLibraryDir(), "koans.jar")});
 				DynamicClassLoader.remove(FileCompiler.sourceToClass(
 						DirectoryManager.getSourceDir(), DirectoryManager.getBinDir(), file).toURI().toURL());
 				if(!listener.isLastCompilationAttemptFailure()){
