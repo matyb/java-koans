@@ -26,16 +26,22 @@ public class FileCompiler {
 		compile(src, bin, new CompilationFailureLogger(errorPresenter), classpath);
 	}
 
-	public static void compile(File src, final File bin, CompilationListener listener, String[] classpath) throws IOException {
+	public static void compile(File src, final File bin, 
+			CompilationListener listener, String[] classpath) throws IOException {
+		compile(src, bin, listener, 5000l, classpath);
+	}
+	
+	public static void compile(File src, File bin,
+			CompilationListener listener, long timeout, String[] classpath) throws IOException {
 		if(!bin.exists()){
 			if(!bin.mkdir()){
 				System.err.println("Was unable to create: "+bin);
 				System.exit(-231);
 			}
 		}
-		FileUtils.forEachFile(src, bin, new FileCompilerAction(bin, listener, classpath));
+		FileUtils.forEachFile(src, bin, new FileCompilerAction(bin, listener, timeout, classpath));
 	}
-	
+
 	public static String getContentsOfJavaFile(String sourceDir, String className) {
 		return FileUtils.readFileAsString(getSourceFileFromClass(sourceDir, className));
 	}

@@ -15,6 +15,7 @@ public class DynamicClassLoader extends ClassLoader {
 	private static Map<URL, Class<?>> classesByLocation = new HashMap<URL, Class<?>>();
 	private static Map<Class<?>, URL> locationByClass = new HashMap<Class<?>, URL>();
 	
+	private final long timeout;
 	private final FileMonitor fileMonitor;
 	private final String binDir, sourceDir;
 	private final String[] classPath;
@@ -25,12 +26,19 @@ public class DynamicClassLoader extends ClassLoader {
 	
 	public DynamicClassLoader(String binDir, String sourceDir, String[] classPath, 
 			FileMonitor fileMonitor, ClassLoader parent) {
-        super(parent);
+        this(binDir, sourceDir, classPath, fileMonitor, parent, 5000l);
+    }
+
+	public DynamicClassLoader(String binDir, String sourceDir,
+			String[] classPath, FileMonitor fileMonitor, ClassLoader parent,
+			long timeout) {
+		super(parent);
         this.fileMonitor = fileMonitor;
         this.binDir = binDir;
         this.sourceDir = sourceDir;
         this.classPath = classPath;
-    }
+        this.timeout = timeout;
+	}
 
 	public static void remove(URL url){
 		String urlToString = url.toString().replace(FileCompiler.CLASS_SUFFIX, "").replace(FileCompiler.JAVA_SUFFIX, "");
@@ -69,7 +77,7 @@ public class DynamicClassLoader extends ClassLoader {
 				boolean isAnonymous = absolutePath.contains("$");
 				if(fileMonitor.isFileModifiedSinceLastPoll(sourceFile.getAbsolutePath(), sourceFile.lastModified())){
 					if(!isAnonymous){
-						compile(className, fileName, sourceFile, listener);
+						compile(className, fileName, sourceFile, timeout, listener);
 					}
 				}
 				return loadClass(classFile.toURI().toURL(), className);
@@ -77,7 +85,7 @@ public class DynamicClassLoader extends ClassLoader {
 			try{
 				return super.loadClass(className);
 			}catch(ClassNotFoundException x){
-				compile(className, fileName, sourceFile, listener);
+				compile(className, fileName, sourceFile, timeout, listener);
 				classFile = new File(fileName);
 				return loadClass(classFile.toURI().toURL(), className);
 			}
@@ -85,10 +93,10 @@ public class DynamicClassLoader extends ClassLoader {
 			throw new RuntimeException(e);
 		}
 	}
-
-	private void compile(String className, String fileName, File sourceFile, CompilationListener listener)
+	
+	private void compile(String className, String fileName, File sourceFile, long timeout, CompilationListener listener)
 			throws IOException {
-		FileCompiler.compile(sourceFile, new File(binDir), listener, classPath);
+		FileCompiler.compile(sourceFile, new File(binDir), listener, timeout, classPath);
 		fileMonitor.updateFileSaveTime(sourceFile);
 	}
 
@@ -120,6 +128,7 @@ public class DynamicClassLoader extends ClassLoader {
 	
 	@Override
 	public DynamicClassLoader clone(){
-		return new DynamicClassLoader(binDir, sourceDir, classPath, fileMonitor);
+		return new DynamicClassLoader(binDir, sourceDir, classPath, fileMonitor, 
+				getClass().getClassLoader(), timeout);
 	}
 }

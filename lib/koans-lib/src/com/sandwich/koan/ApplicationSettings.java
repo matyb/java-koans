@@ -32,6 +32,10 @@ public class ApplicationSettings {
 		return getConfigBundle().getString("path_xml_filename");
 	}
 	
+	public static long getFileCompilationTimeoutInMs(){
+		return Long.valueOf(getConfigBundle().getString("compile_timeout_in_ms"));
+	}
+	
 	private static boolean isEqual(String value, Object e2, boolean ignoreCase){
 		if(value == e2){
 			return true;
