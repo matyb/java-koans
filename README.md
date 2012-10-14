@@ -7,8 +7,10 @@ https://github.com/matyb/java-koans/archives/master
 ```cd <the directory you just unarchived>```
 * Within it you'll find:
     * *koans*: this directory contains the application and its lessons, it is all that is needed to advance through the koans themselves and **it can be distributed independently**
-    * *koans-lib*: the directory for source code for the engine that executes the koans 
-    * *koans-tests*: the directory for tests to check the sanity of the application
+    * *lib/koans-lib*: the directory for source code for the engine that executes the koans 
+    * *lib/koans-tests*: the directory for tests to check the sanity of the application
+    * *lib/file-compiler*: the dynamic compiler module that loads newly saved files
+    * *lib/file-monitor*: the file monitoring module for notifying the app when files are saved 
 * Change directory to the koans directory: ```cd koans```
 * If you are using windows enter: ```run.bat``` or ```sh run.sh``` if you are using Mac or Linux.
 

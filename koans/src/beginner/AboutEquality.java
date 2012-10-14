@@ -7,7 +7,7 @@ import static com.sandwich.util.Assert.*;
 
 public class AboutEquality {
 
-	@Koan()
+	@Koan
 	public void doubleEqualsTestsIfTwoObjectsAreTheSame(){
 		Object object = new Object();
 		Object sameObject = object;
@@ -15,14 +15,14 @@ public class AboutEquality {
 		assertEquals(object == new Object(), __);
 	}
 
-	@Koan()
+	@Koan
 	public void equalsMethodByDefaultTestsIfTwoObjectsAreTheSame(){
 		Object object = new Object();
 		assertEquals(object.equals(object), __);
 		assertEquals(object.equals(new Object()), __);
 	}
 
-	@Koan()
+	@Koan
 	public void equalsMethodCanBeChangedBySubclassesToTestsIfTwoObjectsAreEqual(){
 		Object object = new Integer(1);
 		assertEquals(object.equals(object), __);
@@ -30,12 +30,12 @@ public class AboutEquality {
 		// Note: This means that for the class 'Object' there is no difference between 'equal' and 'same'
 	}
 
-	@Koan()
+	@Koan
 	public void objectsNeverEqualNull(){
 		assertEquals(new Object().equals(null), __);
 	}
 
-	@Koan()
+	@Koan
 	public void objectsEqualThemselves(){
 		Object obj = new Object();
 		assertEquals(obj.equals(obj), __);
