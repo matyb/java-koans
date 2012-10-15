@@ -11,6 +11,7 @@ https://github.com/matyb/java-koans/archives/master
     * *lib/koans-tests*: the directory for tests to check the sanity of the application
     * *lib/file-compiler*: the dynamic compiler module that loads newly saved java files into the JVM as classes
     * *lib/file-monitor*: the file monitoring module for notifying the app when files are saved 
+    * *lib/util*: application agnostic interfaces and utilities shared in projects
 * Change directory to the koans directory: ```cd koans```
 * If you are using windows enter: ```run.bat``` or ```sh run.sh``` if you are using Mac or Linux.
 
