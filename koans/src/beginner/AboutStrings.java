@@ -46,9 +46,11 @@ public class AboutStrings {
 	}
 
 	@Koan
-	public void efficientStringConcatenation() {
-		// the above implicit string concatenation looks nice - but, it is expensive.
-		// it creates a new string instance on each concatenation. here's a better alternative:
+	public void stringBuilderCanActAsAMutableString() {
+		// StringBuilder concatenation looks uglier, but is useful when you need a
+		// mutable String like object. It used to be more efficient than using +,
+		// to concatate numerous strings, however this is optimized in the compiler now.
+		// Usually + concatenation is more appropriate than StringBuilder.
 		assertEquals(new StringBuilder("one").append(" ").append("two").toString(), __);
 	}
 
