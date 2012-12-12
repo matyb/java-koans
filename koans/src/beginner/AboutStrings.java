@@ -48,7 +48,7 @@ public class AboutStrings {
 	@Koan
 	public void stringBuilderCanActAsAMutableString() {
 		// StringBuilder concatenation looks uglier, but is useful when you need a
-		// mutable String like object. It used to be more efficient than using +,
+		// mutable String like object. It used to be more efficient than using +
 		// to concatate numerous strings, however this is optimized in the compiler now.
 		// Usually + concatenation is more appropriate than StringBuilder.
 		assertEquals(new StringBuilder("one").append(" ").append("two").toString(), __);
