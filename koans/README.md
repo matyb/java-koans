@@ -1,4 +1,3 @@
-
 Running Instructions:
 =====================
 * Download and unarchive the contents of the most recent java-koans in development from:
@@ -20,3 +19,7 @@ Developing a Koan:
 * Follow any of the existing koans as an example to create a new class with koan methods (indicated by the @Koan annotation, they're public and specify no arguments)
 * Define the order the koan suite (if it's new) will run in the koans/app/config/PathToEnlightenment.xml file
 * Optionally you may use dynamic content in your lesson, examples are located in the XmlVariableInjector class (and Test) and the AboutKoans.java file
+
+Something's wrong:
+==================
+* If the koans app is constantly timing out compiling a koan, your computer may be too slow to compile the koan classes with the default timeout value. Update the compile_timeout_in_ms property in koans/app/config/config.properties with a larger value and try again.
