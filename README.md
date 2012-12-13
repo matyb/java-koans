@@ -22,4 +22,4 @@ Developing a Koan:
 
 Something's wrong:
 ==================
-* If the koans app is constantly timing out compiling a koan, your computer may be too slow to compile the class with the default timeout value. Update the compile_timeout_in_ms property in koans/app/config/config.properties with a larger value and try again.
+* If the koans app is constantly timing out compiling a koan, your computer may be too slow to compile the koan classes with the default timeout value. Update the compile_timeout_in_ms property in koans/app/config/config.properties with a larger value and try again.
