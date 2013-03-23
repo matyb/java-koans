@@ -4,7 +4,6 @@
 	<classpathentry kind="lib" path="test/easymock-3.0.jar"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/koans-lib"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/koans"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/file-compiler"/>
