@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sandwich</groupId>
+  <artifactId>koans</artifactId>
+  <packaging>jar</packaging>
+  <version>Summer2013</version>
+  <name>Java Koans</name>
+  <url>https://github.com/DavidWhitlock/java-koans</url>
+  <developers>
+    <developer>
+      <id>matyb</id>
+      <name>Mat Bentley</name>
+      <url>https://github.com/matyb</url>
+      <roles>
+        <role>java-koans author</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>dwhitlock</id>
+      <name>David Whitlock</name>
+      <url>http://www.cs.pdx.edu/~whitlock</url>
+      <roles>
+        <role>Maven-izer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>YOU</id>
+      <name>Your name here</name>
+      <email>you@youremail.com</email>
+      <url>http://www.cs.pdx.edu/~YOU</url>
+      <organization>PSU Department of Computer Science</organization>
+      <organizationUrl>http://www.cs.pdx.edu</organizationUrl>
+      <roles>
+        <role>Student who does koans</role>
+      </roles>
+      <timezone>-7</timezone>
+    </developer>
+  </developers>
+  <repositories>
+    <repository>
+      <id>CS410J</id>
+      <name>CS410J Maven Repository</name>
+      <url>http://web.cecs.pdx.edu/~whitlock/repository/maven2</url>
+    </repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>com.sandwich</groupId>
+      <artifactId>koans-lib</artifactId>
+      <version>Summer2013</version>
+    </dependency>
+  </dependencies>
+  <build>
+    <sourceDirectory>src</sourceDirectory>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>java</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+            <mainClass>com.sandwich.koan.runner.AppLauncher</mainClass>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>2.4.1</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>${basedir}</directory>
+              <includes>
+                <include>data/**</include>
+                <include>bin/**</include>
+              </includes>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
