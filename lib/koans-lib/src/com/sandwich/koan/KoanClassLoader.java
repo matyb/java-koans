@@ -14,8 +14,11 @@ public class KoanClassLoader extends ClassLoader {
 	public static DynamicClassLoader createInstance() {
 		String binDir = DirectoryManager.getBinDir();
 		String sourceDir = DirectoryManager.getSourceDir();
-		String[] classPath = new String[]{DirectoryManager.getProjectLibraryDir() + 
-				DirectoryManager.FILESYSTEM_SEPARATOR + "koans.jar"};
+		File[] jars = new File(DirectoryManager.getProjectLibraryDir()).listFiles();
+		String[] classPath = new String[jars.length];
+		for (int i = 0; i < jars.length; i++) {
+		    classPath[i] = jars[i].getAbsolutePath();
+		}
 		FileMonitor fileMonitor = FileMonitorFactory.getInstance(
 				new File(DirectoryManager.getProdMainDir()), new File(DirectoryManager.getDataFile()));
 		ClassLoader classLoader = DynamicClassLoader.class.getClassLoader();

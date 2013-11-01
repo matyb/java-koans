@@ -112,10 +112,12 @@ class FileCompilerAction implements FileAction {
 		}else{
 			return new String[]{};
 		}
-		for(int i = 1; i <= classPaths.length; i++){
-			classpaths[i] = classPaths[i - 1];
+		
+		String classpath = "";
+		for(String jar : classPaths) {
+		    classpath += jar + java.io.File.pathSeparatorChar;
 		}
-		return classpaths;
+		return new String[] {"-classpath", classpath};
 	}
 
 	public File makeDestination(File dest, String fileInDirectory) {
