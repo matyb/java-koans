@@ -5,6 +5,7 @@ function exitOnError()
 {
 	rc=$?
 	if [[ $rc != 0 ]] ; then
+	    echo ${1}' is missing from your PATH.'
 	    exit $rc
 	fi
 }
@@ -19,8 +20,8 @@ function buildClasspath()
     done
 }
 javac -help > /dev/null 2>&1
-exitOnError
+exitOnError 'javac'
 java -version > /dev/null 2>&1
-exitOnError
+exitOnError 'java'
 buildClasspath "$DIR"/app
 java -classpath $classpath com.sandwich.koan.runner.AppLauncher "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
