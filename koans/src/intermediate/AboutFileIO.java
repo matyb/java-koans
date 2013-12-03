@@ -1,14 +1,15 @@
 package intermediate;
 
+import static com.sandwich.koan.constant.KoanConstants.__;
+import static com.sandwich.util.Assert.assertEquals;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-
-import static com.sandwich.koan.constant.KoanConstants.__;
-import static com.sandwich.util.Assert.assertEquals;
+import java.util.logging.Logger;
 
 import com.sandwich.koan.Koan;
 
@@ -51,6 +52,7 @@ public class AboutFileIO {
 	@Koan
 	public void betterFileWritingAndReading() throws IOException {
 		File file = new File("file.txt");
+		file.deleteOnExit();
 		FileWriter fw = new FileWriter(file);
 		PrintWriter pw = new PrintWriter(fw);
 		pw.println("First line");
@@ -58,12 +60,27 @@ public class AboutFileIO {
 		pw.close();
 
 		FileReader fr = new FileReader(file);
-		BufferedReader br = new BufferedReader(fr);
-		assertEquals(br.readLine(), __); // first line
-		assertEquals(br.readLine(), __); // second line
-		assertEquals(br.readLine(), __); // what now?
+		BufferedReader br = null;
+		try{
+			br = new BufferedReader(fr);
+			assertEquals(br.readLine(), __); // first line
+			assertEquals(br.readLine(), __); // second line
+			assertEquals(br.readLine(), __); // what now?
+		} finally {
+			closeStream(br); // anytime you open access to a 
+		}
 	}
 
+	private void closeStream(BufferedReader br) {
+		if(br != null){
+			try{
+				br.close();
+			} catch (IOException x) {
+				Logger.getAnonymousLogger().severe("Unable to close reader.");
+			}
+		}
+	}
+	
 	@Koan
 	public void directChainingForReadingAndWriting() throws IOException {
 		File file = new File("file.txt");
@@ -78,3 +95,4 @@ public class AboutFileIO {
 		assertEquals(sb.toString(), "1. line\n2. line");
 	}
 }
+
