@@ -3,6 +3,7 @@ package com.sandwich.util.io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -48,6 +49,14 @@ public class DataFileHelper<T> {
 				throw new RuntimeException(e2);
 			}
 			throw new RuntimeException(e);
+		} finally {
+			if(objectInputStream != null){
+				try {
+					objectInputStream.close();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 		}
 	}
 
@@ -65,6 +74,14 @@ public class DataFileHelper<T> {
 				throw new RuntimeException(e2);
 			}
 			throw new RuntimeException(e);
+		} finally {
+			if(objectOutputStream != null){
+				try {
+					objectOutputStream.close();
+				} catch (IOException e) {
+					throw new RuntimeException(e);
+				}
+			}
 		}
 	}
 	

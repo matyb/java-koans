@@ -18,7 +18,7 @@ public class KoanComparatorTest extends CommandLineTestCase {
 	@Test
 	public void testThatKomparatorBombsWhenNotFound() throws Exception {
 		Method m = new Object(){
-			@SuppressWarnings("unused") @Koan public void someMethod(){}
+			@Koan public void someMethod(){}
 		}.getClass().getDeclaredMethod("someMethod");
 		KoanComparator comparator = new KoanComparator("meh");
 		try{
@@ -29,8 +29,8 @@ public class KoanComparatorTest extends CommandLineTestCase {
 	@Test
 	public void testComparatorRanksByOrder() throws Exception {
 		Class<? extends Object> clazz = new Object(){
-			@SuppressWarnings("unused") @Koan public void someMethodOne(){}
-			@SuppressWarnings("unused") @Koan public void someMethodTwo(){}
+			@Koan public void someMethodOne(){}
+			@Koan public void someMethodTwo(){}
 		}.getClass();
 		KoanMethod m1 = KoanMethod.getInstance("",clazz.getDeclaredMethod("someMethodOne"));
 		KoanMethod m2 = KoanMethod.getInstance("",clazz.getDeclaredMethod("someMethodTwo"));
