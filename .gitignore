@@ -4,3 +4,5 @@ bin/*
 */bin/*
 koans/data
 koans/data*
+.classpath
+.project

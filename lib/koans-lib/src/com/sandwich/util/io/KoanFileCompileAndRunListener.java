@@ -26,13 +26,17 @@ public class KoanFileCompileAndRunListener implements FileListener {
 		String absolutePath = file.getAbsolutePath();
 		if(absolutePath.toLowerCase().endsWith(FileCompiler.JAVA_SUFFIX)){
 			ApplicationUtils.getPresenter().displayMessage(KoanConstants.EOL+"loading: "+absolutePath);
+			File[] jars = new File(DirectoryManager.getProjectLibraryDir()).listFiles();
+            String[] classPath = new String[jars.length];
+            for (int i = 0; i < jars.length; i++) {
+                classPath[i] = jars[i].getAbsolutePath();
+            }
 			try {
 				FileCompiler.compile(file, 
 					new File(DirectoryManager.getBinDir()),
 					listener,
 					ApplicationSettings.getFileCompilationTimeoutInMs(),
-					new String[]{DirectoryManager.injectFileSystemSeparators(
-							DirectoryManager.getProjectLibraryDir(), "koans.jar")});
+					classPath);
 				DynamicClassLoader.remove(FileCompiler.sourceToClass(
 						DirectoryManager.getSourceDir(), DirectoryManager.getBinDir(), file).toURI().toURL());
 				if(!listener.isLastCompilationAttemptFailure()){
