@@ -7,23 +7,29 @@ import com.sandwich.util.io.FileMonitor;
 import com.sandwich.util.io.FileMonitorFactory;
 import com.sandwich.util.io.directories.DirectoryManager;
 
-public class KoanClassLoader extends ClassLoader {
+public class KoanClassLoader extends DynamicClassLoader {
 
 	private static DynamicClassLoader instance;
+	private FileMonitor fileMonitor;
+	
+	private KoanClassLoader(){
+		super(DirectoryManager.getBinDir(), 
+			  DirectoryManager.getSourceDir(), 
+			  buildClassPath(), 
+			  DynamicClassLoader.class.getClassLoader(), 
+			  ApplicationSettings.getFileCompilationTimeoutInMs());
+		this.fileMonitor = FileMonitorFactory.getInstance(new File(DirectoryManager.getMainDir()), new File(DirectoryManager.getDataFile()));
+	}
 
-	public static DynamicClassLoader createInstance() {
-		String binDir = DirectoryManager.getBinDir();
-		String sourceDir = DirectoryManager.getSourceDir();
+	private static String[] buildClassPath() {
 		File[] jars = new File(DirectoryManager.getProjectLibraryDir()).listFiles();
 		String[] classPath = new String[jars.length];
 		for (int i = 0; i < jars.length; i++) {
-		    classPath[i] = jars[i].getAbsolutePath();
+			if(jars[i].getAbsolutePath().toLowerCase().endsWith(".jar")){
+				classPath[i] = jars[i].getAbsolutePath();
+			}
 		}
-		FileMonitor fileMonitor = FileMonitorFactory.getInstance(
-				new File(DirectoryManager.getMainDir()), new File(DirectoryManager.getDataFile()));
-		ClassLoader classLoader = DynamicClassLoader.class.getClassLoader();
-		long timeout = ApplicationSettings.getFileCompilationTimeoutInMs();
-		return new DynamicClassLoader(binDir, sourceDir, classPath, fileMonitor, classLoader, timeout);
+		return classPath;
 	}
 	
 	public static void setInstance(DynamicClassLoader loader){
@@ -32,9 +38,19 @@ public class KoanClassLoader extends ClassLoader {
 	
 	synchronized public static DynamicClassLoader getInstance(){
 		if(instance == null){
-			instance = createInstance();
+			instance = new KoanClassLoader();
 		}
-		return instance.clone();
+		return instance;
+	}
+	
+	@Override
+	public boolean isFileModifiedSinceLastPoll(String sourcePath, long lastModified) {
+		return fileMonitor.isFileModifiedSinceLastPoll(sourcePath, lastModified);
+	}
+	
+	@Override
+	public void updateFileSavedTime(File sourceFile) {
+		fileMonitor.updateFileSaveTime(sourceFile);
 	}
 	
 }

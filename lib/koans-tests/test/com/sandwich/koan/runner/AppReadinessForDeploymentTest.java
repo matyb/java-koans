@@ -17,7 +17,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sandwich.koan.KoanClassLoader;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
@@ -145,7 +144,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	
 	private void doAsIfInProd(Runnable runnable) {
 		DirectoryManager.setDirectorySet(new ProductionExecutedFromTestsDirectories());
-		KoanClassLoader.setInstance(KoanClassLoader.createInstance());
+		resetClassLoader();
 		setRealPath();
 		runnable.run();
 	}

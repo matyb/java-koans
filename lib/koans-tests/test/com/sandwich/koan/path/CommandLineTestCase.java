@@ -1,6 +1,7 @@
 package com.sandwich.koan.path;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -43,7 +44,7 @@ public abstract class CommandLineTestCase {
 	@Before
 	public void setUp() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {
 		DirectoryManager.setDirectorySet(new UnitTestDirectories());
-		KoanClassLoader.setInstance(KoanClassLoader.createInstance());
+		resetClassLoader();
 		out = System.out;
 		err = System.err;
 		TestUtils.setValue("behavior", new RunKoans(), ArgumentType.RUN_KOANS);
@@ -59,7 +60,7 @@ public abstract class CommandLineTestCase {
 		setRealPath();
 		System.setOut(out);
 		System.setErr(err);
-		KoanClassLoader.setInstance(KoanClassLoader.createInstance());
+		resetClassLoader();
 	}
 	
 	protected void setRealPath(){
@@ -200,6 +201,33 @@ public abstract class CommandLineTestCase {
 		});
 		if(!found[0]){
 			throw new KoanIncompleteException(lineText+" was expected, but not found in: "+bytesString);
+		}
+	}
+	
+	public void resetClassLoader() {
+		Constructor<KoanClassLoader> constructor = null;
+		boolean accessible = false;
+		try {
+			constructor = KoanClassLoader.class.getDeclaredConstructor();
+			accessible = constructor.isAccessible();
+			constructor.setAccessible(true);
+			KoanClassLoader.setInstance(constructor.newInstance());
+		} catch (InstantiationException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		} catch (SecurityException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if(constructor != null){
+				constructor.setAccessible(accessible);
+			}
 		}
 	}
 }

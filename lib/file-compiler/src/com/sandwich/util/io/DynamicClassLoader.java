@@ -10,36 +10,37 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class DynamicClassLoader extends ClassLoader {
+public abstract class DynamicClassLoader extends ClassLoader {
 
 	private static Map<URL, Class<?>> classesByLocation = new HashMap<URL, Class<?>>();
 	private static Map<Class<?>, URL> locationByClass = new HashMap<Class<?>, URL>();
 	
 	private final long timeout;
-	private final FileMonitor fileMonitor;
 	private final String binDir, sourceDir;
 	private final String[] classPath;
 	
-	public DynamicClassLoader(String binDir, String sourceDir, String[] classPath, FileMonitor fileMonitor){
-		this(binDir, sourceDir, classPath, fileMonitor, ClassLoader.getSystemClassLoader());
+	public DynamicClassLoader(String binDir, String sourceDir, String[] classPath){
+		this(binDir, sourceDir, classPath, ClassLoader.getSystemClassLoader());
 	}
 	
-	public DynamicClassLoader(String binDir, String sourceDir, String[] classPath, 
-			FileMonitor fileMonitor, ClassLoader parent) {
-        this(binDir, sourceDir, classPath, fileMonitor, parent, 5000l);
+	public DynamicClassLoader(String binDir, String sourceDir, String[] classPath, ClassLoader parent) {
+        this(binDir, sourceDir, classPath, parent, 5000l);
     }
 
 	public DynamicClassLoader(String binDir, String sourceDir,
-			String[] classPath, FileMonitor fileMonitor, ClassLoader parent,
+			String[] classPath, ClassLoader parent,
 			long timeout) {
 		super(parent);
-        this.fileMonitor = fileMonitor;
         this.binDir = binDir;
         this.sourceDir = sourceDir;
         this.classPath = classPath;
         this.timeout = timeout;
 	}
 
+	public abstract boolean isFileModifiedSinceLastPoll(String sourcePath, long lastModified);
+	
+	public abstract void updateFileSavedTime(File sourceFile);
+	
 	public static void remove(URL url){
 		String urlToString = url.toString().replace(FileCompiler.CLASS_SUFFIX, "").replace(FileCompiler.JAVA_SUFFIX, "");
 		for(Entry<URL, Class<?>> entry : classesByLocation.entrySet()){
@@ -75,7 +76,7 @@ public class DynamicClassLoader extends ClassLoader {
 			if(classFile.exists()){
 				String absolutePath = classFile.getAbsolutePath();
 				boolean isAnonymous = absolutePath.contains("$");
-				if(fileMonitor.isFileModifiedSinceLastPoll(sourceFile.getAbsolutePath(), sourceFile.lastModified())){
+				if(isFileModifiedSinceLastPoll(sourceFile.getAbsolutePath(), sourceFile.lastModified())){
 					if(!isAnonymous){
 						compile(className, fileName, sourceFile, timeout, listener);
 					}
@@ -97,7 +98,7 @@ public class DynamicClassLoader extends ClassLoader {
 	private void compile(String className, String fileName, File sourceFile, long timeout, CompilationListener listener)
 			throws IOException {
 		FileCompiler.compile(sourceFile, new File(binDir), listener, timeout, classPath);
-		fileMonitor.updateFileSaveTime(sourceFile);
+		updateFileSavedTime(sourceFile);
 	}
 
 	public Class<?> loadClass(URL url, String className){
@@ -126,9 +127,4 @@ public class DynamicClassLoader extends ClassLoader {
         return clazz;
 	}
 	
-	@Override
-	public DynamicClassLoader clone(){
-		return new DynamicClassLoader(binDir, sourceDir, classPath, fileMonitor, 
-				getClass().getClassLoader(), timeout);
-	}
 }
