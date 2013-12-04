@@ -206,14 +206,17 @@ public abstract class CommandLineTestCase {
 	
 	public void resetClassLoader() {
 		Constructor<KoanClassLoader> constructor = null;
-		boolean accessible = false;
+		Field fileMonitorField = null;
+		boolean consWasAccessible = false;
+		boolean monitorWasAccessible = false;
 		try {
 			constructor = KoanClassLoader.class.getDeclaredConstructor();
-			accessible = constructor.isAccessible();
+			consWasAccessible = constructor.isAccessible();
 			constructor.setAccessible(true);
-			KoanClassLoader.setInstance(constructor.newInstance());
-		} catch (InstantiationException e) {
-			throw new RuntimeException(e);
+			fileMonitorField = KoanClassLoader.class.getDeclaredField("instance");
+			monitorWasAccessible = fileMonitorField.isAccessible();
+			fileMonitorField.setAccessible(true);
+			fileMonitorField.set(KoanClassLoader.class, constructor.newInstance());
 		} catch (IllegalAccessException e) {
 			throw new RuntimeException(e);
 		} catch (IllegalArgumentException e) {
@@ -224,9 +227,16 @@ public abstract class CommandLineTestCase {
 			throw new RuntimeException(e);
 		} catch (SecurityException e) {
 			throw new RuntimeException(e);
+		} catch (NoSuchFieldException e) {
+			throw new RuntimeException(e);
+		} catch (InstantiationException e) {
+			throw new RuntimeException(e);
 		} finally {
 			if(constructor != null){
-				constructor.setAccessible(accessible);
+				constructor.setAccessible(consWasAccessible);
+			}
+			if(fileMonitorField != null){
+				fileMonitorField.setAccessible(monitorWasAccessible);
 			}
 		}
 	}

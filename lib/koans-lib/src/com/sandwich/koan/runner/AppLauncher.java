@@ -17,7 +17,7 @@ import com.sandwich.util.io.directories.DirectoryManager;
 public class AppLauncher {
 
 	public static void main(final String... args) throws Throwable {
-		new Thread(new Runnable(){
+		new Thread(new Runnable(){ 
 			public void run() {
 				do{
 					try {

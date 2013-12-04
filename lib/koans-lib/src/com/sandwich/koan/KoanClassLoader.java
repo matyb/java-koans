@@ -9,16 +9,33 @@ import com.sandwich.util.io.directories.DirectoryManager;
 
 public class KoanClassLoader extends DynamicClassLoader {
 
-	private static DynamicClassLoader instance;
-	private FileMonitor fileMonitor;
+	private static KoanClassLoader instance;
+	private final FileMonitor fileMonitor;
 	
 	private KoanClassLoader(){
-		super(DirectoryManager.getBinDir(), 
-			  DirectoryManager.getSourceDir(), 
-			  buildClassPath(), 
-			  DynamicClassLoader.class.getClassLoader(), 
-			  ApplicationSettings.getFileCompilationTimeoutInMs());
-		this.fileMonitor = FileMonitorFactory.getInstance(new File(DirectoryManager.getMainDir()), new File(DirectoryManager.getDataFile()));
+		this(DirectoryManager.getBinDir(),
+				DirectoryManager.getSourceDir(), 
+				buildClassPath(),
+				DynamicClassLoader.class.getClassLoader(),
+				ApplicationSettings.getFileCompilationTimeoutInMs(),
+				FileMonitorFactory.getInstance(new File(DirectoryManager.getMainDir()), new File(DirectoryManager.getDataFile())));
+	}
+
+	private KoanClassLoader(String binDir, String sourceDir,
+			String[] classPath, ClassLoader parent,
+			long timeout, FileMonitor fileMonitor) {
+		super(binDir, sourceDir, classPath, parent, timeout);
+		this.fileMonitor = fileMonitor;
+	}
+	
+	@Override
+	public boolean isFileModifiedSinceLastPoll(String sourcePath, long lastModified) {
+		return fileMonitor.isFileModifiedSinceLastPoll(sourcePath, lastModified);
+	}
+
+	@Override
+	public void updateFileSavedTime(File sourceFile) {
+		fileMonitor.updateFileSaveTime(sourceFile);
 	}
 
 	private static String[] buildClassPath() {
@@ -32,25 +49,16 @@ public class KoanClassLoader extends DynamicClassLoader {
 		return classPath;
 	}
 	
-	public static void setInstance(DynamicClassLoader loader){
-		instance = loader;
-	}
-	
 	synchronized public static DynamicClassLoader getInstance(){
 		if(instance == null){
 			instance = new KoanClassLoader();
 		}
-		return instance;
+		return instance.clone();
 	}
 	
 	@Override
-	public boolean isFileModifiedSinceLastPoll(String sourcePath, long lastModified) {
-		return fileMonitor.isFileModifiedSinceLastPoll(sourcePath, lastModified);
-	}
-	
-	@Override
-	public void updateFileSavedTime(File sourceFile) {
-		fileMonitor.updateFileSaveTime(sourceFile);
+	public KoanClassLoader clone(){
+		return new KoanClassLoader(getBinDir(), getSourceDir(), getClassPath(), getClass().getClassLoader(), getTimeout(), fileMonitor);
 	}
 	
 }

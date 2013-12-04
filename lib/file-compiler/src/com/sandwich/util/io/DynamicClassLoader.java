@@ -126,5 +126,21 @@ public abstract class DynamicClassLoader extends ClassLoader {
         locationByClass.put(clazz, url);
         return clazz;
 	}
+
+	public long getTimeout() {
+		return timeout;
+	}
+
+	public String getBinDir() {
+		return binDir;
+	}
+
+	public String getSourceDir() {
+		return sourceDir;
+	}
+
+	public String[] getClassPath() {
+		return classPath;
+	}
 	
 }
