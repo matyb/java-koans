@@ -9,7 +9,7 @@ import com.sandwich.util.io.directories.DirectoryManager;
 
 public class KoanClassLoader extends ClassLoader {
 
-	private static DynamicClassLoader instance = createInstance();
+	private static DynamicClassLoader instance;
 
 	public static DynamicClassLoader createInstance() {
 		String binDir = DirectoryManager.getBinDir();
@@ -20,7 +20,7 @@ public class KoanClassLoader extends ClassLoader {
 		    classPath[i] = jars[i].getAbsolutePath();
 		}
 		FileMonitor fileMonitor = FileMonitorFactory.getInstance(
-				new File(DirectoryManager.getProdMainDir()), new File(DirectoryManager.getDataFile()));
+				new File(DirectoryManager.getMainDir()), new File(DirectoryManager.getDataFile()));
 		ClassLoader classLoader = DynamicClassLoader.class.getClassLoader();
 		long timeout = ApplicationSettings.getFileCompilationTimeoutInMs();
 		return new DynamicClassLoader(binDir, sourceDir, classPath, fileMonitor, classLoader, timeout);
@@ -30,7 +30,10 @@ public class KoanClassLoader extends ClassLoader {
 		instance = loader;
 	}
 	
-	public static DynamicClassLoader getInstance(){
+	synchronized public static DynamicClassLoader getInstance(){
+		if(instance == null){
+			instance = createInstance();
+		}
 		return instance.clone();
 	}
 	

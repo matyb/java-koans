@@ -12,7 +12,6 @@ public class FileMonitorFactory {
 
 	static {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable(){
-			@Override
 			public void run() {
 				for(FileMonitor monitor : monitors.values()){
 					monitor.close();

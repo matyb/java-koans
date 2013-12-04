@@ -30,8 +30,8 @@ import com.sandwich.koan.util.ApplicationUtils.SuitePresenterFactory;
 import com.sandwich.util.io.DynamicClassLoader;
 import com.sandwich.util.io.KoanSuiteCompilationListener;
 import com.sandwich.util.io.directories.DirectoryManager;
-import com.sandwich.util.io.directories.Production;
-import com.sandwich.util.io.directories.UnitTest;
+import com.sandwich.util.io.directories.ProductionExecutedFromTestsDirectories;
+import com.sandwich.util.io.directories.UnitTestDirectories;
 
 public abstract class CommandLineTestCase {
 
@@ -42,7 +42,7 @@ public abstract class CommandLineTestCase {
 	
 	@Before
 	public void setUp() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {
-		DirectoryManager.setDirectorySet(new UnitTest());
+		DirectoryManager.setDirectorySet(new UnitTestDirectories());
 		KoanClassLoader.setInstance(KoanClassLoader.createInstance());
 		out = System.out;
 		err = System.err;
@@ -55,7 +55,7 @@ public abstract class CommandLineTestCase {
 
 	@After
 	public void tearDown() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		DirectoryManager.setDirectorySet(new Production());
+		DirectoryManager.setDirectorySet(new ProductionExecutedFromTestsDirectories());
 		setRealPath();
 		System.setOut(out);
 		System.setErr(err);

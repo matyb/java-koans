@@ -33,7 +33,7 @@ import com.sandwich.koan.suite.WrongExpectationOrderKoan;
 import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.util.Strings;
 import com.sandwich.util.io.directories.DirectoryManager;
-import com.sandwich.util.io.directories.Production;
+import com.sandwich.util.io.directories.ProductionExecutedFromTestsDirectories;
 
 /**
  * Anything that absolutely has to happen before bundling client jar - to be sure:
@@ -144,7 +144,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	}
 	
 	private void doAsIfInProd(Runnable runnable) {
-		DirectoryManager.setDirectorySet(new Production());
+		DirectoryManager.setDirectorySet(new ProductionExecutedFromTestsDirectories());
 		KoanClassLoader.setInstance(KoanClassLoader.createInstance());
 		setRealPath();
 		runnable.run();
