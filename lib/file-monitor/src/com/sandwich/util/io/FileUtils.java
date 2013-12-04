@@ -41,8 +41,8 @@ public class FileUtils {
 	}
 
 	public static void forEachFile(File src, File dest, FileAction fileAction) throws IOException {
-		if((src == null || !src.exists()) && dest == null){
-			throw new IllegalArgumentException("Both path's must actually exist");
+		if(src == null || !src.exists()){
+			throw new IllegalArgumentException("Source path must actually exist");
 		}
 		if (src.isDirectory()) {
 			if (!dest.exists()) {
@@ -50,14 +50,14 @@ public class FileUtils {
 			}
 			String files[] = src.list();
 			for (int i = 0; i < files.length; i++) {
-				forEachFile(new File(src, files[i]), fileAction.makeDestination(dest, files[i]), fileAction);
+				File rSrc = new File(src, files[i]);
+				File rDest = fileAction.makeDestination(dest, files[i]);
+				if(rSrc.exists()){
+					forEachFile(rSrc, rDest, fileAction);
+				}
 			}
 		} else {
-			if (!src.exists()) {
-				throw new IOException("File or directory does not exist: "+src);
-			} else {
-				fileAction.sourceToDestination(src, dest);
-			}
+			fileAction.sourceToDestination(src, dest);
 		}
 	}
 
