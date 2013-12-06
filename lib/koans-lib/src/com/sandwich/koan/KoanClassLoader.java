@@ -2,9 +2,9 @@ package com.sandwich.koan;
 
 import java.io.File;
 
-import com.sandwich.util.io.DynamicClassLoader;
 import com.sandwich.util.io.FileMonitor;
 import com.sandwich.util.io.FileMonitorFactory;
+import com.sandwich.util.io.classloader.DynamicClassLoader;
 import com.sandwich.util.io.directories.DirectoryManager;
 
 public class KoanClassLoader extends DynamicClassLoader {

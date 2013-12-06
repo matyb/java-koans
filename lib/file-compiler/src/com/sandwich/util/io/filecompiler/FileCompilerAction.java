@@ -1,4 +1,4 @@
-package com.sandwich.util.io;
+package com.sandwich.util.io.filecompiler;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,14 +9,16 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import com.sandwich.util.ExceptionUtils;
+import com.sandwich.util.io.FileAction;
+import com.sandwich.util.io.StreamUtils;
 
-class FileCompilerAction implements FileAction {
+public class FileCompilerAction implements FileAction {
 	
 	private final String destinationPath;
 	private final String[] classPaths;
 	private CompilationListener compilationListener;
 	private final long timeout;
-	static final CompilationListener LOGGING_HANDLER = new CompilationFailureLogger();
+	public static final CompilationListener LOGGING_HANDLER = new CompilationFailureLogger();
 	
 	public FileCompilerAction(File destinationPath, CompilationListener errorHandler, String...classPaths){
 		this(destinationPath, errorHandler, 1000, classPaths);
@@ -35,8 +37,8 @@ class FileCompilerAction implements FileAction {
 	
 	public void sourceToDestination(File src, File bin) throws IOException {
 		String fileName = src.getName();
-		if (fileName.length() > 4 && fileName.toLowerCase().endsWith(FileCompiler.JAVA_SUFFIX)) {
-			String[] command = constructJavaCompilationCommand(src);
+		if (CompilerConfig.isSourceFile(fileName)) {
+			String[] command = CompilerConfig.getCompilationCommand(src, destinationPath, getClasspath());
 			Process p = Runtime.getRuntime().exec(command);
 			try {
 				executeWithTimeout(src, command, p, timeout);
@@ -82,52 +84,12 @@ class FileCompilerAction implements FileAction {
 		}
 	}
 	
-	private String[] constructJavaCompilationCommand(File src) {
-		return copy(new String[]{"javac", "-d", destinationPath}, getClasspath(), new String[]{src.getAbsolutePath()});
-	}
-
-	private String[] copy(String[]...strings) {
-		String[] copies = new String[getTotalSize(strings)];
-		int i = 0;
-		for(String[] strings2 : strings){
-			for(String string : strings2){
-				copies[i++] = string;
-			}
-		}
-		return copies;
-	}
-
-	private int getTotalSize(String[][] strings) {
-		int i = 0;
-		for(String[] strings2 : strings){
-			i += strings2.length;
-		}
-		return i;
-	}
-
-	private String[] getClasspath() {
-		String[] classpaths = new String[classPaths.length + 1];
-		if (classPaths.length > 0) {
-			classpaths[0]  = "-classpath";
-		}else{
-			return new String[]{};
-		}
-		
-		String classpath = "";
+	private String getClasspath() {
+		String classPath = "";
 		for(String jar : classPaths) {
-		    classpath += jar + java.io.File.pathSeparatorChar;
+		    classPath += jar + java.io.File.pathSeparatorChar;
 		}
-		return new String[] {"-classpath", classpath};
-	}
-
-	public File makeDestination(File dest, String fileInDirectory) {
-		String fileName = dest.getName();
-		fileName = fileName.length() > 4
-				&& fileName.toLowerCase().contains(FileCompiler.JAVA_SUFFIX) ? fileName
-				.replace(FileCompiler.JAVA_SUFFIX, FileCompiler.CLASS_SUFFIX) : fileName;
-		dest = new File(dest, fileInDirectory);
-		System.out.println("file: " + dest.getAbsolutePath());
-		return dest;
+		return classPath;
 	}
 	
 }

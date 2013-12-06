@@ -65,9 +65,6 @@ public class FileMonitor {
 	Map<String, Long> getFilesystemHashes() throws IOException {
 		final HashMap<String,Long> fileHashes = new HashMap<String,Long>();
 		FileUtils.forEachFile(fileSystemPath, fileSystemPath, new FileAction(){
-			public File makeDestination(File dest, String fileInDirectory) {
-				return new File(dest, fileInDirectory);
-			}
 			public void sourceToDestination(File src, File dest) throws IOException {
 				fileHashes.put(src.getAbsolutePath(), src.lastModified());
 			}

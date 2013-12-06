@@ -1,4 +1,4 @@
-package com.sandwich.util.io;
+package com.sandwich.util.io.classloader;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -9,6 +9,11 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.sandwich.util.io.filecompiler.CompilationListener;
+import com.sandwich.util.io.filecompiler.CompilerConfig;
+import com.sandwich.util.io.filecompiler.FileCompiler;
+import com.sandwich.util.io.filecompiler.FileCompilerAction;
 
 public abstract class DynamicClassLoader extends ClassLoader {
 
@@ -42,7 +47,10 @@ public abstract class DynamicClassLoader extends ClassLoader {
 	public abstract void updateFileSavedTime(File sourceFile);
 	
 	public static void remove(URL url){
-		String urlToString = url.toString().replace(FileCompiler.CLASS_SUFFIX, "").replace(FileCompiler.JAVA_SUFFIX, "");
+		String urlToString = url.toString().replace(FileCompiler.CLASS_SUFFIX, "");
+		for(String suffix : CompilerConfig.getSupportedFileSuffixes()){
+			urlToString.replace(suffix, "");
+		}
 		for(Entry<URL, Class<?>> entry : classesByLocation.entrySet()){
 			if(entry.getKey().toString().contains(urlToString)){
 				locationByClass.remove(entry.getValue());
@@ -78,7 +86,7 @@ public abstract class DynamicClassLoader extends ClassLoader {
 				boolean isAnonymous = absolutePath.contains("$");
 				if(isFileModifiedSinceLastPoll(sourceFile.getAbsolutePath(), sourceFile.lastModified())){
 					if(!isAnonymous){
-						compile(className, fileName, sourceFile, timeout, listener);
+						compile(fileName, sourceFile, timeout, listener);
 					}
 				}
 				return loadClass(classFile.toURI().toURL(), className);
@@ -86,7 +94,7 @@ public abstract class DynamicClassLoader extends ClassLoader {
 			try{
 				return super.loadClass(className);
 			}catch(ClassNotFoundException x){
-				compile(className, fileName, sourceFile, timeout, listener);
+				compile(fileName, sourceFile, timeout, listener);
 				classFile = new File(fileName);
 				return loadClass(classFile.toURI().toURL(), className);
 			}
@@ -95,7 +103,7 @@ public abstract class DynamicClassLoader extends ClassLoader {
 		}
 	}
 	
-	private void compile(String className, String fileName, File sourceFile, long timeout, CompilationListener listener)
+	private void compile(String fileName, File sourceFile, long timeout, CompilationListener listener)
 			throws IOException {
 		FileCompiler.compile(sourceFile, new File(binDir), listener, timeout, classPath);
 		updateFileSavedTime(sourceFile);

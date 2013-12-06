@@ -31,12 +31,6 @@ public class FileUtils {
 				in.close();
 				out.close();
 			}
-			public File makeDestination(File dest, String fileInDirectory) {
-				if(!dest.exists()){
-					dest.mkdirs();
-				}
-				return new File(dest, fileInDirectory);
-			}
 		});
 	}
 
@@ -51,7 +45,7 @@ public class FileUtils {
 			String files[] = src.list();
 			for (int i = 0; i < files.length; i++) {
 				File rSrc = new File(src, files[i]);
-				File rDest = fileAction.makeDestination(dest, files[i]);
+				File rDest = new File(dest, files[i]);
 				if(rSrc.exists()){
 					forEachFile(rSrc, rDest, fileAction);
 				}
