@@ -39,18 +39,32 @@ public class FileCompilerAction implements FileAction {
 		String fileName = src.getName();
 		if (CompilerConfig.isSourceFile(fileName)) {
 			String[] command = CompilerConfig.getCompilationCommand(src, destinationPath, getClasspath());
-			Process p = Runtime.getRuntime().exec(command);
-			try {
-				executeWithTimeout(src, command, p, timeout);
-			} catch (IllegalThreadStateException x) {
-				compilationListener.compilationFailed(src, command, 
-						255, "Compilation took longer than "+timeout+" ms.\n" +
-								"It is likely that the compiler has locked up compiling this file.\n" +
-								"Please revert your last change and try something different.", x);
-			} catch (Exception x) {
-				x.printStackTrace();
-				compilationListener.compilationFailed(src, command, 
-						p.exitValue(), StreamUtils.convertStreamToString(p.getErrorStream()), x);
+			try{
+				Process p = Runtime.getRuntime().exec(command);
+				try {
+					executeWithTimeout(src, command, p, timeout);
+				} catch (IllegalThreadStateException x) {
+					compilationListener.compilationFailed(src, command, 
+							255, "Compilation took longer than "+timeout+" ms.\n" +
+									"It is likely that the compiler has locked up compiling this file.\n" +
+									"Please revert your last change and try something different.", x);
+				} catch (Exception x) {
+					x.printStackTrace();
+					compilationListener.compilationFailed(src, command, 
+							p.exitValue(), StreamUtils.convertStreamToString(p.getErrorStream()), x);
+				}
+			}catch(IOException x){
+				if(x.getMessage().contains("Cannot run program")){
+					String commandString = "";
+					for(String segment : command){
+						commandString += segment + " ";
+					}
+					commandString = commandString.trim();
+					compilationListener.compilationFailed(src, command, 2, 
+							"Cannot execute:" + System.getProperty("line.separator") +  
+							commandString + System.getProperty("line.separator") +
+							"Please check that the appropriate compiler (" + command[0] + ") is installed, is executable and is listed in your PATH environment variable value.", x);
+				}
 			}
 		}
 	}
@@ -87,7 +101,7 @@ public class FileCompilerAction implements FileAction {
 	private String getClasspath() {
 		String classPath = "";
 		for(String jar : classPaths) {
-		    classPath += jar + java.io.File.pathSeparatorChar;
+		    classPath += jar + File.pathSeparatorChar;
 		}
 		return classPath;
 	}

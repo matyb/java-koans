@@ -48,13 +48,18 @@ public class FileMonitor {
 			for(String fileName : currentHashes.keySet()){
 				Long currentHash 	= currentHashes.get(fileName);
 				Long previousHash 	= fileHashesByDirectory.get(fileName);
-				if(previousHash != null && !currentHash.equals(previousHash)){
-					fileHashesByDirectory.put(fileName, currentHash);
-					File file = new File(fileName);
-					for(FileListener listener : listeners){
+				
+				fileHashesByDirectory.put(fileName, currentHash);
+				File file = new File(fileName);
+				
+				for(FileListener listener : listeners){
+					if(previousHash == null && currentHash != null){
+						listener.newFile(file);
+					}else if(currentHash == null && previousHash != null){
+						listener.fileDeleted(file);
+					}else if(!currentHash.equals(previousHash)){
 						listener.fileSaved(file);
 					}
-					break;
 				}
 			}
 		} catch (IOException e) {

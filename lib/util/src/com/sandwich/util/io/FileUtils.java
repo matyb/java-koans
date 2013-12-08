@@ -36,7 +36,7 @@ public class FileUtils {
 
 	public static void forEachFile(File src, File dest, FileAction fileAction) throws IOException {
 		if(src == null || !src.exists()){
-			throw new IllegalArgumentException("Source path must actually exist");
+			throw new IllegalArgumentException("Source path must actually exist. ("+ src == null ? null : src.getAbsolutePath() +")");
 		}
 		if (src.isDirectory()) {
 			if (!dest.exists()) {

@@ -16,6 +16,9 @@ import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.result.KoanMethodResult;
 import com.sandwich.util.ExceptionUtils;
 import com.sandwich.util.Strings;
+import com.sandwich.util.io.directories.DirectoryManager;
+import com.sandwich.util.io.filecompiler.CompilerConfig;
+import com.sandwich.util.io.filecompiler.FileCompiler;
 
 public class KoanMethodRunner {
 
@@ -64,8 +67,10 @@ public class KoanMethodRunner {
 	 * @return
 	 */
 	static String getOriginalLineNumber(Throwable t, Class<?> failingSuite){
-		String[] lines = ExceptionUtils.convertToPopulatedStackTraceString(t).split(EOLS);
-		if(failingSuite != null){
+		if(failingSuite != null &&
+				CompilerConfig.getSuffix(FileCompiler.getSourceFileFromClass(DirectoryManager.getSourceDir(), failingSuite.getName()).getAbsolutePath())
+					.equals(".java")){
+			String[] lines = ExceptionUtils.convertToPopulatedStackTraceString(t).split(EOLS);
 			for(int i = lines.length - 1; i >= 0; --i){
 				String line = lines[i];
 				if(line.contains(failingSuite.getName())){

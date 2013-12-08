@@ -32,7 +32,11 @@ public class KoanFileCompileAndRunListener implements FileListener {
 			File[] jars = new File(DirectoryManager.getProjectLibraryDir()).listFiles();
             String[] classPath = new String[jars.length];
             for (int i = 0; i < jars.length; i++) {
-                classPath[i] = jars[i].getAbsolutePath();
+                String jarPath = jars[i].getAbsolutePath();
+                String jarPathLowerCase = jarPath.toLowerCase();
+                if(jarPathLowerCase.endsWith(".jar") || jarPathLowerCase.endsWith(".war")){
+                	classPath[i] = jarPath;
+                }
             }
 			try {
 				FileCompiler.compile(file, 

@@ -80,7 +80,7 @@ public abstract class DynamicClassLoader extends ClassLoader {
 		File classFile = new File(fileName);
 		try {
 			// file may have never been compiled, go ahead and compile it now
-			File sourceFile = FileCompiler.classToSource(binDir, sourceDir,classFile);
+			File sourceFile = FileCompiler.classToSource(binDir, sourceDir, classFile);
 			if(classFile.exists()){
 				String absolutePath = classFile.getAbsolutePath();
 				boolean isAnonymous = absolutePath.contains("$");

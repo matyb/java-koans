@@ -38,8 +38,13 @@ public class DataFileHelper<T> {
 	public T read(){
 		ObjectInputStream objectInputStream = null;
 		try {
-			objectInputStream = new ObjectInputStream(new FileInputStream(getDataFile()));
-			return lastRetrieval = (T)objectInputStream.readObject();
+			File dataFile = getDataFile();
+			objectInputStream = new ObjectInputStream(new FileInputStream(dataFile));
+			if(dataFile.exists()){
+				return lastRetrieval = (T)objectInputStream.readObject();
+			}else{
+				return null;
+			}
 		} catch (Exception e) {
 			try{
 				if(objectInputStream != null){

@@ -37,4 +37,7 @@
 	<package pkg="advanced" name="Advanced">
 		<suite class="AboutMocks"/>
 	</package>
+	<package pkg="groovy" name="Groovy">
+		<suite class="AboutGroovy"/>
+	</package>
 </packages>

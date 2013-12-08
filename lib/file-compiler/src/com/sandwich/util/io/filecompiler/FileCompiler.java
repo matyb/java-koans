@@ -17,7 +17,6 @@ public class FileCompiler {
 	
 	private static final String DOLLAR_SIGN = "$";
 	public static final String CLASS_SUFFIX = ".class";
-	public static final String JAVA_SUFFIX = ".java";
 
 	public static void compile(String src, String bin) throws IOException {
 		compile(new DefaultErrorPresenter(), new File(src), new File(bin));
@@ -86,8 +85,11 @@ public class FileCompiler {
 
 	public static File sourceToClass(String sourceDir, String binDir, File file) {
 		//C:\Users\sandwich\Development\koans\koans\app\bin\beginner\AboutKoans.class
-		return new File(file.getAbsolutePath()
-				.replace(sourceDir, binDir).replace(JAVA_SUFFIX, CLASS_SUFFIX));
+		String classPath = file.getAbsolutePath().replace(sourceDir, binDir);
+		for(String suffix : CompilerConfig.getSupportedFileSuffixes()){
+			classPath = classPath.replace(suffix, "");
+		}
+		return new File(classPath + CLASS_SUFFIX);
 	}
 	
 	public static File classToSource(String binDir, String sourceDir, File file) {
@@ -101,9 +103,14 @@ public class FileCompiler {
 	}
 	
 	public static File classToSource(String binDir, String sourceDir, String absolutePath) {
-		//C:\Users\sandwich\Development\koans\koans\src\beginner\AboutKoans.java
-		return new File(absolutePath
-				.replace(binDir, sourceDir).replace(CLASS_SUFFIX, JAVA_SUFFIX));
+		String sourcePath = absolutePath.replace(binDir, sourceDir).replace(CLASS_SUFFIX, "");
+		for(String suffix : CompilerConfig.getSupportedFileSuffixes()){
+			File file = new File(sourcePath + suffix);
+			if(file.exists()){
+				return file;
+			}
+		}
+		return new File("Doesn't exist");
 	}
 	
 }
