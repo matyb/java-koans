@@ -1,4 +1,4 @@
-package groovy;
+package groovy.beginner;
 
 import com.sandwich.koan.Koan;
 import static com.sandwich.util.Assert.*;
