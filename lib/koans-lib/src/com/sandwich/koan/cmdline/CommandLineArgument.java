@@ -1,23 +1,25 @@
 package com.sandwich.koan.cmdline;
 
+import java.util.Arrays;
+
 import com.sandwich.koan.constant.ArgumentType;
 
 public class CommandLineArgument implements Runnable, Comparable<CommandLineArgument> {
 	private ArgumentType argType;
-	private String value;
+	private String[] values;
 	boolean isPlantedByApp = false;
-	public CommandLineArgument(ArgumentType argType, String value) {
-		this(argType, value, false);
+	public CommandLineArgument(ArgumentType argType, String... values) {
+		this(argType, false, values);
 	}
 
-	public CommandLineArgument(ArgumentType argType, String value, boolean isPlantedByApp) {
+	public CommandLineArgument(ArgumentType argType, boolean isPlantedByApp, String... values) {
 		this.argType = argType;
-		this.value = value;
+		this.values = values;
 		this.isPlantedByApp = isPlantedByApp;
 	}
 
-	public String getValue() {
-		return value;
+	public String[] getValues() {
+		return values;
 	}
 
 	public ArgumentType getArgumentType() {
@@ -33,7 +35,7 @@ public class CommandLineArgument implements Runnable, Comparable<CommandLineArgu
 	}
 	
 	public void run(){
-		argType.run(value);
+		argType.run(values);
 	}
 	
 	public int compareTo(CommandLineArgument o) {
@@ -49,7 +51,7 @@ public class CommandLineArgument implements Runnable, Comparable<CommandLineArgu
 	@Override
 	public String toString() {
 		return new StringBuilder("CommandLineArgument [argType=").append(argType)
-				.append(", value=").append(value).append("]").toString();
+				.append(", value=").append(Arrays.toString(values)).append("]").toString();
 	}
 
 	@Override
@@ -57,7 +59,7 @@ public class CommandLineArgument implements Runnable, Comparable<CommandLineArgu
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((argType == null) ? 0 : argType.hashCode());
-		result = prime * result + ((value == null) ? 0 : value.hashCode());
+		result = prime * result + ((values == null) ? 0 : Arrays.hashCode(values));
 		return result;
 	}
 
@@ -72,10 +74,10 @@ public class CommandLineArgument implements Runnable, Comparable<CommandLineArgu
 		CommandLineArgument other = (CommandLineArgument) obj;
 		if (argType != other.argType)
 			return false;
-		if (value == null) {
-			if (other.value != null)
+		if (values == null) {
+			if (other.values != null)
 				return false;
-		} else if (!value.equals(other.value))
+		} else if (!Arrays.equals(values, other.values))
 			return false;
 		return true;
 	}

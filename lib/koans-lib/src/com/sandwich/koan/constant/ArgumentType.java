@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import com.sandwich.koan.cmdline.behavior.ArgumentBehavior;
 import com.sandwich.koan.cmdline.behavior.Backup;
 import com.sandwich.koan.cmdline.behavior.ClassArg;
+import com.sandwich.koan.cmdline.behavior.Clear;
 import com.sandwich.koan.cmdline.behavior.Debug;
 import com.sandwich.koan.cmdline.behavior.Help;
 import com.sandwich.koan.cmdline.behavior.MethodArg;
@@ -24,7 +25,8 @@ public enum ArgumentType implements ArgumentBehavior {
 	HELP(       Help.class), 
 	RESET(      Reset.class), 
 	BACKUP(     Backup.class),
-	DEBUG(      Debug.class), 
+	DEBUG(      Debug.class),
+	CLEAR(      Clear.class), 
 	//TEST(		Test.class), 
 	// important class MUST come before method - due to how Enum implements comparable and order
 	// dependent logic later @ see ArgumentTypeTest.testClassPrecedesMethod
@@ -69,10 +71,10 @@ public enum ArgumentType implements ArgumentBehavior {
 		}
 		TYPES_BY_STRING = Collections.unmodifiableMap(types);
 	}
-	public void run(String value) {
+	public void run(String... values) {
 		try{
-			behavior.run(value);
-			behavior.getSuccessMessage();
+			behavior.run(values);
+			ApplicationUtils.getPresenter().displayMessage(behavior.getSuccessMessage());
 		}catch(Throwable t){
 			if(behavior instanceof RunKoans){
 				if(t instanceof RuntimeException){

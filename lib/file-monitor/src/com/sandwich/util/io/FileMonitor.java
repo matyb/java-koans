@@ -85,5 +85,13 @@ public class FileMonitor {
 	public void updateFileSaveTime(File file) {
 		fileHashesByDirectory.put(file.getAbsolutePath(), file.lastModified());
 	}
+
+	public void writeChanges() {
+		try {
+			fileHashesHelper.write(getFilesystemHashes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

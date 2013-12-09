@@ -13,12 +13,14 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanClassLoader;
 import com.sandwich.koan.KoanIncompleteException;
 import com.sandwich.koan.TestUtils;
 import com.sandwich.koan.TestUtils.ArgRunner;
+import com.sandwich.koan.cmdline.behavior.Clear;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
 import com.sandwich.koan.path.xmltransformation.FakeXmlToPathTransformer;
@@ -40,6 +42,11 @@ public abstract class CommandLineTestCase {
 	private PrintStream err;
 	private ByteArrayOutputStream outBytes;
 	private ByteArrayOutputStream errBytes;
+
+	@BeforeClass
+	public static void clearFileSystemHashes() throws Exception {
+		new Clear().run();
+	}
 	
 	@Before
 	public void setUp() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {

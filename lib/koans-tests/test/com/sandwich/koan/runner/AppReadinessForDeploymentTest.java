@@ -108,7 +108,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 			});
 		doAsIfInProd(new Runnable(){
 			public void run(){
-				new RunKoans(PathToEnlightenment.getPathToEnlightenment()).run(null);
+				new RunKoans(PathToEnlightenment.getPathToEnlightenment()).run(new String[0]);
 			}
 		});
 		String firstSuiteClassRan = PathToEnlightenment.getPathToEnlightenment()
@@ -133,7 +133,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		});
 		doAsIfInProd(new Runnable(){
 			public void run(){
-				new RunKoans(PathToEnlightenment.getPathToEnlightenment()).run(null);
+				new RunKoans(PathToEnlightenment.getPathToEnlightenment()).run(new String[0]);
 			}
 		});
 		String message = "Not all koans need solving! Each should ship in a failing state.";

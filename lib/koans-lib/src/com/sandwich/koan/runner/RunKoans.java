@@ -41,7 +41,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 		this.pathToEnlightenment = pathToEnlightenment;
 	}
 	
-	public void run(String value) {
+	public void run(String... values) {
 		ApplicationUtils.getPresenter().clearMessages();
 		ApplicationUtils.getPresenter().displayResult(runKoans());
 	}
