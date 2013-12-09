@@ -16,6 +16,7 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 	private static final long serialVersionUID = 7635285665311420603L;
 
 	public CommandLineArgumentBuilder(String...args){
+		args = filterOutNullElements(args);
 		if(args.length == 0){
 			put(ArgumentType.RUN_KOANS, new CommandLineArgument(ArgumentType.RUN_KOANS, new String[0]));
 		} else if (args.length == 1 && ArgumentType.findTypeByString(args[0]) == null){
@@ -50,6 +51,16 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 			}
 		}
 		applyAssumedStartupBehaviors();
+	}
+
+	private String[] filterOutNullElements(String... args) {
+		List<String> tempArgs = new ArrayList<String>();
+		for(String arg : args){
+			if(arg != null && arg.trim().length() > 0){
+				tempArgs.add(arg.trim());
+			}
+		}
+		return tempArgs.toArray(new String[tempArgs.size()]);
 	}
 
 	void applyAssumedStartupBehaviors() {
