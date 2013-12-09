@@ -9,7 +9,6 @@ public class ClassArg extends AbstractArgumentBehavior {
 				koanSuiteClassName.length > 0 &&
 				koanSuiteClassName[0] != null && 
 				koanSuiteClassName[0].trim().length() != 0){
-			System.out.println("filtering by suite: " + koanSuiteClassName[0]);
 			PathToEnlightenment.filterBySuite(koanSuiteClassName[0]);
 		}
 	}

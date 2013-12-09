@@ -110,7 +110,7 @@ public class FileCompiler {
 				return file;
 			}
 		}
-		return new File("Doesn't exist");
+		return new File(sourcePath);
 	}
 	
 }
