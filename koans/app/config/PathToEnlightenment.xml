@@ -37,7 +37,4 @@
 	<package pkg="advanced" name="Advanced">
 		<suite class="AboutMocks"/>
 	</package>
-	<package pkg="groovy.beginner" name="Groovy - Beginner">
-		<suite class="AboutGroovy"/>
-	</package>
 </packages>
