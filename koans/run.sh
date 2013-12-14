@@ -1,7 +1,5 @@
 #!/bin/bash
 DIR="$( cd -P "$( dirname "$0" )" && pwd )"
-mkdir -p "$DIR""/app/data"
-mkdir -p "$DIR""/app/bin"
 exitOnError()
 {
     rc=$?

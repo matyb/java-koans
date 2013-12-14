@@ -30,7 +30,9 @@ public class Clear extends AbstractArgumentBehavior {
 				ApplicationUtils.getPresenter().displayMessage(file.getAbsolutePath() + " does not exist. Skipping.");
 			}
 		}
-		throw new RuntimeException("Unable to delete: "+unableToDelete+" see output for details.");
+		if(!unableToDelete.isEmpty()){
+			throw new RuntimeException("Unable to delete: "+unableToDelete+" see output for details.");
+		}
 	}
 	
 }
