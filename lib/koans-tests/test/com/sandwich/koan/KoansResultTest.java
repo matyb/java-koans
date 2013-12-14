@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import org.junit.Test;
 
-import com.sandwich.koan.cmdline.behavior.Clear;
 import com.sandwich.koan.path.CommandLineTestCase;
 import com.sandwich.koan.result.KoanMethodResult;
 import com.sandwich.koan.result.KoanSuiteResult;
@@ -17,7 +16,6 @@ public class KoansResultTest extends CommandLineTestCase {
 	
 	@Test
 	public void testToString() throws Exception {
-		new Clear().run();
 		KoanResultBuilder builder = new KoanResultBuilder()
 			.remainingCases(Arrays.asList(OneFailingKoan.class.getSimpleName()))
 			.methodResult(new KoanMethodResult(KoanMethod.getInstance("", OneFailingKoan.class.getDeclaredMethods()[0]), "msg", "2"))

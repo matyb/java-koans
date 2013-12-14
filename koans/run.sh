@@ -1,7 +1,7 @@
-DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$( cd -P "$( dirname "$0" )" && pwd )"
 mkdir -p "$DIR"/app/data
 mkdir -p "$DIR"/app/bin
-function exitOnError()
+exitOnError()
 {
 	rc=$?
 	if [[ $rc != 0 ]] ; then
@@ -10,10 +10,11 @@ function exitOnError()
 	fi
 }
 
-function buildClasspath()
+buildClasspath()
 {
     appDir=$1
     classpath=$appDir/bin
+	IFS=$'\n'
 
     for jar in $appDir/lib/*; do
         classpath=$classpath:$jar
@@ -24,4 +25,4 @@ exitOnError 'javac'
 java -version > /dev/null 2>&1
 exitOnError 'java'
 buildClasspath "$DIR"/app
-java -classpath $classpath com.sandwich.koan.runner.AppLauncher "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"
+java -Dapplication.basedir=\"$DIR\" -classpath \"$classpath\" com.sandwich.koan.runner.AppLauncher "$1" "$2" "$3" "$4" "$5" "$6" "$7" "$8" "$9"

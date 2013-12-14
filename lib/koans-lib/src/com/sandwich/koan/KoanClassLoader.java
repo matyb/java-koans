@@ -1,7 +1,9 @@
 package com.sandwich.koan;
 
 import java.io.File;
+import java.io.UTFDataFormatException;
 
+import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.util.io.FileMonitor;
 import com.sandwich.util.io.FileMonitorFactory;
 import com.sandwich.util.io.classloader.DynamicClassLoader;
@@ -18,7 +20,19 @@ public class KoanClassLoader extends DynamicClassLoader {
 				buildClassPath(),
 				DynamicClassLoader.class.getClassLoader(),
 				ApplicationSettings.getFileCompilationTimeoutInMs(),
-				FileMonitorFactory.getInstance(new File(DirectoryManager.getMainDir()), new File(DirectoryManager.getDataFile())));
+				getFileMonitor());
+	}
+
+	private static FileMonitor getFileMonitor() {
+		try{
+			return FileMonitorFactory.getInstance(new File(DirectoryManager.getMainDir()), new File(DirectoryManager.getDataFile()));
+		}catch(RuntimeException x){
+			if(x.getCause() instanceof UTFDataFormatException){
+				ApplicationUtils.getPresenter().displayError("Issue loading file system hashes, please rerun run.bat or run.sh with the -clear switch to reset.");
+				System.exit(4);
+			}
+			throw x;
+		}
 	}
 
 	private KoanClassLoader(String binDir, String sourceDir,

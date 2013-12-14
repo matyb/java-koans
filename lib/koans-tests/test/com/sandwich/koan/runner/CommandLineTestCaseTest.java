@@ -6,7 +6,6 @@ import static org.junit.Assert.assertSame;
 import static org.junit.Assert.fail;
 
 import java.io.PrintStream;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +27,7 @@ public class CommandLineTestCaseTest {
 	}
 	
 	@After
-	public void tearDown() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException{
+	public void tearDown() throws Exception{
 		testCase.tearDown(); // really important - will remove regular System.out if commented!
 		testCase = null;
 	}
@@ -55,7 +54,7 @@ public class CommandLineTestCaseTest {
 	}
 	
 	@Test
-	public void testThatTearDownDetachesDummiedConsoleFromSystem() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException, InvocationTargetException{
+	public void testThatTearDownDetachesDummiedConsoleFromSystem() throws Exception{
 		PrintStream originalConsole = System.out;
 		testCase.setUp();
 		PrintStream fakeConsole = System.out;
@@ -97,7 +96,7 @@ public class CommandLineTestCaseTest {
 	}
 	
 	@Test
-	public void testSystemOutEquals_freshStart() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException, InvocationTargetException{
+	public void testSystemOutEquals_freshStart() throws Exception{
 		testCase.setUp();
 		testCase.assertSystemOutEquals("");
 	}

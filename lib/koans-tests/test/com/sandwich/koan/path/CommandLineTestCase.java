@@ -13,7 +13,6 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.BeforeClass;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanClassLoader;
@@ -42,14 +41,10 @@ public abstract class CommandLineTestCase {
 	private PrintStream err;
 	private ByteArrayOutputStream outBytes;
 	private ByteArrayOutputStream errBytes;
-
-	@BeforeClass
-	public static void clearFileSystemHashes() throws Exception {
-		new Clear().run();
-	}
 	
 	@Before
-	public void setUp() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {
+	public void setUp() throws Exception {
+		new Clear().run();
 		DirectoryManager.setDirectorySet(new UnitTestDirectories());
 		resetClassLoader();
 		out = System.out;
@@ -62,12 +57,13 @@ public abstract class CommandLineTestCase {
 	}
 
 	@After
-	public void tearDown() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public void tearDown() throws Exception {
 		DirectoryManager.setDirectorySet(new ProductionExecutedFromTestsDirectories());
 		setRealPath();
 		System.setOut(out);
 		System.setErr(err);
 		resetClassLoader();
+		new Clear().run();
 	}
 	
 	protected void setRealPath(){

@@ -18,6 +18,9 @@ public class FileUtils {
 		forEachFile(file0, file1, new FileAction(){
 			public void sourceToDestination(File src, File dest) throws IOException {
 				InputStream in = new FileInputStream(src);
+				if(!dest.getParentFile().exists()){
+					dest.getParentFile().mkdirs();
+				}
 				OutputStream out = new FileOutputStream(dest);
 				
 				// Transfer bytes from in to out

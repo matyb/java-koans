@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -43,13 +42,13 @@ import com.sandwich.util.io.directories.ProductionExecutedFromTestsDirectories;
 public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	
 	@Before 
-	public void setUp() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException, InvocationTargetException  {
+	public void setUp() throws Exception  {
 		super.setUp();
 		resetHandlers();
 	}
 	
 	@After
-	public void tearDown() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public void tearDown() throws Exception {
 		super.tearDown();
 		resetHandlers();
 	}

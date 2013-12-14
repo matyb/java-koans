@@ -39,6 +39,9 @@ public class DataFileHelper<T> {
 		ObjectInputStream objectInputStream = null;
 		try {
 			File dataFile = getDataFile();
+			if(!dataFile.exists()){
+				return null;
+			}
 			objectInputStream = new ObjectInputStream(new FileInputStream(dataFile));
 			if(dataFile.exists()){
 				return lastRetrieval = (T)objectInputStream.readObject();
