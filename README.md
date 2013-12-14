@@ -12,7 +12,7 @@ https://github.com/matyb/java-koans/archive/master.zip
     * *lib/file-monitor*: the file monitoring module for notifying the app when files are saved 
     * *lib/util*: application agnostic interfaces and utilities shared in projects
 * Change directory to the koans directory: ```cd koans```
-* If you are using windows enter: ```run.bat``` or ```sh run.sh``` if you are using Mac or Linux.
+* If you are using windows enter: ```run.bat``` or ```./run.sh``` if you are using Mac or Linux.
 
 Developing a Koan:
 ==================
