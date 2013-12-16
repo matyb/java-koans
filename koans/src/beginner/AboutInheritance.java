@@ -21,9 +21,9 @@ public class AboutInheritance {
 	
 	@Koan
 	public void differenceBetweenOverloadingAndOverriding() {
-		assertEquals(new Parent().doStuff(),__);
-		assertEquals(new Child().doStuff(),__);
-		assertEquals(new Child().doStuff("oh no"),__);
+		assertEquals(new Parent().doStuff(), __);
+		assertEquals(new Child().doStuff(), __);
+		assertEquals(new Child().doStuff("oh no"), __);
 	}
 	
 	abstract class ParentTwo {
@@ -38,7 +38,7 @@ public class AboutInheritance {
 	public void overriddenMethodsMayReturnSubtype() {
 		// What do you need to change in order to get rid of the type cast?
 		// Why does this work?
-		List<?> list = (List<?>)new ChildTwo().doStuff();
+		List<?> list = (List<?>) new ChildTwo().doStuff();
 		assertEquals(list instanceof List, __);
 	}
 }
