@@ -46,6 +46,6 @@ public class AboutMethodPreference {
 		// What happens if you change 'Integer' to 'Double'
 		// Does this explain 'methodPreferenceDouble'?
 		// Think about why this happens?
-		assertEquals(new A().doStuff(1,Integer.valueOf(2)), __);
+		assertEquals(new A().doStuff(1, Integer.valueOf(2)), __);
 	}
 }
