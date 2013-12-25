@@ -4,7 +4,7 @@
   <groupId>com.sandwich</groupId>
   <artifactId>koans-lib</artifactId>
   <packaging>jar</packaging>
-  <version>Summer2013</version>
+  <version>Summer2014</version>
   <name>Java Koans Framework</name>
   <url>https://github.com/DavidWhitlock/java-koans</url>
   <developers>
