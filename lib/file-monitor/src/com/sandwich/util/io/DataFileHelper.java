@@ -1,5 +1,6 @@
 package com.sandwich.util.io;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -50,9 +51,10 @@ public class DataFileHelper<T> {
 				try	{
 					return lastRetrieval = (T)objectInputStream.readObject();
 				}catch(UTFDataFormatException x){
-					dataFile.delete();
-					dataFile.createNewFile();
-					write(defaultState);
+					createNewFile(dataFile);
+					return defaultState;
+				}catch(EOFException x){
+					createNewFile(dataFile);
 					return defaultState;
 				}
 			}else{
@@ -76,6 +78,12 @@ public class DataFileHelper<T> {
 				}
 			}
 		}
+	}
+
+	private void createNewFile(File dataFile) throws IOException {
+		dataFile.delete();
+		dataFile.createNewFile();
+		write(defaultState);
 	}
 
 	public void write(T state){
