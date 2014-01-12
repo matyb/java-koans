@@ -8,3 +8,5 @@ koans/data
 koans/data*
 .classpath
 .project
+koans/app/data
+lib/file-compiler/bin

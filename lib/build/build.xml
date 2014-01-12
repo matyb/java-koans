@@ -1,4 +1,4 @@
-<project name="Java Koans" basedir="../../" default="test">
+<project name="Java Koans" basedir="../../" default="build-app">
 	
 	<property file="lib/build/build.properties"/>
     
@@ -10,13 +10,16 @@
 		<fileset dir="${binLibDir}">
 			<include name="**/*.jar"/>
 		</fileset>
-		<pathelement location="${binMainDir}"/>
+		<pathelement location="${utilBinDir}"/>
 		<pathelement location="${binLibDir}"/>
-		<pathelement location="${binTestDir}"/>
+		<pathelement location="${fileCompilerBinDir}"/>
+		<pathelement location="${fileMonitorBinDir}"/>
+		<pathelement location="${koansLibBinDir}"/>
+		<pathelement location="${koansBinDir}"/>
+		<pathelement location="${koansTestsBinDir}"/>
 	</path>
 	
 	<target name="clean">
-		<tstamp/>
 		<delete dir="${appDir}/bin"/>
 		<delete dir="${appDir}/data"/>
 		<delete file="${appDir}/config/file_hashes.dat"/>
@@ -24,46 +27,70 @@
 		<delete dir="${reportsDir}"/>
 	</target>
 	
-	<target name="mkdirs" depends="clean">
+	<target name="init" depends="clean">
+		<tstamp/>
+	</target>
+	
+	<target name="mkdirs" depends="init">
 		<mkdir dir="${binDir}"/>
 	</target>
 	
 	<target name="compile-src" depends="mkdirs">
-		<mkdir dir="${binMainDir}"/>
-		<javac srcdir="${utilDir}" destdir="${binMainDir}" includeantruntime="false"/>
-		<copy todir="${binMainDir}">
-			<fileset dir="${fileCompilerDir}" includes="**/*.properties"/>
+		<mkdir dir="${utilBinDir}"/>
+		<mkdir dir="${fileCompilerBinDir}"/>
+		<mkdir dir="${fileMonitorBinDir}"/>
+		<mkdir dir="${koansLibBinDir}"/>
+		<mkdir dir="${koansBinDir}"/>
+		<mkdir dir="${binLibDir}"/>
+		<javac srcdir="${utilSrcDir}" destdir="${utilBinDir}" includeantruntime="false"/>
+		<copy todir="${fileCompilerBinDir}">
+			<fileset dir="${fileCompilerSrcDir}" includes="**/*.properties"/>
 		</copy>
-		<javac srcdir="${fileCompilerDir}" destdir="${binMainDir}" includeantruntime="false"/>
-		<javac srcdir="${fileMonitorDir}" destdir="${binMainDir}" includeantruntime="false"/>
-		<javac srcdir="${koansLibDir}" destdir="${binMainDir}" includeantruntime="false"/>
+		<javac srcdir="${fileCompilerSrcDir}" destdir="${fileCompilerBinDir}" includeantruntime="false">
+			<classpath refid="classpath"/>
+		</javac>
+		<javac srcdir="${fileMonitorSrcDir}" destdir="${fileMonitorBinDir}" includeantruntime="false">
+			<classpath refid="classpath"/>
+		</javac>
+		<javac srcdir="${koansLibSrcDir}" destdir="${koansLibBinDir}" includeantruntime="false">
+			<classpath refid="classpath"/>
+		</javac>
 	</target>
 	
 	<target name="compile-test" depends="compile-src">
-		<mkdir dir="${binTestDir}"/>
+		<mkdir dir="${koansTestsBinDir}"/>
 		<mkdir dir="${binLibDir}"/>
 		<copy todir="${binLibDir}">
-			<fileset dir="${koansTestsDir}" excludes="**/*.java"/>
+			<fileset dir="${koansTestsSrcDir}" excludes="**/*.java"/>
 		</copy>
-		<javac srcdir="${koansTestsDir}" destdir="${binTestDir}" debug="on" includeantruntime="false">
+		<javac srcdir="${koansTestsSrcDir}" destdir="${koansTestsBinDir}" debug="on" includeantruntime="false">
 			<classpath refid="classpath"/>
 		</javac>
 	</target>
 	
 	<target name="test" depends="compile-test">
 		<mkdir dir="${reportsDir}"/>
-		<junit printsummary="yes" haltonfailure="no">
+		<junit printsummary="yes" haltonfailure="yes">
 		  <classpath>
 		  	<path refid="classpath"/>
 		  </classpath>
 		  <formatter type="plain"/>
 		  <batchtest fork="no" todir="${reportsDir}">
-		    <fileset dir="${binTestDir}">
+		    <fileset dir="${koansTestsBinDir}">
 		      <include name="**/*Test.class"/>
 		    </fileset>
 		  </batchtest>
 		</junit>
+	</target>
+	
+	<target name="build-app" depends="test">
 		<antcall target="clean"/>
+		<antcall target="compile-src"/>
+		<mkdir dir="${dist}"/>
+		<jar destfile="${dist}/util.jar" basedir="${utilBinDir}"/>
+		<jar destfile="${dist}/file-monitor.jar" basedir="${fileMonitorBinDir}"/>
+		<jar destfile="${dist}/file-compiler.jar" basedir="${fileCompilerBinDir}"/>
+		<jar destfile="${dist}/koans.jar" basedir="${koansLibBinDir}"/>
 	</target>
 		
 </project>

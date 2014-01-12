@@ -1,5 +1,6 @@
 package com.sandwich.koan.path;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -13,6 +14,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanClassLoader;
@@ -40,6 +42,11 @@ public abstract class CommandLineTestCase {
 	private PrintStream err;
 	private ByteArrayOutputStream outBytes;
 	private ByteArrayOutputStream errBytes;
+	
+	@BeforeClass
+	public static void deleteFileHashesAfterJVMExit(){
+		new File(DirectoryManager.getDataFile()).deleteOnExit();
+	}
 	
 	@Before
 	public void setUp() throws Exception {
