@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.UTFDataFormatException;
 
 /**
  * Handles persistence to/from a filesystem, and makes assumption instances of T
@@ -18,6 +19,7 @@ public class DataFileHelper<T> {
 
 	private File dataFile;
 	private T lastRetrieval;
+	private T defaultState;
 	
 	public DataFileHelper(File dataFile, T defaultState){
 		this.dataFile = dataFile;
@@ -25,6 +27,7 @@ public class DataFileHelper<T> {
 			dataFile.getParentFile().mkdirs();
 			write(defaultState);
 		}
+		this.defaultState = defaultState;
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 			public void run() {
 				if(lastRetrieval != null){
@@ -44,7 +47,14 @@ public class DataFileHelper<T> {
 			}
 			objectInputStream = new ObjectInputStream(new FileInputStream(dataFile));
 			if(dataFile.exists()){
-				return lastRetrieval = (T)objectInputStream.readObject();
+				try	{
+					return lastRetrieval = (T)objectInputStream.readObject();
+				}catch(UTFDataFormatException x){
+					dataFile.delete();
+					dataFile.createNewFile();
+					write(defaultState);
+					return defaultState;
+				}
 			}else{
 				return null;
 			}

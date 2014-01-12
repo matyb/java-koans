@@ -19,7 +19,6 @@ import com.sandwich.koan.KoanClassLoader;
 import com.sandwich.koan.KoanIncompleteException;
 import com.sandwich.koan.TestUtils;
 import com.sandwich.koan.TestUtils.ArgRunner;
-import com.sandwich.koan.cmdline.behavior.Clear;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.path.PathToEnlightenment.Path;
 import com.sandwich.koan.path.xmltransformation.FakeXmlToPathTransformer;
@@ -44,7 +43,6 @@ public abstract class CommandLineTestCase {
 	
 	@Before
 	public void setUp() throws Exception {
-		new Clear().run();
 		DirectoryManager.setDirectorySet(new UnitTestDirectories());
 		resetClassLoader();
 		out = System.out;
@@ -60,10 +58,13 @@ public abstract class CommandLineTestCase {
 	public void tearDown() throws Exception {
 		DirectoryManager.setDirectorySet(new ProductionExecutedFromTestsDirectories());
 		setRealPath();
-		System.setOut(out);
-		System.setErr(err);
+		if(out != null){
+			System.setOut(out);
+		}
+		if(err != null){
+			System.setErr(err);
+		}
 		resetClassLoader();
-		new Clear().run();
 	}
 	
 	protected void setRealPath(){

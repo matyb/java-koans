@@ -1,0 +1,69 @@
+<project name="Java Koans" basedir="../../" default="test">
+	
+	<property file="lib/build/build.properties"/>
+    
+	<description>
+      A simple set of lessons to learn Java from
+    </description>
+	
+	<path id="classpath">
+		<fileset dir="${binLibDir}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<pathelement location="${binMainDir}"/>
+		<pathelement location="${binLibDir}"/>
+		<pathelement location="${binTestDir}"/>
+	</path>
+	
+	<target name="clean">
+		<tstamp/>
+		<delete dir="${appDir}/bin"/>
+		<delete dir="${appDir}/data"/>
+		<delete file="${appDir}/config/file_hashes.dat"/>
+		<delete dir="${binDir}"/>
+		<delete dir="${reportsDir}"/>
+	</target>
+	
+	<target name="mkdirs" depends="clean">
+		<mkdir dir="${binDir}"/>
+	</target>
+	
+	<target name="compile-src" depends="mkdirs">
+		<mkdir dir="${binMainDir}"/>
+		<javac srcdir="${utilDir}" destdir="${binMainDir}" includeantruntime="false"/>
+		<copy todir="${binMainDir}">
+			<fileset dir="${fileCompilerDir}" includes="**/*.properties"/>
+		</copy>
+		<javac srcdir="${fileCompilerDir}" destdir="${binMainDir}" includeantruntime="false"/>
+		<javac srcdir="${fileMonitorDir}" destdir="${binMainDir}" includeantruntime="false"/>
+		<javac srcdir="${koansLibDir}" destdir="${binMainDir}" includeantruntime="false"/>
+	</target>
+	
+	<target name="compile-test" depends="compile-src">
+		<mkdir dir="${binTestDir}"/>
+		<mkdir dir="${binLibDir}"/>
+		<copy todir="${binLibDir}">
+			<fileset dir="${koansTestsDir}" excludes="**/*.java"/>
+		</copy>
+		<javac srcdir="${koansTestsDir}" destdir="${binTestDir}" debug="on" includeantruntime="false">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+	<target name="test" depends="compile-test">
+		<mkdir dir="${reportsDir}"/>
+		<junit printsummary="yes" haltonfailure="no">
+		  <classpath>
+		  	<path refid="classpath"/>
+		  </classpath>
+		  <formatter type="plain"/>
+		  <batchtest fork="no" todir="${reportsDir}">
+		    <fileset dir="${binTestDir}">
+		      <include name="**/*Test.class"/>
+		    </fileset>
+		  </batchtest>
+		</junit>
+		<antcall target="clean"/>
+	</target>
+		
+</project>
