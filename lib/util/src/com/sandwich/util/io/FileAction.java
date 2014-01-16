@@ -5,6 +5,9 @@ import java.io.IOException;
 
 public interface FileAction {
 
-	void sourceToDestination(File src, File dest) throws IOException;
+	void onFile(File file) throws IOException;
+	void onDirectory(File dir) throws IOException;
+	void onNull(File nullFile) throws IOException;
+	void onNew(File newFile) throws IOException;
 	
 }

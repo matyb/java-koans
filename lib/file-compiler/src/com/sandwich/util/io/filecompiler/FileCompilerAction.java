@@ -9,10 +9,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import com.sandwich.util.ExceptionUtils;
-import com.sandwich.util.io.FileAction;
+import com.sandwich.util.io.ForEachFileAction;
 import com.sandwich.util.io.StreamUtils;
 
-public class FileCompilerAction implements FileAction {
+public class FileCompilerAction extends ForEachFileAction {
 	
 	private final String destinationPath;
 	private final String[] classPaths;
@@ -20,22 +20,22 @@ public class FileCompilerAction implements FileAction {
 	private final long timeout;
 	public static final CompilationListener LOGGING_HANDLER = new CompilationFailureLogger();
 	
-	public FileCompilerAction(File destinationPath, CompilationListener errorHandler, String...classPaths){
-		this(destinationPath, errorHandler, 1000, classPaths);
+	public FileCompilerAction(File destination, CompilationListener errorHandler, String...classPaths){
+		this(destination, errorHandler, 1000, classPaths);
 	}
 	
-	public FileCompilerAction(File destinationPath,
+	public FileCompilerAction(File destination,
 			CompilationListener errorHandler, long timeout, String[] classPaths) {
-		if(destinationPath == null){
+		if(destination == null){
 			throw new IllegalArgumentException("the destination path is required");
 		}
-		this.destinationPath = destinationPath.getAbsolutePath();
+		this.destinationPath = destination.getAbsolutePath();
 		this.classPaths = classPaths;
 		this.compilationListener = errorHandler == null ? LOGGING_HANDLER : errorHandler;
 		this.timeout = timeout;
 	}
 	
-	public void sourceToDestination(File src, File bin) throws IOException {
+	public void onFile(File src) throws IOException {
 		String fileName = src.getName();
 		if (CompilerConfig.isSourceFile(fileName)) {
 			String[] command = CompilerConfig.getCompilationCommand(src, destinationPath, getClasspath());

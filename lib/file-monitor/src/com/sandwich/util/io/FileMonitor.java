@@ -69,11 +69,11 @@ public class FileMonitor {
 	
 	Map<String, Long> getFilesystemHashes() throws IOException {
 		final HashMap<String,Long> fileHashes = new HashMap<String,Long>();
-		FileUtils.forEachFile(fileSystemPath, fileSystemPath, new FileAction(){
-			public void sourceToDestination(File src, File dest) throws IOException {
+		new ForEachFileAction(){
+			public void onFile(File src) throws IOException {
 				fileHashes.put(src.getAbsolutePath(), src.lastModified());
 			}
-		});
+		}.operate(fileSystemPath);
 		return fileHashes;
 	}
 

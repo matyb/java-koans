@@ -36,15 +36,15 @@ public class FileCompiler {
 		compile(src, bin, listener, 5000l, classpath);
 	}
 	
-	public static void compile(File src, File bin,
-			CompilationListener listener, long timeout, String[] classpath) throws IOException {
+	public static void compile(File src, final File bin, final CompilationListener listener, 
+			final long timeout, final String[] classpath) throws IOException {
 		if(!bin.exists()){
 			if(!bin.mkdir()){
 				System.err.println("Was unable to create: "+bin);
 				System.exit(-231);
 			}
 		}
-		FileUtils.forEachFile(src, bin, new FileCompilerAction(bin, listener, timeout, classpath));
+		new FileCompilerAction(bin, listener, timeout, classpath).operate(src);;
 		String srcPath = src.getAbsolutePath();
 		String classPath = srcPath;
 		for(String suffix : CompilerConfig.getSupportedFileSuffixes()){
