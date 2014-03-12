@@ -82,7 +82,7 @@
         <version>2.12</version>
         <configuration>
           <systemPropertyVariables>
-            <BASE_DIR>.</BASE_DIR>
+            <application.basedir>${basedir}/build</application.basedir>
           </systemPropertyVariables>
         </configuration>
       </plugin>
