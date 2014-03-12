@@ -12,7 +12,6 @@ public class FileMonitorFactory {
 
 	static {
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable(){
-			@Override
 			public void run() {
 				for(FileMonitor monitor : monitors.values()){
 					monitor.close();
@@ -20,7 +19,7 @@ public class FileMonitorFactory {
 				monitors.clear();
 			}
 		}));
-		new Thread(new Runnable(){
+		Thread pollingThread = new Thread(new Runnable(){
 			public void run() {
 				do{
 					try {
@@ -36,7 +35,9 @@ public class FileMonitorFactory {
 					}
 				}while(true);
 			}
-		}).start();
+		});
+		pollingThread.setName("FileMonitorPolling");
+		pollingThread.start();
 	}
 	
 	public static FileMonitor getInstance(File monitoredFile, File dataFile) {

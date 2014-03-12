@@ -11,7 +11,10 @@ import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.util.ApplicationUtils;
+import com.sandwich.util.io.classloader.DynamicClassLoader;
 import com.sandwich.util.io.directories.DirectoryManager;
+import com.sandwich.util.io.filecompiler.CompilerConfig;
+import com.sandwich.util.io.filecompiler.FileCompiler;
 
 public class KoanFileCompileAndRunListener implements FileListener {
 	
@@ -24,15 +27,23 @@ public class KoanFileCompileAndRunListener implements FileListener {
 	
 	public void fileSaved(File file) {
 		String absolutePath = file.getAbsolutePath();
-		if(absolutePath.toLowerCase().endsWith(FileCompiler.JAVA_SUFFIX)){
+		if(CompilerConfig.isSourceFile(absolutePath)){
 			ApplicationUtils.getPresenter().displayMessage(KoanConstants.EOL+"loading: "+absolutePath);
+			File[] jars = new File(DirectoryManager.getProjectLibraryDir()).listFiles();
+            String[] classPath = new String[jars.length];
+            for (int i = 0; i < jars.length; i++) {
+                String jarPath = jars[i].getAbsolutePath();
+                String jarPathLowerCase = jarPath.toLowerCase();
+                if(jarPathLowerCase.endsWith(".jar") || jarPathLowerCase.endsWith(".war")){
+                	classPath[i] = jarPath;
+                }
+            }
 			try {
 				FileCompiler.compile(file, 
 					new File(DirectoryManager.getBinDir()),
 					listener,
 					ApplicationSettings.getFileCompilationTimeoutInMs(),
-					new String[]{DirectoryManager.injectFileSystemSeparators(
-							DirectoryManager.getProjectLibraryDir(), "koans.jar")});
+					classPath);
 				DynamicClassLoader.remove(FileCompiler.sourceToClass(
 						DirectoryManager.getSourceDir(), DirectoryManager.getBinDir(), file).toURI().toURL());
 				if(!listener.isLastCompilationAttemptFailure()){

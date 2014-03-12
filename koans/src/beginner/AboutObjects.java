@@ -34,10 +34,10 @@ public class AboutObjects {
 	}
 
 	@Koan
-	public void toStringConcatenates(){
+	public void toStringConcatenates() {
 		final String string = "ha";
-		Object object = new Object(){
-			@Override public String toString(){
+		Object object = new Object() {
+			@Override public String toString() {
 				return string;
 			}
 		};
@@ -45,9 +45,9 @@ public class AboutObjects {
 	}
 
 	@Koan
-	public void toStringIsTestedForNullWhenInvokedImplicitly(){
+	public void toStringIsTestedForNullWhenInvokedImplicitly() {
 		String string = "string";
-		assertEquals(string+null, __);
+		assertEquals(string + null, __);
 	}
 
 	private Class<?>[] getAncestors(Object object) {

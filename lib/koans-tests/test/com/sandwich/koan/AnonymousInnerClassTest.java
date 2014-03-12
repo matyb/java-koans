@@ -13,7 +13,6 @@ public class AnonymousInnerClassTest extends CommandLineTestCase{
 	public void testAnonymousInnerClassIsCoolToUseAsKoan() throws Exception {
 		final String definitelyAUniqueString = "meh1294120240912049";
 		stubAllKoans(Arrays.asList(new Object(){
-			@SuppressWarnings("unused")
 			@Koan public void printMsg(){
 				System.out.println(definitelyAUniqueString);
 			}

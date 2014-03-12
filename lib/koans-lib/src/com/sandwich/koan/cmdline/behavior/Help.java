@@ -11,7 +11,7 @@ import com.sandwich.koan.util.ApplicationUtils;
 
 public class Help extends AbstractArgumentBehavior {
 
-	public void run(String value) {
+	public void run(String...values) {
 		StringBuilder sb = new StringBuilder(
 				 "Java Koans - HELP").append(KoanConstants.EOL);
 		line(sb, "-----------------");

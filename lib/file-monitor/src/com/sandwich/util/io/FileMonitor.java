@@ -48,13 +48,18 @@ public class FileMonitor {
 			for(String fileName : currentHashes.keySet()){
 				Long currentHash 	= currentHashes.get(fileName);
 				Long previousHash 	= fileHashesByDirectory.get(fileName);
-				if(previousHash != null && !currentHash.equals(previousHash)){
-					fileHashesByDirectory.put(fileName, currentHash);
-					File file = new File(fileName);
-					for(FileListener listener : listeners){
+				
+				fileHashesByDirectory.put(fileName, currentHash);
+				File file = new File(fileName);
+				
+				for(FileListener listener : listeners){
+					if(previousHash == null && currentHash != null){
+						listener.newFile(file);
+					}else if(currentHash == null && previousHash != null){
+						listener.fileDeleted(file);
+					}else if(!currentHash.equals(previousHash)){
 						listener.fileSaved(file);
 					}
-					break;
 				}
 			}
 		} catch (IOException e) {
@@ -64,14 +69,11 @@ public class FileMonitor {
 	
 	Map<String, Long> getFilesystemHashes() throws IOException {
 		final HashMap<String,Long> fileHashes = new HashMap<String,Long>();
-		FileUtils.forEachFile(fileSystemPath, fileSystemPath, new FileAction(){
-			public File makeDestination(File dest, String fileInDirectory) {
-				return new File(dest, fileInDirectory);
-			}
-			public void sourceToDestination(File src, File dest) throws IOException {
+		new ForEachFileAction(){
+			public void onFile(File src) throws IOException {
 				fileHashes.put(src.getAbsolutePath(), src.lastModified());
 			}
-		});
+		}.operate(fileSystemPath);
 		return fileHashes;
 	}
 
@@ -82,6 +84,14 @@ public class FileMonitor {
 
 	public void updateFileSaveTime(File file) {
 		fileHashesByDirectory.put(file.getAbsolutePath(), file.lastModified());
+	}
+
+	public void writeChanges() {
+		try {
+			fileHashesHelper.write(getFilesystemHashes());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 }

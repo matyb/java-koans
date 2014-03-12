@@ -12,8 +12,8 @@ import com.sandwich.koan.constant.KoanConstants;
 import com.sandwich.koan.path.xmltransformation.KoanElementAttributes;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformer;
 import com.sandwich.koan.path.xmltransformation.XmlToPathTransformerImpl;
-import com.sandwich.util.io.FileCompiler;
 import com.sandwich.util.io.directories.DirectoryManager;
+import com.sandwich.util.io.filecompiler.FileCompiler;
 
 public abstract class PathToEnlightenment {
 

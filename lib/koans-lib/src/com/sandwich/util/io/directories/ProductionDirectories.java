@@ -1,7 +1,7 @@
 package com.sandwich.util.io.directories;
 
 
-public class Production extends DirectorySet {
+public class ProductionDirectories extends DirectorySet {
 
 	public String getProjectDir() {
 		return "koans";

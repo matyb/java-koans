@@ -8,7 +8,7 @@ import com.sandwich.util.io.directories.DirectoryManager;
 
 public abstract class KoanFileCopying extends AbstractArgumentBehavior {
 
-	public void run(String value) {
+	public void run(String... values) {
 		SuitePresenter presenter = ApplicationUtils.getPresenter();
 		try {
 			copy(DirectoryManager.getProjectDataSourceDir(), DirectoryManager.getSourceDir());

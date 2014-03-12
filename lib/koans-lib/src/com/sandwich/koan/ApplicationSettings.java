@@ -50,7 +50,7 @@ public class ApplicationSettings {
 	private static ResourceBundle getConfigBundle(){
 		if(CONFIG_BUNDLE == null){
 			try {
-				CONFIG_BUNDLE= new PropertyResourceBundle(new FileInputStream(
+				CONFIG_BUNDLE = new PropertyResourceBundle(new FileInputStream(
 						DirectoryManager.injectFileSystemSeparators(
 							DirectoryManager.getConfigDir(), "config.properties")));
 			} catch (Exception e) {

@@ -2,6 +2,9 @@ package com.sandwich.util.io;
 
 import java.io.File;
 
+import com.sandwich.util.io.filecompiler.CompilationListener;
+import com.sandwich.util.io.filecompiler.FileCompilerAction;
+
 public class KoanSuiteCompilationListener implements CompilationListener {
 
 	private boolean lastCompilationAttemptFailed = false;

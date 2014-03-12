@@ -14,7 +14,7 @@ public class AboutConditionals {
 		int x = 1;
 		if (true) 
 			x++;
-		assertEquals(x,__);
+		assertEquals(x, __);
 	}
 	
 	@Koan
@@ -26,7 +26,7 @@ public class AboutConditionals {
 			x++;
 		else
 			x--;
-		assertEquals(x,__);
+		assertEquals(x, __);
 	}
 	
 	@Koan
@@ -41,7 +41,7 @@ public class AboutConditionals {
 			x = 10;
 		else
 			x--;
-		assertEquals(x,__);
+		assertEquals(x, __);
 	}
 	
 	@Koan
@@ -55,21 +55,21 @@ public class AboutConditionals {
 			if (otherBooleanCondition) x = 10;
 		else x--;
 		// Where does this else belong to!?
-		assertEquals(x,__);
+		assertEquals(x, __);
 	}
 	
 	@Koan
 	public void ifAsIntended() {
 		boolean secretBoolean = true;
 		int x = 1;
-		if(secretBoolean) {
+		if (secretBoolean) {
 			x++;
 		} else {
 			x = 0;
 		}
 		// There are different opinions on where the curly braces go...
 		// But as long as you put them here. You avoid problems as seen above.
-		assertEquals(x,__);
+		assertEquals(x, __);
 	} 
 	
 	@Koan 

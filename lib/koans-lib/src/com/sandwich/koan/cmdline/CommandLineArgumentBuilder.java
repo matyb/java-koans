@@ -1,11 +1,12 @@
 package com.sandwich.koan.cmdline;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.logging.Logger;
 
 import com.sandwich.koan.ApplicationSettings;
-import com.sandwich.koan.KoanClassLoader;
 import com.sandwich.koan.constant.ArgumentType;
 import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.koan.util.ApplicationUtils;
@@ -15,78 +16,56 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 	private static final long serialVersionUID = 7635285665311420603L;
 
 	public CommandLineArgumentBuilder(String...args){
-		for(int index = 0; index < args.length;){
-			String stringArg = args[index];
-			if(stringArg == null || stringArg.trim().length() == 0){
-				index++;
-				continue;
+		args = filterOutNullElements(args);
+		if(args.length == 0){
+			put(ArgumentType.RUN_KOANS, new CommandLineArgument(ArgumentType.RUN_KOANS, new String[0]));
+		} else if (args.length == 1 && ArgumentType.findTypeByString(args[0]) == null){
+			put(ArgumentType.CLASS_ARG, new CommandLineArgument(ArgumentType.CLASS_ARG, args[0]));
+		} else if (args.length == 2 && ArgumentType.findTypeByString(args[0]) == null && ArgumentType.findTypeByString(args[1]) == null){
+			put(ArgumentType.CLASS_ARG, new CommandLineArgument(ArgumentType.CLASS_ARG, args[0]));
+			put(ArgumentType.METHOD_ARG, new CommandLineArgument(ArgumentType.METHOD_ARG, args[1]));
+		} else {
+			ArgumentType type = null;
+			List<String> params = null;
+			for(int index = 0; index < args.length; index++){
+				ArgumentType tmpType = ArgumentType.findTypeByString(args[index]);
+				if(tmpType == null){
+					if(type == null){
+						Logger.getAnonymousLogger().warning("The argument: " + args[index] + " is not recognized, it will be ignored");
+					}else{
+						params.add(args[index]);
+					}
+				}else{
+					if(type == null){
+						type = tmpType;
+						params = new ArrayList<String>();
+					}else{
+						put(type, new CommandLineArgument(type, params.toArray(new String[params.size()])));
+						type = null;
+						params = new ArrayList<String>(); 
+					}
+				}
 			}
-			// is incremented in test of ternary
-			String stringArgPlusOne = args.length <= ++index ? null : args[index];
-			stringArgPlusOne = stringArgPlusOne == null || stringArgPlusOne.trim().length() == 0
-				? null : stringArgPlusOne;
-			ArgumentType argumentType = ArgumentType.findTypeByString(stringArg);
-			ArgumentType argumentTypePlusOne = ArgumentType.findTypeByString(stringArgPlusOne);
-			if(argumentType != null){ // matches an anticipated argument string
-				// so does next value, must be an argument too, reevaluate w/ index incremented only once above
-				if(argumentTypePlusOne instanceof ArgumentType){ 
-					put(argumentType, new CommandLineArgument(argumentType, null));
-					// intentionally increment past next argument (only one) and
-					// evaluate in next iteration with its following argument
-					// - in other words, argumentType will be argumentTypePlusOne in next iteration
-					continue;
-				}
-				// ok 2nd argument wasn't a recognized argument type - go
-				// ahead and see if it's a class, if not, it must be a
-				// method - or bogus
-				else if(stringArgPlusOne != null){
-					guessAtMethodAndClass(this, stringArgPlusOne);
-				}
-				else{
-					put(argumentType, new CommandLineArgument(argumentType, null));
-				}
-				index++;
-				continue;
-			}else if(stringArg != null){
-				// no flag, but a string - likely class or class and method
-				guessAtMethodAndClass(this, stringArg);
-				// do not increment again, bump stringArgPlusOne into stringArg from prior increment
-				continue;
+			if(type != null && params != null){
+				put(type, new CommandLineArgument(type, params.toArray(new String[params.size()])));
 			}
 		}
 		applyAssumedStartupBehaviors();
 	}
-	
-	private static void guessAtMethodAndClass(
-			Map<ArgumentType, CommandLineArgument> commandLineArguments,
-			String potentialClassOrMethod) {
-		boolean hasMethod = commandLineArguments.containsKey(ArgumentType.METHOD_ARG);
-		boolean hasClass = commandLineArguments.containsKey(ArgumentType.CLASS_ARG);
-		try{
-			if(potentialClassOrMethod != null){
-				if(!hasClass){
-					commandLineArguments.put(ArgumentType.CLASS_ARG, 
-						new CommandLineArgument(ArgumentType.CLASS_ARG, 
-								KoanClassLoader.getInstance().loadClass(potentialClassOrMethod).getName()));
-				}else if(!hasMethod){
-					commandLineArguments.put(ArgumentType.METHOD_ARG, 
-							new CommandLineArgument(ArgumentType.METHOD_ARG, potentialClassOrMethod));
-				}
-			}
-		}catch(Exception cnfe2){
-			if(!hasMethod){
-				commandLineArguments.put(ArgumentType.METHOD_ARG, 
-					new CommandLineArgument(ArgumentType.METHOD_ARG, potentialClassOrMethod));
-			}else{
-				throw new IllegalArgumentException(potentialClassOrMethod
-						+ " does not match an expected argument, nor value.");
+
+	private String[] filterOutNullElements(String... args) {
+		List<String> tempArgs = new ArrayList<String>();
+		for(String arg : args){
+			if(arg != null && arg.trim().length() > 0){
+				tempArgs.add(arg.trim());
 			}
 		}
+		return tempArgs.toArray(new String[tempArgs.size()]);
 	}
 
 	void applyAssumedStartupBehaviors() {
 		if(ApplicationUtils.isFirstTimeAppHasBeenRun()){
-			ArgumentType.BACKUP.run(null);
+			ArgumentType.BACKUP.run(new String[0]);
 			ApplicationUtils.getPresenter().clearMessages();
 		}
 		if(isEmpty() || !containsKey(ArgumentType.RUN_KOANS) && (
@@ -100,7 +79,7 @@ public class CommandLineArgumentBuilder extends LinkedHashMap<ArgumentType, Comm
 					presenter.displayMessage("Value: '"+argEntry.getValue()+"'");
 				}
 			}
-			put(ArgumentType.RUN_KOANS, new CommandLineArgument(ArgumentType.RUN_KOANS, null, true));
+			put(ArgumentType.RUN_KOANS, new CommandLineArgument(ArgumentType.RUN_KOANS, true, new String[0]));
 		}
 	}
 }
