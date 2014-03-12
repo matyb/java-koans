@@ -1,3 +1,5 @@
+#Java Koans [![Build Status](https://travis-ci.org/matyb/java-koans.png?branch=master)](https://travis-ci.org/matyb/java-koans)
+
 Running Instructions:
 =====================
 * Download and unarchive the contents of the most recent java-koans in development from:
@@ -12,7 +14,7 @@ https://github.com/matyb/java-koans/archive/master.zip
     * *lib/file-monitor*: the file monitoring module for notifying the app when files are saved 
     * *lib/util*: application agnostic interfaces and utilities shared in projects
 * Change directory to the koans directory: ```cd koans```
-* If you are using windows enter: ```run.bat``` or ```sh run.sh``` if you are using Mac or Linux.
+* If you are using windows enter: ```run.bat``` or ```./run.sh``` if you are using Mac or Linux.
 
 Developing a Koan:
 ==================
@@ -23,4 +25,3 @@ Developing a Koan:
 Something's wrong:
 ==================
 * If the koans app is constantly timing out compiling a koan, your computer may be too slow to compile the koan classes with the default timeout value. Update the compile_timeout_in_ms property in koans/app/config/config.properties with a larger value and try again.
-* If you're running the koans command with the class and/or method arguments, the app may hang if the class you saved won't compile. Until this is fixed, when you you suspect this is occuring revert to a state the file compiled and try again.

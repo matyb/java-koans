@@ -23,11 +23,11 @@ import com.sandwich.koan.result.KoanSuiteResult.KoanResultBuilder;
 import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.util.ExceptionUtils;
 import com.sandwich.util.KoanComparator;
-import com.sandwich.util.io.CompilationListener;
-import com.sandwich.util.io.DynamicClassLoader;
-import com.sandwich.util.io.FileCompiler;
 import com.sandwich.util.io.KoanSuiteCompilationListener;
+import com.sandwich.util.io.classloader.DynamicClassLoader;
 import com.sandwich.util.io.directories.DirectoryManager;
+import com.sandwich.util.io.filecompiler.CompilationListener;
+import com.sandwich.util.io.filecompiler.FileCompiler;
 
 public class RunKoans extends AbstractArgumentBehavior {
 
@@ -41,7 +41,7 @@ public class RunKoans extends AbstractArgumentBehavior {
 		this.pathToEnlightenment = pathToEnlightenment;
 	}
 	
-	public void run(String value) {
+	public void run(String... values) {
 		ApplicationUtils.getPresenter().clearMessages();
 		ApplicationUtils.getPresenter().displayResult(runKoans());
 	}

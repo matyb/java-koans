@@ -4,7 +4,7 @@
   <groupId>com.sandwich</groupId>
   <artifactId>koans-lib</artifactId>
   <packaging>jar</packaging>
-  <version>Summer2013</version>
+  <version>Summer2014</version>
   <name>Java Koans Framework</name>
   <url>https://github.com/DavidWhitlock/java-koans</url>
   <developers>
@@ -82,7 +82,7 @@
         <version>2.12</version>
         <configuration>
           <systemPropertyVariables>
-            <BASE_DIR>.</BASE_DIR>
+            <application.basedir>${basedir}/build</application.basedir>
           </systemPropertyVariables>
         </configuration>
       </plugin>

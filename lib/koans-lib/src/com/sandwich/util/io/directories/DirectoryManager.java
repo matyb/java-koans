@@ -7,7 +7,7 @@ public abstract class DirectoryManager {
 	
 	private DirectoryManager(){}
 	
-	private static DirectorySet production = new Production();
+	private static DirectorySet production = new ProductionDirectories();
 	private static DirectorySet instance = production;
 	
 	public static final String FILESYSTEM_SEPARATOR	= System.getProperty("file.separator");

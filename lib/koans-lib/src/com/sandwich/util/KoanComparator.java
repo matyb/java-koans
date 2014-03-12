@@ -10,8 +10,8 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 import com.sandwich.koan.KoanMethod;
-import com.sandwich.util.io.FileCompiler;
 import com.sandwich.util.io.directories.DirectoryManager;
+import com.sandwich.util.io.filecompiler.FileCompiler;
 
 public class KoanComparator implements Comparator<KoanMethod> {
 	List<String> orderedKeywords;

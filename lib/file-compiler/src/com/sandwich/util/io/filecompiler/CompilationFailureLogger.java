@@ -1,4 +1,4 @@
-package com.sandwich.util.io;
+package com.sandwich.util.io.filecompiler;
 
 import java.io.File;
 

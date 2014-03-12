@@ -1,6 +1,8 @@
 package com.sandwich.koan.path;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.PrintStream;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -12,6 +14,7 @@ import java.util.Map;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanClassLoader;
@@ -27,11 +30,11 @@ import com.sandwich.koan.ui.ConsolePresenter;
 import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.koan.util.ApplicationUtils.SuitePresenterFactory;
-import com.sandwich.util.io.DynamicClassLoader;
 import com.sandwich.util.io.KoanSuiteCompilationListener;
+import com.sandwich.util.io.classloader.DynamicClassLoader;
 import com.sandwich.util.io.directories.DirectoryManager;
-import com.sandwich.util.io.directories.Production;
-import com.sandwich.util.io.directories.UnitTest;
+import com.sandwich.util.io.directories.ProductionExecutedFromTestsDirectories;
+import com.sandwich.util.io.directories.UnitTestDirectories;
 
 public abstract class CommandLineTestCase {
 
@@ -40,10 +43,15 @@ public abstract class CommandLineTestCase {
 	private ByteArrayOutputStream outBytes;
 	private ByteArrayOutputStream errBytes;
 	
+	@BeforeClass
+	public static void deleteFileHashesAfterJVMExit(){
+		new File(DirectoryManager.getDataFile()).deleteOnExit();
+	}
+	
 	@Before
-	public void setUp() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException, InvocationTargetException {
-		DirectoryManager.setDirectorySet(new UnitTest());
-		KoanClassLoader.setInstance(KoanClassLoader.createInstance());
+	public void setUp() throws Exception {
+		DirectoryManager.setDirectorySet(new UnitTestDirectories());
+		resetClassLoader();
 		out = System.out;
 		err = System.err;
 		TestUtils.setValue("behavior", new RunKoans(), ArgumentType.RUN_KOANS);
@@ -54,12 +62,16 @@ public abstract class CommandLineTestCase {
 	}
 
 	@After
-	public void tearDown() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
-		DirectoryManager.setDirectorySet(new Production());
+	public void tearDown() throws Exception {
+		DirectoryManager.setDirectorySet(new ProductionExecutedFromTestsDirectories());
 		setRealPath();
-		System.setOut(out);
-		System.setErr(err);
-		KoanClassLoader.setInstance(KoanClassLoader.createInstance());
+		if(out != null){
+			System.setOut(out);
+		}
+		if(err != null){
+			System.setErr(err);
+		}
+		resetClassLoader();
 	}
 	
 	protected void setRealPath(){
@@ -200,6 +212,43 @@ public abstract class CommandLineTestCase {
 		});
 		if(!found[0]){
 			throw new KoanIncompleteException(lineText+" was expected, but not found in: "+bytesString);
+		}
+	}
+	
+	public void resetClassLoader() {
+		Constructor<KoanClassLoader> constructor = null;
+		Field fileMonitorField = null;
+		boolean consWasAccessible = false;
+		boolean monitorWasAccessible = false;
+		try {
+			constructor = KoanClassLoader.class.getDeclaredConstructor();
+			consWasAccessible = constructor.isAccessible();
+			constructor.setAccessible(true);
+			fileMonitorField = KoanClassLoader.class.getDeclaredField("instance");
+			monitorWasAccessible = fileMonitorField.isAccessible();
+			fileMonitorField.setAccessible(true);
+			fileMonitorField.set(KoanClassLoader.class, constructor.newInstance());
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException(e);
+		} catch (IllegalArgumentException e) {
+			throw new RuntimeException(e);
+		} catch (InvocationTargetException e) {
+			throw new RuntimeException(e);
+		} catch (NoSuchMethodException e) {
+			throw new RuntimeException(e);
+		} catch (SecurityException e) {
+			throw new RuntimeException(e);
+		} catch (NoSuchFieldException e) {
+			throw new RuntimeException(e);
+		} catch (InstantiationException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if(constructor != null){
+				constructor.setAccessible(consWasAccessible);
+			}
+			if(fileMonitorField != null){
+				fileMonitorField.setAccessible(monitorWasAccessible);
+			}
 		}
 	}
 }

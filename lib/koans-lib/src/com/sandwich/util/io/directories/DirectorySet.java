@@ -44,6 +44,16 @@ abstract public class DirectorySet {
 	}
 	
 	private static String createBaseDir() {
+		String baseDir = System.getProperty("application.basedir");
+		if(baseDir != null){
+			if(baseDir.startsWith("\"")){
+				baseDir = baseDir.substring(1);
+			}
+			if(baseDir.endsWith("\"")){
+				baseDir = baseDir.substring(0, baseDir.length() - 1);
+			}
+			return new File(baseDir).getParentFile().getAbsolutePath();
+		}
 		return new File("").getAbsoluteFile().getParentFile().getAbsolutePath();
 	}
 }

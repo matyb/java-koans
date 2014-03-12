@@ -4,11 +4,11 @@ import com.sandwich.koan.ApplicationSettings;
 
 public class Debug extends AbstractArgumentBehavior{
 
-	public void run(String arg){
+	public void run(String... args){
 		ApplicationSettings.setDebug(ApplicationSettings.isDebug() || 
-			"true".equalsIgnoreCase(arg) ||
-				arg == null ||
-					arg.trim().length() == 0);
+			"true".equalsIgnoreCase(args[0]) ||
+				args[0] == null ||
+					args[0].trim().length() == 0);
 	}
 	
 }

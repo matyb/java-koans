@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -17,7 +16,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.sandwich.koan.KoanClassLoader;
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
 import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
@@ -33,7 +31,7 @@ import com.sandwich.koan.suite.WrongExpectationOrderKoan;
 import com.sandwich.koan.ui.SuitePresenter;
 import com.sandwich.util.Strings;
 import com.sandwich.util.io.directories.DirectoryManager;
-import com.sandwich.util.io.directories.Production;
+import com.sandwich.util.io.directories.ProductionExecutedFromTestsDirectories;
 
 /**
  * Anything that absolutely has to happen before bundling client jar - to be sure:
@@ -44,13 +42,13 @@ import com.sandwich.util.io.directories.Production;
 public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	
 	@Before 
-	public void setUp() throws SecurityException, IllegalArgumentException, NoSuchFieldException, IllegalAccessException, InvocationTargetException  {
+	public void setUp() throws Exception  {
 		super.setUp();
 		resetHandlers();
 	}
 	
 	@After
-	public void tearDown() throws IllegalArgumentException, IllegalAccessException, InvocationTargetException {
+	public void tearDown() throws Exception {
 		super.tearDown();
 		resetHandlers();
 	}
@@ -109,7 +107,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 			});
 		doAsIfInProd(new Runnable(){
 			public void run(){
-				new RunKoans(PathToEnlightenment.getPathToEnlightenment()).run(null);
+				new RunKoans(PathToEnlightenment.getPathToEnlightenment()).run(new String[0]);
 			}
 		});
 		String firstSuiteClassRan = PathToEnlightenment.getPathToEnlightenment()
@@ -134,7 +132,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		});
 		doAsIfInProd(new Runnable(){
 			public void run(){
-				new RunKoans(PathToEnlightenment.getPathToEnlightenment()).run(null);
+				new RunKoans(PathToEnlightenment.getPathToEnlightenment()).run(new String[0]);
 			}
 		});
 		String message = "Not all koans need solving! Each should ship in a failing state.";
@@ -144,8 +142,8 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 	}
 	
 	private void doAsIfInProd(Runnable runnable) {
-		DirectoryManager.setDirectorySet(new Production());
-		KoanClassLoader.setInstance(KoanClassLoader.createInstance());
+		DirectoryManager.setDirectorySet(new ProductionExecutedFromTestsDirectories());
+		resetClassLoader();
 		setRealPath();
 		runnable.run();
 	}

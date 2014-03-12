@@ -1,4 +1,15 @@
 *.class
+*/bin/*
+.metadata
+bin/*
+lib/build/bin/*
+lib/build/reports/*
+koans/data
+koans/data*
+.classpath
+.project
+koans/app/data
+lib/file-compiler/bin
 
 # Package Files #
 *.jar

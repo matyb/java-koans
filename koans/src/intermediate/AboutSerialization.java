@@ -1,5 +1,9 @@
 package intermediate;
 
+import static com.sandwich.koan.constant.KoanConstants.__;
+import static com.sandwich.util.Assert.assertEquals;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,10 +12,9 @@ import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.logging.Logger;
 
 import com.sandwich.koan.Koan;
-import static com.sandwich.koan.constant.KoanConstants.__;
-import static com.sandwich.util.Assert.assertEquals;
 
 
 public class AboutSerialization {
@@ -20,14 +23,21 @@ public class AboutSerialization {
 	public void simpleSerialization() throws FileNotFoundException, IOException, ClassNotFoundException {
 		String s = "Hello world";
 		// serialize
-		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("SerializeFile"));
+		File file = new File("SerializeFile");
+		file.deleteOnExit();
+		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file));
 		os.writeObject(s);
 		os.close();
 		
 		// deserialize
-		ObjectInputStream is = new ObjectInputStream(new FileInputStream("SerializeFile"));
-		String otherString = (String)is.readObject();
-		assertEquals(otherString, __);
+		ObjectInputStream is = null;
+		try{
+			is = new ObjectInputStream(new FileInputStream("SerializeFile"));
+			String otherString = (String)is.readObject();
+			assertEquals(otherString, __);
+		}finally{
+			closeStream(is);
+		}
 	}
 	
 	static class Starship implements Serializable {
@@ -43,14 +53,20 @@ public class AboutSerialization {
 	public void customObjectSerialization() throws IOException, ClassNotFoundException {
 		Starship s = new Starship();
 		s.maxWarpSpeed = 9;
-		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("SerializeFile"));
+		File file = new File("SerializeFile");
+		file.deleteOnExit();
+		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file));
 		os.writeObject(s);
 		os.close();
 		
-		ObjectInputStream is = new ObjectInputStream(new FileInputStream("SerializeFile"));
-		Starship onTheOtherSide = (Starship)is.readObject();
-
-		assertEquals(onTheOtherSide.maxWarpSpeed, __);
+		ObjectInputStream is = null;
+		try{
+			is = new ObjectInputStream(new FileInputStream("SerializeFile"));
+			Starship onTheOtherSide = (Starship)is.readObject();
+			assertEquals(onTheOtherSide.maxWarpSpeed, __);
+		}finally{
+			closeStream(is);
+		}
 	}
 	
 	static class Engine {
@@ -81,14 +97,20 @@ public class AboutSerialization {
 		// But let's focus on serialization here :)
 		Car car = new Car();
 		car.engine = new Engine("diesel");
-		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("SerializeFile"));
+		File file = new File("SerializeFile");
+		file.deleteOnExit();
+		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file));
 		os.writeObject(car);
 		os.close();
 		
-		ObjectInputStream is = new ObjectInputStream(new FileInputStream("SerializeFile"));
-		Car deserializedCar = (Car)is.readObject();
-
-		assertEquals(deserializedCar.engine.type, __);
+		ObjectInputStream is = null;
+		try{
+			is = new ObjectInputStream(new FileInputStream("SerializeFile"));
+			Car deserializedCar = (Car)is.readObject();
+			assertEquals(deserializedCar.engine.type, __);
+		}finally{
+			closeStream(is);
+		}
 	}
 	
 	@SuppressWarnings("serial")
@@ -100,7 +122,9 @@ public class AboutSerialization {
 	public void customSerializationWithUnserializableFields() throws FileNotFoundException, IOException {
 		Boat boat = new Boat();
 		boat.engine = new Engine("diesel");
-		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("SerializeFile"));
+		File file = new File("SerializeFile");
+		file.deleteOnExit();
+		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file));
 		String marker = "Start ";
 		try {
 			os.writeObject(boat);	
@@ -129,13 +153,20 @@ public class AboutSerialization {
 	@Koan
 	public void serializeWithInheritance() throws IOException, ClassNotFoundException {
 		Dog d = new Dog("snoopy");
-		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream("SerializeFile"));
+		File file = new File("SerializeFile");
+		file.deleteOnExit();
+		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(file));
 		os.writeObject(d);
 		os.close();
 		
-		ObjectInputStream is = new ObjectInputStream(new FileInputStream("SerializeFile"));
-		Dog otherDog = (Dog)is.readObject();
-		assertEquals(otherDog.name, __);
+		ObjectInputStream is = null;
+		try{
+			is = new ObjectInputStream(new FileInputStream("SerializeFile"));
+			Dog otherDog = (Dog)is.readObject();
+			assertEquals(otherDog.name, __);
+		}finally{
+			closeStream(is);
+		}
 	}
 	
 	static class Plane {
@@ -160,14 +191,31 @@ public class AboutSerialization {
 		os.writeObject(p);
 		os.close();	
 		
-		ObjectInputStream is = new ObjectInputStream(new FileInputStream("SerializeFile"));
-		MilitaryPlane otherPlane = (MilitaryPlane)is.readObject();
-		// Does this surprise you?
-		assertEquals(otherPlane.name, __);
-		
-		// Think about how serialization creates objects... 
-		// It does not use constructors! But if a parent object is not serializable
-		// it actually uses constructors and if the fields are not in a serializable class...
-		// unexpected things - like this - may happen
+		ObjectInputStream is = null;
+		try{
+			is = new ObjectInputStream(new FileInputStream("SerializeFile"));
+			MilitaryPlane otherPlane = (MilitaryPlane)is.readObject();
+			// Does this surprise you?
+			assertEquals(otherPlane.name, __);
+			
+			// Think about how serialization creates objects... 
+			// It does not use constructors! But if a parent object is not serializable
+			// it actually uses constructors and if the fields are not in a serializable class...
+			// unexpected things - like this - may happen
+		}finally{
+			closeStream(is);
+		}
 	}
+	
+	private void closeStream(ObjectInputStream ois) {
+		if(ois != null){
+			try{
+				ois.close();
+			} catch (IOException x) {
+				Logger.getAnonymousLogger().severe("Unable to close reader.");
+			}
+		}
+	}
+	
 }
+
