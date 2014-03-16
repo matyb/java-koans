@@ -62,18 +62,18 @@
               <goals>
                 <goal>enforce</goal>
               </goals>
-              <configuration>
-                <rules>
-                  <requireMavenVersion>
-                    <version>3.2.1</version>
-                  </requireMavenVersion>
-                  <requireJavaVersion>
-                    <version>1.6</version>
-                  </requireJavaVersion>
-                </rules>
-              </configuration>
             </execution>
           </executions>
+          <configuration>
+            <rules>
+              <requireMavenVersion>
+                <version>3.2.1</version>
+              </requireMavenVersion>
+              <requireJavaVersion>
+                <version>1.7</version>
+              </requireJavaVersion>
+            </rules>
+          </configuration>
         </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
