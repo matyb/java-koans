@@ -1,13 +1,13 @@
 package com.sandwich.koan;
 
-import java.io.File;
-import java.io.UTFDataFormatException;
-
 import com.sandwich.koan.util.ApplicationUtils;
 import com.sandwich.util.io.FileMonitor;
 import com.sandwich.util.io.FileMonitorFactory;
 import com.sandwich.util.io.classloader.DynamicClassLoader;
 import com.sandwich.util.io.directories.DirectoryManager;
+
+import java.io.File;
+import java.io.UTFDataFormatException;
 
 public class KoanClassLoader extends DynamicClassLoader {
 
@@ -53,7 +53,11 @@ public class KoanClassLoader extends DynamicClassLoader {
 	}
 
 	private static String[] buildClassPath() {
-		File[] jars = new File(DirectoryManager.getProjectLibraryDir()).listFiles();
+    String projectLibraryDir = DirectoryManager.getProjectLibraryDir();
+    File[] jars = new File(projectLibraryDir).listFiles();
+    if (jars == null) {
+      throw new IllegalStateException("Could not find any files in " + projectLibraryDir);
+    }
 		String[] classPath = new String[jars.length];
 		for (int i = 0; i < jars.length; i++) {
 			if(jars[i].getAbsolutePath().toLowerCase().endsWith(".jar")){
