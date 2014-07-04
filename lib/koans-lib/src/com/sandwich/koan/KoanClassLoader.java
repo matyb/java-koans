@@ -56,7 +56,9 @@ public class KoanClassLoader extends DynamicClassLoader {
     String projectLibraryDir = DirectoryManager.getProjectLibraryDir();
     File[] jars = new File(projectLibraryDir).listFiles();
     if (jars == null) {
-      throw new IllegalStateException("Could not find any files in " + projectLibraryDir);
+      // Tolerate the "app/lib" directory being empty because the classes are
+      // already loadable by the parent class loader
+      return new String[0];
     }
 		String[] classPath = new String[jars.length];
 		for (int i = 0; i < jars.length; i++) {
