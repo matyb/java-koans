@@ -8,6 +8,8 @@ import com.sandwich.util.io.directories.DirectoryManager;
 
 import java.io.File;
 import java.io.UTFDataFormatException;
+import java.net.URL;
+import java.net.URLClassLoader;
 
 public class KoanClassLoader extends DynamicClassLoader {
 
@@ -52,24 +54,46 @@ public class KoanClassLoader extends DynamicClassLoader {
 		fileMonitor.updateFileSaveTime(sourceFile);
 	}
 
-	private static String[] buildClassPath() {
+	public static String[] buildClassPath() {
     String projectLibraryDir = DirectoryManager.getProjectLibraryDir();
     File[] jars = new File(projectLibraryDir).listFiles();
-    if (jars == null) {
-      // Tolerate the "app/lib" directory being empty because the classes are
-      // already loadable by the parent class loader
-      return new String[0];
+    if (jars == null || jars.length == 0) {
+      // Tolerate the "app/lib" directory being empty and put the jar files
+      // for this class's class loader onto the path
+      jars = getFilesOnTheClassLoaderClassPath();
     }
 		String[] classPath = new String[jars.length];
 		for (int i = 0; i < jars.length; i++) {
-			if(jars[i].getAbsolutePath().toLowerCase().endsWith(".jar")){
-				classPath[i] = jars[i].getAbsolutePath();
+			String jarPath = jars[i].getAbsolutePath();
+			String jarPathLowerCase = jarPath.toLowerCase();
+			if (jarPathLowerCase.endsWith(".jar") || jarPathLowerCase.endsWith(".war")) {
+				classPath[i] = jarPath;
 			}
 		}
 		return classPath;
 	}
-	
-	synchronized public static DynamicClassLoader getInstance(){
+
+  private static File[] getFilesOnTheClassLoaderClassPath() {
+    ClassLoader loader = KoanClassLoader.class.getClassLoader();
+    if (loader instanceof URLClassLoader) {
+      URLClassLoader urlClassLoader = (URLClassLoader) loader;
+      URL[] urls = urlClassLoader.getURLs();
+      File[] files = new File[urls.length];
+      for (int i = 0; i < urls.length; i++) {
+        files[i] = urlToFile(urls[i]);
+      }
+      return files;
+
+    } else {
+      return new File[0];
+    }
+  }
+
+  private static File urlToFile(URL url) {
+    return new File(url.getFile());
+  }
+
+  synchronized public static DynamicClassLoader getInstance(){
 		if(instance == null){
 			instance = new KoanClassLoader();
 		}
