@@ -44,7 +44,7 @@ public class CompilerConfig {
 	
 	public static String getSuffix(String fileName) {
 		if(fileName != null){
-			int periodIndex = fileName.indexOf('.');
+			int periodIndex = fileName.lastIndexOf('.');
 			if(periodIndex > -1){
 				return fileName.substring(periodIndex).toLowerCase();
 			}
