@@ -10,3 +10,4 @@ koans/data*
 .project
 koans/app/data
 lib/file-compiler/bin
+koans/app/config/file_hashes.dat
