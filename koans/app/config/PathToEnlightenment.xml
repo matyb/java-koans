@@ -21,6 +21,7 @@
 		<suite class="AboutMethodPreference"/>
 		<suite class="AboutOperators"/>
 		<suite class="AboutArrays"/>
+		<suite class="AboutVarArgs"/>
 	</package>
 	<package pkg="intermediate" name="Intermediate">
 		<suite class="AboutAutoboxing"/>
