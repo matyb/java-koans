@@ -27,3 +27,4 @@ lib/file-compiler/bin
 target
 */target
 
+koans/app/config/file_hashes.dat
