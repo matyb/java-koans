@@ -2,8 +2,7 @@ package java8;
 
 import com.sandwich.koan.Koan;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
@@ -29,6 +28,85 @@ public class AboutStreams {
                 .filter(s -> s.startsWith("S"))
                 .count();
         assertEquals(count, __);
+    }
+
+    @Koan
+    public void max(){
+        String longest = places.stream()
+                .max(Comparator.comparing(cityName -> cityName.length()))
+                .get();
+        assertEquals(longest, "");
+    }
+
+    @Koan
+    public void min(){
+        String longest = places.stream()
+                .max(Comparator.comparing(cityName -> cityName.length()))
+                .get();
+        assertEquals(longest, "");
+    }
+
+    @Koan
+    public void reduceWithoutFirstElementReturnsOptional(){
+        Optional<String> join = places.stream()
+                .reduce(String::concat);
+        assertEquals(join.get(), "");
+    }
+
+    @Koan
+    public void reduce(){
+        String join = places.stream()
+                .reduce("", String::concat);
+        assertEquals(join, "");
+    }
+
+    @Koan
+    public void join(){
+        String join = places.stream()
+                .reduce((accumulated, cityName) -> accumulated + "\", \"" + cityName)
+                .get();
+        assertEquals(join, "");
+    }
+
+    @Koan
+    public void reduceWithBinaryOperator(){
+        String join = places.stream()
+                .reduce("", String::concat);
+        assertEquals(join, "");
+    }
+
+    @Koan
+    public void stringJoin(){
+        String join = places.stream()
+                .collect(Collectors.joining("\", \""));
+        assertEquals(join, __);
+    }
+
+    @Koan
+    public void mapReduce(){
+        OptionalDouble averageLengthOptional = places.stream()
+                .mapToInt(String::length)
+                .average();
+        double averageLength = Math.round(averageLengthOptional.getAsDouble());
+        assertEquals(averageLength, __);
+    }
+
+    @Koan
+    public void parallelMapReduce(){
+        int lengthSum = places.parallelStream()
+                .mapToInt(String::length)
+                .sum();
+        assertEquals(lengthSum, __);
+    }
+
+    @Koan
+    public void limitSkip(){
+        int lengthSum_Limit_5_Skip_1 = places.stream()
+                .mapToInt(String::length)
+                .limit(5)
+                .skip(1)
+                .sum();
+        assertEquals(lengthSum_Limit_5_Skip_1, __);
     }
 
     @Koan
