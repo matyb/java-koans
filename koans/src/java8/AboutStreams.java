@@ -35,7 +35,7 @@ public class AboutStreams {
         String longest = places.stream()
                 .max(Comparator.comparing(cityName -> cityName.length()))
                 .get();
-        assertEquals(longest, "");
+        assertEquals(longest, __);
     }
 
     @Koan
@@ -43,21 +43,21 @@ public class AboutStreams {
         String longest = places.stream()
                 .max(Comparator.comparing(cityName -> cityName.length()))
                 .get();
-        assertEquals(longest, "");
-    }
-
-    @Koan
-    public void reduceWithoutFirstElementReturnsOptional(){
-        Optional<String> join = places.stream()
-                .reduce(String::concat);
-        assertEquals(join.get(), "");
+        assertEquals(longest, __);
     }
 
     @Koan
     public void reduce(){
         String join = places.stream()
                 .reduce("", String::concat);
-        assertEquals(join, "");
+        assertEquals(join, __);
+    }
+
+    @Koan
+    public void reduceWithoutStarterReturnsOptional(){
+        Optional<String> join = places.stream()
+                .reduce(String::concat);
+        assertEquals(join.get(), __);
     }
 
     @Koan
@@ -65,14 +65,14 @@ public class AboutStreams {
         String join = places.stream()
                 .reduce((accumulated, cityName) -> accumulated + "\", \"" + cityName)
                 .get();
-        assertEquals(join, "");
+        assertEquals(join, __);
     }
 
     @Koan
     public void reduceWithBinaryOperator(){
         String join = places.stream()
                 .reduce("", String::concat);
-        assertEquals(join, "");
+        assertEquals(join, __);
     }
 
     @Koan
@@ -101,12 +101,12 @@ public class AboutStreams {
 
     @Koan
     public void limitSkip(){
-        int lengthSum_Limit_5_Skip_1 = places.stream()
+        int lengthSum_Limit_3_Skip_1 = places.stream()
                 .mapToInt(String::length)
-                .limit(5)
+                .limit(3)
                 .skip(1)
                 .sum();
-        assertEquals(lengthSum_Limit_5_Skip_1, __);
+        assertEquals(lengthSum_Limit_3_Skip_1, __);
     }
 
     @Koan
