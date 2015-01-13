@@ -40,10 +40,10 @@ public class AboutStreams {
 
     @Koan
     public void min(){
-        String longest = places.stream()
-                .max(Comparator.comparing(cityName -> cityName.length()))
+        String shortest = places.stream()
+                .min(Comparator.comparing(cityName -> cityName.length()))
                 .get();
-        assertEquals(longest, __);
+        assertEquals(shortest, __);
     }
 
     @Koan
