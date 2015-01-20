@@ -1,4 +1,4 @@
-#Java Koans [![Build Status](https://travis-ci.org/matyb/java-koans.png?branch=master)](https://travis-ci.org/matyb/java-koans)
+#Java Koans [![Build Status](https://travis-ci.org/darsen/java-koans.png?branch=master)](https://travis-ci.org/darsen/java-koans)
 
 Running Instructions:
 =====================
