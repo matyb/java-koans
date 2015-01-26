@@ -31,7 +31,8 @@ public class AboutLambdas {
     @Koan
     public void verySimpleLambda() throws InterruptedException {
         Runnable r8 = () -> str = "from other thread";
-        r8.run();
+        Thread tLambda = new Thread(r8, "Lambda Thread");
+        tLambda.start();
         Thread.sleep(8);
         assertEquals(str, __);
     }
