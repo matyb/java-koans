@@ -13,15 +13,14 @@ public class AboutLocalTime {
     @Koan
     public void localTime () {
         LocalTime t1 = LocalTime.of(7,30);
-        LocalTime t2 = LocalTime.parse(__);
-        assertEquals(t1, t2);
+        assertEquals(t1, LocalTime.parse(__));
     }
 
     @Koan
     public void localTimeMinus () {
         LocalTime t1 = LocalTime.parse("10:30");
         LocalTime t2 = t1.minus(2, ChronoUnit.HOURS);
-        assertEquals(t1, t2);
+        assertEquals(t2, LocalTime.parse(__));
     }
 
 }
