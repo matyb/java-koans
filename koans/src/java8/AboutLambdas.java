@@ -21,7 +21,7 @@ public class AboutLambdas {
         return "CAPS";
     }
 
-    static volatile String str = "";
+    static String str = "";
 
     //lambda has access to "this"
     Caps lambdaField = s -> this.toString();
@@ -30,10 +30,8 @@ public class AboutLambdas {
 
     @Koan
     public void verySimpleLambda() throws InterruptedException {
-        Runnable r8 = () -> str = "from other thread";
-        Thread tLambda = new Thread(r8, "Lambda Thread");
-        tLambda.start();
-        Thread.sleep(8);
+        Runnable r8 = () -> str = "changed in lambda";
+        r8.run();
         assertEquals(str, __);
     }
 
