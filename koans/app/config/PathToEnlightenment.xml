@@ -38,4 +38,18 @@
 	<package pkg="advanced" name="Advanced">
 		<suite class="AboutMocks"/>
 	</package>
+	<package pkg="java7" name="Java 7">
+		<suite class="AboutJava7LiteralsEnhancements"/>
+		<suite class="AboutStringsInSwitch"/>
+		<suite class="AboutDiamondOperator"/>
+		<suite class="AboutTryWithResources"/>
+	</package>
+	<package pkg="java8" name="Java 8">
+		<suite class="AboutDefaultMethods"/>
+		<suite class="AboutOptional"/>
+		<suite class="AboutLocalTime"/>
+		<suite class="AboutLambdas"/>
+		<suite class="AboutStreams"/>
+		<suite class="AboutMultipleInheritance"/>
+	</package>
 </packages>
