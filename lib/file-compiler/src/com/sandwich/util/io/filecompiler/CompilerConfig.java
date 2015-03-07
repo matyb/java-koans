@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -12,7 +13,16 @@ public class CompilerConfig {
 	private static final ResourceBundle commandBySuffixRB = ResourceBundle.getBundle("com.sandwich.util.io.filecompiler.compilationcommands");
 	
 	public static boolean isSourceFile(String fileName) {
-		return commandBySuffixRB.containsKey(getSuffix(fileName));
+		// TODO when supporting java > 5, change to return resourcebundle.containsKey(...
+		Enumeration<String> keys = commandBySuffixRB.getKeys();
+		String suffix = getSuffix(fileName).toLowerCase();
+		while(keys.hasMoreElements()){
+			String key = keys.nextElement();
+			if(key.equals(suffix)){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	public static String[] getCompilationCommand(File src, String destinationPath, String classPath) {
@@ -39,7 +49,12 @@ public class CompilerConfig {
 	}
 
 	public static Collection<String> getSupportedFileSuffixes() {
-		return commandBySuffixRB.keySet();
+		Enumeration<String> keysEnumeration = commandBySuffixRB.getKeys();
+		Collection<String> keys = new ArrayList<String>();
+		while(keysEnumeration.hasMoreElements()){
+			keys.add(keysEnumeration.nextElement());
+		}
+		return keys;
 	}
 	
 	public static String getSuffix(String fileName) {
