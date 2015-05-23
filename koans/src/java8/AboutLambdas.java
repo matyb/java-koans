@@ -8,11 +8,11 @@ import java.util.function.Predicate;
 import static com.sandwich.util.Assert.assertEquals;
 import static com.sandwich.koan.constant.KoanConstants.__;
 
-interface Caps {
-    public String capitalize(String name);
-}
-
 public class AboutLambdas {
+
+    interface Caps {
+        public String capitalize(String name);
+    }
 
     String fieldFoo = "Lambdas";
 
