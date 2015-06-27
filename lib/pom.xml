@@ -4,9 +4,12 @@
   <groupId>com.sandwich</groupId>
   <artifactId>koans-lib</artifactId>
   <packaging>jar</packaging>
-  <version>Summer2014</version>
+  <version>Summer2015</version>
   <name>Java Koans Framework</name>
   <url>https://github.com/DavidWhitlock/java-koans</url>
+  <scm>
+    <connection>scm:git:git@github.com:DavidWhitlock/java-koans.git</connection>
+  </scm>
   <developers>
     <developer>
       <id>matyb</id>
@@ -52,6 +55,55 @@
   <build>
     <testSourceDirectory>koans-tests/test</testSourceDirectory>
     <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>buildnumber-maven-plugin</artifactId>
+        <version>1.3</version>
+        <executions>
+          <execution>
+            <phase>validate</phase>
+            <goals>
+              <goal>create</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <doCheck>false</doCheck> <!-- Don't fail when there are modified files -->
+          <doUpdate>false</doUpdate> <!-- Don't update the checkout the code repository -->
+          <buildNumberPropertyName>scmRevision</buildNumberPropertyName>
+          <scmBranchPropertyName>scmBranch</scmBranchPropertyName>
+          <timestampPropertyName>buildTimestamp</timestampPropertyName>
+          <timestampFormat>{0, date, yyyy-MM-dd'T'HH:mm:ss.SSSZ}</timestampFormat>
+          <revisionOnScmFailure>noScmFound</revisionOnScmFailure>
+          <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.4</version>
+        <executions>
+          <execution>
+            <goals>
+              <goal>jar</goal>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <archive>
+            <manifest>
+              <addDefaultImplementationEntries>true</addDefaultImplementationEntries
+>
+            </manifest>
+            <manifestEntries>
+              <Built-From-Revision>${scmRevision}</Built-From-Revision>
+              <Built-From-Branch>${scmBranch}</Built-From-Branch>
+              <Built-On>${buildTimestamp}</Built-On>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
