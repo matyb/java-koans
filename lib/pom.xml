@@ -199,7 +199,7 @@
         <dependencies>
           <dependency>
             <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-ssh</artifactId>
+            <artifactId>wagon-ssh-external</artifactId>
             <version>1.0-beta-7</version>
           </dependency>
         </dependencies>
@@ -210,7 +210,7 @@
     <repository>
       <id>whitlock-PSU</id>
       <name>David Whitlock's PSU Repository</name>
-      <url>scp://cs.pdx.edu/u/whitlock/public_html/repository/maven2</url>
+      <url>scpexe://cs.pdx.edu/u/whitlock/public_html/repository/maven2</url>
     </repository>
   </distributionManagement>
 </project>
