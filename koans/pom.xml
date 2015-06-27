@@ -4,7 +4,7 @@
   <groupId>edu.pdx.cs410J</groupId>
   <artifactId>java-koans</artifactId>
   <packaging>jar</packaging>
-  <version>Summer2014</version>
+  <version>Summer2015</version>
   <name>Java Koans</name>
   <inceptionYear>2012</inceptionYear>
   <url>https://github.com/DavidWhitlock/java-koans</url>
