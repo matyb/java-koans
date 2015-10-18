@@ -4,7 +4,6 @@ import static com.sandwich.koan.constant.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
 import static com.sandwich.util.Assert.fail;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 import com.sandwich.koan.Koan;
