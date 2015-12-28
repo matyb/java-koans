@@ -29,17 +29,17 @@ public abstract class DynamicClassLoader extends ClassLoader {
 	}
 	
 	public DynamicClassLoader(String binDir, String sourceDir, String[] classPath, ClassLoader parent) {
-        this(binDir, sourceDir, classPath, parent, 5000l);
-    }
+        	this(binDir, sourceDir, classPath, parent, 5000l);
+    	}
 
 	public DynamicClassLoader(String binDir, String sourceDir,
 			String[] classPath, ClassLoader parent,
 			long timeout) {
 		super(parent);
-        this.binDir = binDir;
-        this.sourceDir = sourceDir;
-        this.classPath = classPath;
-        this.timeout = timeout;
+        	this.binDir = binDir;
+        	this.sourceDir = sourceDir;
+        	this.classPath = classPath;
+        	this.timeout = timeout;
 	}
 
 	public abstract boolean isFileModifiedSinceLastPoll(String sourcePath, long lastModified);
@@ -69,14 +69,14 @@ public abstract class DynamicClassLoader extends ClassLoader {
 	}
 	
 	public Class<?> loadClass(String className){
-        return loadClass(className, FileCompilerAction.LOGGING_HANDLER);
+        	return loadClass(className, FileCompilerAction.LOGGING_HANDLER);
 	} 
 	
 	public Class<?> loadClass(String className, CompilationListener listener){
 		String fileSeparator = System.getProperty("file.separator");
 		String fileName = binDir + fileSeparator
-						+ className.replace(".", fileSeparator)
-						+ FileCompiler.CLASS_SUFFIX;
+					+ className.replace(".", fileSeparator)
+					+ FileCompiler.CLASS_SUFFIX;
 		File classFile = new File(fileName);
 		try {
 			// file may have never been compiled, go ahead and compile it now
@@ -128,11 +128,11 @@ public abstract class DynamicClassLoader extends ClassLoader {
 			e.printStackTrace();
 		}
         
-        byte[] classData = buffer.toByteArray();
-        clazz = defineClass(className, classData, 0, classData.length);
-        classesByLocation.put(url, clazz);
-        locationByClass.put(clazz, url);
-        return clazz;
+        	byte[] classData = buffer.toByteArray();
+        	clazz = defineClass(className, classData, 0, classData.length);
+        	classesByLocation.put(url, clazz);
+        	locationByClass.put(clazz, url);
+        	return clazz;
 	}
 
 	public long getTimeout() {
