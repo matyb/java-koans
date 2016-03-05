@@ -43,6 +43,7 @@
 		<suite class="AboutStringsInSwitch"/>
 		<suite class="AboutDiamondOperator"/>
 		<suite class="AboutTryWithResources"/>
+                <suite class="AboutRequireNotNull"/>
 	</package>
 	<package pkg="java8" name="Java 8">
 		<suite class="AboutDefaultMethods"/>
