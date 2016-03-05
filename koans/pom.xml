@@ -111,10 +111,11 @@
         <configuration>
           <filesets>
             <fileset>
-              <directory>${basedir}</directory>
+              <directory>${basedir}/app</directory>
               <includes>
                 <include>data/**</include>
                 <include>bin/**</include>
+                <include>config/file_hashes.dat</include>
               </includes>
             </fileset>
           </filesets>
