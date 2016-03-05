@@ -1,7 +1,6 @@
 package intermediate;
 
-import static com.sandwich.koan.constant.KoanConstants.__;
-import static com.sandwich.util.Assert.assertEquals;
+import com.sandwich.koan.Koan;
 
 import java.text.DateFormat;
 import java.text.NumberFormat;
@@ -9,7 +8,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import com.sandwich.koan.Koan;
+import static com.sandwich.koan.constant.KoanConstants.__;
+import static com.sandwich.util.Assert.assertEquals;
 
 public class AboutLocale {
 
@@ -22,7 +22,7 @@ public class AboutLocale {
 		DateFormat dateformatBR = DateFormat.getDateInstance(DateFormat.FULL, localeBR);
 		assertEquals(dateformatBR.format(date), __);
 		
-		Locale localeJA = new Locale("ja"); // Japan
+		Locale localeJA = new Locale("de"); // Japan
 		DateFormat dateformatJA = DateFormat.getDateInstance(DateFormat.FULL, localeJA);
 		// Well if you don't know how to type these characters, try "de", "it" or "us" ;-)
 		assertEquals(dateformatJA.format(date), __);
