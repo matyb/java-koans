@@ -124,4 +124,38 @@ public class AboutExceptions {
 		}
 		assertEquals(s, __);
 	}	
+
+	@Koan
+	public void failArgumentValidationWithAnIllegalArgumentException(){
+		// This koan demonstrates the use of exceptions in argument validation
+		String s = "";
+		try {
+			s += validateUsingIllegalArgumentException(null);
+		} catch (IllegalArgumentException ex) {
+			s = "caught an IllegalArgumentException";
+		}
+		assertEquals(s, __);
+	}
+	
+	@Koan
+	public void passArgumentValidationWithAnIllegalArgumentException(){
+		// This koan demonstrates the use of exceptions in argument validation
+		String s = "";
+		try {
+			s += validateUsingIllegalArgumentException("valid");
+		} catch (IllegalArgumentException ex) {
+			s = "caught an IllegalArgumentException";
+		}
+		assertEquals(s, __);
+	}
+
+	private int validateUsingIllegalArgumentException(String str) {
+		// This is effective and both the evaluation and the error message
+		// can be tailored which can be particularly handy if you're guarding
+		// against more than null values
+		if (null == str) {
+			throw new IllegalArgumentException("str should not be null");	
+		}
+		return str.length();
+	}
 }
