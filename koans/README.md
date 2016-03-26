@@ -9,5 +9,5 @@ https://github.com/matyb/java-koans/archive/master.zip
 * To export koans to run below command and open in IDE:
     * IDEA IntelliJ: ```./gradlew idea (WINDOWS: gradlew.bat idea)```
     * Eclipse  ```./gradlew eclipse (WINDOWS: gradlew.bat eclipse)```
-* Back to the console and run ```./run.sh```  (WINDOS: ```run.bat```)
+* Back to the console and run ```./run.sh```  (WINDOWS: ```run.bat```)
 * Follow the instructions and start hacking
