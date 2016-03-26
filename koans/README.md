@@ -1,6 +1,6 @@
 #Java Koans [![Build Status](https://travis-ci.org/darsen/java-koans.png?branch=master)](https://travis-ci.org/darsen/java-koans)
 
-Quick Start:
+## Quick Start
 * Download and unarchive the contents of the most recent java-koans in development from:
 https://github.com/takaczapka/java-koans/archive/master.zip
 * Open a console (termina) and cd to the directory you unarchived:
@@ -10,4 +10,4 @@ https://github.com/takaczapka/java-koans/archive/master.zip
     * IDEA IntelliJ: ```./gradlew idea (WINDOWS: gradlew.bat idea)```
     * Eclipse  ```./gradlew eclipse (WINDOWS: gradlew.bat eclipse)```
 * Back to the console and run ```./run.sh```  (WINDOS: ```run.bat```)
-* Start hacking through
+* Follow the instructions and start hacking
