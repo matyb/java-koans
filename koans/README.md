@@ -15,6 +15,9 @@ https://github.com/matyb/java-koans/archive/master.zip
     * *lib/util*: application agnostic interfaces and utilities shared in projects
 * Change directory to the koans directory: ```cd koans```
 * If you are using windows enter: ```run.bat``` or ```./run.sh``` if you are using Mac or Linux.
+* To export koans to run below command and open in IDE:
+    * IDEA IntelliJ: ```./gradle idea (WINDOWS: gradlew.bat idea)```
+    * Eclipse  ```./gradle eclipse (WINDOWS: gradlew.bat eclipse)```
 
 Developing a Koan:
 ==================
