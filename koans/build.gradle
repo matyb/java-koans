@@ -8,6 +8,14 @@ repositories {
    }
 }
 
+sourceSets {
+    main {
+        java {
+            srcDir 'src'
+        }
+    }
+}
+
 dependencies {
    compile name: 'koans'
 //   compile name: 'gson-2.2.4'
