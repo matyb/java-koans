@@ -18,9 +18,4 @@ sourceSets {
 
 dependencies {
    compile name: 'koans'
-//   compile name: 'gson-2.2.4'
-//   compile name: 'gson-2.2.4'
-//   compile name: 'gson-2.2.4'
-//  
-//   file-compiler.jar  file-monitor.jar   koans.jar          util.jar
 }
