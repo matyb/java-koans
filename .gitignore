@@ -8,6 +8,11 @@ koans/data
 koans/data*
 .classpath
 .project
+.settings
 koans/app/data
 lib/file-compiler/bin
 koans/app/config/file_hashes.dat
+.gradle
+*.iml
+*.ipr
+*.iws
