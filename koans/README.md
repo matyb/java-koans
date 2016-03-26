@@ -16,8 +16,8 @@ https://github.com/matyb/java-koans/archive/master.zip
 * Change directory to the koans directory: ```cd koans```
 * If you are using windows enter: ```run.bat``` or ```./run.sh``` if you are using Mac or Linux.
 * To export koans to run below command and open in IDE:
-    * IDEA IntelliJ: ```./gradle idea (WINDOWS: gradlew.bat idea)```
-    * Eclipse  ```./gradle eclipse (WINDOWS: gradlew.bat eclipse)```
+    * IDEA IntelliJ: ```./gradlew idea (WINDOWS: gradlew.bat idea)```
+    * Eclipse  ```./gradlew eclipse (WINDOWS: gradlew.bat eclipse)```
 
 Developing a Koan:
 ==================
