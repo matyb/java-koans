@@ -1,8 +1,8 @@
-#Java Koans [![Build Status](https://travis-ci.org/darsen/java-koans.png?branch=master)](https://travis-ci.org/darsen/java-koans)
+#Java Koans [![Build Status](https://travis-ci.org/matyb/java-koans.png?branch=master)](https://travis-ci.org/matyb/java-koans)
 
 ## Quick Start
 * Download and unarchive the contents of the most recent java-koans in development from:
-https://github.com/takaczapka/java-koans/archive/master.zip
+https://github.com/matyb/java-koans/archive/master.zip
 * Open a console (termina) and cd to the directory you unarchived:
   ```cd <the directory you just unarchived>```
 * Change directory to the koans directory: ```cd koans```
