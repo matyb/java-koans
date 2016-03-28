@@ -10,38 +10,38 @@ import static com.sandwich.util.Assert.assertEquals;
 public class AboutConditionals {
 
     @Koan
-    public void basicIfWithoutCurly() {
-        // Ifs without curly braces are ugly and not recommended but still valid:
+    public void basicIf() {
         int x = 1;
-        if (true)
+        if (true) {
             x++;
+        }
         assertEquals(x, __);
     }
 
     @Koan
-    public void basicIfElseWithoutCurly() {
-        // Ifs without curly braces are ugly and not recommended but still valid:
+    public void basicIfElse() {
         int x = 1;
         boolean secretBoolean = false;
-        if (secretBoolean)
+        if (secretBoolean) {
             x++;
-        else
+        } else {
             x--;
+        }
         assertEquals(x, __);
     }
 
     @Koan
-    public void basicIfElseIfElseWithoutCurly() {
+    public void basicIfElseIfElse() {
         int x = 1;
         boolean secretBoolean = false;
         boolean otherBooleanCondition = true;
-        // Ifs without curly braces are ugly and not recommended but still valid:
-        if (secretBoolean)
+        if (secretBoolean) {
             x++;
-        else if (otherBooleanCondition)
+        } else if (otherBooleanCondition) {
             x = 10;
-        else
+        } else {
             x--;
+        }
         assertEquals(x, __);
     }
 
@@ -52,24 +52,15 @@ public class AboutConditionals {
         boolean secretBoolean = false;
         boolean otherBooleanCondition = true;
         // Ifs without curly braces are ugly and not recommended but still valid:
-        if (secretBoolean) x++;
-        if (otherBooleanCondition) x = 10;
-        else x--;
-        // Where does this else belong to!?
-        assertEquals(x, __);
-    }
-
-    @Koan
-    public void ifAsIntended() {
-        boolean secretBoolean = true;
-        int x = 1;
         if (secretBoolean) {
             x++;
-        } else {
-            x = 0;
         }
-        // There are different opinions on where the curly braces go...
-        // But as long as you put them here. You avoid problems as seen above.
+        if (otherBooleanCondition) {
+            x = 10;
+        } else {
+            x--;
+        }
+        // Where does this else belong to!?
         assertEquals(x, __);
     }
 
@@ -142,7 +133,7 @@ public class AboutConditionals {
         // Try different (primitive) types for 'c'
         // Which types do compile?
         // Does boxing work?
-        byte c = 'a';
+        char c = 'a';
         String result = "Basic ";
         switch (c) {
             case 'a':
@@ -152,5 +143,15 @@ public class AboutConditionals {
                 result += "Nothing";
         }
         assertEquals(result, __);
+    }
+
+    @Koan
+    public void shortCircuit() {
+        int i = 1;
+        int a = 6;
+        // Why did we use a variable here?
+        // What happens if you replace 'a' with '6' below?
+        if ((a < 9) || (++i < 8)) i = i + 1;
+        assertEquals(i, __);
     }
 }
