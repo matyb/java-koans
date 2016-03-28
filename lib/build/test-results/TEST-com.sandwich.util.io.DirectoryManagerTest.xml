@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sandwich.util.io.DirectoryManagerTest" tests="7" skipped="0" failures="0" errors="0" timestamp="2016-03-28T13:47:14" hostname="BOOM.config" time="0.035">
+  <properties/>
+  <testcase name="testFileSeparatorInjection_happyPath" classname="com.sandwich.util.io.DirectoryManagerTest" time="0.003"/>
+  <testcase name="testWindowsFileSystemPathWithSpaces" classname="com.sandwich.util.io.DirectoryManagerTest" time="0.002"/>
+  <testcase name="testFileSeparatorInjection_separatorsAtBeginning" classname="com.sandwich.util.io.DirectoryManagerTest" time="0.009"/>
+  <testcase name="testFileSeparatorInjection_separatorsAtBeginningAndEnding" classname="com.sandwich.util.io.DirectoryManagerTest" time="0.006"/>
+  <testcase name="testFileSeparatorInjection_separatorsAtEnding" classname="com.sandwich.util.io.DirectoryManagerTest" time="0.003"/>
+  <testcase name="testFileSeparatorInjection_separatorsInMiddle" classname="com.sandwich.util.io.DirectoryManagerTest" time="0.002"/>
+  <testcase name="testNonWindowsFileSystemPathWithSpaces" classname="com.sandwich.util.io.DirectoryManagerTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sandwich.koan.runner.CommandLineTestCaseTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2016-03-28T13:47:13" hostname="BOOM.config" time="0.056">
+  <properties/>
+  <testcase name="testThatTearDownDetachesDummiedConsoleFromSystem" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.008"/>
+  <testcase name="testSystemOutEquals_freshStart" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.006"/>
+  <testcase name="testSystemOutContains_happyPath" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.004"/>
+  <testcase name="testSystemOutEquals_aString" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.004"/>
+  <testcase name="testTestCaseRestoresAllKoansReference" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.005"/>
+  <testcase name="testThatConsoleIsCleanAfterSetUp" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.006"/>
+  <testcase name="testThatConsoleIsInitializedBySetUp" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.004"/>
+  <testcase name="testThatConsoleIsAttachedToSystem" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.004"/>
+  <testcase name="testThatStubAllKoansStubsAllKoansReference" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.003"/>
+  <testcase name="testSystemOutContains_failurePath" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.004"/>
+  <testcase name="testClearSysout" classname="com.sandwich.koan.runner.CommandLineTestCaseTest" time="0.003"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

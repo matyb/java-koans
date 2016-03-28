@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sandwich.koan.TestUtilsTest" tests="30" skipped="0" failures="0" errors="0" timestamp="2016-03-28T13:47:14" hostname="BOOM.config" time="0.545">
+  <properties/>
+  <testcase name="testHashCodeContractEnforcement_integerObject_happyPath" classname="com.sandwich.koan.TestUtilsTest" time="0.004"/>
+  <testcase name="testEqualsConcurrency_concurrentAccessFails" classname="com.sandwich.koan.TestUtilsTest" time="0.02"/>
+  <testcase name="testEqualsConcurrency_II" classname="com.sandwich.koan.TestUtilsTest" time="0.166"/>
+  <testcase name="testForEachLine_nothingThreeNewLinesSeparatedBy1Space" classname="com.sandwich.koan.TestUtilsTest" time="0.034"/>
+  <testcase name="testEqualsContractEnforcement_integer_exceptionPath0" classname="com.sandwich.koan.TestUtilsTest" time="0.005"/>
+  <testcase name="testEqualsContractEnforcement_integer_exceptionPath1" classname="com.sandwich.koan.TestUtilsTest" time="0.001"/>
+  <testcase name="testForEachLine_emptyString" classname="com.sandwich.koan.TestUtilsTest" time="0.002"/>
+  <testcase name="testEqualsContractEnforcement_testObj_exceptionPath0" classname="com.sandwich.koan.TestUtilsTest" time="0.004"/>
+  <testcase name="testEqualsContractEnforcement_testObj_exceptionPath1" classname="com.sandwich.koan.TestUtilsTest" time="0.003"/>
+  <testcase name="testEqualsContractEnforcement_testObj_exceptionPath2" classname="com.sandwich.koan.TestUtilsTest" time="0.004"/>
+  <testcase name="testHashCodeContractEnforcement_integerIdentity_happyPath" classname="com.sandwich.koan.TestUtilsTest" time="0.003"/>
+  <testcase name="testEqualsContractEnforcement_testObj_happyPath" classname="com.sandwich.koan.TestUtilsTest" time="0.003"/>
+  <testcase name="testEqualsContractEnforcement_integerIdentity_happyPath" classname="com.sandwich.koan.TestUtilsTest" time="0.004"/>
+  <testcase name="testForEachLine_nothingThreeNewLinesSeparatedBy1SpaceThen2Spaces" classname="com.sandwich.koan.TestUtilsTest" time="0.004"/>
+  <testcase name="testEqualsContractEnforcement_integerObject_happyPath" classname="com.sandwich.koan.TestUtilsTest" time="0.003"/>
+  <testcase name="testHashCodeContractEnforcement_testObj_happyPath" classname="com.sandwich.koan.TestUtilsTest" time="0.002"/>
+  <testcase name="testEqualsContractEnforcement_integer_exceptionPath" classname="com.sandwich.koan.TestUtilsTest" time="0.002"/>
+  <testcase name="testForEachLine_threeNewLines" classname="com.sandwich.koan.TestUtilsTest" time="0.007"/>
+  <testcase name="testEqualsConcurrency_concurrentAccessFails_assertIllegalMonitorStateException" classname="com.sandwich.koan.TestUtilsTest" time="0.016"/>
+  <testcase name="testMixingBackslashRAndBackslashNNewLines" classname="com.sandwich.koan.TestUtilsTest" time="0.005"/>
+  <testcase name="testEqualsConcurrency" classname="com.sandwich.koan.TestUtilsTest" time="0.168"/>
+  <testcase name="testHashCodeContractEnforcement_integer_exceptionPath" classname="com.sandwich.koan.TestUtilsTest" time="0.004"/>
+  <testcase name="testHashCodeContractEnforcement_integer_exceptionPath0" classname="com.sandwich.koan.TestUtilsTest" time="0.003"/>
+  <testcase name="testHashCodeContractEnforcement_integer_exceptionPath1" classname="com.sandwich.koan.TestUtilsTest" time="0.004"/>
+  <testcase name="testForEachLine_spaceNewLineNewLine" classname="com.sandwich.koan.TestUtilsTest" time="0.005"/>
+  <testcase name="testHashCodeContractEnforcement_testObj_exceptionPath0" classname="com.sandwich.koan.TestUtilsTest" time="0.021"/>
+  <testcase name="testHashCodeContractEnforcement_testObj_exceptionPath1" classname="com.sandwich.koan.TestUtilsTest" time="0.004"/>
+  <testcase name="testHashCodeContractEnforcement_testObj_exceptionPath2" classname="com.sandwich.koan.TestUtilsTest" time="0.003"/>
+  <testcase name="testForEachLine_newLineNewLineSpace" classname="com.sandwich.koan.TestUtilsTest" time="0.009"/>
+  <testcase name="testMixingBackslashNAndBackslashRNewLines" classname="com.sandwich.koan.TestUtilsTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

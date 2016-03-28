@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sandwich.koan.cmdline.CommandLineArgumentBuilderTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2016-03-28T13:47:12" hostname="BOOM.config" time="0.002">
+  <properties/>
+  <testcase name="testMethodArg_constructedExplicitly" classname="com.sandwich.koan.cmdline.CommandLineArgumentBuilderTest" time="0.001"/>
+  <testcase name="testNoArguments" classname="com.sandwich.koan.cmdline.CommandLineArgumentBuilderTest" time="0.001"/>
+  <testcase name="testClassArg_constructedImplicitly" classname="com.sandwich.koan.cmdline.CommandLineArgumentBuilderTest" time="0.0"/>
+  <testcase name="testClassArg_constructedExplicitly" classname="com.sandwich.koan.cmdline.CommandLineArgumentBuilderTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

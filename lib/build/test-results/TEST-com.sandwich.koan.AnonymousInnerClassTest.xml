@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sandwich.koan.AnonymousInnerClassTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-03-28T13:47:12" hostname="BOOM.config" time="0.134">
+  <properties/>
+  <testcase name="testAnonymousInnerClassIsCoolToUseAsKoan" classname="com.sandwich.koan.AnonymousInnerClassTest" time="0.134"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[mar 28, 2016 2:47:12 PM com.sandwich.util.Strings createResourceBundle
+INFORMACIÓN: Your default language is not supported yet. /Users/takaczapka/dev/java-koans/koans/app/config/i18n/messages_es.properties (No such file or directory)
+]]></system-err>
+</testsuite>

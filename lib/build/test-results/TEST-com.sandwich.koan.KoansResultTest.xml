@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sandwich.koan.KoansResultTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-03-28T13:47:12" hostname="BOOM.config" time="0.008">
+  <properties/>
+  <testcase name="testToString" classname="com.sandwich.koan.KoansResultTest" time="0.008"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

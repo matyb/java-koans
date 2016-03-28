@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sandwich.koan.path.PathToEnlightenmentTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2016-03-28T13:47:12" hostname="BOOM.config" time="0.001">
+  <properties/>
+  <testcase name="testEnglishXmlWhenXmlForLocaleIsFound_eventIsNotLogged" classname="com.sandwich.koan.path.PathToEnlightenmentTest" time="0.001"/>
+  <testcase name="testEnglishXmlWhenXmlForLocaleIsFound" classname="com.sandwich.koan.path.PathToEnlightenmentTest" time="0.0"/>
+  <testcase name="testFallsBackToEnglishXmlWhenNoXmlForLocaleIsFound" classname="com.sandwich.koan.path.PathToEnlightenmentTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

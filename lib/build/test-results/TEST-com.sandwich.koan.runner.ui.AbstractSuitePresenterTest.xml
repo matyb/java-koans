@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.sandwich.koan.runner.ui.AbstractSuitePresenterTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2016-03-28T13:47:14" hostname="BOOM.config" time="0.011">
+  <properties/>
+  <testcase name="testForwardingOneHundredPercentSuccess" classname="com.sandwich.koan.runner.ui.AbstractSuitePresenterTest" time="0.005"/>
+  <testcase name="testForwardingOneOrMoreFails" classname="com.sandwich.koan.runner.ui.AbstractSuitePresenterTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
