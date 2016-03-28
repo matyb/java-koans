@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.sandwich.util.KoanComparatorTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2016-03-28T13:47:14" hostname="BOOM.config" time="0.009">
-  <properties/>
-  <testcase name="testComparatorRanksByOrder" classname="com.sandwich.util.KoanComparatorTest" time="0.004"/>
-  <testcase name="testThatKomparatorBombsWhenNotFound" classname="com.sandwich.util.KoanComparatorTest" time="0.004"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>

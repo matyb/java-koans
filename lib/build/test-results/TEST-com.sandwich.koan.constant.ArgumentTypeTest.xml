@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.sandwich.koan.constant.ArgumentTypeTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2016-03-28T13:47:12" hostname="BOOM.config" time="0.01">
-  <properties/>
-  <testcase name="testClassPrecedesMethod" classname="com.sandwich.koan.constant.ArgumentTypeTest" time="0.01"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
