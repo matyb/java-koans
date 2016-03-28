@@ -10,6 +10,7 @@ import static com.sandwich.util.Assert.assertEquals;
 public class AboutOptional {
 
     boolean optionalIsPresentField = false;
+
     @Koan
     public void isPresent() {
         boolean optionalIsPresent = false;
@@ -23,7 +24,7 @@ public class AboutOptional {
     @Koan
     public void ifPresentLambda() {
         Optional<String> value = notPresent();
-        value.ifPresent( x -> optionalIsPresentField = true);
+        value.ifPresent(x -> optionalIsPresentField = true);
         assertEquals(optionalIsPresentField, __);
     }
 
