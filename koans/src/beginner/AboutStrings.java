@@ -39,19 +39,113 @@ public class AboutStrings {
     }
 
     @Koan
+    public void stringLength() {
+        assertEquals("".length(), __);
+        assertEquals("one".length(), __);
+        assertEquals("the number is one".length(), __);
+        assertEquals("The quick brown fox jumps over the lazy dog".endsWith("one"), __);
+        assertEquals(("what is the " + "length of me?").endsWith("one"), __);
+    }
+
+    @Koan
+    public void stringIsEmpty() {
+        assertEquals("".isEmpty(), __);
+        assertEquals("one".isEmpty(), __);
+        assertEquals(new String().isEmpty(), __);
+        assertEquals(new String("").isEmpty(), __);
+    }
+
+    @Koan
+    public void stringTrim() {
+        assertEquals("".trim(), __);
+        assertEquals("one".trim(), __);
+        assertEquals(" one more time".isEmpty(), __);
+        assertEquals(" one more time         ".isEmpty(), __);
+        assertEquals(" and again\t`".isEmpty(), __);
+        assertEquals("\t\t\twhat about now?\t`".isEmpty(), __);
+    }
+
+    @Koan
     public void stringConcatenation() {
         String one = "one";
         String space = " ";
         String two = "two";
         assertEquals(one + space + two, __);
+        assertEquals(space + one + two, __);
+        assertEquals(two + space + one, __);
+    }
+
+    @Koan
+    public void stringUpperCase() {
+        String str = "I am a number one!";
+        assertEquals(str.toUpperCase(),  __);
+    }
+
+    @Koan
+    public void stringLowerCase() {
+        String str = "I AM a number ONE!";
+        assertEquals(str.toLowerCase(),  __);
+    }
+
+    @Koan
+    public void stringCompare() {
+        String str = "I AM a number ONE!";
+        assertEquals(str.compareTo("I AM a number ONE!"),  __);
+        assertEquals(str.compareTo("I am a number one!"),  __);
+        assertEquals(str.compareTo("I AM A NUMBER ONE!"),  __);
+    }
+
+    @Koan
+    public void stringCompareIgnoreCase() {
+        String str = "I AM a number ONE!";
+        assertEquals(str.compareToIgnoreCase("I AM a number ONE!"),  __);
+        assertEquals(str.compareToIgnoreCase("I am a number one!"),  __);
+        assertEquals(str.compareToIgnoreCase("I AM A NUMBER ONE!"),  __);
+    }
+
+    @Koan
+    public void stringStartsWith() {
+        assertEquals("".startsWith("one"), __);
+        assertEquals("one".startsWith("one"), __);
+        assertEquals("one is the number".startsWith("one"), __);
+        assertEquals("ONE is the number".startsWith("one"), __);
+    }
+
+    @Koan
+    public void stringEndsWith() {
+        assertEquals("".endsWith("one"), __);
+        assertEquals("one".endsWith("one"), __);
+        assertEquals("the number is one".endsWith("one"), __);
+        assertEquals("the number is two".endsWith("one"), __);
+        assertEquals("the number is One".endsWith("one"), __);
+    }
+
+    @Koan
+    public void stringSubstring() {
+        String str = "I AM a number ONE!";
+        assertEquals(str.substring(0),  __);
+        assertEquals(str.substring(1),  __);
+        assertEquals(str.substring(5),  __);
+        assertEquals(str.substring(14, 17),  __);
+        assertEquals(str.substring(10, str.length()),  __);
+    }
+
+    @Koan
+    public void stringContains() {
+        String str = "I AM a number ONE!";
+        assertEquals(str.contains("one"),  __);
+        assertEquals(str.contains("ONE"),  __);
+    }
+
+    @Koan
+    public void stringReplace() {
+        String str = "I AM a number ONE!";
+        assertEquals(str.replace("ONE", "TWO"),  __);
+        assertEquals(str.replace("I am", "She is"),  __);
     }
 
     @Koan
     public void stringBuilderCanActAsAMutableString() {
-        // StringBuilder concatenation looks uglier, but is useful when you need a
-        // mutable String like object. It used to be more efficient than using +
-        // to concatenate numerous strings, however this is optimized in the compiler now.
-        // Usually + concatenation is more appropriate than StringBuilder.
         assertEquals(new StringBuilder("one").append(" ").append("two").toString(), __);
     }
 
@@ -90,5 +184,4 @@ public class AboutStrings {
     public void insufficientArgumentsToMessageFormatDoesNotReplaceTheToken() {
         assertEquals(MessageFormat.format("{0} {1} {0}", "a"), __);
     }
-
 }
