@@ -43,9 +43,13 @@ public class AboutAssertions {
     }
 
     @Koan
-    public void assertEqualsUsingBetterAssert() {
+    public void assertEqualsWithAFewExpressions() {
         assertEquals("Hello World!", __);
         assertEquals(1, __);
+        assertEquals(2 + 2, __);
+        assertEquals(2 * 3, __);
+        assertEquals(3 - 8, __);
+        assertEquals(10 / 2, __);
     }
 
     @Koan
