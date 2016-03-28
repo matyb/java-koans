@@ -1,7 +1,5 @@
 package beginner;
 
-// FYI - usually bad practice to import statically, but can make code cleaner
-
 import com.sandwich.koan.Koan;
 
 import static com.sandwich.koan.constant.KoanConstants.__;
@@ -11,7 +9,8 @@ public class AboutAssertions {
 
     @Koan
     public void assertBooleanTrue() {
-        assertTrue(__); // should be true really
+        // there are two possibilities, true or false, what would it be here?
+        assertTrue(__);
     }
 
     @Koan
@@ -21,12 +20,21 @@ public class AboutAssertions {
 
     @Koan
     public void assertNullObject() {
+        // reference to the object can be null, a magic keyword, null, which means
+        // that there is nothing there
         assertNull(__);
     }
 
     @Koan
+    public void assertNullObjectReference() {
+        Object someObject = __;
+        assertNull(someObject);
+    }
+
+    @Koan
     public void assertNotNullObject() {
-        assertNotNull(null); // anything other than null should pass here...
+        // but what when there should not be a null value?
+        assertNotNull(null);
     }
 
     @Koan
@@ -35,7 +43,8 @@ public class AboutAssertions {
     }
 
     @Koan
-    public void assertEqualsWithBetterFailureMessage() {
+    public void assertEqualsUsingBetterAssert() {
+        assertEquals("Hello World!", __);
         assertEquals(1, __);
     }
 
@@ -49,6 +58,8 @@ public class AboutAssertions {
 
     @Koan
     public void assertSameInstance() {
+        // Just because something is equal doesn't mean that it is the same.
+        // It's only the same if the reference is the same.
         Object same = new Integer(1);
         Object sameReference = __;
         assertSame(same, sameReference);
