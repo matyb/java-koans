@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <packages>
     <package pkg="beginner" name="Novice">
-        <!--<suite class="AboutKoans">-->
-        <!--<koan name="findAboutKoansFile" displayIncompleteKoanException="false" />-->
-        <!--<koan name="definitionOfKoanCompletion" displayIncompleteKoanException="false" />-->
-        <!--</suite>-->
-        <!--<suite class="AboutAssertions"/>-->
-        <!--<suite class="AboutEquality"/>-->
-        <!--<suite class="AboutStrings"/>-->
+        <suite class="AboutKoans">
+        <koan name="findAboutKoansFile" displayIncompleteKoanException="false" />
+        <koan name="definitionOfKoanCompletion" displayIncompleteKoanException="false" />
+        </suite>
+        <suite class="AboutAssertions"/>
+        <suite class="AboutEquality"/>
+        <suite class="AboutStrings"/>
         <suite class="AboutArithmeticOperators"/>
         <suite class="AboutConditionals"/>
-        <!--<suite class="AboutLoops" />-->
-        <!--<suite class="AboutPrimitives" />-->
-        <!--<suite class="AboutObjects"/>-->
+        <suite class="AboutLoops" />
+        <suite class="AboutPrimitives" />
+        <suite class="AboutObjects"/>
         <suite class="AboutInheritance"/>
         <suite class="AboutCasting"/>
         <suite class="AboutConstructors"/>
