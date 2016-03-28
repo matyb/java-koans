@@ -78,13 +78,15 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 	protected void displayOneOrMoreFailure(KoanSuiteResult result) {
 		printSuggestion(result);
 		String message = result.getMessage();
-		StringBuilder sb = new StringBuilder(
-			message == null || message.length() == 0 || !result.displayIncompleteException() ? ""
+		StringBuilder sb = new StringBuilder();
+		if (ApplicationSettings.isExpectationResultVisible()) {
+			sb.append(message == null || message.length() == 0 || !result.displayIncompleteException() ? ""
 				: new StringBuilder(Strings.getMessage("what_went_wrong")).append(
 									": ").append(
 									EOL).append(
 									message).append(
 									EOL));
+		}
 		if(ApplicationSettings.isEncouragementEnabled()){ // added noise to console output, and no real value
 			int totalKoans = result.getTotalNumberOfKoans();
 			int numberPassing = result.getNumberPassing();

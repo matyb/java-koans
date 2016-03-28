@@ -23,6 +23,10 @@ public class ApplicationSettings {
 	public static boolean isEncouragementEnabled(){
 		return isEqual(getConfigBundle().getString("enable_encouragement"), true, true);
 	}
+
+	public static boolean isExpectationResultVisible(){
+		return isEqual(getConfigBundle().getString("enable_expectation_result"), true, true);
+	}
 	
 	public static char getExitChar(){
 		return getConfigBundle().getString("exit_character").charAt(0);
