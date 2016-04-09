@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Class-Path: . ../bin/temp.jar
-Main-Class: com.sandwich.koan.runner.KoanSuiteRunner
-
