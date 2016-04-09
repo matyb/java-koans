@@ -8,15 +8,18 @@ import static com.sandwich.util.Assert.assertEquals;
 public class AboutStringsInSwitch {
 
     @Koan
-    public void stringsInSwitchStatement () {
+    public void stringsInSwitchStatement() {
         String[] animals = {"Dog", "Cat", "Tiger", "Elephant", "Zebra"};
-        String dangerous=null;
-        String notDangerous=null;
-        for (String animal : animals){
+        String dangerous = null;
+        String notDangerous = null;
+        for (String animal : animals) {
             switch (animal) {
                 case "Tiger":
-                        dangerous = animal;
-                case "Dog" :case "Cat" :case "Elephant" :case "Zebra":
+                    dangerous = animal;
+                case "Dog":
+                case "Cat":
+                case "Elephant":
+                case "Zebra":
                     notDangerous = animal;
             }
         }
