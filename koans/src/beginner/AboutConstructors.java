@@ -22,7 +22,6 @@ public class AboutConstructors {
             someString += "g";
         }
 
-        ;
     }
 
     @Koan
@@ -48,7 +47,6 @@ public class AboutConstructors {
             someString += "g";
         }
 
-        ;
     }
 
     @Koan
