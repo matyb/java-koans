@@ -41,12 +41,12 @@ public class AboutEquality {
 
     @Koan
     public void objectsNeverEqualNull() {
-        assertEquals(new Object().equals(null), false);
+        assertEquals(new Object().equals(null), __);
     }
 
     @Koan
     public void objectsEqualThemselves() {
         Object obj = new Object();
-        assertEquals(obj.equals(obj), true);
+        assertEquals(obj.equals(obj), __);
     }
 }
