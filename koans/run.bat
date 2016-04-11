@@ -1,7 +1,7 @@
 @echo off
 cls
 setLocal EnableDelayedExpansion
-set CLASSPATH="%~dp0app\bin
+set CLASSPATH="%~dp0app\bin;"%~dp0\app\config"
 for /R "%~dp0\app\lib" %%a in (*.jar) do (
   set CLASSPATH=!CLASSPATH!;%%a
 )

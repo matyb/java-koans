@@ -11,7 +11,7 @@ koans/data*
 .settings
 koans/app/data
 lib/file-compiler/bin
-koans/app/config/file_hashes.dat
+**/file_hashes.dat
 .gradle
 *.iml
 *.ipr

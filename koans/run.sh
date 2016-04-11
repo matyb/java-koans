@@ -14,7 +14,7 @@ buildClasspath()
     appDir=$1
     classpath=$appDir/bin
     IFS=$'\n'
-
+    classpath=$classpath:$appDir/config/
     for jar in $appDir/lib/* 
     do
         classpath=$classpath:$jar
