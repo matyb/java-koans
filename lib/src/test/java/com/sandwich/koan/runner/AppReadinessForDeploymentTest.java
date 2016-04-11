@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
@@ -93,7 +94,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 						KoanMethod.getInstance(entry.getValue().get("koan")).getMethod().toString());
 	}
 	
-	@Test	/** Ensures that koans are ready for packaging & distribution */
+	@Test @Ignore /** Ensures that koans are ready for packaging & distribution */
 	public void testKoanSuiteRunner_firstKoanFail() throws Exception {
 		final KoanSuiteResult[] result = new KoanSuiteResult[]{null};
 		stubPresenter(new SuitePresenter(){
@@ -115,7 +116,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		assertEquals(result[0].getFailingCase(), firstSuiteClassRan.substring(firstSuiteClassRan.lastIndexOf(".") + 1));
 	}
 
-	@Test	/** Ensures that koans are ready for packaging & distribution */
+	@Test @Ignore /** Ensures that koans are ready for packaging & distribution */
 	public void testKoanSuiteRunner_allKoansFail() throws Exception {
 		setRealPath();
 		final KoanSuiteResult[] result = new KoanSuiteResult[]{null};
