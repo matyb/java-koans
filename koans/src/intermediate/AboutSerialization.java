@@ -69,8 +69,6 @@ public class AboutSerialization {
         }
     }
 
-    ;
-
     @SuppressWarnings("serial")
     static class Car implements Serializable {
         // Transient means: Ignore field for serialization
@@ -179,7 +177,6 @@ public class AboutSerialization {
         public Plane() {
         }
 
-        ;
     }
 
     @SuppressWarnings("serial")
