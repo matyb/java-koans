@@ -62,7 +62,9 @@ public class AboutFileIO {
             assertEquals(br.readLine(), __); // second line
             assertEquals(br.readLine(), __); // what now?
         } finally {
-            closeStream(br); // anytime you open access to a
+            // anytime you open access to a file, you should close it or you may
+            // lock it from other processes (ie frustrate people)
+            closeStream(br);
         }
     }
 
