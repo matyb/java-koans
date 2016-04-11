@@ -21,8 +21,8 @@ public class AboutVarArgs {
         }
 
         // *******
-        // The following methods won't compile because Java doesn't allow this type of method declaration
-        // *******
+        // The following methods won't compile because Java only permits varargs as last argument
+	// *******
         // public String invalidMethodDeclaration(String... arguments, String... otherArguments) { return ""; }
         // public String otherInvalidMethodDeclaration(String... arguments, String otherArgument) { return ""; }
     }
@@ -45,7 +45,6 @@ public class AboutVarArgs {
 
     @Koan
     public void youCanHaveOtherTypesInTheMethodSignature() {
-        assertEquals(new ExampleClass().verboseLength("This is how many items were passed in: ", 1, 2, 3, 4),
-                __);
+        assertEquals(new ExampleClass().verboseLength("This is how many items were passed in: ", 1, 2, 3, 4), __); 
     }
 }
