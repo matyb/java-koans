@@ -1,4 +1,2 @@
 language: java
-before_install:
- - chmod +x gradlew
 script: "./lib/gradlew -b lib/build.gradle test"
