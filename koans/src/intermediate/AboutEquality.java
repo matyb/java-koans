@@ -29,9 +29,7 @@ public class AboutEquality {
     }
 
     static class Car {
-        @SuppressWarnings("unused")
         private String name = "";
-        @SuppressWarnings("unused")
         private int horsepower = 0;
 
         public Car(String s, int p) {
@@ -49,7 +47,7 @@ public class AboutEquality {
 
         @Override
         public int hashCode() {
-            // see koan ownHashCode
+            // @see http://download.oracle.com/javase/6/docs/api/java/lang/Object.html#hashCode()
             return super.hashCode();
         }
     }
@@ -58,7 +56,7 @@ public class AboutEquality {
     public void equalForOwnObjects() {
         Car car1 = new Car("Beetle", 50);
         Car car2 = new Car("Beetle", 50);
-        // See line 37 for the task you have to solve
+        // @see Car.equals (around line 45) for the place to solve this
         assertEquals(car1.equals(car2), true);
         assertEquals(car2.equals(car1), true);
     }
@@ -67,7 +65,7 @@ public class AboutEquality {
     public void unequalForOwnObjects() {
         Car car1 = new Car("Beetle", 50);
         Car car2 = new Car("Porsche", 300);
-        // See line 37 for the task you have to solve
+        // @see Car.equals (around line 45) for the place to solve this
         assertEquals(car1.equals(car2), false);
     }
 
@@ -75,14 +73,14 @@ public class AboutEquality {
     public void unequalForOwnObjectsWithDifferentType() {
         Car car1 = new Car("Beetle", 50);
         String s = "foo";
-        // See line 37 for the task you have to solve
+        // @see Car.equals (around line 45) for the place to solve this
         assertEquals(car1.equals(s), false);
     }
 
     @Koan
     public void equalNullForOwnObjects() {
         Car car1 = new Car("Beetle", 50);
-        // See line 37 for the task you have to solve
+        // @see Car.equals (around line 45) for the place to solve this
         assertEquals(car1.equals(null), false);
     }
 
@@ -93,7 +91,7 @@ public class AboutEquality {
         // Read the hash code contract to figure out why
         // http://download.oracle.com/javase/6/docs/api/java/lang/Object.html#hashCode()
 
-        // Implement a hash code version in line 47 so that the following assertions pass
+        // Implement Car.hashCode around line 51 so that the following assertions pass
         Car car1 = new Car("Beetle", 50);
         Car car2 = new Car("Beetle", 50);
         assertEquals(car1.equals(car2), true);
@@ -123,8 +121,8 @@ public class AboutEquality {
         Chicken chicken2 = new Chicken();
         assertEquals(chicken1.equals(chicken2), __);
         assertEquals(chicken1.hashCode() == chicken2.hashCode(), __);
-        // Does this still fit the hashCode contract? Why?
-        // If it's valid why is this still not a good idea?
+        // Does this still fit the hashCode contract? Why (not)?
+        // Fix the Chicken class to correct this.
     }
 
 }
