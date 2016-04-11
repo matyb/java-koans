@@ -1,2 +1,2 @@
 language: java
-script: "sh lib/gradlew -b lib/build.gradle test"
+script: "./gradlew -b lib/build.gradle test"
