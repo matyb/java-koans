@@ -29,7 +29,7 @@ public class AppLauncher {
                                 char c = (char) System.in.read();
                                 char exitChar = ApplicationSettings.getExitChar();
                                 if (Character.toUpperCase(c) == Character.toUpperCase(exitChar)) {
-                                    exit();
+                                    exit(0);
                                 }
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
@@ -58,14 +58,11 @@ public class AppLauncher {
             ApplicationUtils.getPresenter().displayMessage(
                     argsBuilder.toString());
         }
-        if (!ApplicationSettings.isInteractive()) {
-            exit();
-        }
     }
 
-    private static void exit() {
+    static void exit(int status) {
         FileMonitorFactory.closeAll();
-        System.exit(0);
+        System.exit(status);
     }
 
 }

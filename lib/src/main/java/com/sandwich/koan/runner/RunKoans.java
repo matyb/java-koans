@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.Koan;
 import com.sandwich.koan.KoanClassLoader;
 import com.sandwich.koan.KoanMethod;
@@ -43,7 +44,11 @@ public class RunKoans extends AbstractArgumentBehavior {
 	
 	public void run(String... values) {
 		ApplicationUtils.getPresenter().clearMessages();
-		ApplicationUtils.getPresenter().displayResult(runKoans());
+		KoanSuiteResult result = runKoans();
+        ApplicationUtils.getPresenter().displayResult(result);
+        if (!ApplicationSettings.isInteractive()) {
+            AppLauncher.exit(result.getTotalNumberOfKoans() - result.getNumberPassing());
+        }
 	}
 
 	KoanSuiteResult runKoans() {
