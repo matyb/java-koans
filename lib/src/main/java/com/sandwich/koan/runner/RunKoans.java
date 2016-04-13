@@ -47,7 +47,10 @@ public class RunKoans extends AbstractArgumentBehavior {
 		KoanSuiteResult result = runKoans();
         ApplicationUtils.getPresenter().displayResult(result);
         if (!ApplicationSettings.isInteractive()) {
-            AppLauncher.exit(result.getTotalNumberOfKoans() - result.getNumberPassing());
+            // could overflow past 255 resulting in 0 (ie all koans succeed) or misleading # of failed koans
+            int numberOfFailingKoans = Math.min(255, result.getTotalNumberOfKoans() - result.getNumberPassing());
+            System.err.println(numberOfFailingKoans);
+            AppLauncher.exit(numberOfFailingKoans);
         }
 	}
 
