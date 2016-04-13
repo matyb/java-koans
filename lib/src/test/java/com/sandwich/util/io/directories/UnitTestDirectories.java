@@ -2,7 +2,7 @@ package com.sandwich.util.io.directories;
 
 
 
-public class UnitTestDirectories extends ProductionExecutedFromTestsDirectories {
+public class UnitTestDirectories extends ProductionDirectories {
 	
 	public String getSourceDir() {
 		return "java";

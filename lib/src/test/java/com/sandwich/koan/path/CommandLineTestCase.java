@@ -33,7 +33,7 @@ import com.sandwich.koan.util.ApplicationUtils.SuitePresenterFactory;
 import com.sandwich.util.io.KoanSuiteCompilationListener;
 import com.sandwich.util.io.classloader.DynamicClassLoader;
 import com.sandwich.util.io.directories.DirectoryManager;
-import com.sandwich.util.io.directories.ProductionExecutedFromTestsDirectories;
+import com.sandwich.util.io.directories.ProductionDirectories;
 import com.sandwich.util.io.directories.UnitTestDirectories;
 
 public abstract class CommandLineTestCase {
@@ -63,7 +63,7 @@ public abstract class CommandLineTestCase {
 
 	@After
 	public void tearDown() throws Exception {
-		DirectoryManager.setDirectorySet(new ProductionExecutedFromTestsDirectories());
+		DirectoryManager.setDirectorySet(new ProductionDirectories());
 		setRealPath();
 		if(out != null){
 			System.setOut(out);
