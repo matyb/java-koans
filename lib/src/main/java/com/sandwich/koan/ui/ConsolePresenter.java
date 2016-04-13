@@ -31,7 +31,10 @@ public class ConsolePresenter extends AbstractSuitePresenter {
 		StringBuilder sb = new StringBuilder();
 		appendLabeledClassesList(Strings.getMessage("passing_suites")+":", result.getPassingSuites(), sb);
 		appendLabeledClassesList(Strings.getMessage("remaining_suites")+":", result.getRemainingSuites(), sb);
-		sb.append(EOL).append("Edit & save a koan to reload or enter '"+ ApplicationSettings.getExitChar() +"' to exit");
+		sb.append(EOL).append("Edit & save a koan").append(
+		        ApplicationSettings.isInteractive() ? 
+		                " to test your progress, or enter '" + ApplicationSettings.getExitChar() +"' to exit." : 
+		                ", then rerun to test your progress");
 		displayMessage(sb.toString());
 	}
 	

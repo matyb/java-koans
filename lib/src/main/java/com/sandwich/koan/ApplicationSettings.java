@@ -28,6 +28,10 @@ public class ApplicationSettings {
 		return isEqual(getConfigBundle().getString("enable_expectation_result"), true, true);
 	}
 	
+	public static boolean isInteractive(){
+        return isEqual(getConfigBundle().getString("interactive"), true, true);
+    }
+	
 	public static char getExitChar(){
 		return getConfigBundle().getString("exit_character").charAt(0);
 	}
