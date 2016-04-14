@@ -43,16 +43,15 @@ public class RunKoans extends AbstractArgumentBehavior {
 	}
 	
 	public void run(String... values) {
-		ApplicationUtils.getPresenter().clearMessages();
-		KoanSuiteResult result = runKoans();
-        ApplicationUtils.getPresenter().displayResult(result);
-        if (!ApplicationSettings.isInteractive()) {
-            // could overflow past 255 resulting in 0 (ie all koans succeed) or misleading # of failed koans
-            int numberOfFailingKoans = Math.min(255, result.getTotalNumberOfKoans() - result.getNumberPassing());
-            System.err.println(numberOfFailingKoans);
-            AppLauncher.exit(numberOfFailingKoans);
+            ApplicationUtils.getPresenter().clearMessages();
+            KoanSuiteResult result = runKoans();
+            ApplicationUtils.getPresenter().displayResult(result);
+            if (!ApplicationSettings.isInteractive()) {
+                // could overflow past 255 resulting in 0 (ie all koans succeed) 
+                // or otherwise misleading # of failed koans
+                AppLauncher.exit(Math.min(255, result.getTotalNumberOfKoans() - result.getNumberPassing()));
+            }
         }
-	}
 
 	KoanSuiteResult runKoans() {
 		List<String> passingSuites = new ArrayList<String>();
@@ -109,6 +108,9 @@ public class RunKoans extends AbstractArgumentBehavior {
 		while(suite == null || compilationListener.isLastCompilationAttemptFailure()) {
 			suite = constructSuite(loader, e.getKey(), compilationListener);
 			if(compilationListener.isLastCompilationAttemptFailure()){
+			    if(!ApplicationSettings.isInteractive()){
+			        AppLauncher.exit(255);
+			    }
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e1) {}
