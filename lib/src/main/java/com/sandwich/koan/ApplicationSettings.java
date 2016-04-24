@@ -1,10 +1,10 @@
 package com.sandwich.koan;
 
+import com.sandwich.util.io.directories.DirectoryManager;
+
 import java.io.FileInputStream;
 import java.util.PropertyResourceBundle;
 import java.util.ResourceBundle;
-
-import com.sandwich.util.io.directories.DirectoryManager;
 
 public class ApplicationSettings {
 
@@ -29,8 +29,15 @@ public class ApplicationSettings {
 	}
 	
 	public static boolean isInteractive(){
-        return isEqual(getConfigBundle().getString("interactive"), true, true);
-    }
+		String propertyName = "interactive";
+		String propertyValue = System.getProperty(propertyName);
+		if (propertyValue != null) {
+			return Boolean.parseBoolean(propertyValue);
+
+		} else {
+			return isEqual(getConfigBundle().getString(propertyName), true, true);
+		}
+	}
 	
 	public static char getExitChar(){
 		return getConfigBundle().getString("exit_character").charAt(0);

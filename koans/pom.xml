@@ -55,6 +55,9 @@
       <version>Summer2016</version>
     </dependency>
   </dependencies>
+  <properties>
+    <interactive>true</interactive>
+  </properties>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -102,10 +105,16 @@
           </execution>
         </executions>
         <configuration>
-            <mainClass>com.sandwich.koan.runner.AppLauncher</mainClass>
+          <mainClass>com.sandwich.koan.runner.AppLauncher</mainClass>
           <additionalClasspathElements>
             <additionalClasspathElement>${basedir}/app/config</additionalClasspathElement>
           </additionalClasspathElements>
+          <systemProperties>
+            <systemProperty>
+              <key>interactive</key>
+              <value>${interactive}</value>
+            </systemProperty>
+          </systemProperties>
         </configuration>
       </plugin>
       <plugin>
@@ -126,4 +135,12 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>grader</id>
+      <properties>
+        <interactive>false</interactive>
+      </properties>
+    </profile>
+  </profiles>
 </project>
