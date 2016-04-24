@@ -4,7 +4,7 @@
   <groupId>com.sandwich</groupId>
   <artifactId>koans-lib</artifactId>
   <packaging>jar</packaging>
-  <version>Summer2015</version>
+  <version>Summer2016</version>
   <name>Java Koans Framework</name>
   <url>https://github.com/DavidWhitlock/java-koans</url>
   <scm>
@@ -42,18 +42,17 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.5</version>
+      <version>4.12</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.easymock</groupId>
       <artifactId>easymock</artifactId>
-      <version>3.0</version>
+      <version>3.4</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
-    <testSourceDirectory>koans-tests/test</testSourceDirectory>
     <plugins>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
@@ -128,38 +127,6 @@
           </configuration>
         </plugin>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>build-helper-maven-plugin</artifactId>
-        <version>1.8</version>
-        <executions>
-          <execution>
-            <id>add-sources</id>
-            <phase>generate-sources</phase>
-            <goals><goal>add-source</goal></goals>
-            <configuration>
-              <sources>
-                <source>util/src</source>
-                <source>file-compiler/src</source>
-                <source>file-monitor/src</source>
-                <source>koans-lib/src</source>
-              </sources>
-            </configuration>
-          </execution>
-          <execution>
-            <id>add-resources</id>
-            <phase>generate-resources</phase>
-            <goals><goal>add-resource</goal></goals>
-            <configuration>
-              <resources>
-                <resource>
-                  <directory>file-compiler/src</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.0</version>
@@ -173,44 +140,18 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.13</version>
         <configuration>
-          <systemPropertyVariables>
-            <application.basedir>${basedir}/build</application.basedir>
-          </systemPropertyVariables>
+          <additionalClasspathElements>
+            <additionalClasspathElement>${basedir}/../koans/app/config</additionalClasspathElement>
+          </additionalClasspathElements>
         </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <version>2.5</version>
-        <configuration>
-          <filesets>
-            <fileset>
-              <directory>koans</directory>
-              <includes>
-                <include>data/**</include>
-                <include>bin/**</include>
-              </includes>
-            </fileset>
-          </filesets>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <version>2.7</version>
-        <dependencies>
-          <dependency>
-            <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-ssh-external</artifactId>
-            <version>1.0-beta-7</version>
-          </dependency>
-        </dependencies>
       </plugin>
     </plugins>
   </build>
   <distributionManagement>
     <repository>
-      <id>whitlock-PSU</id>
-      <name>David Whitlock's PSU Repository</name>
-      <url>scpexe://cs.pdx.edu/u/whitlock/public_html/repository/maven2</url>
+      <id>bintray-davidwhitlock-maven</id>
+      <name>DavidWhitlock-maven</name>
+      <url>https://api.bintray.com/maven/davidwhitlock/maven/PortlandStateJava/;publish=1;override=1</url>
     </repository>
   </distributionManagement>
 </project>
