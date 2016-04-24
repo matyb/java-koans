@@ -1,2 +1,2 @@
 language: java
-script: "./lib/gradlew -b lib/build.gradle test"
+script: "mvn install"
