@@ -9,11 +9,12 @@ import static com.sandwich.util.Assert.assertEquals;
 
 public class AboutTryWithResources {
 
-    class AutoClosableResource implements AutoCloseable{
-        public void foo() throws WorkException{
+    class AutoClosableResource implements AutoCloseable {
+        public void foo() throws WorkException {
             throw new WorkException("Exception thrown while working");
         }
-        public void close() throws CloseException{
+
+        public void close() throws CloseException {
             throw new CloseException("Exception thrown while closing");
         }
     }
@@ -56,7 +57,7 @@ public class AboutTryWithResources {
                      new BufferedReader(
                              new FileReader("I do not exist!"))) {
             line = br.readLine();
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             line = "no more leaking!";
         }
         assertEquals(line, __);
@@ -79,14 +80,14 @@ public class AboutTryWithResources {
         ) {
             line = br.readLine();
             line += brFromString.readLine();
-        }catch (IOException e) {
+        } catch (IOException e) {
             line = "error";
         }
         assertEquals(line, __);
     }
 
     @Koan
-    public void supressException(){
+    public void supressException() {
         String message = "";
         try {
             bar();

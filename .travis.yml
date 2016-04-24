@@ -1,3 +1,2 @@
 language: java
-before_script: "cd lib/build/"
-script: "ant test"
+script: "./lib/gradlew -b lib/build.gradle test"

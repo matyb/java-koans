@@ -8,24 +8,17 @@ koans/data
 koans/data*
 .classpath
 .project
+.settings
 koans/app/data
 lib/file-compiler/bin
-
-# Package Files #
-*.jar
-*.war
-*.ear
-
 *.~*
-
-# IntelliJ Files should not be committed #
-*.iml
-*.ipr
-*.iws
-.idea
 
 # Maven build artifacts should not be committed #
 target
 */target
 
-koans/app/config/file_hashes.dat
+.gradle
+*.iml
+*.ipr
+*.iws
+.idea

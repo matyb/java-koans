@@ -1,0 +1,47 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile 'junit:junit:4.+'
+    testCompile 'org.easymock:easymock:3.4'
+}
+
+task createJar(type: Jar){
+    archiveName = 'koans.jar'
+    manifest {
+        attributes 'Implementation-Title': 'Java Koans',
+                  'Implementation-Version': 2.0,
+                  'Main-Class': 'com.sandwich.koan.runner.AppLauncher'
+    }
+    baseName = "java-koans"
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }}
+    with jar
+}
+
+task copyJarToBin {
+    doLast {
+        copy {
+            from 'build/libs/koans.jar'
+            into '../koans/app/lib'
+        }
+    }
+}
+
+test {
+
+    classpath = project.sourceSets.test.runtimeClasspath + files("${projectDir}/../koans/app/config")
+
+}
+
+allprojects {
+    sourceCompatibility = 1.5
+    targetCompatibility = 1.5
+}
+
+task buildApp (dependsOn: [clean, test, createJar, copyJarToBin])
+
