@@ -28,7 +28,7 @@ public class AboutDefaultMethods {
     interface StringUtil {
 
         //static method in interface
-        static String enclose(String in){
+        static String enclose(String in) {
             return "[" + in + "]";
         }
 

@@ -1,56 +1,56 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <packages>
-	<package pkg="beginner" name="Novice">
-		<suite class="AboutKoans">
-			<koan name="findAboutKoansFile" displayIncompleteKoanException="false" />
-			<koan name="definitionOfKoanCompletion" displayIncompleteKoanException="false" />
-		</suite>
-		<suite class="AboutAssertions"/>
-		<!-- TODO: AboutDataTypes... -->
-		<suite class="AboutEquality"/>
-		<suite class="AboutPrimitives" />
-		<suite class="AboutStrings"/>
-		<suite class="AboutObjects"/>
-		<suite class="AboutLoops" />
-		<suite class="AboutInheritance"/>
-		<suite class="AboutCasting"/>
-		<suite class="AboutConditionals"/>
-		<suite class="AboutConstructors"/>
-		<suite class="AboutEnums"/>
-		<suite class="AboutExceptions"/>
-		<suite class="AboutMethodPreference"/>
-		<suite class="AboutOperators"/>
-		<suite class="AboutArrays"/>
-		<suite class="AboutVarArgs"/>
-	</package>
-	<package pkg="intermediate" name="Intermediate">
-		<suite class="AboutAutoboxing"/>
-		<suite class="AboutCollections"/>
-		<suite class="AboutComparison"/>
-		<suite class="AboutDates"/>
-		<suite class="AboutEquality"/>
-		<suite class="AboutFileIO"/>
-		<suite class="AboutInnerClasses"/>
-		<suite class="AboutLocale"/>
-		<suite class="AboutRegularExpressions"/>
-		<suite class="AboutSerialization"/>
-	</package>
-	<package pkg="advanced" name="Advanced">
-		<suite class="AboutMocks"/>
-	</package>
-	<package pkg="java7" name="Java 7">
-		<suite class="AboutJava7LiteralsEnhancements"/>
-		<suite class="AboutStringsInSwitch"/>
-		<suite class="AboutDiamondOperator"/>
-		<suite class="AboutTryWithResources"/>
-                <suite class="AboutRequireNotNull"/>
-	</package>
-	<package pkg="java8" name="Java 8">
-		<suite class="AboutDefaultMethods"/>
-		<suite class="AboutOptional"/>
-		<suite class="AboutLocalTime"/>
-		<suite class="AboutLambdas"/>
-		<suite class="AboutStreams"/>
-		<suite class="AboutMultipleInheritance"/>
-	</package>
+    <package pkg="beginner" name="Novice">
+        <suite class="AboutKoans">
+        <koan name="findAboutKoansFile" displayIncompleteKoanException="false" />
+        <koan name="definitionOfKoanCompletion" displayIncompleteKoanException="false" />
+        </suite>
+        <suite class="AboutAssertions"/>
+        <suite class="AboutEquality"/>
+        <suite class="AboutStrings"/>
+        <suite class="AboutArithmeticOperators"/>
+        <suite class="AboutConditionals"/>
+        <suite class="AboutLoops" />
+        <suite class="AboutPrimitives" />
+        <suite class="AboutObjects"/>
+        <suite class="AboutInheritance"/>
+        <suite class="AboutCasting"/>
+        <suite class="AboutConstructors"/>
+        <suite class="AboutEnums"/>
+        <suite class="AboutExceptions"/>
+        <suite class="AboutMethodPreference"/>
+        <suite class="AboutBitwiseOperators"/>
+        <suite class="AboutArrays"/>
+        <suite class="AboutVarArgs"/>
+    </package>
+    <package pkg="intermediate" name="Intermediate">
+        <suite class="AboutAutoboxing"/>
+        <suite class="AboutCollections"/>
+        <suite class="AboutComparison"/>
+        <suite class="AboutDates"/>
+        <suite class="AboutEquality"/>
+        <suite class="AboutFileIO"/>
+        <suite class="AboutInnerClasses"/>
+        <suite class="AboutLocale"/>
+        <suite class="AboutRegularExpressions"/>
+        <suite class="AboutSerialization"/>
+    </package>
+    <package pkg="advanced" name="Advanced">
+        <suite class="AboutMocks"/>
+    </package>
+    <package pkg="java7" name="Java 7">
+        <suite class="AboutJava7LiteralsEnhancements"/>
+        <suite class="AboutStringsInSwitch"/>
+        <suite class="AboutDiamondOperator"/>
+        <suite class="AboutTryWithResources"/>
+        <suite class="AboutRequireNotNull"/>
+    </package>
+    <package pkg="java8" name="Java 8">
+        <suite class="AboutDefaultMethods"/>
+        <suite class="AboutOptional"/>
+        <suite class="AboutLocalTime"/>
+        <suite class="AboutLambdas"/>
+        <suite class="AboutStreams"/>
+        <suite class="AboutMultipleInheritance"/>
+    </package>
 </packages>
