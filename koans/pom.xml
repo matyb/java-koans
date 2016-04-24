@@ -93,7 +93,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
-        <version>1.2.1</version>
+        <version>1.4.0</version>
         <executions>
           <execution>
             <goals>
@@ -103,6 +103,10 @@
         </executions>
         <configuration>
             <mainClass>com.sandwich.koan.runner.AppLauncher</mainClass>
+          <additionalClasspathElements>
+            <additionalClasspathElement>${basedir}/app/config</additionalClasspathElement>
+
+          </additionalClasspathElements>
         </configuration>
       </plugin>
       <plugin>
