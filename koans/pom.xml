@@ -105,7 +105,6 @@
             <mainClass>com.sandwich.koan.runner.AppLauncher</mainClass>
           <additionalClasspathElements>
             <additionalClasspathElement>${basedir}/app/config</additionalClasspathElement>
-
           </additionalClasspathElements>
         </configuration>
       </plugin>
