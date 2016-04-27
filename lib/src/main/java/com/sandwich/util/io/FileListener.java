@@ -4,8 +4,10 @@ import java.io.File;
 
 public interface FileListener {
 
-	void fileSaved(File file);
-	void newFile(File file);
-	void fileDeleted(File file);
-	
+    void fileSaved(File file);
+
+    void newFile(File file);
+
+    void fileDeleted(File file);
+
 }
