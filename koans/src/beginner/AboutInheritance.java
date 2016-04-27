@@ -86,5 +86,5 @@ public class AboutInheritance {
         assertEquals(barney instanceof Puppy, __);
         assertEquals(barney instanceof Dog, __);
     }
-    
+
 }
