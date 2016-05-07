@@ -19,9 +19,9 @@
         <suite class="AboutEnums"/>
         <suite class="AboutExceptions"/>
         <suite class="AboutMethodOverloading"/>
-        <suite class="AboutBitwiseOperators"/>
         <suite class="AboutArrays"/>
         <suite class="AboutVarArgs"/>
+        <suite class="AboutBitwiseOperators"/>
     </package>
     <package pkg="intermediate" name="Intermediate">
         <suite class="AboutAutoboxing"/>
