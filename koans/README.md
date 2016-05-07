@@ -2,7 +2,7 @@
 
 ## Quick Start
 * Download and unarchive the contents of the most recent java-koans in development from:
-https://github.com/matyb/java-koans/archive/master.zip
+https://github.com/takaczapka/java-koans/archive/master.zip
 * Open a console (termina) and cd to the directory you unarchived:
   ```cd <the directory you just unarchived>```
 * Change directory to the koans directory: ```cd koans```
