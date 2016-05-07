@@ -15,7 +15,7 @@ public class AboutArrays {
         int[] integers = new int[]{1, 2, 3};
         assertEquals(integers[0], __);
         assertEquals(integers[1], __);
-        assertEquals(integers[3], __);
+        assertEquals(integers[2], __);
     }
 
     @Koan
