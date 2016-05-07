@@ -40,7 +40,7 @@ public class AboutInheritance {
     }
 
     @Koan
-    public void methodOverloading() {
+    public void methodOverriding() {
         Cow bob = new Cow();
         Dog max = new Dog();
         Puppy barney = new Puppy();
