@@ -50,6 +50,11 @@ public class AboutConstructors {
     }
 
     @Koan
+    public void oneLevelConstructorOrder() {
+        assertEquals(new Aa("b").someString, __);
+    }
+
+    @Koan
     public void complexConstructorOrder() {
         assertEquals(new Bb().someString, __);
     }
