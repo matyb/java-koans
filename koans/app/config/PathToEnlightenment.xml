@@ -24,6 +24,9 @@
         <suite class="AboutBitwiseOperators"/>
     </package>
     <package pkg="intermediate" name="Intermediate">
+        <suite class="AboutLists"/>
+        <suite class="AboutSets"/>
+        <suite class="AboutMaps"/>ª
         <suite class="AboutAutoboxing"/>
         <suite class="AboutCollections"/>
         <suite class="AboutComparison"/>
