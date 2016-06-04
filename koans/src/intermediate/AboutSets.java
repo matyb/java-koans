@@ -10,7 +10,7 @@ import static com.sandwich.util.Assert.assertEquals;
 public class AboutSets {
 
     @Koan
-    public void addElementsOneByOne() {
+    public void createSetWithElements() {
         Set<String> animals = new HashSet<>();
         animals.add("Cat");
         animals.add("Dog");
@@ -21,7 +21,7 @@ public class AboutSets {
     }
 
     @Koan
-    public void createASet() {
+    public void addAll() {
         Set<String> animals = new HashSet<>();
         animals.addAll(Arrays.asList("Dog", "Cat", "Monkey", "Dog", "Cat"));
         assertEquals(animals.contains("Dog"), __);
@@ -34,6 +34,7 @@ public class AboutSets {
         Set<String> animals = new HashSet<>();
         assertEquals(animals.isEmpty(), __);
         animals.add("Monkey");
+        assertEquals(animals.isEmpty(), __);
     }
 
     @Koan
@@ -45,7 +46,7 @@ public class AboutSets {
         assertEquals(animals.size(), __);
         animals.add("Dog");
         assertEquals(animals.size(), __);
-        assertEquals(animals.remove("Dog"), __);
+        animals.remove("Dog");
         assertEquals(animals.size(), __);
         animals.clear();
         assertEquals(animals.size(), __);
