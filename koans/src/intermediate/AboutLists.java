@@ -102,7 +102,7 @@ public class AboutLists {
         animals.add("Cat");
         animals.add("Dog");
         animals.add("Monkey");
-        assertEquals(animals.remove("Dog"), __);
+        animals.remove("Dog");
         assertEquals(animals.get(0), __);
         assertEquals(animals.get(1), __);
     }
