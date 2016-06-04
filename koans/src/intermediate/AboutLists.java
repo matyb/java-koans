@@ -13,14 +13,6 @@ public class AboutLists {
 
     @Koan
     public void createAList() {
-        List<String> animals = Arrays.asList("Dog", "Cat", "Monkey");
-        assertEquals(animals.get(0), __);
-        assertEquals(animals.get(1), __);
-        assertEquals(animals.get(2), __);
-    }
-
-    @Koan
-    public void addElementsOneByOne() {
         List<String> animals = new ArrayList<>();
         animals.add("Cat");
         animals.add("Dog");
@@ -32,7 +24,10 @@ public class AboutLists {
 
     @Koan
     public void addElementAtIndex() {
-        List<String> animals = Arrays.asList("Dog", "Cat", "Monkey");
+        List<String> animals = new ArrayList<>();
+        animals.add("Cat");
+        animals.add("Dog");
+        animals.add("Monkey");
         assertEquals(animals.get(1), __);
         animals.add(1, "Elephant");
         assertEquals(animals.get(1), __);
@@ -41,7 +36,10 @@ public class AboutLists {
 
     @Koan
     public void setElementAtIndex() {
-        List<String> animals = Arrays.asList("Dog", "Cat", "Monkey");
+        List<String> animals = new ArrayList<>();
+        animals.add("Cat");
+        animals.add("Dog");
+        animals.add("Monkey");
         assertEquals(animals.get(1), __);
         animals.set(1, "Elephant");
         assertEquals(animals.get(1), __);
@@ -59,7 +57,10 @@ public class AboutLists {
 
     @Koan
     public void contains() {
-        List<String> animals = Arrays.asList("Dog", "Cat", "Monkey");
+        List<String> animals = new ArrayList<>();
+        animals.add("Cat");
+        animals.add("Dog");
+        animals.add("Monkey");
         assertEquals(animals.contains("Cat"), __);
         assertEquals(animals.contains("Elephant"), __);
         animals.add("Elephant");
@@ -76,7 +77,10 @@ public class AboutLists {
 
     @Koan
     public void clear() {
-        List<String> animals = Arrays.asList("Dog", "Cat", "Monkey");
+        List<String> animals = new ArrayList<>();
+        animals.add("Cat");
+        animals.add("Dog");
+        animals.add("Monkey");
         assertEquals(animals.isEmpty(), __);
         animals.clear();
         assertEquals(animals.isEmpty(), __);
@@ -94,7 +98,10 @@ public class AboutLists {
 
     @Koan
     public void remove() {
-        List<String> animals = Arrays.asList("Dog", "Cat", "Monkey");
+        List<String> animals = new ArrayList<>();
+        animals.add("Cat");
+        animals.add("Dog");
+        animals.add("Monkey");
         assertEquals(animals.remove("Dog"), __);
         assertEquals(animals.get(0), __);
         assertEquals(animals.get(1), __);
@@ -102,7 +109,10 @@ public class AboutLists {
 
     @Koan
     public void removeAtIndex() {
-        List<String> animals = Arrays.asList("Dog", "Cat", "Monkey");
+        List<String> animals = new ArrayList<>();
+        animals.add("Cat");
+        animals.add("Dog");
+        animals.add("Monkey");
         animals.remove(1);
         assertEquals(animals.get(1), __);
         animals.remove(0);
