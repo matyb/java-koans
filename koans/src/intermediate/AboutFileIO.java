@@ -40,7 +40,9 @@ public class AboutFileIO {
         // No flush necessary!
         fr.close();
         assertEquals(size, __);
-        assertEquals(new String(in), __);
+        String expected = new String(in);
+        assertEquals(expected.length(), __);
+        assertEquals(expected, __);
         file.delete();
     }
 
