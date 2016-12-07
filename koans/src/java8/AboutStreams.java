@@ -31,7 +31,7 @@ public class AboutStreams {
     }
 
     @Koan
-    public void max(){
+    public void max() {
         String longest = places.stream()
                 .max(Comparator.comparing(cityName -> cityName.length()))
                 .get();
@@ -39,7 +39,7 @@ public class AboutStreams {
     }
 
     @Koan
-    public void min(){
+    public void min() {
         String shortest = places.stream()
                 .min(Comparator.comparing(cityName -> cityName.length()))
                 .get();
@@ -47,21 +47,21 @@ public class AboutStreams {
     }
 
     @Koan
-    public void reduce(){
+    public void reduce() {
         String join = places.stream()
                 .reduce("", String::concat);
         assertEquals(join, __);
     }
 
     @Koan
-    public void reduceWithoutStarterReturnsOptional(){
+    public void reduceWithoutStarterReturnsOptional() {
         Optional<String> join = places.stream()
                 .reduce(String::concat);
         assertEquals(join.get(), __);
     }
 
     @Koan
-    public void join(){
+    public void join() {
         String join = places.stream()
                 .reduce((accumulated, cityName) -> accumulated + "\", \"" + cityName)
                 .get();
@@ -69,21 +69,21 @@ public class AboutStreams {
     }
 
     @Koan
-    public void reduceWithBinaryOperator(){
+    public void reduceWithBinaryOperator() {
         String join = places.stream()
                 .reduce("", String::concat);
         assertEquals(join, __);
     }
 
     @Koan
-    public void stringJoin(){
+    public void stringJoin() {
         String join = places.stream()
                 .collect(Collectors.joining("\", \""));
         assertEquals(join, __);
     }
 
     @Koan
-    public void mapReduce(){
+    public void mapReduce() {
         OptionalDouble averageLengthOptional = places.stream()
                 .mapToInt(String::length)
                 .average();
@@ -92,7 +92,7 @@ public class AboutStreams {
     }
 
     @Koan
-    public void parallelMapReduce(){
+    public void parallelMapReduce() {
         int lengthSum = places.parallelStream()
                 .mapToInt(String::length)
                 .sum();
@@ -100,7 +100,7 @@ public class AboutStreams {
     }
 
     @Koan
-    public void limitSkip(){
+    public void limitSkip() {
         int lengthSum_Limit_3_Skip_1 = places.stream()
                 .mapToInt(String::length)
                 .limit(3)
@@ -120,14 +120,14 @@ public class AboutStreams {
     }
 
     @Koan
-    public void sumRange(){
+    public void sumRange() {
         int sum = IntStream.range(1, 4).sum();
         assertEquals(sum, __);
     }
 
     @Koan
-    public void rangeToList(){
-        List<Integer> range = IntStream.range(1,4)
+    public void rangeToList() {
+        List<Integer> range = IntStream.range(1, 4)
                 .boxed()
                 .collect(Collectors.toList());
         assertEquals(range, __);
