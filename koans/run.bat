@@ -1,5 +1,5 @@
-rem @echo off
-rem cls
+@echo off
+cls
 setLocal EnableDelayedExpansion
 set string=%~dp0
 set string=%string:\=/%
@@ -14,18 +14,18 @@ javac -version
 if ERRORLEVEL 3 goto no_javac
 java -version
 if ERRORLEVEL 1 goto no_java
-rem cls
+cls
 java -Dapplication.basedir="%~dp0"" -classpath %CLASSPATH% com.sandwich.koan.runner.AppLauncher %1 %2 %3 %4 %5 %6 %7 %8 %9
 
 goto end
 
 :no_java
-REM cls
+cls
 @echo java is not bound to PATH variable.
 goto end
 
 :no_javac
-REM cls
+cls
 @echo javac is not bound to PATH variable.
 goto end
 
