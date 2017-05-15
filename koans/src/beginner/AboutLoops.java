@@ -15,7 +15,7 @@ public class AboutLoops {
         for (int i = 0; i < 5; i++) {
             s += i + " ";
         }
-        assertEquals(s, __);
+        assertEquals(s, "0 1 2 3 4 ");
     }
 
     @Koan
@@ -24,7 +24,7 @@ public class AboutLoops {
         for (int i = -5; i < 1; i++) {
             s += i + " ";
         }
-        assertEquals(s, __);
+        assertEquals(s, "-5 -4 -3 -2 -1 0 ");
     }
 
     @Koan
@@ -33,7 +33,7 @@ public class AboutLoops {
         for (int i = 5; i > 0; i--) {
             s += i + " ";
         }
-        assertEquals(s, __);
+        assertEquals(s, "5 4 3 2 1 ");
     }
 
     @Koan
@@ -42,7 +42,7 @@ public class AboutLoops {
         for (int i = 0; i < 11; i += 2) {
             s += i + " ";
         }
-        assertEquals(s, __);
+        assertEquals(s, "0 2 4 6 8 10 ");
     }
 
     @Koan
@@ -51,7 +51,7 @@ public class AboutLoops {
         for (int i = 1; i <= 16; i *= 2) {
             s += i + " ";
         }
-        assertEquals(s, __);
+        assertEquals(s, "1 2 4 8 16 ");
     }
 
     @Koan
@@ -60,7 +60,7 @@ public class AboutLoops {
         for (int i = 0, j = 10; i < 5 && j > 5; i++, j--) {
             s += i + " " + j + " ";
         }
-        assertEquals(s, __);
+        assertEquals(s, "0 10 1 9 2 8 3 7 4 6 ");
     }
 
     @Koan
@@ -72,7 +72,7 @@ public class AboutLoops {
             }
             s += " - ";
         }
-        assertEquals(s, __);
+        assertEquals(s, "(0, 0) (0, 1) (0, 2)  - (1, 0) (1, 1) (1, 2)  - (2, 0) (2, 1) (2, 2)  - ");
     }
 
     @Koan
@@ -82,7 +82,7 @@ public class AboutLoops {
         for (int j : is) {
             s += j + " ";
         }
-        assertEquals(s, __);
+        assertEquals(s, "1 2 3 4 ");
     }
 
     @Koan
@@ -91,7 +91,7 @@ public class AboutLoops {
         while (result < 3) {
             result++;
         }
-        assertEquals(result, __);
+        assertEquals(result, 3);
     }
 
     @Koan
@@ -100,7 +100,7 @@ public class AboutLoops {
         do {
             result++;
         } while (false);
-        assertEquals(result, __);
+        assertEquals(result, 1);
     }
 
     @Koan
@@ -113,7 +113,7 @@ public class AboutLoops {
             }
             count++;
         }
-        assertEquals(count, __);
+        assertEquals(count, 1);
     }
 
     @Koan
@@ -127,7 +127,7 @@ public class AboutLoops {
                 count++;
             }
         }
-        assertEquals(count, __);
+        assertEquals(count, 2);
     }
 
     @Koan
@@ -145,7 +145,7 @@ public class AboutLoops {
         }
         // What does continue with a label mean?
         // What gets executed? Where does the program flow continue?
-        assertEquals(count, __);
+        assertEquals(count, 8);
     }
 
     @Koan
@@ -163,6 +163,6 @@ public class AboutLoops {
         }
         // What does break with a label mean?
         // What gets executed? Where does the program flow continue?
-        assertEquals(count, __);
+        assertEquals(count, 3);
     }
 }
