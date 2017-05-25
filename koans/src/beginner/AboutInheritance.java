@@ -40,7 +40,7 @@ public class AboutInheritance {
     }
 
     @Koan
-    public void methodOverloading() {
+    public void methodOverriding() {
         Cow bob = new Cow();
         Dog max = new Dog();
         Puppy barney = new Puppy();
@@ -54,7 +54,7 @@ public class AboutInheritance {
     }
 
     @Koan
-    public void methodOverloadingUsingPolymorphism() {
+    public void methodOverridingUsingPolymorphism() {
         Animal bob = new Cow();
         Animal max = new Dog();
         Animal barney = new Puppy();
@@ -87,25 +87,4 @@ public class AboutInheritance {
         assertEquals(barney instanceof Dog, __);
     }
 
-    // TODO overriding
-//
-//    abstract class ParentTwo {
-//        abstract public Collection<?> doStuff();
-//    }
-//
-//    class ChildTwo extends ParentTwo {
-//        public Collection<?> doStuff() {
-//            return Collections.emptyList();
-//        }
-//
-//        ;
-//    }
-//
-//    @Koan
-//    public void overriddenMethodsMayReturnSubtype() {
-//        // What do you need to change in order to get rid of the type cast?
-//        // Why does this work?
-//        List<?> list = (List<?>) new ChildTwo().doStuff();
-//        assertEquals(list instanceof List, __);
-//    }
 }

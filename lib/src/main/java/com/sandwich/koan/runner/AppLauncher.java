@@ -1,9 +1,5 @@
 package com.sandwich.koan.runner;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Map;
-
 import com.sandwich.koan.ApplicationSettings;
 import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
@@ -14,6 +10,10 @@ import com.sandwich.util.io.FileMonitor;
 import com.sandwich.util.io.FileMonitorFactory;
 import com.sandwich.util.io.KoanFileCompileAndRunListener;
 import com.sandwich.util.io.directories.DirectoryManager;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
 public class AppLauncher {
 

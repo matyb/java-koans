@@ -1,13 +1,13 @@
 package com.sandwich.koan.suite;
 
-import static org.junit.Assert.assertEquals;
-
 import com.sandwich.koan.Koan;
 
+import static org.junit.Assert.assertEquals;
+
 public class OneFailingKoanDifferentName extends OneFailingKoan {
-	@Koan
-	@Override
-	public void koanMethod() {
-		assertEquals(true, false);
-	}
+    @Koan
+    @Override
+    public void koanMethod() {
+        assertEquals(true, false);
+    }
 }

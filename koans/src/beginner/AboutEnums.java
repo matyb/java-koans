@@ -2,35 +2,60 @@ package beginner;
 
 import com.sandwich.koan.Koan;
 
+import static beginner.AboutEnums.Color.Red;
 import static com.sandwich.koan.constant.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
 
 public class AboutEnums {
 
-
-    enum Colors {
+    enum Color {
         Red, Blue, Green, Yellow // what happens if you add a ; here?
         // What happens if you type Red() instead?
     }
 
     @Koan
     public void basicEnums() {
-        Colors blue = Colors.Blue;
-        assertEquals(blue == Colors.Blue, __);
-        assertEquals(blue == Colors.Red, __);
-        assertEquals(blue instanceof Colors, __);
+        Color blue = Color.Blue;
+        assertEquals(blue == Color.Blue, __);
+        assertEquals(blue == Red, __);
+        assertEquals(blue instanceof Color, __);
     }
 
     @Koan
     public void basicEnumsAccess() {
-        Colors[] colorArray = Colors.values();
+        Color[] colorArray = Color.values();
+        assertEquals(colorArray[0], __);
         assertEquals(colorArray[2], __);
     }
 
-    enum SkatSuits {
+    private String colorsIKnow(Color color) {
+        switch (color) {
+            case Red: return "red";
+            case Green: return "green";
+            default : return "unknown";
+        }
+    }
+
+    @Koan
+    public void switchWithEnums() {
+        assertEquals(colorsIKnow(Color.Red), __);
+        assertEquals(colorsIKnow(Color.Blue), __);
+    }
+
+    @Koan
+    public void iterationWithEnums() {
+        String result = "";
+        for (Color color : Color.values()) {
+            result += color.name();
+        }
+
+        assertEquals(result, __);
+    }
+
+    enum SkatSuit {
         Clubs(12), Spades(11), Hearts(10), Diamonds(9);
 
-        SkatSuits(int v) {
+        SkatSuit(int v) {
             value = v;
         }
 
@@ -42,7 +67,7 @@ public class AboutEnums {
         // value is private but we still can access it. Why?
         // Try moving the enum outside the AboutEnum class... What do you expect?
         // What happens?
-        assertEquals(SkatSuits.Clubs.value > SkatSuits.Spades.value, __);
+        assertEquals(SkatSuit.Clubs.value > SkatSuit.Spades.value, __);
     }
 
     enum OpticalMedia {

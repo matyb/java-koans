@@ -5,7 +5,7 @@ import com.sandwich.koan.Koan;
 import static com.sandwich.koan.constant.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
 
-public class AboutMethodPreference {
+public class AboutMethodOverloading {
 
     class A {
         public String doStuff(int i) {

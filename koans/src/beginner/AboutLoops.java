@@ -10,7 +10,7 @@ import static com.sandwich.util.Assert.assertEquals;
 public class AboutLoops {
 
     @Koan
-    public void basicForLoop1() {
+    public void forLoopGoingUp() {
         String s = "";
         for (int i = 0; i < 5; i++) {
             s += i + " ";
@@ -19,7 +19,7 @@ public class AboutLoops {
     }
 
     @Koan
-    public void basicForLoop2() {
+    public void forLoopGoingUpFromLessThanZero() {
         String s = "";
         for (int i = -5; i < 1; i++) {
             s += i + " ";
@@ -28,7 +28,7 @@ public class AboutLoops {
     }
 
     @Koan
-    public void basicForLoop3() {
+    public void forLoopGoingDown() {
         String s = "";
         for (int i = 5; i > 0; i--) {
             s += i + " ";
@@ -37,7 +37,7 @@ public class AboutLoops {
     }
 
     @Koan
-    public void basicForLoop4() {
+    public void forLoopGoingUpBy2() {
         String s = "";
         for (int i = 0; i < 11; i += 2) {
             s += i + " ";
@@ -46,7 +46,7 @@ public class AboutLoops {
     }
 
     @Koan
-    public void basicForLoop5() {
+    public void forLoopGoingUpByDoubling() {
         String s = "";
         for (int i = 1; i <= 16; i *= 2) {
             s += i + " ";
@@ -55,7 +55,7 @@ public class AboutLoops {
     }
 
     @Koan
-    public void basicForLoopWithTwoVariables1() {
+    public void forLoopWithTwoVariables() {
         String s = "";
         for (int i = 0, j = 10; i < 5 && j > 5; i++, j--) {
             s += i + " " + j + " ";
@@ -64,7 +64,7 @@ public class AboutLoops {
     }
 
     @Koan
-    public void nestedLoops() {
+    public void twoNestedForLoops() {
         String s = "";
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -76,7 +76,7 @@ public class AboutLoops {
     }
 
     @Koan
-    public void extendedForLoop() {
+    public void iteratingCollectionWithForLoop() {
         int[] is = {1, 2, 3, 4};
         String s = "";
         for (int j : is) {
@@ -104,7 +104,7 @@ public class AboutLoops {
     }
 
     @Koan
-    public void extendedForLoopBreak() {
+    public void breakingFromForLoop() {
         String[] sa = {"Dog", "Cat", "Tiger"};
         int count = 0;
         for (String current : sa) {
@@ -117,7 +117,7 @@ public class AboutLoops {
     }
 
     @Koan
-    public void extendedForLoopContinue() {
+    public void forLoopWithContinue() {
         String[] sa = {"Dog", "Cat", "Tiger"};
         int count = 0;
         for (String current : sa) {
@@ -131,7 +131,7 @@ public class AboutLoops {
     }
 
     @Koan
-    public void forLoopContinueLabel() {
+    public void forLoopWithLabeledContinue() {
         int count = 0;
         outerLabel:
         for (int i = 0; i < 6; i++) {
@@ -143,13 +143,11 @@ public class AboutLoops {
             }
             count += 10;
         }
-        // What does continue with a label mean?
-        // What gets executed? Where does the program flow continue?
         assertEquals(count, __);
     }
 
     @Koan
-    public void forLoopBreakLabel() {
+    public void forLoopWthLabeledBreak() {
         int count = 0;
         outerLabel:
         for (int i = 0; i < 4; i++) {
@@ -161,8 +159,6 @@ public class AboutLoops {
             }
             count += 10;
         }
-        // What does break with a label mean?
-        // What gets executed? Where does the program flow continue?
         assertEquals(count, __);
     }
 }

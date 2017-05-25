@@ -4,7 +4,7 @@ import com.sandwich.koan.path.PathToEnlightenment.Path;
 
 public interface XmlToPathTransformer {
 
-	public Path transform();
-	
+    public Path transform();
+
 }
 
