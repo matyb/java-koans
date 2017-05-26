@@ -33,7 +33,7 @@ public class AboutAssertions {
 
     @Koan
     public void assertNotNullObject() {
-        // but what when there should not be a null value?
+        // but what about when there should not be a null value?
         assertNotNull(null);
     }
 
