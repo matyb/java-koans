@@ -23,9 +23,9 @@ public class AboutLambdas {
     static String str = "";
 
     //lambda has access to "this"
-    Caps lambdaField = s -> this.toString();
+    Caps thisLambdaField = s -> this.toString();
     //lambda has access to object methods
-    Caps lambdaField2 = s -> toString();
+    Caps toStringLambdaField = s -> toString();
 
     @Koan
     public void verySimpleLambda() throws InterruptedException {
@@ -55,12 +55,12 @@ public class AboutLambdas {
 
     @Koan
     public void lambdaField() {
-        assertEquals(lambdaField.capitalize(""), __);
+        assertEquals(thisLambdaField.capitalize(""), __);
     }
 
     @Koan
     public void lambdaField2() {
-        assertEquals(lambdaField2.capitalize(""), __);
+        assertEquals(toStringLambdaField.capitalize(""), __);
     }
 
     @Koan

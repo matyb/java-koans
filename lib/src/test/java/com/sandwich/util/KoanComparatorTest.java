@@ -15,12 +15,16 @@ import com.sandwich.koan.path.CommandLineTestCase;
 
 public class KoanComparatorTest extends CommandLineTestCase {
 	
+    interface Caps {
+        public String capitalize(String name);
+    }
+    
 	@Test
 	public void testThatKomparatorBombsWhenNotFound() throws Exception {
 		Method m = new Object(){
 			@Koan public void someMethod(){}
 		}.getClass().getDeclaredMethod("someMethod");
-		KoanComparator comparator = new KoanComparator("meh");
+		KoanComparator comparator = new KoanComparator();
 		try{
 			comparator.compare(KoanMethod.getInstance("2",m), KoanMethod.getInstance("1",m));
 		}catch(RuntimeException fileNotFound){}
@@ -35,9 +39,25 @@ public class KoanComparatorTest extends CommandLineTestCase {
 		KoanMethod m1 = KoanMethod.getInstance("",clazz.getDeclaredMethod("someMethodOne"));
 		KoanMethod m2 = KoanMethod.getInstance("",clazz.getDeclaredMethod("someMethodTwo"));
 		List<KoanMethod> methods = Arrays.asList(m2,m1);
-		Collections.sort(methods, new KoanComparator("someMethodOne","someMethodTwo"));
+		Collections.sort(methods, new KoanComparator());
 		assertSame(m1,methods.get(0));
 		assertSame(m2,methods.get(1));
 	}
+	
+	@Test
+	public void testVariableNamesArentConfusedAsKoanMethodsWhenSorting() throws Exception {
+	    Class<? extends Object> clazz = new Object(){
+	        String foo;
+	        @Koan public void bar(){}
+	        @Koan public void foo(){}
+	    }.getClass();
+	    KoanMethod m1 = KoanMethod.getInstance("", clazz.getDeclaredMethod("bar"));
+	    KoanMethod m2 = KoanMethod.getInstance("", clazz.getDeclaredMethod("foo"));
+	    List<KoanMethod> methods = Arrays.asList(m2,m1);
+	    Collections.sort(methods, new KoanComparator());
+	    assertSame(m1,methods.get(0));
+	    assertSame(m2,methods.get(1));
+	}
+
 }
 
