@@ -138,6 +138,9 @@
   <profiles>
     <profile>
       <id>grader</id>
+      <activation>
+        <activeByDefault>${grader}</activeByDefault>
+      </activation>
       <properties>
         <interactive>false</interactive>
       </properties>
