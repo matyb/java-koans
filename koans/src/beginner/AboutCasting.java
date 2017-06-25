@@ -58,7 +58,7 @@ public class AboutCasting {
     }
 
     @Koan
-    public void downCastWithInheritance() {
+    public void upcastWithInheritance() {
         Child child = new Child();
         Parent parentReference = child; // Why isn't there an explicit cast?
         assertEquals(child instanceof Child, __);
@@ -68,7 +68,7 @@ public class AboutCasting {
     }
 
     @Koan
-    public void downCastAndPolymorphism() {
+    public void upcastAndPolymorphism() {
         Child child = new Child();
         Parent parentReference = child;
         // If the result is unexpected, consider the difference between an instance and its reference
@@ -76,7 +76,7 @@ public class AboutCasting {
     }
 
     @Koan
-    public void upCastWithInheritance() {
+    public void downcastWithInheritance() {
         Grandparent child = new Child();
         Parent parentReference = (Parent) child; // Why do we need an explicit cast here?
         Child childReference = (Child) parentReference; // Or here?
@@ -86,7 +86,7 @@ public class AboutCasting {
     }
 
     @Koan
-    public void upCastAndPolymorphism() {
+    public void downcastAndPolymorphism() {
         Grandparent child = new Child();
         Parent parent = (Child) child;
         // Think about the result. Did you expect that? Why?
