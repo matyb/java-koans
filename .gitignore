@@ -4,6 +4,7 @@
 bin/*
 lib/build/bin/*
 lib/build/reports/*
+lib/out
 koans/data
 koans/data*
 .classpath
