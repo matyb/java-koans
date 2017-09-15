@@ -5,7 +5,6 @@
         <koan name="findAboutKoansFile" displayIncompleteKoanException="false" />
         <koan name="definitionOfKoanCompletion" displayIncompleteKoanException="false" />
         </suite>
-        <suite class="AboutAssertions"/>
         <suite class="AboutEquality"/>
         <suite class="AboutStrings"/>
         <suite class="AboutArithmeticOperators"/>
