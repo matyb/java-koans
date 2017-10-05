@@ -91,7 +91,7 @@ public class AboutLoops {
         while (result < 3) {
             result++;
         }
-        assertEquals(result, __);
+        assertEquals(result, "3");
     }
 
     @Koan
