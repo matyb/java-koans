@@ -91,7 +91,7 @@ public class AboutLoops {
         while (result < 3) {
             result++;
         }
-        assertEquals(result, "3");
+        assertEquals(result, 3);
     }
 
     @Koan
@@ -100,7 +100,7 @@ public class AboutLoops {
         do {
             result++;
         } while (false);
-        assertEquals(result, __);
+        assertEquals(result, 1);
     }
 
     @Koan
@@ -113,7 +113,7 @@ public class AboutLoops {
             }
             count++;
         }
-        assertEquals(count, __);
+        assertEquals(count, 1);
     }
 
     @Koan
@@ -127,7 +127,7 @@ public class AboutLoops {
                 count++;
             }
         }
-        assertEquals(count, __);
+        assertEquals(count, 2);
     }
 
     @Koan
@@ -145,7 +145,7 @@ public class AboutLoops {
         }
         // What does continue with a label mean?
         // What gets executed? Where does the program flow continue?
-        assertEquals(count, __);
+        assertEquals(count,8);
     }
 
     @Koan
