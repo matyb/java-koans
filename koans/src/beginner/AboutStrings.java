@@ -71,91 +71,91 @@ public class AboutStrings {
         String two = "two";
         assertEquals(one + space + two, "one two");
         assertEquals(space + one + two, " onetwo");
-        assertEquals(two + space + one, __);
+        assertEquals(two + space + one, "two one");
     }
 
     @Koan
     public void stringUpperCase() {
         String str = "I am a number one!";
-        assertEquals(str.toUpperCase(), __);
+        assertEquals(str.toUpperCase(), "I AM A NUMBER ONE!");
     }
 
     @Koan
     public void stringLowerCase() {
         String str = "I AM a number ONE!";
-        assertEquals(str.toLowerCase(), __);
+        assertEquals(str.toLowerCase(), "i am a number one!");
     }
 
     @Koan
     public void stringCompare() {
         String str = "I AM a number ONE!";
-        assertEquals(str.compareTo("I AM a number ONE!") == 0, __);
-        assertEquals(str.compareTo("I am a number one!") == 0, __);
-        assertEquals(str.compareTo("I AM A NUMBER ONE!") == 0, __);
+        assertEquals(str.compareTo("I AM a number ONE!") == 0, true);
+        assertEquals(str.compareTo("I am a number one!") == 0, false);
+        assertEquals(str.compareTo("I AM A NUMBER ONE!") == 0, false);
     }
 
     @Koan
     public void stringCompareIgnoreCase() {
         String str = "I AM a number ONE!";
-        assertEquals(str.compareToIgnoreCase("I AM a number ONE!") == 0, __);
-        assertEquals(str.compareToIgnoreCase("I am a number one!") == 0, __);
-        assertEquals(str.compareToIgnoreCase("I AM A NUMBER ONE!") == 0, __);
+        assertEquals(str.compareToIgnoreCase("I AM a number ONE!") == 0, true);
+        assertEquals(str.compareToIgnoreCase("I am a number one!") == 0, true);
+        assertEquals(str.compareToIgnoreCase("I AM A NUMBER ONE!") == 0, true);
     }
 
     @Koan
     public void stringStartsWith() {
-        assertEquals("".startsWith("one"), __);
-        assertEquals("one".startsWith("one"), __);
-        assertEquals("one is the number".startsWith("one"), __);
-        assertEquals("ONE is the number".startsWith("one"), __);
+        assertEquals("".startsWith("one"), false);
+        assertEquals("one".startsWith("one"), true);
+        assertEquals("one is the number".startsWith("one"), true);
+        assertEquals("ONE is the number".startsWith("one"), false);
     }
 
     @Koan
     public void stringEndsWith() {
-        assertEquals("".endsWith("one"), __);
-        assertEquals("one".endsWith("one"), __);
-        assertEquals("the number is one".endsWith("one"), __);
-        assertEquals("the number is two".endsWith("one"), __);
-        assertEquals("the number is One".endsWith("one"), __);
+        assertEquals("".endsWith("one"), false);
+        assertEquals("one".endsWith("one"), true);
+        assertEquals("the number is one".endsWith("one"), true);
+        assertEquals("the number is two".endsWith("one"), false);
+        assertEquals("the number is One".endsWith("one"), false);
     }
 
     @Koan
     public void stringSubstring() {
         String str = "I AM a number ONE!";
-        assertEquals(str.substring(0), __);
-        assertEquals(str.substring(1), __);
-        assertEquals(str.substring(5), __);
-        assertEquals(str.substring(14, 17), __);
-        assertEquals(str.substring(7, str.length()), __);
+        assertEquals(str.substring(0), "I AM a number ONE!");
+        assertEquals(str.substring(1), " AM a number ONE!");
+        assertEquals(str.substring(5), "a number ONE!");
+        assertEquals(str.substring(14, 17), "ONE");
+        assertEquals(str.substring(7, str.length()), "number ONE!");
     }
 
     @Koan
     public void stringContains() {
         String str = "I AM a number ONE!";
-        assertEquals(str.contains("one"), __);
-        assertEquals(str.contains("ONE"), __);
+        assertEquals(str.contains("one"), false);
+        assertEquals(str.contains("ONE"), true);
     }
 
     @Koan
     public void stringReplace() {
         String str = "I am a number ONE!";
-        assertEquals(str.replace("ONE", "TWO"), __);
-        assertEquals(str.replace("I am", "She is"),  __);
+        assertEquals(str.replace("ONE", "TWO"), "I am a number TWO!");
+        assertEquals(str.replace("I am", "She is"),  "She is a number ONE!");
     }
 
     @Koan
     public void stringBuilderCanActAsAMutableString() {
-        assertEquals(new StringBuilder("one").append(" ").append("two").toString(), __);
+        assertEquals(new StringBuilder("one").append(" ").append("two").toString(), "one two");
     }
 
     @Koan
     public void readableStringFormattingWithStringFormat() {
-        assertEquals(String.format("%s %s %s", "a", "b", "a"), __);
+        assertEquals(String.format("%s %s %s", "a", "b", "a"), "a b a");
     }
 
     @Koan
     public void extraArgumentsToStringFormatGetIgnored() {
-        assertEquals(String.format("%s %s %s", "a", "b", "c", "d"), __);
+        assertEquals(String.format("%s %s %s", "a", "b", "c", "d"), "a b c");
     }
 
     @Koan
