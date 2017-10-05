@@ -72,7 +72,7 @@ public class AboutLoops {
             }
             s += " - ";
         }
-        assertEquals(s, "(0, 0) (0, 1) (0, 2)  - (1, 0) (1, 1) (1, 2)  - (2, 0) (2, 1) (2, 2)");
+        assertEquals(s, "(0, 0) (0, 1) (0, 2)  - (1, 0) (1, 1) (1, 2)  - (2, 0) (2, 1) (2, 2)  - ");
     }
 
     @Koan
@@ -82,7 +82,7 @@ public class AboutLoops {
         for (int j : is) {
             s += j + " ";
         }
-        assertEquals(s, __);
+        assertEquals(s, "1 2 3 4 ");
     }
 
     @Koan
@@ -91,7 +91,7 @@ public class AboutLoops {
         while (result < 3) {
             result++;
         }
-        assertEquals(result, __);
+        assertEquals(result, "3");
     }
 
     @Koan
