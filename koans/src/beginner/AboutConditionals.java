@@ -108,7 +108,7 @@ public class AboutConditionals {
             case 2:
                 result += "Two";
         }
-        assertEquals(result, __);
+        assertEquals(result, "Basic NothingTwo");
     }
 
     @Koan
@@ -125,7 +125,7 @@ public class AboutConditionals {
             default:
                 result += "Nothing";
         }
-        assertEquals(result, __);
+        assertEquals(result, "Basic Nothing");
     }
 
     @Koan
@@ -133,16 +133,16 @@ public class AboutConditionals {
         // Try different (primitive) types for 'c'
         // Which types do compile?
         // Does boxing work?
-        char c = 'a';
+        char c = 't';
         String result = "Basic ";
         switch (c) {
-            case 'a':
+            case 't':
                 result += "One";
                 break;
             default:
                 result += "Nothing";
         }
-        assertEquals(result, __);
+        assertEquals(result, "Basic One");
     }
 
     @Koan
@@ -152,6 +152,6 @@ public class AboutConditionals {
         // Why did we use a variable here?
         // What happens if you replace 'a' with '6' below?
         if ((a < 9) || (++i < 8)) i = i + 1;
-        assertEquals(i, __);
+        assertEquals(i, 2);
     }
 }

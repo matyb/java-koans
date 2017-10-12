@@ -9,13 +9,13 @@ public class AboutPrimitives {
 
     @Koan
     public void wholeNumbersAreOfTypeInt() {
-        assertEquals(getType(1), __); // hint: int.class
+        assertEquals(getType(1), int.class); // hint: int.class
     }
 
     @Koan
     public void primitivesOfTypeIntHaveAnObjectTypeInteger() {
         Object number = 1;
-        assertEquals(getType(number), __);
+        assertEquals(getType(number), java.lang.Integer.class);
 
         // Primitives can be automatically changed into their object type via a process called auto-boxing
         // We will explore this in more detail in intermediate.AboutAutoboxing
@@ -23,8 +23,8 @@ public class AboutPrimitives {
 
     @Koan
     public void integersHaveAFairlyLargeRange() {
-        assertEquals(Integer.MIN_VALUE, __);
-        assertEquals(Integer.MAX_VALUE, __);
+        assertEquals(Integer.MIN_VALUE, -2147483648);
+        assertEquals(Integer.MAX_VALUE, 2147483647);
     }
 
     @Koan
