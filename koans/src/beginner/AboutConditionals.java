@@ -147,11 +147,36 @@ public class AboutConditionals {
 
     @Koan
     public void shortCircuit() {
-        int i = 1;
-        int a = 6;
-        // Why did we use a variable here?
-        // What happens if you replace 'a' with '6' below?
-        if ((a < 9) || (++i < 8)) i = i + 1;
-        assertEquals(i, __);
+        counter trueCount = new Counter(true);
+        counter falseCount = new Counter(false);
+        String x = "Hai";
+        if (trueCount.count() || falseCount.count()) {
+            x = "kthxbai";
+        }
+        assertEquals(x, __);
+        assertEquals(trueCount.count, __);
+        assertEquals(falseCount.count, __);
+    }
+    
+    @Koan
+    public void bitwise() {
+        counter trueCount = new Counter(true);
+        counter falseCount = new Counter(false);
+        String x = "Hai";
+        if (trueCount.count() | falseCount.count()) {
+            x = "kthxbai";
+        }
+        assertEquals(x, __);
+        assertEquals(trueCount.count, __);
+        assertEquals(falseCount.count, __);
+    }
+    
+    class Counter {
+        boolean returnValue;
+        int count = 0;
+        boolean count() {
+            count++;
+            return returnValue;
+        }
     }
 }
