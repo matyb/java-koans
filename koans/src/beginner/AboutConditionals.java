@@ -147,8 +147,8 @@ public class AboutConditionals {
 
     @Koan
     public void shortCircuit() {
-        counter trueCount = new Counter(true);
-        counter falseCount = new Counter(false);
+        Counter trueCount = new Counter(true);
+        Counter falseCount = new Counter(false);
         String x = "Hai";
         if (trueCount.count() || falseCount.count()) {
             x = "kthxbai";
@@ -160,8 +160,8 @@ public class AboutConditionals {
     
     @Koan
     public void bitwise() {
-        counter trueCount = new Counter(true);
-        counter falseCount = new Counter(false);
+        Counter trueCount = new Counter(true);
+        Counter falseCount = new Counter(false);
         String x = "Hai";
         if (trueCount.count() | falseCount.count()) {
             x = "kthxbai";
