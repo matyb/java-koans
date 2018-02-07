@@ -174,6 +174,9 @@ public class AboutConditionals {
     class Counter {
         boolean returnValue;
         int count = 0;
+        Counter(boolean returnValue) { 
+            this.returnValue = returnValue;
+        }
         boolean count() {
             count++;
             return returnValue;
