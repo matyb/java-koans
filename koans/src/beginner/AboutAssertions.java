@@ -62,17 +62,25 @@ public class AboutAssertions {
 
     @Koan
     public void assertSameInstance() {
-        // Just because something is equal doesn't mean that it is the same.
-        // It's only the same if the reference is the same.
-        Object same = new Integer(1);
-        Object sameReference = __;
-        assertSame(same, sameReference);
+        Integer original = new Integer(1);
+        Integer same = original;
+        Integer different = new Integer(1);
+        // These are both equal to the original...
+        assertEquals(original, same);
+        assertEquals(original, different);
+        // ...but only one refers to the same instance as the original.
+        assertSame(original, __);
     }
 
     @Koan
     public void assertNotSameInstance() {
-        Integer same = new Integer(1);
-        Integer sameReference = same;
-        assertNotSame(same, sameReference);
+        Integer original = new Integer(1);
+        Integer same = original;
+        Integer different = new Integer(1);
+        // These are both equal to the original...
+        assertEquals(original, same);
+        assertEquals(original, different);
+        // ...but only one of them refers to a different instance.
+        assertNotSame(original, same);  // We want equal, but _not_ the same.
     }
 }
