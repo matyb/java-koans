@@ -6,7 +6,7 @@ services:
   - docker
 
 before_install:
-  - docker build -t java/koans .
+  - docker build -t java/koans docker
 
 script:
   - docker run java/koans /bin/bash -c "git clone https://github.com/matyb/java-koans && gradle -p java-koans/lib buildApp"
