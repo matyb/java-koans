@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.koan.cmdline.CommandLineArgumentBuilder;
@@ -94,7 +93,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 						KoanMethod.getInstance(entry.getValue().get("koan")).getMethod().toString());
 	}
 	
-	@Test @Ignore /** Ensures that koans are ready for packaging & distribution */
+	@Test
 	public void testKoanSuiteRunner_firstKoanFail() throws Exception {
 		final KoanSuiteResult[] result = new KoanSuiteResult[]{null};
 		stubPresenter(new SuitePresenter(){
@@ -116,7 +115,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		assertEquals(result[0].getFailingCase(), firstSuiteClassRan.substring(firstSuiteClassRan.lastIndexOf(".") + 1));
 	}
 
-	@Test @Ignore /** Ensures that koans are ready for packaging & distribution */
+	@Test
 	public void testKoanSuiteRunner_allKoansFail() throws Exception {
 		setRealPath();
 		final KoanSuiteResult[] result = new KoanSuiteResult[]{null};
@@ -165,7 +164,7 @@ public class AppReadinessForDeploymentTest extends CommandLineTestCase {
 		assertSystemOutDoesntContain("Line 10");
 	}
 	
-	@Test @Ignore /** Passes locally, fails in CI? */
+	@Test
 	public void testWarningFromPlacingExpectationOnWrongSide() throws Throwable {
 		final String[] message = new String[1];
 		stubAllKoans(Arrays.asList(new WrongExpectationOrderKoan()));
