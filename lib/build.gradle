@@ -37,11 +37,5 @@ test {
     classpath = project.sourceSets.test.runtimeClasspath + files("${projectDir}/../koans/app/config")
 
 }
-
-allprojects {
-    sourceCompatibility = 1.5
-    targetCompatibility = 1.5
-}
-
 task buildApp (dependsOn: [clean, test, createJar, copyJarToBin])
 
