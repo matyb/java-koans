@@ -4,6 +4,7 @@ import com.sandwich.koan.Koan;
 
 import java.io.*;
 import java.util.logging.Logger;
+import java.util.stream.Stream;
 
 import static com.sandwich.koan.constant.KoanConstants.__;
 import static com.sandwich.util.Assert.assertEquals;
@@ -13,16 +14,16 @@ public class AboutFileIO {
     @Koan
     public void fileObjectDoesntCreateFile() {
         File f = new File("foo.txt");
-        assertEquals(f.exists(), __);
+        assertEquals(f.exists(), false);
     }
 
     @Koan
     public void fileCreationAndDeletion() throws IOException {
         File f = new File("foo.txt");
         f.createNewFile();
-        assertEquals(f.exists(), __);
+        assertEquals(f.exists(), true);
         f.delete();
-        assertEquals(f.exists(), __);
+        assertEquals(f.exists(), false);
     }
 
     @Koan
@@ -39,10 +40,16 @@ public class AboutFileIO {
         size = fr.read(in);
         // No flush necessary!
         fr.close();
-        assertEquals(size, __);
+        assertEquals(size, 22);
         String expected = new String(in);
-        assertEquals(expected.length(), __);
-        assertEquals(expected, __);
+        assertEquals(expected.length(), 50);
+
+        char[] extra = new char[28];
+        for (int i = 0; i<28; i++)
+            extra[i] = (char)0;
+
+        assertEquals(expected, "First line\nSecond line" + new String(extra));
+        assertEquals(expected.trim(), "First line\nSecond line");
         file.delete();
     }
 
@@ -60,9 +67,9 @@ public class AboutFileIO {
         BufferedReader br = null;
         try {
             br = new BufferedReader(fr);
-            assertEquals(br.readLine(), __); // first line
-            assertEquals(br.readLine(), __); // second line
-            assertEquals(br.readLine(), __); // what now?
+            assertEquals(br.readLine(), "First line"); // first line
+            assertEquals(br.readLine(), "Second line"); // second line
+            assertEquals(br.readLine(), null); // what now?
         } finally {
             // anytime you open access to a file, you should close it or you may
             // lock it from other processes (ie frustrate people)
@@ -91,7 +98,19 @@ public class AboutFileIO {
         StringBuffer sb = new StringBuffer();
         // Add the loop to go through the file line by line and add the line
         // to the StringBuffer
-        assertEquals(sb.toString(), "1. line\n2. line");
+        FileReader fr = new FileReader(file);
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                sb.append(line + "\n");
+            }
+        } finally {
+            closeStream(br);
+        }
+
+        assertEquals(sb.toString(), "1. line\n2. line\n");
     }
 }
 
