@@ -52,15 +52,31 @@ public class AboutConditionals {
         boolean secretBoolean = false;
         boolean otherBooleanCondition = true;
         // Ifs without curly braces are ugly and not recommended but still valid:
+        if (secretBoolean)
+            x++;
+            if (otherBooleanCondition)
+                x = 10;
+        else
+            x--;
+        // Where does this else belong to!?
+        assertEquals(x, __);
+    }
+
+    @Koan
+    public void ifAsIntended() {
+        int x = 1;
+        boolean secretBoolean = false;
+        boolean otherBooleanCondition = true;
         if (secretBoolean) {
             x++;
-        }
-        if (otherBooleanCondition) {
-            x = 10;
+            if (otherBooleanCondition) {
+                x = 10;
+            }
         } else {
             x--;
         }
-        // Where does this else belong to!?
+        // There are different opinions on where the curly braces go...
+        // But as long as you put them here. You avoid problems as seen above.
         assertEquals(x, __);
     }
 
