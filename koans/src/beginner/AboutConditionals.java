@@ -47,18 +47,17 @@ public class AboutConditionals {
 
     @Koan
     public void nestedIfsWithoutCurlysAreReallyMisleading() {
-        // Why are these ugly you ask? Well, try for yourself
         int x = 1;
         boolean secretBoolean = false;
         boolean otherBooleanCondition = true;
-        // Ifs without curly braces are ugly and not recommended but still valid:
+        // Curly braces after an "if" or "else" are not required...
         if (secretBoolean)
             x++;
             if (otherBooleanCondition)
                 x = 10;
         else
             x--;
-        // Where does this else belong to!?
+        // ...but they are recommended.
         assertEquals(x, __);
     }
 
@@ -67,6 +66,8 @@ public class AboutConditionals {
         int x = 1;
         boolean secretBoolean = false;
         boolean otherBooleanCondition = true;
+        // Adding curly braces avoids the "dangling else" problem seen
+        // above.
         if (secretBoolean) {
             x++;
             if (otherBooleanCondition) {
@@ -75,8 +76,6 @@ public class AboutConditionals {
         } else {
             x--;
         }
-        // There are different opinions on where the curly braces go...
-        // But as long as you put them here. You avoid problems as seen above.
         assertEquals(x, __);
     }
 
