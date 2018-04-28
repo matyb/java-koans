@@ -1,11 +1,15 @@
 @echo off
 cls
 setLocal EnableDelayedExpansion
-set CLASSPATH="%~dp0app\bin;"%~dp0\app\config"
-for /R "%~dp0\app\lib" %%a in (*.jar) do (
-  set CLASSPATH=!CLASSPATH!;%%a
+set string=%~dp0
+set string=%string:\=/%
+set CLASSPATH="%string%app/bin";"%string%app/config"
+for /R "%~dp0/app/lib" %%a in (*.jar) do (
+  set string=%%a
+  set string=!string:\=/!
+  set CLASSPATH=!CLASSPATH!;"!string!"
 )
-set CLASSPATH=!CLASSPATH!;"
+set CLASSPATH=!CLASSPATH!;
 javac -version
 if ERRORLEVEL 3 goto no_javac
 java -version
@@ -16,12 +20,12 @@ java -Dapplication.basedir="%~dp0"" -classpath %CLASSPATH% com.sandwich.koan.run
 goto end
 
 :no_java
-REM cls
+cls
 @echo java is not bound to PATH variable.
 goto end
 
 :no_javac
-REM cls
+cls
 @echo javac is not bound to PATH variable.
 goto end
 

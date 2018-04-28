@@ -1,29 +1,15 @@
 package com.sandwich.util;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Comparator;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.sandwich.koan.KoanMethod;
 import com.sandwich.util.io.directories.DirectoryManager;
 import com.sandwich.util.io.filecompiler.FileCompiler;
 
 public class KoanComparator implements Comparator<KoanMethod> {
-	List<String> orderedKeywords;
-	Set<String> methodNamesCompared = new HashSet<String>();
-	
-	public KoanComparator(String...koans){
-		this(Arrays.asList(koans));
-	}
-	
-	public KoanComparator(Collection<String> koans){
-		this.orderedKeywords = new ArrayList<String>(koans);
-	}
 	
 	public int compare(KoanMethod arg0, KoanMethod arg1) {
 		Class<?> declaringClass0 = arg0.getMethod().getDeclaringClass();
@@ -33,9 +19,22 @@ public class KoanComparator implements Comparator<KoanMethod> {
 			return 0;
 		}
 		String contentsOfOriginalJavaFile = FileCompiler.getContentsOfJavaFile(DirectoryManager.getSourceDir(), declaringClass0.getName());
-		Integer index0 = Integer.valueOf(	contentsOfOriginalJavaFile.indexOf(arg0.getMethod().getName()));
-		Integer index1 = Integer.valueOf(	contentsOfOriginalJavaFile.indexOf(arg1.getMethod().getName()));
+		String pattern = ".*\\s%s(\\(|\\s*\\))";
+		Integer index0 = indexOfMatch(contentsOfOriginalJavaFile, String.format(pattern, arg0.getMethod().getName()));
+		Integer index1 = indexOfMatch(contentsOfOriginalJavaFile, String.format(pattern, arg1.getMethod().getName()));
 		return index0.compareTo(index1);
+	}
+	
+	/*
+	 * TODO: This is utility code...
+	 */
+	private int indexOfMatch(String inputString, String pattern) {
+	    Pattern p = Pattern.compile(pattern);
+	    Matcher m = p.matcher(inputString);
+	    if (m.find()) {
+	       return m.start();
+	    } 
+	    return -1;
 	}
 
 }

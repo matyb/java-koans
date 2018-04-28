@@ -2,8 +2,8 @@
 */bin/*
 .metadata
 bin/*
-lib/build/bin/*
-lib/build/reports/*
+lib/build
+lib/out
 koans/data
 koans/data*
 .classpath
@@ -16,3 +16,4 @@ lib/file-compiler/bin
 *.iml
 *.ipr
 *.iws
+.idea

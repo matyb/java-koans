@@ -26,7 +26,7 @@ task createJar(type: Jar){
 task copyJarToBin {
     doLast {
         copy {
-            from 'build/libs/koans.jar'
+            from './build/libs/koans.jar'
             into '../koans/app/lib'
         }
     }
