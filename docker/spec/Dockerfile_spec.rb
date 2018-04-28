@@ -20,9 +20,12 @@ describe "Dockerfile" do
     expect(command("gradle -version").stdout).to include("Build time")
   end
 
+  it "has maven installed" do
+    expect(command("mvn --version").stdout).to include("Apache Maven")
+  end
+
   it "can build app" do
-    output = command("git clone https://github.com/matyb/java-koans && gradle -p java-koans/lib buildApp").stdout
-    expect(output).to include(":test\n")
+    output = command("git clone https://github.com/DavidWhitlock/java-koans && mvn clean install").stdout
     expect(output).to include("BUILD SUCCESSFUL")
   end
 
