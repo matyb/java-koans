@@ -1,4 +1,6 @@
-#Java Koans [![Build Status](https://travis-ci.org/matyb/java-koans.png?branch=master)](https://travis-ci.org/matyb/java-koans)
+# Java Koans 
+
+[![Build Status](https://travis-ci.org/matyb/java-koans.png?branch=master)](https://travis-ci.org/matyb/java-koans)
 
 Running Instructions:
 =====================
@@ -17,6 +19,7 @@ Developing a Koan:
 ==================
 * Follow any of the existing koans as an example to create a new class with koan methods (indicated by the @Koan annotation, they're public and specify no arguments)
 * Define the order the koan suite (if it's new) will run in the koans/app/config/PathToEnlightenment.xml file
+* [Override the lesson text](https://github.com/matyb/java-koans/blob/master/koans/app/config/i18n/messages_en.properties#L1) when it fails (default is expected 'X' found 'Y')
 * Optionally you may use dynamic content in your lesson, examples are located in the XmlVariableInjector class (and Test) and the AboutKoans.java file
 
 Something's wrong:

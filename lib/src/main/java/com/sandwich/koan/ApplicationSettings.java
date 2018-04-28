@@ -50,6 +50,10 @@ public class ApplicationSettings {
 	public static long getFileCompilationTimeoutInMs(){
 		return Long.valueOf(getConfigBundle().getString("compile_timeout_in_ms"));
 	}
+
+	public static String getMonitorIgnorePattern(){
+		return getConfigBundle().getString("ignore_from_monitoring");
+	}
 	
 	private static boolean isEqual(String value, Object e2, boolean ignoreCase){
 		if(value == e2){

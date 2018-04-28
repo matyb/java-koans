@@ -47,20 +47,35 @@ public class AboutConditionals {
 
     @Koan
     public void nestedIfsWithoutCurlysAreReallyMisleading() {
-        // Why are these ugly you ask? Well, try for yourself
         int x = 1;
         boolean secretBoolean = false;
         boolean otherBooleanCondition = true;
-        // Ifs without curly braces are ugly and not recommended but still valid:
+        // Curly braces after an "if" or "else" are not required...
+        if (secretBoolean)
+            x++;
+            if (otherBooleanCondition)
+                x = 10;
+        else
+            x--;
+        // ...but they are recommended.
+        assertEquals(x, __);
+    }
+
+    @Koan
+    public void ifAsIntended() {
+        int x = 1;
+        boolean secretBoolean = false;
+        boolean otherBooleanCondition = true;
+        // Adding curly braces avoids the "dangling else" problem seen
+        // above.
         if (secretBoolean) {
             x++;
-        }
-        if (otherBooleanCondition) {
-            x = 10;
+            if (otherBooleanCondition) {
+                x = 10;
+            }
         } else {
             x--;
         }
-        // Where does this else belong to!?
         assertEquals(x, __);
     }
 
@@ -147,11 +162,39 @@ public class AboutConditionals {
 
     @Koan
     public void shortCircuit() {
-        int i = 1;
-        int a = 6;
-        // Why did we use a variable here?
-        // What happens if you replace 'a' with '6' below?
-        if ((a < 9) || (++i < 8)) i = i + 1;
-        assertEquals(i, __);
+        Counter trueCount = new Counter(true);
+        Counter falseCount = new Counter(false);
+        String x = "Hai";
+        if (trueCount.count() || falseCount.count()) {
+            x = "kthxbai";
+        }
+        assertEquals(x, __);
+        assertEquals(trueCount.count, __);
+        assertEquals(falseCount.count, __);
+    }
+    
+    @Koan
+    public void bitwise() {
+        Counter trueCount = new Counter(true);
+        Counter falseCount = new Counter(false);
+        String x = "Hai";
+        if (trueCount.count() | falseCount.count()) {
+            x = "kthxbai";
+        }
+        assertEquals(x, __);
+        assertEquals(trueCount.count, __);
+        assertEquals(falseCount.count, __);
+    }
+    
+    class Counter {
+        boolean returnValue;
+        int count = 0;
+        Counter(boolean returnValue) { 
+            this.returnValue = returnValue;
+        }
+        boolean count() {
+            count++;
+            return returnValue;
+        }
     }
 }

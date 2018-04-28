@@ -5,6 +5,10 @@ import java.io.IOException;
 
 public abstract class ExistingFileAction extends FileOperation {
 
+	public ExistingFileAction(String... strings) {
+		super(strings);
+	}
+
 	public void onNull(File file) throws IOException {
 		throwNonExistentFileError(String.valueOf(file));
 	}

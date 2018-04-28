@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
+import com.sandwich.koan.ApplicationSettings;
+
 public class FileMonitor {
 	
 	private final List<FileListener> listeners = new Vector<FileListener>();
@@ -69,7 +71,7 @@ public class FileMonitor {
 	
 	Map<String, Long> getFilesystemHashes() throws IOException {
 		final HashMap<String,Long> fileHashes = new HashMap<String,Long>();
-		new ForEachFileAction(){
+		new ForEachFileAction(ApplicationSettings.getMonitorIgnorePattern()){
 			public void onFile(File src) throws IOException {
 				fileHashes.put(src.getAbsolutePath(), src.lastModified());
 			}
