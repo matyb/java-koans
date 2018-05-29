@@ -34,6 +34,7 @@ public class AboutInheritance {
         public String makeSomeNoise() {
             return "Squeak!";
         }
+
         public boolean canFetch() {
             return false;
         }
@@ -44,12 +45,12 @@ public class AboutInheritance {
         Cow bob = new Cow();
         Dog max = new Dog();
         Puppy barney = new Puppy();
-        assertEquals(bob.makeSomeNoise(), __);
-        assertEquals(max.makeSomeNoise(), __);
-        assertEquals(barney.makeSomeNoise(), __);
+        assertEquals(bob.makeSomeNoise(), "Moo!");
+        assertEquals(max.makeSomeNoise(), "Woof!");
+        assertEquals(barney.makeSomeNoise(), "Squeak!");
 
-        assertEquals(max.canFetch(), __);
-        assertEquals(barney.canFetch(), __);
+        assertEquals(max.canFetch(), true);
+        assertEquals(barney.canFetch(), false);
         // but can Bob the Cow fetch?
     }
 
@@ -58,33 +59,35 @@ public class AboutInheritance {
         Animal bob = new Cow();
         Animal max = new Dog();
         Animal barney = new Puppy();
-        assertEquals(bob.makeSomeNoise(), __);
-        assertEquals(max.makeSomeNoise(), __);
-        assertEquals(barney.makeSomeNoise(), __);
+        assertEquals(bob.makeSomeNoise(), "Moo!");
+        assertEquals(max.makeSomeNoise(), "Woof!");
+        assertEquals(barney.makeSomeNoise(), "Squeak!");
         // but can max or barney (here as an Animal) fetch?
-        // try to write it down here
+        // try to write it down here---answer:no
+//        assertEquals(barney.canFetch(), false);
+//        assertEquals(bob.canFetch(), false);
     }
 
     @Koan
     public void inheritanceHierarchy() {
         Animal someAnimal = new Cow();
         Animal bob = new Cow();
-        assertEquals(someAnimal.makeSomeNoise().equals(bob.makeSomeNoise()), __);
+        assertEquals(someAnimal.makeSomeNoise().equals(bob.makeSomeNoise()), true);
         // cow is a Cow, but it can also be an animal
-        assertEquals(bob instanceof Animal, __);
-        assertEquals(bob instanceof Cow, __);
+        assertEquals(bob instanceof Animal, true);
+        assertEquals(bob instanceof Cow, true);
         // but is it a Puppy?
-        assertEquals(bob instanceof Puppy, __);
+        assertEquals(bob instanceof Puppy, false);
     }
 
     @Koan
     public void deeperInheritanceHierarchy() {
         Dog max = new Dog();
         Puppy barney = new Puppy();
-        assertEquals(max instanceof Puppy, __);
-        assertEquals(max instanceof Dog, __);
-        assertEquals(barney instanceof Puppy, __);
-        assertEquals(barney instanceof Dog, __);
+        assertEquals(max instanceof Puppy, false);
+        assertEquals(max instanceof Dog, true);
+        assertEquals(barney instanceof Puppy, true);
+        assertEquals(barney instanceof Dog, true);
     }
 
     // TODO overriding
