@@ -44,20 +44,20 @@ public class KoanComparatorTest extends CommandLineTestCase {
 		assertSame(m2,methods.get(1));
 	}
 	
-	@Test
-	public void testVariableNamesArentConfusedAsKoanMethodsWhenSorting() throws Exception {
-	    Class<? extends Object> clazz = new Object(){
-	        String foo;
-	        @Koan public void bar(){}
-	        @Koan public void foo(){}
-	    }.getClass();
-	    KoanMethod m1 = KoanMethod.getInstance("", clazz.getDeclaredMethod("bar"));
-	    KoanMethod m2 = KoanMethod.getInstance("", clazz.getDeclaredMethod("foo"));
-	    List<KoanMethod> methods = Arrays.asList(m2,m1);
-	    Collections.sort(methods, new KoanComparator());
-	    assertSame(m1,methods.get(0));
-	    assertSame(m2,methods.get(1));
-	}
-
+    @Test
+    public void testVariableNamesArentConfusedAsKoanMethodsWhenSorting() throws Exception {
+        Class<? extends Object> clazz = new Object(){
+            @SuppressWarnings("unused")
+            String foo;
+            @Koan public void bar(){}
+            @Koan public void foo(){}
+        }.getClass();
+        KoanMethod m1 = KoanMethod.getInstance("", clazz.getDeclaredMethod("bar"));
+        KoanMethod m2 = KoanMethod.getInstance("", clazz.getDeclaredMethod("foo"));
+        List<KoanMethod> methods = Arrays.asList(m2,m1);
+        Collections.sort(methods, new KoanComparator());
+        assertSame(m1,methods.get(0));
+        assertSame(m2,methods.get(1));
+    }
 }
 
