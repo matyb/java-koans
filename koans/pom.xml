@@ -4,7 +4,7 @@
   <groupId>edu.pdx.cs410J</groupId>
   <artifactId>java-koans</artifactId>
   <packaging>jar</packaging>
-  <version>Summer2018</version>
+  <version>Summer2019</version>
   <name>Java Koans</name>
   <inceptionYear>2012</inceptionYear>
   <url>https://github.com/DavidWhitlock/java-koans</url>
@@ -52,7 +52,7 @@
     <dependency>
       <groupId>com.sandwich</groupId>
       <artifactId>koans-lib</artifactId>
-      <version>Summer2018</version>
+      <version>Summer2019</version>
     </dependency>
   </dependencies>
   <properties>
