@@ -12,6 +12,7 @@ koans/data*
 koans/app/data
 lib/file-compiler/bin
 *.~*
+*.jar
 
 # Maven build artifacts should not be committed #
 target
