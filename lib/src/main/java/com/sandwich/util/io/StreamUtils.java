@@ -7,10 +7,13 @@ import java.util.Scanner;
 public class StreamUtils {
 
 	public static String convertStreamToString(InputStream stream) {
+		Scanner scanner = new Scanner(stream);
 		try {
-			return new Scanner(stream).useDelimiter("\\A").next();
+			return scanner.useDelimiter("\\A").next();
 		} catch (NoSuchElementException e) {
 			return "";
+		} finally {
+			scanner.close();
 		}
 	}
 
