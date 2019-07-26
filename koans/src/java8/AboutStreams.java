@@ -69,13 +69,6 @@ public class AboutStreams {
     }
 
     @Koan
-    public void reduceWithBinaryOperator() {
-        String join = places.stream()
-                .reduce("", String::concat);
-        assertEquals(join, __);
-    }
-
-    @Koan
     public void stringJoin() {
         String join = places.stream()
                 .collect(Collectors.joining("\", \""));
