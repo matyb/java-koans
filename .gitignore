@@ -11,7 +11,13 @@ koans/data*
 .settings
 koans/app/data
 lib/file-compiler/bin
-**/file_hashes.dat
+*.~*
+*.jar
+
+# Maven build artifacts should not be committed #
+target
+*/target
+
 .gradle
 *.iml
 *.ipr

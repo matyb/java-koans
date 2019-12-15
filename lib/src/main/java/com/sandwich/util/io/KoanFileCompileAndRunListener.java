@@ -1,11 +1,7 @@
 package com.sandwich.util.io;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-
 import com.sandwich.koan.ApplicationSettings;
+import com.sandwich.koan.KoanClassLoader;
 import com.sandwich.koan.cmdline.CommandLineArgument;
 import com.sandwich.koan.cmdline.CommandLineArgumentRunner;
 import com.sandwich.koan.constant.ArgumentType;
@@ -15,6 +11,11 @@ import com.sandwich.util.io.classloader.DynamicClassLoader;
 import com.sandwich.util.io.directories.DirectoryManager;
 import com.sandwich.util.io.filecompiler.CompilerConfig;
 import com.sandwich.util.io.filecompiler.FileCompiler;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 
 public class KoanFileCompileAndRunListener implements FileListener {
 	
@@ -29,15 +30,7 @@ public class KoanFileCompileAndRunListener implements FileListener {
 		String absolutePath = file.getAbsolutePath();
 		if(CompilerConfig.isSourceFile(absolutePath)){
 			ApplicationUtils.getPresenter().displayMessage(KoanConstants.EOL+"loading: "+absolutePath);
-			File[] jars = new File(DirectoryManager.getProjectLibraryDir()).listFiles();
-            String[] classPath = new String[jars.length];
-            for (int i = 0; i < jars.length; i++) {
-                String jarPath = jars[i].getAbsolutePath();
-                String jarPathLowerCase = jarPath.toLowerCase();
-                if(jarPathLowerCase.endsWith(".jar") || jarPathLowerCase.endsWith(".war")){
-                	classPath[i] = jarPath;
-                }
-            }
+      String[] classPath = KoanClassLoader.buildClassPath();
 			try {
 				FileCompiler.compile(file, 
 					new File(DirectoryManager.getBinDir()),

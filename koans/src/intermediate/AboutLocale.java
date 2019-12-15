@@ -22,7 +22,7 @@ public class AboutLocale {
         DateFormat dateformatBR = DateFormat.getDateInstance(DateFormat.FULL, localeBR);
         assertEquals(dateformatBR.format(date), __);
 
-        Locale localeJA = new Locale("ja"); // Japan
+        Locale localeJA = new Locale("de"); // German
         DateFormat dateformatJA = DateFormat.getDateInstance(DateFormat.FULL, localeJA);
         // Well if you don't know how to type these characters, try "de", "it" or "us" ;-)
         assertEquals(dateformatJA.format(date), __);

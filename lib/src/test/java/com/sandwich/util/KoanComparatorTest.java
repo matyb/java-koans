@@ -1,17 +1,16 @@
 package com.sandwich.util;
 
-import static org.junit.Assert.assertSame;
+import com.sandwich.koan.Koan;
+import com.sandwich.koan.KoanMethod;
+import com.sandwich.koan.path.CommandLineTestCase;
+import org.junit.Test;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import org.junit.Test;
-
-import com.sandwich.koan.Koan;
-import com.sandwich.koan.KoanMethod;
-import com.sandwich.koan.path.CommandLineTestCase;
+import static org.junit.Assert.assertSame;
 
 public class KoanComparatorTest extends CommandLineTestCase {
 	
