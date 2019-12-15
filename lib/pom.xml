@@ -40,7 +40,7 @@
     <repository>
       <id>CS410J</id>
       <name>CS410J Maven Repository</name>
-      <url>http://web.cecs.pdx.edu/~whitlock/repository/maven2</url>
+      <url>https://dl.bintray.com/davidwhitlock/maven</url>
     </repository>
   </repositories>
   <dependencies>
