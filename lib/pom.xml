@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <artifactId>CS410J</artifactId>
+    <groupId>edu.pdx.cs410J</groupId>
+    <version>Winter2020</version>
+  </parent>
   <groupId>com.sandwich</groupId>
   <artifactId>koans-lib</artifactId>
   <packaging>jar</packaging>
@@ -55,90 +60,8 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>buildnumber-maven-plugin</artifactId>
-        <version>1.4</version>
-        <executions>
-          <execution>
-            <phase>validate</phase>
-            <goals>
-              <goal>create</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <doCheck>false</doCheck> <!-- Don't fail when there are modified files -->
-          <doUpdate>false</doUpdate> <!-- Don't update the checkout the code repository -->
-          <buildNumberPropertyName>scmRevision</buildNumberPropertyName>
-          <scmBranchPropertyName>scmBranch</scmBranchPropertyName>
-          <timestampPropertyName>buildTimestamp</timestampPropertyName>
-          <timestampFormat>{0, date, yyyy-MM-dd'T'HH:mm:ss.SSSZ}</timestampFormat>
-          <revisionOnScmFailure>noScmFound</revisionOnScmFailure>
-          <getRevisionOnlyOnce>true</getRevisionOnlyOnce>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-jar-plugin</artifactId>
-        <version>2.6</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>jar</goal>
-              <goal>test-jar</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <archive>
-            <manifest>
-              <addDefaultImplementationEntries>true</addDefaultImplementationEntries
->
-            </manifest>
-            <manifestEntries>
-              <Built-From-Revision>${scmRevision}</Built-From-Revision>
-              <Built-From-Branch>${scmBranch}</Built-From-Branch>
-              <Built-On>${buildTimestamp}</Built-On>
-            </manifestEntries>
-          </archive>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-enforcer-plugin</artifactId>
-          <version>1.4.1</version>
-          <executions>
-            <execution>
-              <id>enforce-versions</id>
-              <goals>
-                <goal>enforce</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <rules>
-              <requireMavenVersion>
-                <version>3.2.1</version>
-              </requireMavenVersion>
-              <requireJavaVersion>
-                <version>1.7</version>
-              </requireJavaVersion>
-            </rules>
-          </configuration>
-        </plugin>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <version>3.3</version>
-        <configuration>
-          <source>8</source>
-          <target>8</target>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.19</version>
         <configuration>
           <additionalClasspathElements>
             <additionalClasspathElement>${basedir}/../koans/app/config</additionalClasspathElement>
@@ -147,11 +70,4 @@
       </plugin>
     </plugins>
   </build>
-  <distributionManagement>
-    <repository>
-      <id>bintray-davidwhitlock-maven</id>
-      <name>DavidWhitlock-maven</name>
-      <url>https://api.bintray.com/maven/davidwhitlock/maven/PortlandStateJava/;publish=1;override=1</url>
-    </repository>
-  </distributionManagement>
 </project>
