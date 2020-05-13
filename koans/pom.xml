@@ -4,12 +4,12 @@
   <parent>
     <artifactId>CS410J</artifactId>
     <groupId>edu.pdx.cs410J</groupId>
-    <version>Winter2020</version>
+    <version>Summer2020</version>
   </parent>
   <groupId>edu.pdx.cs410J</groupId>
   <artifactId>java-koans</artifactId>
   <packaging>jar</packaging>
-  <version>Winter2020</version>
+  <version>Summer2020</version>
   <name>Java Koans</name>
   <inceptionYear>2012</inceptionYear>
   <url>https://github.com/DavidWhitlock/java-koans</url>
@@ -57,7 +57,7 @@
     <dependency>
       <groupId>com.sandwich</groupId>
       <artifactId>koans-lib</artifactId>
-      <version>Winter2020</version>
+      <version>Summer2020</version>
     </dependency>
   </dependencies>
   <properties>
