@@ -3,7 +3,6 @@ package intermediate;
 import com.sandwich.koan.Koan;
 
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -40,11 +39,4 @@ public class AboutLocale {
         assertEquals(locCH.getDisplayCountry(new Locale("de", "CH")), __);
     }
 
-    @Koan
-    public void formatCurrency() {
-        float someAmount = 442.23f; // Don't use floats for money in real life. Really. It's a bad idea.
-        Locale locBR = new Locale("pt", "BR");
-        NumberFormat nf = NumberFormat.getCurrencyInstance(locBR);
-        assertEquals(nf.format(someAmount), __);
-    }
 }
