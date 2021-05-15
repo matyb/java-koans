@@ -2,8 +2,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>CS410J</artifactId>
-    <groupId>edu.pdx.cs410J</groupId>
+    <groupId>io.github.davidwhitlock.com.sandwich</groupId>
+    <artifactId>koans-parent</artifactId>
     <version>Summer2020</version>
   </parent>
   <groupId>com.sandwich</groupId>
@@ -66,6 +66,7 @@
           <additionalClasspathElements>
             <additionalClasspathElement>${basedir}/../koans/app/config</additionalClasspathElement>
           </additionalClasspathElements>
+          <failIfNoTests>false</failIfNoTests>
         </configuration>
       </plugin>
     </plugins>
