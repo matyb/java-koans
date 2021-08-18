@@ -10,3 +10,8 @@ before_install:
 
 script:
   - docker run java/koans /bin/bash -c "git clone https://github.com/matyb/java-koans && gradle -p java-koans/lib buildApp"
+
+cache:
+  directories:
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
