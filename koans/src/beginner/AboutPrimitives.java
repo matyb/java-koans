@@ -117,7 +117,7 @@ public class AboutPrimitives {
     }
 
     @Koan
-    public void charsCanOnlyBePositive() {
+    public void charsAreNotNegative() {
         assertEquals((int) Character.MIN_VALUE, __);
         assertEquals((int) Character.MAX_VALUE, __);
 
