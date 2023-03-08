@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/matyb/java-koans.png?branch=master)](https://travis-ci.org/matyb/java-koans)
 
+This is a new line
+
 Running Instructions:
 =====================
 * Download and unarchive the contents of the most recent java-koans in development from:
