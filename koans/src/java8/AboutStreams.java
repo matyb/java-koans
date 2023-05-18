@@ -93,6 +93,62 @@ public class AboutStreams {
     }
 
     @Koan
+    public void streamFromAnArray() {
+        int[] ints = {4,5,6};
+        long numberOfElements = Arrays.stream(ints).count();
+        assertEquals(numberOfElements, __);
+    }
+
+    @Koan
+    public void allMatch() {
+        boolean allNonEmpty = places.stream().allMatch(cityName -> ! cityName.isEmpty());
+        assertEquals(allNonEmpty, __);
+    }
+
+    @Koan
+    public void anyMatch() {
+        boolean anyStartsWithX = places.stream().anyMatch(cityName -> cityName.startsWith("X"));
+        assertEquals(anyStartsWithX, __);
+    }
+
+    @Koan
+    public void streamOf() {
+        long count = Stream.of("foo", "bar").count();
+        assertEquals(count, __);
+    }
+
+    @Koan
+    public void distinct() {
+        long count = Stream.of("foo", "bar", "bar").distinct().count();
+        assertEquals(count, __);
+    }
+
+    @Koan
+    public void findFirst() {
+        String first = places.stream().findFirst().get();
+        assertEquals(first, __);
+    }
+
+    @Koan
+    public void flatMap() {
+        List<List<String>> listOfLists = Arrays.asList(Arrays.asList("foo", "bar"), Arrays.asList("one", "two"));
+        assertEquals(listOfLists.stream().findFirst().get(), __);
+        Stream streamOfStrings = listOfLists.stream().flatMap(list -> list.stream());
+        assertEquals(streamOfStrings.findFirst().get(), __);
+    }
+
+    List<String> listOfStrings = Arrays.asList("This is the first string.",
+            "This line follows the first line.");
+
+    @Koan
+    public void wordCountUsingFlatMap() {
+        long wordCount = listOfStrings.stream()
+                // use flatMap method here to count words in listOfStrings
+                .count();
+        assertEquals(wordCount, 11L);
+    }
+
+    @Koan
     public void limitSkip() {
         int lengthSum_Limit_3_Skip_1 = places.stream()
                 .mapToInt(String::length)
@@ -100,6 +156,18 @@ public class AboutStreams {
                 .skip(1)
                 .sum();
         assertEquals(lengthSum_Limit_3_Skip_1, __);
+    }
+
+    @Koan
+    public void sorted() {
+        String second = places.stream().sorted().skip(1).findFirst().get();
+        assertEquals(second, __);
+    }
+
+    @Koan
+    public void sortedReversed() {
+        String first = places.stream().sorted(Comparator.reverseOrder()).findFirst().get();
+        assertEquals(first, __);
     }
 
     @Koan

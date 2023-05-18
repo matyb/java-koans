@@ -9,3 +9,6 @@ https://github.com/matyb/java-koans/archive/master.zip
     * Eclipse  ```./gradlew eclipse (WINDOWS: gradlew.bat eclipse)```
 * Back to the console and run ```./run.sh```  (WINDOWS: ```run.bat```)
 * Follow the instructions and start hacking
+* (Optional) If, rather than starting from the beginning, you'd like to work on a particular topic,
+  you can run the koans startup script like so: "./run.sh java8.AboutStreams" (where "java8" is 
+  the subdirectory, and "AboutStreams" is the class you'd like to work on)
