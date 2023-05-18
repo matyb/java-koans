@@ -94,14 +94,14 @@ public class AboutStreams {
 
     @Koan
     public void streamFromAnArray() {
-        int[] ints = {4,5,6};
+        int[] ints = {4, 5, 6};
         long numberOfElements = Arrays.stream(ints).count();
         assertEquals(numberOfElements, __);
     }
 
     @Koan
     public void allMatch() {
-        boolean allNonEmpty = places.stream().allMatch(cityName -> ! cityName.isEmpty());
+        boolean allNonEmpty = places.stream().allMatch(cityName -> !cityName.isEmpty());
         assertEquals(allNonEmpty, __);
     }
 
