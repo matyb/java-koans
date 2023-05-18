@@ -14,6 +14,7 @@ https://github.com/matyb/java-koans/archive/master.zip
     * *gradle*: wrapper for build library used to build koans source, setup project files in eclipse/idea, run tests, etc. you probably don't need to touch anything in here
 * Change directory to the koans directory: ```cd koans```
 * If you are using windows enter: ```run.bat``` or ```./run.sh``` if you are using Mac or Linux
+* (Optional) If, rather than starting from the beginning, you'd like to work on a particular topic, you can run the koans startup script like so: ```./run.sh java8.AboutStreams``` (where ```java8``` is the subdirectory, and ```AboutStreams``` is the class you'd like to work on)
 
 Developing a Koan:
 ==================
